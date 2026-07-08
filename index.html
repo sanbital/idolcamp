@@ -215,7 +215,12 @@
   .sched-card .sc-emoji{font-size:38px;line-height:1;display:flex;align-items:center;justify-content:center;min-height:40px}
   .sched-card .sc-yt{width:56px;height:auto;display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.18))}
   .sched-card .sc-name{font-family:"Jua","Gaegu","Pretendard",sans-serif;font-size:18px;color:#1c3d30;line-height:1.2}
-  .sched-card .sc-time{font-size:12px;font-weight:900;color:#6a7f73;background:#EEF5E5;border-radius:999px;padding:4px 9px;line-height:1}
+  .sched-card .sc-time{
+    font-size:12px;font-weight:900;border-radius:999px;padding:5px 10px;line-height:1;
+    border:1.5px solid transparent; letter-spacing:.2px
+  }
+  .sched-card .sc-time.mbc{color:#8F2E26;background:#FDEBE8;border-color:#F3C9C1}
+  .sched-card .sc-time.yt{color:#B65D1D;background:#FFF0E3;border-color:#F6D1AE}
   .sched-card .sc-tag{font-size:11.5px;font-weight:800;color:#fff;border-radius:999px;padding:2px 10px}
   /* standout August banner */
   .sched-aug{margin-top:18px;position:relative;border-radius:18px;padding:18px 20px;background:linear-gradient(120deg,#2E9E6B 0%,#34D399 55%,#2E9E6B 100%);border:2.5px solid #0f3b3a;box-shadow:0 8px 0 rgba(15,59,58,.28);display:flex;align-items:center;gap:14px;overflow:hidden}
@@ -229,6 +234,7 @@
   @media (max-width:640px){
     .sched-note-row{grid-template-columns:1fr}
     .sched-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .sched-card .sc-time{font-size:11px;padding:4px 8px}
     .sched-aug{padding:16px 14px;gap:10px}
     .sched-aug .aug-emoji{font-size:28px}
     .sched-aug .aug-badge{font-size:13px;padding:5px 11px}
@@ -801,7 +807,10 @@ function buildChips(){
 function buildSchedule(){
   const T=t(), wd=T.calWeekdays;
   const YT='<svg class="sc-yt" viewBox="0 0 90 64" xmlns="http://www.w3.org/2000/svg" aria-label="YouTube"><rect width="90" height="64" rx="17" fill="#FF0000"/><path d="M36 19 L66 32 L36 45 Z" fill="#fff"/></svg>';
-  const CH={ mbc:{c:'#C0392B', ic:'📺', name:T.chMBC, time:'19:00 KST'}, yt:{c:'#E8792B', ic:YT, name:T.chYT, time:'18:00 KST'} };
+  const CH={
+    mbc:{c:'#C0392B', ic:'📺', name:T.chMBC, timeLabel:'ON AIR 19:00'},
+    yt:{c:'#E8792B', ic:YT, name:T.chYT, timeLabel:'UPLOAD 18:00'}
+  };
   const first=3; // 2026-07-01 = Wednesday (Sun=0)
   const items=[ {d:8,ch:'mbc'},{d:10,ch:'yt'},{d:15,ch:'mbc'},{d:17,ch:'yt'},{d:24,ch:'yt'},{d:31,ch:'yt'} ];
   const rots=['-1.5deg','1.5deg','-1deg','1deg','-1.5deg','1deg'];
@@ -813,7 +822,7 @@ function buildSchedule(){
       <div class="sc-body">
         <span class="sc-emoji">${ch.ic}</span>
         <span class="sc-name">${ch.name}</span>
-        <span class="sc-time">${ch.time}</span>
+        <span class="sc-time ${it.ch}">${ch.timeLabel}</span>
       </div>
     </div>`;
   });
