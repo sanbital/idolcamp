@@ -187,6 +187,24 @@
   .tab .soon{font-style:normal;font-size:10px;font-weight:800;color:#8a9d90;background:rgba(15,59,58,.12);border-radius:999px;padding:2px 6px}
   /* broadcast schedule — card board (casual camp) */
   #schedule{position:relative;overflow:hidden}
+  .sched-note{
+    margin:6px 0 16px;padding:14px 14px 12px;border-radius:16px;
+    background:#F4F8EA;border:2px solid rgba(15,59,58,.10)
+  }
+  .sched-note-head{font-size:12.5px;font-weight:900;color:#51685c;margin-bottom:10px}
+  .sched-note-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .sched-note-chip{
+    min-width:0;display:flex;align-items:center;gap:8px;
+    border-radius:999px;padding:9px 12px;font-size:12.5px;font-weight:900
+  }
+  .sched-note-chip.sch-mbc{background:#FDEBE8;color:#8F2E26}
+  .sched-note-chip.sch-yt{background:#FFF0E3;color:#B65D1D}
+  .sch-note-ic{
+    flex:0 0 auto;width:24px;height:24px;border-radius:999px;
+    display:inline-flex;align-items:center;justify-content:center;
+    background:rgba(255,255,255,.72);font-size:13px;font-weight:900
+  }
+  .sch-note-txt{min-width:0;line-height:1.25}
   .sched-month{font-family:"Jua","Gaegu","Pretendard",sans-serif;text-align:center;font-size:24px;color:#123a2e;margin:2px 0 16px;display:flex;align-items:center;justify-content:center;gap:8px}
   .sched-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
   .sched-card{border-radius:16px;overflow:hidden;background:#fff;border:2px solid rgba(15,59,58,.12);box-shadow:0 5px 0 rgba(15,59,58,.10);display:flex;flex-direction:column;transform:rotate(var(--rot,0deg));transition:transform .14s}
@@ -197,6 +215,7 @@
   .sched-card .sc-emoji{font-size:38px;line-height:1;display:flex;align-items:center;justify-content:center;min-height:40px}
   .sched-card .sc-yt{width:56px;height:auto;display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.18))}
   .sched-card .sc-name{font-family:"Jua","Gaegu","Pretendard",sans-serif;font-size:18px;color:#1c3d30;line-height:1.2}
+  .sched-card .sc-time{font-size:12px;font-weight:900;color:#6a7f73;background:#EEF5E5;border-radius:999px;padding:4px 9px;line-height:1}
   .sched-card .sc-tag{font-size:11.5px;font-weight:800;color:#fff;border-radius:999px;padding:2px 10px}
   /* standout August banner */
   .sched-aug{margin-top:18px;position:relative;border-radius:18px;padding:18px 20px;background:linear-gradient(120deg,#2E9E6B 0%,#34D399 55%,#2E9E6B 100%);border:2.5px solid #0f3b3a;box-shadow:0 8px 0 rgba(15,59,58,.28);display:flex;align-items:center;gap:14px;overflow:hidden}
@@ -207,6 +226,15 @@
   .sched-aug .aug-spark{margin-left:auto;font-size:26px;z-index:1}
   .sched-aug .aug-shine{position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-18deg);animation:augshine 3.2s ease-in-out infinite}
   @keyframes augshine{0%{left:-60%}55%{left:130%}100%{left:130%}}
+  @media (max-width:640px){
+    .sched-note-row{grid-template-columns:1fr}
+    .sched-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .sched-aug{padding:16px 14px;gap:10px}
+    .sched-aug .aug-emoji{font-size:28px}
+    .sched-aug .aug-badge{font-size:13px;padding:5px 11px}
+    .sched-aug .aug-txt{font-size:16px;white-space:normal}
+    .sched-aug .aug-spark{font-size:22px}
+  }
   /* board */
   .board-top{display:none;margin:0 0 14px}
   .board-top.show{display:block}
@@ -381,6 +409,19 @@
   <section class="panel" id="schedule">
     <h2><span class="n">📅</span><span data-i18n="schTitle">방송 일정</span></h2>
     <p class="sub" data-i18n="schSub"></p>
+    <div class="sched-note">
+      <div class="sched-note-head" data-i18n="schKstNote">모든 일정은 KST 기준입니다.</div>
+      <div class="sched-note-row">
+        <div class="sched-note-chip sch-mbc">
+          <span class="sch-note-ic">📺</span>
+          <span class="sch-note-txt" data-i18n="schMbcTime">방송 · 19:00 KST (저녁 7시)</span>
+        </div>
+        <div class="sched-note-chip sch-yt">
+          <span class="sch-note-ic">▶</span>
+          <span class="sch-note-txt" data-i18n="schYtTime">유튜브 업로드 · 18:00 KST (저녁 6시)</span>
+        </div>
+      </div>
+    </div>
     <div class="sched-month"><span>⛺</span> <span data-i18n="calMonth">2026년 7월</span> <span>🔥</span></div>
     <div id="schedGrid" class="sched-grid"></div>
     <div class="sched-aug">
@@ -452,7 +493,7 @@ const I18N = {
     brandSub:"아이돌 수련회 1기",
     tabEnroll:"입소", tabTalent:"장기자랑", tabFarewell:"퇴소", tabKit:"수료 키트",
     soon:"예정", soonToast:"곧 공개됩니다. 조금만 기다려 주세요!",
-    schTitle:"방송 일정", schSub:"채널별 공개 일정을 확인하세요.",
+    schTitle:"방송 일정", schSub:"채널별 공개 일정을 확인하세요. 모든 일정은 KST 기준입니다.", schKstNote:"모든 일정은 KST 기준입니다.", schMbcTime:"방송 · 19:00 KST (저녁 7시)", schYtTime:"유튜브 업로드 · 18:00 KST (저녁 6시)",
     chMBC:"MBC M", chYT:"뮤니버스 유튜브", chApp:"뮤니버스 앱 단독 확장판",
     augTag:"8월 대공개", calMonth:"2026년 7월", calWeekdays:["일","월","화","수","목","금","토"],
     heroTitle:"아이돌 수련회 1기 입소 신고",
@@ -498,7 +539,7 @@ const I18N = {
     brandSub:"Idol Training Camp · Class 1",
     tabEnroll:"Enrollment", tabTalent:"Talent Show", tabFarewell:"Farewell", tabKit:"Completion Kit",
     soon:"Soon", soonToast:"Coming soon. Stay tuned!",
-    schTitle:"Broadcast Schedule", schSub:"Check the release schedule by channel.",
+    schTitle:"Broadcast Schedule", schSub:"Check the release schedule by channel. All times are in KST.", schKstNote:"All times are in KST.", schMbcTime:"Broadcast · 19:00 KST (7 PM)", schYtTime:"YouTube Upload · 18:00 KST (6 PM)",
     chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"Muniverse App Exclusive (Extended Cut)",
     augTag:"Premieres in August", calMonth:"July 2026", calWeekdays:["S","M","T","W","T","F","S"],
     heroTitle:"Idol Training Camp — Class 1 Enrollment",
@@ -543,7 +584,7 @@ const I18N = {
     brandSub:"アイドル修練会 1期",
     tabEnroll:"入所", tabTalent:"隠し芸", tabFarewell:"退所", tabKit:"修了キット",
     soon:"近日", soonToast:"近日公開予定です。お楽しみに！",
-    schTitle:"放送スケジュール", schSub:"チャンネル別の公開スケジュールをご確認ください。",
+    schTitle:"放送スケジュール", schSub:"チャンネル別の公開スケジュールをご確認ください。すべてKST基準です。", schKstNote:"すべてKST基準です。", schMbcTime:"放送 · 19:00 KST (午後7時)", schYtTime:"YouTube公開 · 18:00 KST (午後6時)",
     chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"Muniverseアプリ独占 拡張版",
     augTag:"8月 大公開", calMonth:"2026年7月", calWeekdays:["日","月","火","水","木","金","土"],
     heroTitle:"アイドル修練会 1期 入所申告",
@@ -588,7 +629,7 @@ const I18N = {
     brandSub:"偶像修炼会 第1期",
     tabEnroll:"入所", tabTalent:"才艺表演", tabFarewell:"退所", tabKit:"结业礼包",
     soon:"即将", soonToast:"敬请期待，即将开放！",
-    schTitle:"播出日程", schSub:"查看各频道的播出日程。",
+    schTitle:"播出日程", schSub:"查看各频道的播出日程。所有时间均为 KST。", schKstNote:"所有时间均为 KST。", schMbcTime:"播出 · 19:00 KST（晚7点）", schYtTime:"YouTube 上传 · 18:00 KST（晚6点）",
     chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"Muniverse App 独家扩展版",
     augTag:"8月盛大公开", calMonth:"2026年7月", calWeekdays:["日","一","二","三","四","五","六"],
     heroTitle:"偶像修炼会 第1期 入所申报",
@@ -633,7 +674,7 @@ const I18N = {
     brandSub:"偶像修煉會 第1期",
     tabEnroll:"入所", tabTalent:"才藝表演", tabFarewell:"退所", tabKit:"結業禮包",
     soon:"即將", soonToast:"敬請期待，即將開放！",
-    schTitle:"播出日程", schSub:"查看各頻道的播出日程。",
+    schTitle:"播出日程", schSub:"查看各頻道的播出日程。所有時間均為 KST。", schKstNote:"所有時間均為 KST。", schMbcTime:"播出 · 19:00 KST（晚間7點）", schYtTime:"YouTube 上傳 · 18:00 KST（晚間6點）",
     chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"Muniverse App 獨家擴充版",
     augTag:"8月盛大公開", calMonth:"2026年7月", calWeekdays:["日","一","二","三","四","五","六"],
     heroTitle:"偶像修煉會 第1期 入所申報",
@@ -760,7 +801,7 @@ function buildChips(){
 function buildSchedule(){
   const T=t(), wd=T.calWeekdays;
   const YT='<svg class="sc-yt" viewBox="0 0 90 64" xmlns="http://www.w3.org/2000/svg" aria-label="YouTube"><rect width="90" height="64" rx="17" fill="#FF0000"/><path d="M36 19 L66 32 L36 45 Z" fill="#fff"/></svg>';
-  const CH={ mbc:{c:'#C0392B', ic:'📺', name:T.chMBC}, yt:{c:'#E8792B', ic:YT, name:T.chYT} };
+  const CH={ mbc:{c:'#C0392B', ic:'📺', name:T.chMBC, time:'19:00 KST'}, yt:{c:'#E8792B', ic:YT, name:T.chYT, time:'18:00 KST'} };
   const first=3; // 2026-07-01 = Wednesday (Sun=0)
   const items=[ {d:8,ch:'mbc'},{d:10,ch:'yt'},{d:15,ch:'mbc'},{d:17,ch:'yt'},{d:24,ch:'yt'},{d:31,ch:'yt'} ];
   const rots=['-1.5deg','1.5deg','-1deg','1deg','-1.5deg','1deg'];
@@ -772,6 +813,7 @@ function buildSchedule(){
       <div class="sc-body">
         <span class="sc-emoji">${ch.ic}</span>
         <span class="sc-name">${ch.name}</span>
+        <span class="sc-time">${ch.time}</span>
       </div>
     </div>`;
   });
