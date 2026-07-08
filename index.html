@@ -148,6 +148,9 @@
   .btn.ghost{color:#0f3b3a;background:#fff;box-shadow:0 5px 0 rgba(15,59,58,.15)}
   .btn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(15,59,58,.2)}
   .btn.wide{grid-column:1/-1}
+  #igBtn{width:100%;max-width:420px;margin:14px auto 0}
+  .btn.ig{color:#fff;background:linear-gradient(45deg,#F09433,#E6683C,#DC2743,#CC2366,#BC1888);border-color:#0f3b3a;box-shadow:0 5px 0 rgba(15,59,58,.28)}
+  .btn.ig:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(15,59,58,.2)}
   .share-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px;max-width:420px;margin-left:auto;margin-right:auto}
   .share-row .btn{flex:1;min-width:120px}
   .hashline{margin-top:14px;font-size:13px;font-weight:700;color:#2a5241;background:#EAF3DE;border:1.5px dashed rgba(15,59,58,.3);
@@ -177,17 +180,16 @@
 <div class="wrap">
 
   <div class="topbar">
-    <span class="brand"><span class="dot"></span><span>MUNIVERSE<small data-i18n="brandSub">아이돌 수련회 1기</small></span></span>
+    <span class="brand"><span class="dot"></span><span>Muniverse<small data-i18n="brandSub">아이돌 수련회 1기</small></span></span>
     <div class="langs" id="langs" role="group" aria-label="Language"></div>
   </div>
 
   <!-- HERO -->
   <header class="hero">
-    <span class="eyebrow">MUNIVERSE SERIES · 1기</span>
+    <span class="eyebrow">Muniverse Series</span>
     <img class="hero-logo" id="heroLogo" alt="아이돌 수련회" />
     <h1 data-i18n="heroTitle"></h1>
     <p data-i18n="heroSub"></p>
-    <div class="period" data-i18n="period"></div>
   </header>
 
   <!-- FORM -->
@@ -227,6 +229,7 @@
         <button class="btn primary" id="dlBtn"><span>⬇️</span><span data-i18n="download"></span></button>
         <button class="btn ghost" id="againBtn"><span>↺</span><span data-i18n="again"></span></button>
       </div>
+      <button class="btn ig" id="igBtn"><span>📸</span><span data-i18n="shareIG"></span></button>
       <div class="share-row">
         <button class="btn ghost" id="shareBtn"><span>📤</span><span data-i18n="share"></span></button>
         <button class="btn ghost" id="xBtn"><span>𝕏</span><span data-i18n="shareX"></span></button>
@@ -255,7 +258,7 @@
 const CONFIG = {
   gisu: 1,                 // 기수
   passPrefix: "IDC",       // 입소번호 접두어
-  hashtags: ["#아이돌수련회", "#아이돌수련회입소식", "#뮤니버스"],
+  hashtags: ["#아이돌수련회", "#아이돌수련회입소식", "#Muniverse"], // 언어별 태그는 I18N.<lang>.hashtags 우선
   shareUrl: "",            // 이벤트 페이지 URL (배포 후 채우면 X 공유에 포함)
   // 팀 정의: id / 표시명 / 대표색(입소증 배지·강조). 색은 자유 교체 가능.
   teams: [
@@ -297,11 +300,15 @@ const I18N = {
     again:"다시 만들기",
     share:"공유하기",
     shareX:"X에 올리기",
+    shareIG:"인스타그램에 올리기",
+    igGuide:"이미지 저장 완료! 인스타그램에서 새 게시물로 올리고 캡션을 붙여넣기 하세요.",
     tapCopy:"탭하면 해시태그가 복사됩니다",
     footer:"© Muniverse · 아이돌 수련회 1기",
     // certificate
+    hashtags:["#아이돌수련회","#아이돌수련회입소식","#Muniverse"],
     cTitle:"입소 신고증",
-    cSeries:"MUNIVERSE SERIES · 아이돌 수련회 1기",
+    cTitleSub:"",
+    cSeries:"Muniverse Series · 아이돌 수련회",
     cNick:"입소생",
     cTeam:"응원 팀",
     cNo:"입소 번호",
@@ -331,10 +338,14 @@ const I18N = {
     again:"Make another",
     share:"Share",
     shareX:"Post on X",
+    shareIG:"Post on Instagram",
+    igGuide:"Image saved! Create a new post on Instagram and paste the caption.",
     tapCopy:"Tap to copy hashtags",
     footer:"© Muniverse · Idol Training Camp Class 1",
+    hashtags:["#IdolTrainingCamp","#IdolTrainingCampEnrollment","#Muniverse"],
     cTitle:"ENROLLMENT PASS",
-    cSeries:"MUNIVERSE SERIES · IDOL TRAINING CAMP CLASS 1",
+    cTitleSub:"입소증",
+    cSeries:"Muniverse Series · IDOL TRAINING CAMP",
     cNick:"Trainee",
     cTeam:"Team",
     cNo:"Pass No.",
@@ -364,10 +375,14 @@ const I18N = {
     again:"もう一度作る",
     share:"シェア",
     shareX:"Xに投稿",
+    shareIG:"Instagramに投稿",
+    igGuide:"画像を保存しました！Instagramで新規投稿を作成し、キャプションを貼り付けてください。",
     tapCopy:"タップでハッシュタグをコピー",
     footer:"© Muniverse · アイドル修練会 1期",
+    hashtags:["#アイドル修練会","#アイドル修練会入所式","#Muniverse"],
     cTitle:"入所申告証",
-    cSeries:"MUNIVERSE SERIES · アイドル修練会 1期",
+    cTitleSub:"입소증",
+    cSeries:"Muniverse Series · アイドル修練会",
     cNick:"入所生",
     cTeam:"応援チーム",
     cNo:"入所番号",
@@ -397,10 +412,14 @@ const I18N = {
     again:"重新生成",
     share:"分享",
     shareX:"发到 X",
+    shareIG:"发到 Instagram",
+    igGuide:"图片已保存！在 Instagram 新建帖子并粘贴文案即可。",
     tapCopy:"点击复制话题标签",
     footer:"© Muniverse · 偶像修炼会 第1期",
+    hashtags:["#偶像修炼会","#偶像修炼会入所式","#Muniverse"],
     cTitle:"入所申报证",
-    cSeries:"MUNIVERSE SERIES · 偶像修炼会 第1期",
+    cTitleSub:"입소증",
+    cSeries:"Muniverse Series · 偶像修炼会",
     cNick:"入所生",
     cTeam:"应援队伍",
     cNo:"入所编号",
@@ -430,10 +449,14 @@ const I18N = {
     again:"重新生成",
     share:"分享",
     shareX:"發到 X",
+    shareIG:"發到 Instagram",
+    igGuide:"圖片已儲存！在 Instagram 新建貼文並貼上文案即可。",
     tapCopy:"點擊複製話題標籤",
     footer:"© Muniverse · 偶像修煉會 第1期",
+    hashtags:["#偶像修煉會","#偶像修煉會入所式","#Muniverse"],
     cTitle:"入所申報證",
-    cSeries:"MUNIVERSE SERIES · 偶像修煉會 第1期",
+    cTitleSub:"입소증",
+    cSeries:"Muniverse Series · 偶像修煉會",
     cNick:"入所生",
     cTeam:"應援隊伍",
     cNo:"入所編號",
@@ -508,7 +531,7 @@ function applyI18n(){
   });
   $("#nick").placeholder=t().nickPh;
   $("#msg").placeholder=t().msgPh;
-  $("#hashText").textContent = CONFIG.hashtags.join(" ");
+  $("#hashText").textContent = tags().join(" ");
   buildLangs(); buildChips();
   // re-render certificate if visible
   if($("#result").classList.contains("show")) renderCert();
@@ -519,6 +542,7 @@ function validate(){
 }
 
 /* -------- utils -------- */
+function tags(){ const h=t().hashtags; return (h&&h.length)?h:CONFIG.hashtags; }
 function hashStr(s){ let h=2166136261>>>0; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619)>>>0;} return h; }
 function passNo(nick, team){
   const seed=hashStr(nick+"|"+team+"|"+new Date().toDateString());
@@ -551,6 +575,54 @@ function drawStar(ctx,cx,cy,r,fill,stroke){
   }
   ctx.closePath(); ctx.fillStyle=fill; ctx.fill();
   if(stroke){ctx.lineWidth=3;ctx.strokeStyle=stroke;ctx.stroke();}
+}
+
+// text along a circle (position: 'top' reads L→R over the top, 'bottom' reads L→R under the bottom)
+function drawArcText(ctx, str, cx, cy, r, opts){
+  const chars=[...str];
+  ctx.save();
+  ctx.font=opts.font; ctx.fillStyle=opts.color; ctx.textAlign="center"; ctx.textBaseline="middle";
+  const gap=opts.letterSpacing||0;
+  const w=chars.map(ch=>ctx.measureText(ch).width/r);
+  const total=w.reduce((a,b)=>a+b,0)+gap*(chars.length-1);
+  if(opts.position==="bottom"){
+    let a=Math.PI/2+total/2;
+    for(let i=0;i<chars.length;i++){ const mid=a-w[i]/2;
+      ctx.save(); ctx.translate(cx+r*Math.cos(mid),cy+r*Math.sin(mid)); ctx.rotate(mid-Math.PI/2); ctx.fillText(chars[i],0,0); ctx.restore();
+      a-=w[i]+gap; }
+  } else {
+    let a=-Math.PI/2-total/2;
+    for(let i=0;i<chars.length;i++){ const mid=a+w[i]/2;
+      ctx.save(); ctx.translate(cx+r*Math.cos(mid),cy+r*Math.sin(mid)); ctx.rotate(mid+Math.PI/2); ctx.fillText(chars[i],0,0); ctx.restore();
+      a+=w[i]+gap; }
+  }
+  ctx.restore();
+}
+
+// custom 아이돌 수련회 seal: double ring + arc text + tent icon
+function drawCampStamp(ctx, cx, cy, color){
+  ctx.save();
+  ctx.translate(cx,cy); ctx.rotate(-Math.PI/12); ctx.globalAlpha=.92;
+  ctx.lineJoin="round"; ctx.lineCap="round";
+  const R=82;
+  ctx.strokeStyle=color; ctx.lineWidth=5.5; ctx.beginPath(); ctx.arc(0,0,R,0,Math.PI*2); ctx.stroke();
+  ctx.lineWidth=2.5; ctx.beginPath(); ctx.arc(0,0,R-40,0,Math.PI*2); ctx.stroke();
+  ctx.setLineDash([2,7]); ctx.lineWidth=2; ctx.beginPath(); ctx.arc(0,0,R-9,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
+  // arc text
+  const CJK=`"Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
+  drawArcText(ctx,"아이돌 수련회",0,0,R-23,{font:`900 19px ${CJK}`,color,position:"top",letterSpacing:0.02});
+  drawArcText(ctx,"Muniverse",0,0,R-24,{font:`800 15px "Pretendard",system-ui,sans-serif`,color,position:"bottom",letterSpacing:0.10});
+  // separators
+  drawStar(ctx,-(R-23),0,6,color,null);
+  drawStar(ctx,(R-23),0,6,color,null);
+  // center tent
+  ctx.strokeStyle=color; ctx.lineWidth=4;
+  ctx.beginPath(); ctx.moveTo(0,-19); ctx.lineTo(24,16); ctx.lineTo(-24,16); ctx.closePath(); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0,-19); ctx.lineTo(0,16); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(-9,16); ctx.lineTo(0,1); ctx.lineTo(9,16); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0,-19); ctx.lineTo(0,-31); ctx.stroke();
+  ctx.fillStyle=color; ctx.beginPath(); ctx.moveTo(0,-31); ctx.lineTo(13,-27); ctx.lineTo(0,-23); ctx.closePath(); ctx.fill();
+  ctx.restore();
 }
 
 async function renderCert(){
@@ -599,18 +671,27 @@ async function renderCert(){
     cy += lh+34;
   } else { cy += 60; }
 
-  // ribbon title 「입소 신고증」
-  const rw=Math.min(560,cardW-140), rh=88, rx=(W-rw)/2;
+  // ribbon title 「입소 신고증」 (+ Korean 입소증 for non-KO)
+  const hasSub = !!(T.cTitleSub && T.cTitleSub.length);
+  const rw=Math.min(600,cardW-120), rh=hasSub?106:88, rx=(W-rw)/2;
   ctx.save();
   ctx.shadowColor="rgba(15,59,58,.18)"; ctx.shadowBlur=16; ctx.shadowOffsetY=8;
   roundRect(ctx,rx,cy,rw,rh,20); ctx.fillStyle="#0F3B3A"; ctx.fill();
   ctx.restore();
-  ctx.fillStyle="#F2C230"; ctx.textAlign="center"; ctx.textBaseline="middle";
-  const ts=fitText(ctx,T.cTitle,rw-70,44,26);
-  ctx.font=`900 ${ts}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-  ctx.fillText(T.cTitle, W/2, cy+rh/2+2);
-  drawStar(ctx,rx+30,cy+rh/2,12,"#F2C230","#0F3B3A");
-  drawStar(ctx,rx+rw-30,cy+rh/2,12,"#F2C230","#0F3B3A");
+  ctx.textAlign="center"; ctx.textBaseline="middle";
+  if(hasSub){
+    const ts=fitText(ctx,T.cTitle,rw-100,40,24);
+    ctx.font=`900 ${ts}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
+    ctx.fillStyle="#F2C230"; ctx.fillText(T.cTitle, W/2, cy+rh/2-15);
+    ctx.font=`800 26px "Pretendard","Noto Sans KR",sans-serif`;
+    ctx.fillStyle="#6EE7A8"; ctx.fillText(T.cTitleSub, W/2, cy+rh/2+24);
+  } else {
+    const ts=fitText(ctx,T.cTitle,rw-70,44,26);
+    ctx.font=`900 ${ts}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
+    ctx.fillStyle="#F2C230"; ctx.fillText(T.cTitle, W/2, cy+rh/2+2);
+  }
+  drawStar(ctx,rx+34,cy+rh/2,12,"#F2C230","#0F3B3A");
+  drawStar(ctx,rx+rw-34,cy+rh/2,12,"#F2C230","#0F3B3A");
   cy += rh+40;
 
   // NICKNAME
@@ -666,23 +747,13 @@ async function renderCert(){
   ctx.font=`600 ${ss}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
   ctx.fillText(T.cSlogan, W/2, cy+6);
 
-  // approval stamp (rotated)
-  ctx.save();
-  const sx=W-M-150, sy=H-M-150;
-  ctx.translate(sx,sy); ctx.rotate(-Math.PI/9);
-  ctx.strokeStyle=tm.color; ctx.lineWidth=6; ctx.globalAlpha=.9;
-  ctx.beginPath(); ctx.arc(0,0,66,0,7); ctx.stroke();
-  ctx.beginPath(); ctx.arc(0,0,54,0,7); ctx.lineWidth=2; ctx.stroke();
-  ctx.fillStyle=tm.color; ctx.textAlign="center"; ctx.textBaseline="middle";
-  const sts=fitText(ctx,T.cStamp,96,26,14);
-  ctx.font=`900 ${sts}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-  ctx.fillText(T.cStamp,0,0);
-  ctx.restore();
+  // 아이돌 수련회 camp seal (rotated)
+  drawCampStamp(ctx, W-M-152, H-M-160, tm.color);
 
   // footer hashtag on card
   ctx.globalAlpha=1; ctx.fillStyle="#8AA07E"; ctx.textAlign="center"; ctx.textBaseline="alphabetic";
   ctx.font=`700 22px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-  ctx.fillText(CONFIG.hashtags.join("  "), W/2, H-M-40);
+  ctx.fillText(tags().join("  "), W/2, H-M-40);
 }
 
 /* -------- actions -------- */
@@ -704,7 +775,7 @@ async function download(){
 function caption(){
   const tm=teamById(selectedTeam);
   const cap=t().shareCaption.replace("{team}", tm.name);
-  return cap+"\n"+CONFIG.hashtags.join(" ")+(CONFIG.shareUrl?("\n"+CONFIG.shareUrl):"");
+  return cap+"\n"+tags().join(" ")+(CONFIG.shareUrl?("\n"+CONFIG.shareUrl):"");
 }
 async function nativeShare(){
   const blob=await canvasBlob();
@@ -715,13 +786,28 @@ async function nativeShare(){
   // fallback
   await download(); await copyHash(); toast(t().download+" · "+t().tapCopy+" ✓");
 }
+async function shareInstagram(){
+  const blob=await canvasBlob();
+  const file=new File([blob], fileName(), {type:"image/png"});
+  // Mobile: native share sheet includes Instagram (Feed/Stories/Direct)
+  if(navigator.canShare && navigator.canShare({files:[file]})){
+    try{ await navigator.share({files:[file], text:caption()}); return; }
+    catch(e){ if(e.name==="AbortError") return; }
+  }
+  // Fallback (desktop): save image + copy caption + open Instagram
+  await download();
+  try{ await navigator.clipboard.writeText(caption()); }catch(e){}
+  const mobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  window.open(mobile ? "instagram://library" : "https://www.instagram.com/", "_blank", "noopener");
+  toast(t().igGuide);
+}
 function shareX(){
   const url=`https://twitter.com/intent/tweet?text=${encodeURIComponent(caption())}`;
   window.open(url,"_blank","noopener");
 }
 async function copyHash(){
-  try{ await navigator.clipboard.writeText(CONFIG.hashtags.join(" ")); toast("✓ "+CONFIG.hashtags.join(" ")); }
-  catch(e){ toast(CONFIG.hashtags.join(" ")); }
+  try{ await navigator.clipboard.writeText(tags().join(" ")); toast("✓ "+tags().join(" ")); }
+  catch(e){ toast(tags().join(" ")); }
 }
 
 /* -------- Supabase logging (optional, non-blocking) -------- */
@@ -748,6 +834,7 @@ $("#issueBtn").addEventListener("click",issue);
 $("#dlBtn").addEventListener("click",download);
 $("#againBtn").addEventListener("click",()=>{ $("#result").classList.remove("show"); $("#formPanel").scrollIntoView({behavior:"smooth"}); });
 $("#shareBtn").addEventListener("click",nativeShare);
+$("#igBtn").addEventListener("click",shareInstagram);
 $("#xBtn").addEventListener("click",shareX);
 $("#hashline").addEventListener("click",copyHash);
 $("#heroLogo").src=LOGO_SRC;
