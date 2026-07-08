@@ -389,7 +389,11 @@ const CONFIG = {
   ],
   // Supabase: config.js 의 supabaseUrl / supabaseAnonKey 만 채우면 공유형 게시판·순차 입소번호 동작. 비우면 로컬 동작.
   supabase: { url: _CFG.supabaseUrl || "", anonKey: _CFG.supabaseAnonKey || "", table:"enrollments", msgTable:"board_messages" },
-  board: { maxShown: _CFG.maxShown || 300 }  // 게시판 최신 N개까지 노출(10개/페이지)
+  board: { maxShown: _CFG.maxShown || 300 },  // 게시판 최신 N개까지 노출(10개/페이지)
+  memberPhotos: {
+    table: _CFG.memberPhotoTable || "camp_member_photos",
+    bucket: _CFG.memberPhotoBucket || "idolcamp-members"
+  }
 };
 
 /* -------- I18N -------- */
@@ -782,6 +786,68 @@ function clean(str){
   return out;
 }
 
+/* -------- member photo store (Supabase table + Storage public URL) -------- */
+const MEMBER_PHOTOS = new Map();
+const TEAM_PHOTOS = new Map();
+function supabaseHeaders(extra){
+  const s=CONFIG.supabase;
+  return Object.assign({apikey:s.anonKey,Authorization:"Bearer "+s.anonKey}, extra||{});
+}
+function storagePublicUrl(path){
+  const s=CONFIG.supabase;
+  const bucket=(CONFIG.memberPhotos&&CONFIG.memberPhotos.bucket)||"idolcamp-members";
+  if(!s || !s.url || !path) return "";
+  return `${s.url.replace(/\/$/,"")}/storage/v1/object/public/${bucket}/${path}`;
+}
+async function loadImage(src){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.crossOrigin="anonymous";
+    img.onload=()=>resolve(img);
+    img.onerror=reject;
+    img.src=src;
+  });
+}
+function drawImageCover(ctx, img, x, y, w, h){
+  const imageRatio = img.width / img.height;
+  const boxRatio = w / h;
+  let sx = 0, sy = 0, sw = img.width, sh = img.height;
+  if(imageRatio > boxRatio){
+    sw = img.height * boxRatio;
+    sx = (img.width - sw) / 2;
+  }else{
+    sh = img.width / boxRatio;
+    sy = (img.height - sh) / 2;
+  }
+  ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+}
+async function loadMemberPhotos(){
+  const s=CONFIG.supabase;
+  const table=(CONFIG.memberPhotos&&CONFIG.memberPhotos.table)||"camp_member_photos";
+  if(!s || !s.url || !s.anonKey) return;
+  try{
+    const cols='team_id,member_ko,member_en,photo_path,sort_order,is_group,active';
+    const r=await fetch(`${s.url}/rest/v1/${table}?select=${cols}&active=eq.true&order=team_id.asc,sort_order.asc`,{headers:supabaseHeaders()});
+    if(!r.ok) throw new Error(await r.text());
+    const rows=await r.json();
+    MEMBER_PHOTOS.clear(); TEAM_PHOTOS.clear();
+    rows.forEach(row=>{
+      const meta={...row,url:storagePublicUrl(row.photo_path)};
+      if(row.is_group || !row.member_ko) TEAM_PHOTOS.set(row.team_id, meta);
+      else MEMBER_PHOTOS.set(`${row.team_id}|${row.member_ko}`, meta);
+    });
+  }catch(e){
+    console.warn('Member photo load failed', e);
+  }
+}
+function selectedPhotoMeta(){
+  if(!selectedTeam) return null;
+  if(selectedMember){
+    return MEMBER_PHOTOS.get(`${selectedTeam}|${selectedMember}`) || TEAM_PHOTOS.get(selectedTeam) || null;
+  }
+  return TEAM_PHOTOS.get(selectedTeam) || null;
+}
+
 /* -------- board store (Supabase if configured, else local) -------- */
 const PAGE_SIZE=10, LS_KEY="itc_board_v1", LS_LIKED="itc_liked_v1";
 let boardPage=1;
@@ -1005,134 +1071,152 @@ async function renderCert(){
   const now=new Date();
   const dateStr=T.dateFmt(now.getFullYear(), now.getMonth()+1, now.getDate());
   const pno=currentPass || passNo(nick, tm.id);
+  const mn = memberName();
+  const photoMeta = selectedPhotoMeta();
 
   try{ await document.fonts.ready; }catch(e){}
 
-  // ---- background: kraft green outer + paper card ----
   ctx.clearRect(0,0,W,H);
   const bg=ctx.createLinearGradient(0,0,0,H); bg.addColorStop(0,"#9BC163"); bg.addColorStop(1,"#7FA24C");
   ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
-  // scattered grass ticks
   ctx.strokeStyle="rgba(15,59,58,.13)"; ctx.lineWidth=4; ctx.lineCap="round";
   for(let i=0;i<70;i++){ const x=(hashStr("gx"+i)%W), y=(hashStr("gy"+i)%H); ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+ (i%2?7:-7), y-16); ctx.stroke(); }
 
-  // paper card
   const M=54, cardW=W-M*2, cardH=H-M*2;
   ctx.save();
   ctx.shadowColor="rgba(15,59,58,.28)"; ctx.shadowBlur=40; ctx.shadowOffsetY=18;
   roundRect(ctx,M,M,cardW,cardH,40); ctx.fillStyle="#FBF6E9"; ctx.fill();
   ctx.restore();
-  // inner dashed frame
   roundRect(ctx,M+26,M+26,cardW-52,cardH-52,28);
   ctx.setLineDash([12,10]); ctx.lineWidth=3; ctx.strokeStyle=tm.color; ctx.globalAlpha=.55; ctx.stroke();
   ctx.setLineDash([]); ctx.globalAlpha=1;
-  // team color header band
-  roundRect(ctx,M,M,cardW,120,{tl:40,tr:40,br:0,bl:0}); ctx.fillStyle=tm.color; ctx.fill();
+  roundRect(ctx,M,M,cardW,104,{tl:40,tr:40,br:0,bl:0}); ctx.fillStyle=tm.color; ctx.fill();
   ctx.fillStyle="rgba(255,255,255,.95)"; ctx.textAlign="center"; ctx.textBaseline="middle";
-  ctx.font=`800 26px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-  ctx.fillText(T.cSeries, W/2, M+62);
+  ctx.font=`800 24px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
+  ctx.fillText(T.cSeries, W/2, M+54);
 
-  let cy = M+120;
+  let cy = M+124;
 
-  // logo
-  if(logoImg.complete && logoImg.naturalWidth){
-    const lw=Math.min(560, cardW-160), lh=lw*logoImg.naturalHeight/logoImg.naturalWidth;
-    ctx.drawImage(logoImg,(W-lw)/2, cy+18, lw, lh);
-    cy += lh+34;
-  } else { cy += 60; }
-
-  // ribbon title 「입소 신고증」 (+ Korean 입소증 for non-KO)
-  const hasSub = !!(T.cTitleSub && T.cTitleSub.length);
-  const rw=Math.min(600,cardW-120), rh=hasSub?106:88, rx=(W-rw)/2;
+  const rw=Math.min(600,cardW-120), rh=74, rx=(W-rw)/2;
   ctx.save();
   ctx.shadowColor="rgba(15,59,58,.18)"; ctx.shadowBlur=16; ctx.shadowOffsetY=8;
   roundRect(ctx,rx,cy,rw,rh,20); ctx.fillStyle="#0F3B3A"; ctx.fill();
   ctx.restore();
   ctx.textAlign="center"; ctx.textBaseline="middle";
-  if(hasSub){
-    const ts=fitText(ctx,T.cTitle,rw-100,40,24);
-    ctx.font=`900 ${ts}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-    ctx.fillStyle="#F2C230"; ctx.fillText(T.cTitle, W/2, cy+rh/2-15);
-    ctx.font=`800 26px "Pretendard","Noto Sans KR",sans-serif`;
-    ctx.fillStyle="#6EE7A8"; ctx.fillText(T.cTitleSub, W/2, cy+rh/2+24);
-  } else {
-    const ts=fitText(ctx,T.cTitle,rw-70,44,26);
-    ctx.font=`900 ${ts}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-    ctx.fillStyle="#F2C230"; ctx.fillText(T.cTitle, W/2, cy+rh/2+2);
-  }
+  const ts=fitText(ctx,T.cTitle,rw-70,38,24);
+  ctx.font=`900 ${ts}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
+  ctx.fillStyle="#F2C230"; ctx.fillText(T.cTitle, W/2, cy+rh/2+1);
   drawStar(ctx,rx+34,cy+rh/2,12,"#F2C230","#0F3B3A");
   drawStar(ctx,rx+rw-34,cy+rh/2,12,"#F2C230","#0F3B3A");
-  cy += rh+40;
+  cy += rh+26;
 
-  // NICKNAME
-  ctx.textAlign="center";
-  ctx.fillStyle="#7C8F81"; ctx.font=`800 24px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-  ctx.fillText(T.cNick, W/2, cy); cy+=18;
-  const ns=fitText(ctx,nick,cardW-180,92,40);
-  ctx.font=`900 ${ns}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-  ctx.textBaseline="top";
-  ctx.lineJoin="round"; ctx.lineWidth=10; ctx.strokeStyle="#0F3B3A"; ctx.strokeText(nick,W/2,cy);
-  ctx.fillStyle="#F2C230"; ctx.fillText(nick,W/2,cy);
-  cy += ns+30;
-
-  // team pill
-  const mn = memberName();
-  ctx.font=`800 34px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-  const tName=tm.name, tpw=ctx.measureText(tName).width+120, tph=64, tpx=(W-tpw)/2;
-  roundRect(ctx,tpx,cy,tpw,tph,32); ctx.fillStyle=tm.bg; ctx.strokeStyle=tm.color; ctx.lineWidth=4; ctx.fill(); ctx.stroke();
-  ctx.fillStyle=tm.color; ctx.beginPath(); ctx.arc(tpx+38,cy+tph/2,11,0,7); ctx.fill();
-  ctx.textBaseline="middle"; ctx.fillText(tName, tpx+tpw/2+14, cy+tph/2+1);
-  cy += tph + (mn?14:40);
-  if(mn){
-    ctx.textAlign="center"; ctx.textBaseline="top"; ctx.fillStyle=tm.color;
-    const mline=`${T.cPick} · ${mn}`;
-    const msz=fitText(ctx, mline, cardW-150, 27, 17);
-    ctx.font=`800 ${msz}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-    ctx.fillText(mline, W/2, cy);
-    cy += 48;
+  // hero photo area
+  const photoX=M+80, photoY=cy, photoW=cardW-160, photoH=Math.round(photoW*9/16);
+  ctx.save();
+  roundRect(ctx,photoX,photoY,photoW,photoH,28); ctx.clip();
+  let drewPhoto=false;
+  if(photoMeta && photoMeta.url){
+    try{
+      const img=await loadImage(photoMeta.url);
+      drawImageCover(ctx,img,photoX,photoY,photoW,photoH);
+      drewPhoto=true;
+    }catch(e){ console.warn('photo draw failed', e); }
   }
+  if(!drewPhoto){
+    const ph=ctx.createLinearGradient(photoX,photoY,photoX,photoY+photoH);
+    ph.addColorStop(0, tm.color+'22');
+    ph.addColorStop(1, '#DDE8CF');
+    ctx.fillStyle=ph; ctx.fillRect(photoX,photoY,photoW,photoH);
+    // placeholder scene
+    ctx.fillStyle=tm.color+'22';
+    ctx.beginPath(); ctx.arc(photoX+photoW*0.18, photoY+photoH*0.28, 56, 0, 7); ctx.fill();
+    ctx.fillStyle=tm.color+'33';
+    ctx.fillRect(photoX+60, photoY+photoH-120, photoW-120, 26);
+    ctx.fillStyle=tm.color;
+    ctx.font='900 42px "Pretendard","Noto Sans KR",sans-serif';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(mn || tm.name, photoX+photoW/2, photoY+photoH/2-12);
+    ctx.fillStyle='#3C5245';
+    ctx.font='700 24px "Pretendard","Noto Sans KR",sans-serif';
+    ctx.fillText('사진 업로드 시 이 영역에 자동으로 노출됩니다', photoX+photoW/2, photoY+photoH/2+34);
+  }
+  const overlay=ctx.createLinearGradient(0,photoY+photoH*0.55,0,photoY+photoH);
+  overlay.addColorStop(0,'rgba(0,0,0,0)');
+  overlay.addColorStop(1,'rgba(15,59,58,.82)');
+  ctx.fillStyle=overlay; ctx.fillRect(photoX,photoY,photoW,photoH);
+  ctx.restore();
+  roundRect(ctx,photoX,photoY,photoW,photoH,28); ctx.lineWidth=6; ctx.strokeStyle=tm.color; ctx.stroke();
 
-  // divider
-  ctx.strokeStyle="rgba(15,59,58,.18)"; ctx.lineWidth=2; ctx.setLineDash([2,8]); ctx.lineCap="round";
-  ctx.beginPath(); ctx.moveTo(M+90,cy); ctx.lineTo(W-M-90,cy); ctx.stroke(); ctx.setLineDash([]);
-  cy += 34;
+  // photo caption chip
+  const topBadge = mn ? `${tm.name} · ${mn}` : `${tm.name} · ${T.memberAll}`;
+  const bw=Math.min(photoW-56, ctx.measureText(topBadge).width + 68);
+  roundRect(ctx,photoX+22,photoY+20,bw,42,21); ctx.fillStyle='rgba(255,255,255,.92)'; ctx.fill();
+  ctx.fillStyle=tm.color; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.font='800 20px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif';
+  ctx.fillText(topBadge, photoX+22+bw/2, photoY+21+21);
 
-  // info grid: 입소번호 | 입소일
-  const gx=M+80, gw=cardW-160;
-  ctx.textAlign="left"; ctx.textBaseline="alphabetic";
-  ctx.fillStyle="#7C8F81"; ctx.font=`700 22px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-  ctx.fillText(T.cNo, gx, cy);
-  ctx.fillText(T.cDate, gx+gw/2, cy);
-  ctx.fillStyle="#123A2E"; ctx.font=`900 30px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-  ctx.fillText(pno, gx, cy+38);
-  ctx.fillText(dateStr, gx+gw/2, cy+38);
-  cy += 92;
+  ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+  ctx.fillStyle='rgba(255,255,255,.96)';
+  ctx.font='800 22px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif';
+  ctx.fillText(T.cTeam, photoX+26, photoY+photoH-48);
+  ctx.font='900 38px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif';
+  ctx.fillText(tm.name, photoX+26, photoY+photoH-14);
 
-  // optional message quote
+  cy += photoH + 26;
+
+  // nickname and member summary
+  const infoX=photoX, infoW=photoW;
+  roundRect(ctx,infoX,cy,infoW,120,24); ctx.fillStyle='#F4F0E0'; ctx.fill();
+  ctx.strokeStyle='rgba(15,59,58,.12)'; ctx.lineWidth=2; ctx.stroke();
+  ctx.fillStyle='#7C8F81'; ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+  ctx.font='800 22px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif';
+  ctx.fillText(T.cNick, infoX+30, cy+34);
+  ctx.fillText(T.cPick, infoX+infoW/2+18, cy+34);
+  ctx.fillStyle='#123A2E';
+  const leftVal=nick;
+  const rightVal=mn || T.memberAll;
+  let leftSize=fitText(ctx,leftVal,infoW/2-70,36,20);
+  let rightSize=fitText(ctx,rightVal,infoW/2-70,36,20);
+  ctx.font=`900 ${leftSize}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
+  ctx.fillText(leftVal, infoX+30, cy+82);
+  ctx.font=`900 ${rightSize}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
+  ctx.fillText(rightVal, infoX+infoW/2+18, cy+82);
+  ctx.strokeStyle='rgba(15,59,58,.10)'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(infoX+infoW/2, cy+20); ctx.lineTo(infoX+infoW/2, cy+100); ctx.stroke();
+  cy += 142;
+
+  // info grid: pass/date
+  roundRect(ctx,infoX,cy,infoW,92,22); ctx.fillStyle='#FFFFFF'; ctx.fill();
+  ctx.strokeStyle='rgba(15,59,58,.12)'; ctx.lineWidth=2; ctx.stroke();
+  ctx.fillStyle='#7C8F81'; ctx.font='700 20px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif';
+  ctx.fillText(T.cNo, infoX+26, cy+30);
+  ctx.fillText(T.cDate, infoX+infoW/2+18, cy+30);
+  ctx.fillStyle='#123A2E';
+  ctx.font='900 26px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif';
+  ctx.fillText(pno, infoX+26, cy+66);
+  ctx.fillText(dateStr, infoX+infoW/2+18, cy+66);
+  cy += 110;
+
   if(msg){
-    const qw=cardW-160;
-    roundRect(ctx,M+80,cy,qw,72,18); ctx.fillStyle="#EFF5E7"; ctx.fill();
-    ctx.fillStyle=tm.color; ctx.font=`900 40px Georgia,serif`; ctx.textAlign="left"; ctx.fillText("“",M+96,cy+50);
-    ctx.fillStyle="#2A4A3B"; ctx.textAlign="center"; ctx.textBaseline="middle";
-    const ms=fitText(ctx,msg,qw-120,30,20);
+    roundRect(ctx,infoX,cy,infoW,76,18); ctx.fillStyle='#EFF5E7'; ctx.fill();
+    ctx.fillStyle=tm.color; ctx.font='900 40px Georgia,serif'; ctx.textAlign='left'; ctx.fillText('“',infoX+14,cy+52);
+    ctx.fillStyle='#2A4A3B'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    const ms=fitText(ctx,msg,infoW-110,28,18);
     ctx.font=`700 ${ms}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-    ctx.fillText(msg, W/2, cy+38);
+    ctx.fillText(msg, infoX+infoW/2, cy+40);
     cy += 92;
   }
 
-  // slogan
-  ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillStyle="#3C5245";
-  const ss=fitText(ctx,T.cSlogan,cardW-150,24,16);
+  ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillStyle='#3C5245';
+  const ss=fitText(ctx,T.cSlogan,cardW-150,22,15);
   ctx.font=`600 ${ss}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-  ctx.fillText(T.cSlogan, W/2, cy+6);
+  ctx.fillText(T.cSlogan, W/2, cy+4);
 
-  // 아이돌 수련회 camp seal (rotated)
   drawCampStamp(ctx, W-M-152, H-M-160, tm.color);
 
-  // footer hashtag on card
-  ctx.globalAlpha=1; ctx.fillStyle="#8AA07E"; ctx.textAlign="center"; ctx.textBaseline="alphabetic";
-  ctx.font=`700 22px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-  ctx.fillText(tags().join("  "), W/2, H-M-40);
+  ctx.globalAlpha=1; ctx.fillStyle='#8AA07E'; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+  ctx.font='700 20px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif';
+  ctx.fillText(tags().join('  '), W/2, H-M-40);
 }
 
 /* -------- actions -------- */
@@ -1232,6 +1316,7 @@ document.querySelectorAll('.tab').forEach(tb=>{
 $("#heroLogo").src=LOGO_SRC;
 
 document.documentElement.lang=lang;
+loadMemberPhotos();
 buildTeams();
 applyI18n();
 logoImg.onload=()=>{ if($("#result").classList.contains("show")) renderCert(); };
