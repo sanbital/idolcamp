@@ -984,7 +984,7 @@ function selectedPhotoMeta(){
 
 /* -------- board store (Supabase if configured, else local) -------- */
 const BOARD_COLLAPSED_LIMIT=7, BOARD_EXPANDED_LIMIT=30, LS_KEY="itc_board_v1", LS_LIKED="itc_liked_v1";
-let boardExpanded=false, boardSort="latest";
+let boardExpanded=false, boardSort="latest", boardPage=1;
 function lsGet(k,def){ try{ const v=localStorage.getItem(k); return v==null?def:JSON.parse(v); }catch(e){ return def; } }
 function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
 function boardNickKey(nick){ return String(nick||"").trim().toLocaleLowerCase(); }
@@ -1159,6 +1159,10 @@ function teamBadgeStyle(tm){
 async function jumpToBoardMessage(id){
   boardExpanded=true;
   boardSort="likes";
+  const all=await Board.all();
+  const sorted=sortBoardList(all,"likes");
+  const idx=sorted.findIndex(it=>String(it.id)===String(id));
+  boardPage=idx>=0?Math.floor(idx/BOARD_EXPANDED_LIMIT)+1:1;
   await renderBoard();
   requestAnimationFrame(()=>{
     const target=[...document.querySelectorAll(".board-item")].find(el=>String(el.dataset.id)===String(id));
@@ -1218,7 +1222,11 @@ async function renderBoard(){
   const sorted=sortBoardList(list,boardSort);
   const total=sorted.length;
   const limit=boardExpanded?BOARD_EXPANDED_LIMIT:BOARD_COLLAPSED_LIMIT;
-  const slice=sorted.slice(0,limit);
+  const totalPages=Math.max(1,Math.ceil(total/limit));
+  if(boardPage>totalPages) boardPage=totalPages;
+  if(boardPage<1) boardPage=1;
+  const start=(boardPage-1)*limit;
+  const slice=sorted.slice(start,start+limit);
 
   if(controls){
     controls.innerHTML=`<div class="board-sort" role="group" aria-label="Board sort">
@@ -1227,10 +1235,10 @@ async function renderBoard(){
       </div>
       ${total>BOARD_COLLAPSED_LIMIT?`<button type="button" class="board-toggle" data-toggle="board">${boardExpanded?esc(t().boardCollapse||"접기"):esc(t().boardExpand||"펼치기")}</button>`:""}`;
     controls.querySelectorAll("[data-sort]").forEach(b=>{
-      b.onclick=()=>{ boardSort=b.dataset.sort; renderBoard(); };
+      b.onclick=()=>{ boardSort=b.dataset.sort; boardPage=1; renderBoard(); };
     });
     const toggle=controls.querySelector("[data-toggle='board']");
-    if(toggle) toggle.onclick=()=>{ boardExpanded=!boardExpanded; renderBoard(); };
+    if(toggle) toggle.onclick=()=>{ boardExpanded=!boardExpanded; boardPage=1; renderBoard(); };
   }
 
   if(!total){
@@ -1264,7 +1272,24 @@ async function renderBoard(){
     };
   });
 
-  if(pg) pg.innerHTML="";
+  if(pg){
+    if(totalPages>1){
+      pg.innerHTML=`<button type="button" ${boardPage<=1?'disabled':''} data-page="prev">이전</button>
+        <span>${boardPage} / ${totalPages}</span>
+        <button type="button" ${boardPage>=totalPages?'disabled':''} data-page="next">다음</button>`;
+      pg.querySelectorAll("[data-page]").forEach(b=>{
+        b.onclick=()=>{
+          if(b.dataset.page==="prev") boardPage=Math.max(1,boardPage-1);
+          if(b.dataset.page==="next") boardPage=Math.min(totalPages,boardPage+1);
+          renderBoard();
+          const board=document.getElementById("board");
+          if(board) board.scrollIntoView({behavior:"smooth",block:"start"});
+        };
+      });
+    }else{
+      pg.innerHTML="";
+    }
+  }
 }
 
 /* -------- CERTIFICATE RENDER (Canvas 1080x1350) -------- */
@@ -1538,6 +1563,7 @@ async function issue(){
       const result=await Board.add({nick:$("#nick").value.trim(), team:selectedTeam, msg:pledge});
       boardExpanded=false;
       boardSort="latest";
+      boardPage=1;
       await renderBoard();
       if(result && result.duplicate) toast("이미 등록된 닉네임입니다. 다짐은 한 번만 올라가요.");
       else if(result && result.error) toast("다짐 등록 실패 · Supabase 설정을 확인해주세요.");
