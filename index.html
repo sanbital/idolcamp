@@ -892,7 +892,7 @@ function selectedPhotoMeta(){
 }
 
 /* -------- board store (Supabase if configured, else local) -------- */
-const PAGE_SIZE=10, LS_KEY="itc_board_v1", LS_LIKED="itc_liked_v1";
+const PAGE_SIZE=7, LS_KEY="itc_board_v1", LS_LIKED="itc_liked_v1";
 let boardPage=1;
 function lsGet(k,def){ try{ const v=localStorage.getItem(k); return v==null?def:JSON.parse(v); }catch(e){ return def; } }
 function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
@@ -1116,6 +1116,17 @@ function roundRect(ctx,x,y,w,h,r){ if(typeof r==="number") r={tl:r,tr:r,br:r,bl:
 function fitText(ctx,text,max,base,min){
   let s=base; do{ ctx.font=`900 ${s}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`; if(ctx.measureText(text).width<=max) break; s-=2; }while(s>min); return s;
 }
+function ellipsizeText(ctx,text,maxWidth){
+  const full=String(text||"");
+  if(ctx.measureText(full).width<=maxWidth) return full;
+  const ell="…";
+  let out="";
+  for(const ch of [...full]){
+    if(ctx.measureText(out+ch+ell).width>maxWidth) break;
+    out+=ch;
+  }
+  return out ? out+ell : ell;
+}
 
 function drawStar(ctx,cx,cy,r,fill,stroke){
   ctx.beginPath();
@@ -1285,12 +1296,14 @@ async function renderCert(){
   ctx.fillStyle='#123A2E';
   const leftVal=nick;
   const rightVal=mn || tm.name;
-  let leftSize=fitText(ctx,leftVal,infoW/2-70,36,20);
-  let rightSize=fitText(ctx,rightVal,infoW/2-70,36,20);
+  const leftMax=infoW/2-70;
+  const rightMax=infoW/2-70;
+  let leftSize=fitText(ctx,leftVal,leftMax,36,20);
+  let rightSize=fitText(ctx,rightVal,rightMax,36,20);
   ctx.font=`900 ${leftSize}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-  ctx.fillText(leftVal, infoX+30, cy+82);
+  ctx.fillText(ellipsizeText(ctx,leftVal,leftMax), infoX+30, cy+82);
   ctx.font=`900 ${rightSize}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-  ctx.fillText(rightVal, infoX+infoW/2+18, cy+82);
+  ctx.fillText(ellipsizeText(ctx,rightVal,rightMax), infoX+infoW/2+18, cy+82);
   ctx.strokeStyle='rgba(15,59,58,.10)'; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(infoX+infoW/2, cy+20); ctx.lineTo(infoX+infoW/2, cy+100); ctx.stroke();
   cy += 142;
@@ -1310,32 +1323,21 @@ async function renderCert(){
   if(msg){
     roundRect(ctx,infoX,cy,infoW,76,18); ctx.fillStyle='#EFF5E7'; ctx.fill();
     ctx.fillStyle=tm.color; ctx.font='900 40px Georgia,serif'; ctx.textAlign='left'; ctx.fillText('“',infoX+14,cy+52);
-    ctx.fillStyle='#2A4A3B'; ctx.textAlign='center'; ctx.textBaseline='middle';
-    const ms=fitText(ctx,msg,infoW-110,28,18);
-    ctx.font=`700 ${ms}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-    ctx.fillText(msg, infoX+infoW/2, cy+40);
-    cy += 92;
+    ctx.fillStyle='#123A2E'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    const ms=fitText(ctx,msg,infoW-110,30,18);
+    ctx.font=`900 ${ms}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
+    ctx.fillText(ellipsizeText(ctx,msg,infoW-110), infoX+infoW/2, cy+40);
+    cy += 102;
   }
 
-  // main closing slogan — 결과물에서 가장 감정적으로 남는 문장
-  const sloganY = Math.min(cy+8, H-M-116);
-  const sloganW = cardW-170;
-  const sloganH = 58;
-  ctx.save();
-  ctx.shadowColor='rgba(15,59,58,.08)';
-  ctx.shadowBlur=10;
-  ctx.shadowOffsetY=5;
-  roundRect(ctx,(W-sloganW)/2,sloganY-28,sloganW,sloganH,20);
-  ctx.fillStyle='#F4F8EA';
-  ctx.fill();
-  ctx.restore();
-
+  // closing slogan — 블록 없이 아래쪽에 자연스럽게 배치
+  const sloganY = Math.min(cy+20, H-M-94);
   ctx.textAlign='center';
   ctx.textBaseline='middle';
   ctx.fillStyle='#123A2E';
-  const ss=fitText(ctx,T.cSlogan,sloganW-56,31,20);
-  ctx.font=`900 ${ss}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-  ctx.fillText(T.cSlogan, W/2, sloganY+1);
+  const ss=fitText(ctx,T.cSlogan,cardW-170,23,15);
+  ctx.font=`600 ${ss}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
+  ctx.fillText(T.cSlogan, W/2, sloganY);
 
   drawCampStamp(ctx, W-M-152, H-M-160, tm.color);
 
