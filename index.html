@@ -853,6 +853,7 @@ const PAGE_SIZE=10, LS_KEY="itc_board_v1", LS_LIKED="itc_liked_v1";
 let boardPage=1;
 function lsGet(k,def){ try{ const v=localStorage.getItem(k); return v==null?def:JSON.parse(v); }catch(e){ return def; } }
 function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+function boardNickKey(nick){ return String(nick||"").trim().toLocaleLowerCase(); }
 function seedBoard(){ return [
   {id:"s1", nick:"수련생1호", team:"idntt", msg:"1기 입소 완료! 끝까지 함께해요 🔥", likes:14, ts:Date.now()-14e5},
   {id:"s2", nick:"모닥불지기", team:"ahof", msg:"최애 보러 매주 본방사수 갑니다", likes:9, ts:Date.now()-13e5},
@@ -884,14 +885,43 @@ const Board = {
     let d=lsGet(LS_KEY,null); if(!d){ d=seedBoard(); lsSet(LS_KEY,d); } return d;
   },
   async add(e){
-    const entry={nick:(e.nick||"").slice(0,16), team:e.team, msg:clean((e.msg||"").slice(0,24))};
+    const entry={nick:(e.nick||"").trim().slice(0,16), team:e.team, msg:clean((e.msg||"").slice(0,24))};
+    const key=boardNickKey(entry.nick);
+    if(!key) return {inserted:false, duplicate:false};
+
     const s=this.sb();
-    if(s){ try{
-      const r=await fetch(`${s.url}/rest/v1/${this.table()}`,{method:"POST",headers:this.headers({"Content-Type":"application/json",Prefer:"return=minimal"}),body:JSON.stringify({nickname:entry.nick,team:entry.team,message:entry.msg,likes:0})});
-      if(!r.ok) throw new Error(await r.text());
-      return;
-    }catch(e){ console.warn("Board insert failed. Falling back to local board.", e); } }
-    const d=await this.all(); d.unshift({id:"l"+Date.now(), ...entry, likes:0, ts:Date.now()}); lsSet(LS_KEY,d);
+    if(s){
+      try{
+        // Supabase DB의 nickname_key unique 제약과 함께 동작합니다.
+        // 같은 닉네임이면 409 duplicate로 막고, 로컬 fallback도 하지 않습니다.
+        const r=await fetch(`${s.url}/rest/v1/${this.table()}`,{
+          method:"POST",
+          headers:this.headers({"Content-Type":"application/json",Prefer:"return=minimal"}),
+          body:JSON.stringify({nickname:entry.nick,team:entry.team,message:entry.msg,likes:0})
+        });
+        if(r.ok) return {inserted:true, duplicate:false};
+        const errText=await r.text();
+        if(r.status===409 || /duplicate key|23505|unique/i.test(errText)){
+          console.info("Board duplicate nickname blocked.", errText);
+          return {inserted:false, duplicate:true};
+        }
+        throw new Error(errText);
+      }catch(err){
+        console.warn("Board insert failed. Falling back to local board only for non-duplicate errors.", err);
+      }
+    }
+
+    const posted=lsGet("itc_board_posted_nicks_v1",{});
+    if(posted[key]) return {inserted:false, duplicate:true};
+
+    const d=await this.all();
+    if(d.some(x=>boardNickKey(x.nick)===key)) return {inserted:false, duplicate:true};
+
+    d.unshift({id:"l"+Date.now(), ...entry, likes:0, ts:Date.now()});
+    posted[key]=1;
+    lsSet("itc_board_posted_nicks_v1",posted);
+    lsSet(LS_KEY,d);
+    return {inserted:true, duplicate:false};
   },
   isLiked(id){ return !!lsGet(LS_LIKED,{})[id]; },
   async rowLikes(id){
@@ -1147,20 +1177,14 @@ async function renderCert(){
   ctx.restore();
   roundRect(ctx,photoX,photoY,photoW,photoH,28); ctx.lineWidth=6; ctx.strokeStyle=tm.color; ctx.stroke();
 
-  // photo caption chip
-  const topBadge = mn ? `${tm.name} · ${mn}` : `${tm.name} · ${T.memberAll}`;
-  const bw=Math.min(photoW-56, ctx.measureText(topBadge).width + 68);
-  roundRect(ctx,photoX+22,photoY+20,bw,42,21); ctx.fillStyle='rgba(255,255,255,.92)'; ctx.fill();
-  ctx.fillStyle=tm.color; ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.font='800 20px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif';
-  ctx.fillText(topBadge, photoX+22+bw/2, photoY+21+21);
-
   ctx.textAlign='left'; ctx.textBaseline='alphabetic';
   ctx.fillStyle='rgba(255,255,255,.96)';
   ctx.font='800 22px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif';
   ctx.fillText(T.cTeam, photoX+26, photoY+photoH-48);
-  ctx.font='900 38px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif';
-  ctx.fillText(tm.name, photoX+26, photoY+photoH-14);
+  const photoTitle = mn ? `${tm.name} · ${mn}` : tm.name;
+  const pts=fitText(ctx, photoTitle, photoW-52, 38, 24);
+  ctx.font=`900 ${pts}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
+  ctx.fillText(photoTitle, photoX+26, photoY+photoH-14);
 
   cy += photoH + 26;
 
@@ -1171,10 +1195,10 @@ async function renderCert(){
   ctx.fillStyle='#7C8F81'; ctx.textAlign='left'; ctx.textBaseline='alphabetic';
   ctx.font='800 22px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif';
   ctx.fillText(T.cNick, infoX+30, cy+34);
-  ctx.fillText(T.cPick, infoX+infoW/2+18, cy+34);
+  ctx.fillText(mn ? T.cPick : T.cTeam, infoX+infoW/2+18, cy+34);
   ctx.fillStyle='#123A2E';
   const leftVal=nick;
-  const rightVal=mn || T.memberAll;
+  const rightVal=mn || tm.name;
   let leftSize=fitText(ctx,leftVal,infoW/2-70,36,20);
   let rightSize=fitText(ctx,rightVal,infoW/2-70,36,20);
   ctx.font=`900 ${leftSize}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
@@ -1232,7 +1256,14 @@ async function issue(){
   $("#result").scrollIntoView({behavior:"smooth",block:"start"});
   // post 다짐 to board
   const pledge=$("#msg").value.trim();
-  if(pledge){ try{ await Board.add({nick:$("#nick").value.trim(), team:selectedTeam, msg:pledge}); boardPage=1; renderBoard(); }catch(e){} }
+  if(pledge){
+    try{
+      const result=await Board.add({nick:$("#nick").value.trim(), team:selectedTeam, msg:pledge});
+      boardPage=1;
+      await renderBoard();
+      if(result && result.duplicate) toast("이미 등록된 닉네임입니다. 다짐은 한 번만 올라가요.");
+    }catch(e){}
+  }
 }
 async function download(){
   const blob=await canvasBlob();
