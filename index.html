@@ -90,27 +90,31 @@
   .panel h2{margin:0 0 4px;font-size:18px;font-weight:900;color:#123a2e;display:flex;align-items:center;gap:9px}
   .panel h2 .n{width:26px;height:26px;flex:0 0 26px;border-radius:9px;background:var(--mint);color:#08301f;
     font-size:14px;font-weight:900;display:grid;place-items:center;box-shadow:0 3px 0 rgba(15,59,58,.2)}
-  .panel .sub{margin:0 0 16px;font-size:13px;color:var(--ink-soft);padding-left:35px}
+  .panel .sub{margin:0 0 16px;font-size:13px;color:var(--ink-soft);padding-left:35px;word-break:keep-all;overflow-wrap:break-word;line-break:strict}
+  .panel .sub .mo-br{display:none}
+  .panel .sub .desktop-space{display:inline}
 
   .field{margin-bottom:18px}
   .label{display:block;font-size:13.5px;font-weight:800;color:#1c4636;margin:0 0 9px}
   .label .opt{font-weight:600;color:#6c8375;font-size:12px;margin-left:6px}
 
   /* team grid */
-  .teams{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .teams{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:stretch}
+  #teams{grid-auto-rows:88px}
   .team{
     position:relative;cursor:pointer;border-radius:16px;padding:15px 14px;
     background:#fff;border:2px solid rgba(15,59,58,.14);transition:.15s;
     display:flex;align-items:center;gap:11px;font-weight:800;color:#1c3d30;
+    min-width:0;height:100%;
   }
   .team:hover{transform:translateY(-1px)}
-  .team .chip{width:16px;height:16px;border-radius:5px;flex:0 0 16px;border:2px solid rgba(15,59,58,.35)}
-  .team .nm{font-size:14.5px;letter-spacing:.2px}
+  .team .chip{width:18px;height:18px;border-radius:6px;flex:0 0 18px;min-width:18px;min-height:18px;aspect-ratio:1/1;border:2px solid rgba(15,59,58,.35)}
+  .team .nm{font-size:14.5px;letter-spacing:.2px;line-height:1.22;min-width:0;word-break:keep-all;overflow-wrap:normal;flex:1 1 auto}
   .team input{position:absolute;opacity:0;pointer-events:none}
   .team[data-on="true"]{border-color:var(--tc,#0f3b3a);box-shadow:0 0 0 3px var(--tc-soft,rgba(15,59,58,.15)),0 8px 16px rgba(15,59,58,.12);background:var(--tc-bg,#fff)}
   .team[data-on="true"] .tick{opacity:1;transform:scale(1)}
-  .team .tick{margin-left:auto;width:22px;height:22px;border-radius:50%;background:var(--tc,#0f3b3a);color:#fff;
-    display:grid;place-items:center;font-size:13px;opacity:0;transform:scale(.6);transition:.15s}
+  .team .tick{margin-left:auto;width:24px;height:24px;flex:0 0 24px;min-width:24px;min-height:24px;aspect-ratio:1/1;border-radius:999px;background:var(--tc,#0f3b3a);color:#fff;
+    display:grid;place-items:center;font-size:14px;line-height:1;opacity:0;transform:scale(.6);transition:.15s}
 
   input[type=text]{
     width:100%;font-family:inherit;font-size:15px;font-weight:600;color:#123a2e;
@@ -223,7 +227,7 @@
   .pager button[disabled]{opacity:.4;cursor:default}
   .pager .pg-ell{display:flex;align-items:center;color:#8a9d90;font-weight:800;padding:0 2px}
   /* member chips */
-  .members .team{padding:12px 12px}
+  .members .team{padding:12px 12px;min-height:54px;height:auto}
   .members .team .nm{font-size:14px}
 
   footer{margin-top:34px;text-align:center;color:#20452f;font-size:12px;opacity:.85}
@@ -233,6 +237,13 @@
     .wrap{padding:16px 14px 54px}
     .actions{grid-template-columns:1fr}
     .brand small{display:none}
+    .panel .sub{padding-left:0;margin-top:8px;font-size:14px;line-height:1.55}
+    .panel .sub .mo-br{display:block}
+    .panel .sub .desktop-space{display:none}
+    #teams{grid-auto-rows:96px}
+    #teams .team{padding:14px 12px;gap:10px}
+    #teams .team .nm{font-size:15px;line-height:1.24}
+    #teams .team .tick{width:26px;height:26px;flex-basis:26px;min-width:26px;min-height:26px}
   }
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -401,10 +412,10 @@ const I18N = {
     heroSub:"본격 K-POP 아이돌 친목 버라이어티, 커밍순!",
     period:"입소 신고 기간 · 7.8(수) ~ 7.17(금)",
     formTitle:"입소 신고서 작성",
-    formSub:"응원 팀과 닉네임을 입력하면 나만의 입소 신고증이 발급됩니다.",
+    formSub:"응원 팀과 닉네임을 입력하면|나만의 입소 신고증이 발급됩니다.",
     teamLabel:"참가 팀 선택",
     memberLabel:"멤버 선택", memberAll:"팀 전체",
-    boardTitle:"입소생 다짐 게시판", boardSub:"입소생들의 다짐 한마디입니다. 마음에 드는 다짐엔 좋아요를 눌러주세요.", boardEmpty:"아직 다짐이 없어요. 첫 입소생이 되어보세요!",
+    boardTitle:"입소생 다짐 게시판", boardSub:"입소생들의 다짐 한마디입니다.|마음에 드는 다짐엔 좋아요를 눌러주세요.", boardEmpty:"아직 다짐이 없어요. 첫 입소생이 되어보세요!",
     nickLabel:"닉네임",
     nickPh:"닉네임을 입력하세요",
     msgLabel:"입소 다짐 한마디",
@@ -719,9 +730,16 @@ function buildSchedule(){
   });
   const el=document.getElementById('schedGrid'); if(el) el.innerHTML=h;
 }
+function setI18nValue(el, value){
+  if(typeof value==="string" && value.includes("|")){
+    el.innerHTML = value.split("|").map(part=>esc(part)).join('<span class="desktop-space"> </span><br class="mo-br">');
+  } else {
+    el.textContent = value;
+  }
+}
 function applyI18n(){
   document.querySelectorAll("[data-i18n]").forEach(el=>{
-    const k=el.getAttribute("data-i18n"); if(t()[k]!=null) el.textContent=t()[k];
+    const k=el.getAttribute("data-i18n"); if(t()[k]!=null) setI18nValue(el,t()[k]);
   });
   $("#nick").placeholder=t().nickPh;
   $("#msg").placeholder=t().msgPh;
@@ -787,39 +805,90 @@ function seedBoard(){ return [
 ]; }
 const Board = {
   sb(){ const s=CONFIG.supabase; return (s&&s.url&&s.anonKey)?s:null; },
+  table(){ const s=this.sb(); return (s&&s.msgTable)||'board_messages'; },
+  headers(extra){ const s=this.sb(); return Object.assign({apikey:s.anonKey,Authorization:"Bearer "+s.anonKey}, extra||{}); },
   async all(){
     const s=this.sb();
     if(s){ try{
       const cap=(CONFIG.board&&CONFIG.board.maxShown)||300;
-      const r=await fetch(`${s.url}/rest/v1/${s.msgTable||'board_messages'}?select=*&order=created_at.desc&limit=${cap}`,{headers:{apikey:s.anonKey,Authorization:"Bearer "+s.anonKey}});
-      const d=await r.json(); return d.map(x=>({id:String(x.id),nick:x.nickname,team:x.team,msg:x.message,likes:x.likes||0,ts:x.created_at}));
-    }catch(e){ /* fall through */ } }
+      const r=await fetch(`${s.url}/rest/v1/${this.table()}?select=*&order=created_at.desc&limit=${cap}`,{headers:this.headers()});
+      if(!r.ok) throw new Error(await r.text());
+      const d=await r.json(); return d.map(x=>({id:String(x.id),nick:x.nickname,team:x.team,msg:x.message,likes:Number(x.likes||0),ts:x.created_at}));
+    }catch(e){ console.warn("Board load failed. Falling back to local board.", e); } }
     let d=lsGet(LS_KEY,null); if(!d){ d=seedBoard(); lsSet(LS_KEY,d); } return d;
   },
   async add(e){
     const entry={nick:(e.nick||"").slice(0,16), team:e.team, msg:clean((e.msg||"").slice(0,24))};
     const s=this.sb();
     if(s){ try{
-      await fetch(`${s.url}/rest/v1/${s.msgTable||'board_messages'}`,{method:"POST",headers:{"Content-Type":"application/json",apikey:s.anonKey,Authorization:"Bearer "+s.anonKey,Prefer:"return=minimal"},body:JSON.stringify({nickname:entry.nick,team:entry.team,message:entry.msg})});
+      const r=await fetch(`${s.url}/rest/v1/${this.table()}`,{method:"POST",headers:this.headers({"Content-Type":"application/json",Prefer:"return=minimal"}),body:JSON.stringify({nickname:entry.nick,team:entry.team,message:entry.msg,likes:0})});
+      if(!r.ok) throw new Error(await r.text());
       return;
-    }catch(e){} }
+    }catch(e){ console.warn("Board insert failed. Falling back to local board.", e); } }
     const d=await this.all(); d.unshift({id:"l"+Date.now(), ...entry, likes:0, ts:Date.now()}); lsSet(LS_KEY,d);
   },
   isLiked(id){ return !!lsGet(LS_LIKED,{})[id]; },
+  async rowLikes(id){
+    const s=this.sb(); if(!s) return null;
+    const r=await fetch(`${s.url}/rest/v1/${this.table()}?id=eq.${encodeURIComponent(id)}&select=likes&limit=1`,{headers:this.headers()});
+    if(!r.ok) throw new Error(await r.text());
+    const d=await r.json();
+    if(!d || !d.length) return null;
+    return Number(d[0].likes||0);
+  },
+  async rpcLike(id, delta){
+    const s=this.sb(); if(!s) return null;
+    const fn=delta>0?'increment_board_like':'decrement_board_like';
+    const r=await fetch(`${s.url}/rest/v1/rpc/${fn}`,{method:"POST",headers:this.headers({"Content-Type":"application/json"}),body:JSON.stringify({msg_id:id})});
+    if(!r.ok) throw new Error(await r.text());
+    const txt=await r.text();
+    if(!txt) return await this.rowLikes(id);
+    try{
+      const v=JSON.parse(txt);
+      if(typeof v==="number") return v;
+      if(v && typeof v.likes!=="undefined") return Number(v.likes||0);
+      if(Array.isArray(v) && v[0] && typeof v[0].likes!=="undefined") return Number(v[0].likes||0);
+    }catch(e){}
+    return await this.rowLikes(id);
+  },
+  async patchLike(id, delta){
+    const s=this.sb(); if(!s) return null;
+    const cur=await this.rowLikes(id);
+    if(cur==null) throw new Error("message row not found");
+    const next=Math.max(0, cur+delta);
+    const r=await fetch(`${s.url}/rest/v1/${this.table()}?id=eq.${encodeURIComponent(id)}`,{
+      method:"PATCH",
+      headers:this.headers({"Content-Type":"application/json",Prefer:"return=representation"}),
+      body:JSON.stringify({likes:next})
+    });
+    if(!r.ok) throw new Error(await r.text());
+    const d=await r.json().catch(()=>[]);
+    return Number((d&&d[0]&&d[0].likes)!=null?d[0].likes:next);
+  },
+  async persistLike(id, delta){
+    // 1순위: DB RPC(원자적 증가/감소). 없으면 2순위 REST PATCH로 저장.
+    try{ const v=await this.rpcLike(id, delta); if(v!=null && Number.isFinite(Number(v))) return Number(v); }
+    catch(e){ console.warn("Board like RPC failed. Trying REST PATCH fallback.", e); }
+    try{ const v=await this.patchLike(id, delta); if(v!=null && Number.isFinite(Number(v))) return Number(v); }
+    catch(e){ console.warn("Board like PATCH failed.", e); }
+    return null;
+  },
   async like(id){
-    const liked=lsGet(LS_LIKED,{}); const on=!liked[id];
+    const liked=lsGet(LS_LIKED,{}); const on=!liked[id]; const delta=on?1:-1;
     const s=this.sb();
-    if(s){ try{
-      await fetch(`${s.url}/rest/v1/rpc/${on?'increment':'decrement'}_board_like`,{method:"POST",headers:{"Content-Type":"application/json",apikey:s.anonKey,Authorization:"Bearer "+s.anonKey},body:JSON.stringify({msg_id:id})});
-    }catch(e){} }
+    let savedLikes=null;
+    if(s) savedLikes=await this.persistLike(id, delta);
+
     const d=await this.all(); const it=d.find(x=>String(x.id)===String(id));
-    let likes=it?it.likes:0;
-    if(!s && it){ it.likes = Math.max(0, it.likes + (on?1:-1)); likes=it.likes; lsSet(LS_KEY,d); }
-    else if(s){ likes = Math.max(0, likes + (on?1:-1)); }
+    let likes=it?Number(it.likes||0):0;
+    if(savedLikes!=null){ likes=savedLikes; }
+    else if(!s && it){ it.likes=Math.max(0, likes+delta); likes=it.likes; lsSet(LS_KEY,d); }
+    else if(s){ likes=Math.max(0, likes+delta); toast("좋아요 저장 실패 · Supabase 정책/RPC 확인 필요"); }
+
     if(on) liked[id]=1; else delete liked[id]; lsSet(LS_LIKED,liked);
     return {likes, on};
   }
-};
+}
 async function renderBoard(){
   let list=await Board.all();
   const cap=(CONFIG.board&&CONFIG.board.maxShown)||300;
