@@ -174,8 +174,15 @@
   .btn.ig:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(15,59,58,.2)}
   .btn.x{color:#fff;background:#000;border-color:#0f3b3a;box-shadow:0 5px 0 rgba(15,59,58,.28)}
   .btn.x:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(15,59,58,.2)}
-  .share-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px;max-width:420px;margin-left:auto;margin-right:auto}
-  .share-row .btn{flex:1;min-width:120px}
+  .share-row{
+    display:flex;gap:10px;justify-content:center;flex-wrap:nowrap;
+    margin-top:12px;max-width:420px;margin-left:auto;margin-right:auto
+  }
+  .share-row .btn{
+    flex:1 1 0;min-width:0;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    white-space:nowrap;word-break:keep-all;overflow-wrap:normal;line-height:1.15
+  }
   .hashline{margin-top:14px;font-size:13px;font-weight:700;color:#2a5241;background:#EAF3DE;border:1.5px dashed rgba(15,59,58,.3);
     border-radius:12px;padding:11px 12px;cursor:pointer;max-width:420px;margin-left:auto;margin-right:auto;position:relative}
   .hashline:hover{background:#e2eecf}
@@ -247,6 +254,8 @@
     .sched-note-row{grid-template-columns:1fr}
     .sched-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     .sched-card .sc-time{font-size:11px;padding:4px 8px}
+    .share-row{gap:8px}
+    .share-row .btn{font-size:18px;padding-left:8px;padding-right:8px;gap:6px}
     .board-controls{align-items:stretch;gap:8px}
     .board-sort{flex:1;min-width:0}
     .board-sort button{flex:1;padding:8px 8px}
@@ -507,7 +516,7 @@ const CONFIG = {
   ],
   // Supabase: config.js 의 supabaseUrl / supabaseAnonKey 만 채우면 공유형 게시판·순차 입소번호 동작. 비우면 로컬 동작.
   supabase: { url: _CFG.supabaseUrl || "", anonKey: _CFG.supabaseAnonKey || "", table:"enrollments", msgTable:"board_messages" },
-  board: { maxShown: _CFG.maxShown || 300 },  // 게시판 최신 N개까지 노출(10개/페이지)
+  board: { maxShown: _CFG.maxShown || 1000 },  // 전체 관리 조회용. 게시판 화면은 DB 페이지 단위로 계속 증가  // 게시판 최신 N개까지 노출(10개/페이지)
   memberPhotos: {
     table: _CFG.memberPhotoTable || "camp_member_photos",
     bucket: _CFG.memberPhotoBucket || "idolcamp-members"
@@ -551,7 +560,7 @@ const I18N = {
     again:"다시 만들기",
     share:"공유하기",
     shareX:"X에 올리기",
-    shareIG:"인스타그램에 올리기",
+    shareIG:"인스타그램 올리기",
     igGuide:"이미지 저장 완료! 인스타그램에서 새 게시물로 올리고 캡션을 붙여넣기 하세요.",
     tapCopy:"탭하면 해시태그가 복사됩니다",
     footer:"© Muniverse · 아이돌 수련회 1기",
@@ -1008,15 +1017,54 @@ const Board = {
   sb(){ const s=CONFIG.supabase; return (s&&s.url&&s.anonKey)?s:null; },
   table(){ const s=this.sb(); return (s&&s.msgTable)||'board_messages'; },
   headers(extra){ const s=this.sb(); return Object.assign({apikey:s.anonKey,Authorization:"Bearer "+s.anonKey}, extra||{}); },
+  mapRow(x){ return {id:String(x.id),nick:x.nickname,team:x.team,msg:x.message,likes:Number(x.likes||0),ts:x.created_at}; },
+  contentRangeTotal(r, fallback){
+    const cr=r.headers.get("content-range")||"";
+    const m=cr.match(/\/(\d+|\*)$/);
+    if(m && m[1] && m[1] !== "*") return Number(m[1]);
+    return fallback;
+  },
+  orderParam(mode){
+    return mode==="likes" ? "likes.desc,created_at.desc" : "created_at.desc,likes.desc";
+  },
   async all(){
     const s=this.sb();
     if(s){ try{
-      const cap=(CONFIG.board&&CONFIG.board.maxShown)||300;
+      // 관리/폴백용 전체 조회. 화면 노출은 page()가 DB 페이지 단위로 처리합니다.
+      const cap=(CONFIG.board&&CONFIG.board.maxShown)||1000;
       const r=await fetch(`${s.url}/rest/v1/${this.table()}?select=*&order=created_at.desc&limit=${cap}`,{headers:this.headers()});
       if(!r.ok) throw new Error(await r.text());
-      const d=await r.json(); return d.map(x=>({id:String(x.id),nick:x.nickname,team:x.team,msg:x.message,likes:Number(x.likes||0),ts:x.created_at}));
+      const d=await r.json(); return d.map(x=>this.mapRow(x));
     }catch(e){ console.warn("Board load failed. Falling back to local board.", e); } }
     let d=lsGet(LS_KEY,null); if(!d){ d=seedBoard(); lsSet(LS_KEY,d); } return d;
+  },
+  async page({sort="latest",limit=7,offset=0}={}){
+    const s=this.sb();
+    if(s){ try{
+      const order=this.orderParam(sort);
+      const r=await fetch(`${s.url}/rest/v1/${this.table()}?select=*&order=${encodeURIComponent(order)}&limit=${limit}&offset=${offset}`,{
+        headers:this.headers({Prefer:"count=exact"})
+      });
+      if(!r.ok) throw new Error(await r.text());
+      const d=await r.json();
+      const total=this.contentRangeTotal(r, offset+d.length);
+      return {items:d.map(x=>this.mapRow(x)), total};
+    }catch(e){ console.warn("Board page load failed. Falling back to local board.", e); } }
+
+    const all=sortBoardList(await this.all(), sort);
+    return {items:all.slice(offset,offset+limit), total:all.length};
+  },
+  async top(){
+    const s=this.sb();
+    if(s){ try{
+      const order=this.orderParam("likes");
+      const r=await fetch(`${s.url}/rest/v1/${this.table()}?select=*&order=${encodeURIComponent(order)}&limit=3`,{
+        headers:this.headers()
+      });
+      if(!r.ok) throw new Error(await r.text());
+      const d=await r.json(); return d.map(x=>this.mapRow(x));
+    }catch(e){ console.warn("Board top load failed. Falling back to local board.", e); } }
+    return sortBoardList(await this.all(),"likes").slice(0,3);
   },
   async add(e){
     const entry={nick:(e.nick||"").trim().slice(0,16), team:e.team, msg:clean((e.msg||"").slice(0,24))};
@@ -1159,10 +1207,7 @@ function teamBadgeStyle(tm){
 async function jumpToBoardMessage(id){
   boardExpanded=true;
   boardSort="likes";
-  const all=await Board.all();
-  const sorted=sortBoardList(all,"likes");
-  const idx=sorted.findIndex(it=>String(it.id)===String(id));
-  boardPage=idx>=0?Math.floor(idx/BOARD_EXPANDED_LIMIT)+1:1;
+  boardPage=1;
   await renderBoard();
   requestAnimationFrame(()=>{
     const target=[...document.querySelectorAll(".board-item")].find(el=>String(el.dataset.id)===String(id));
@@ -1211,22 +1256,27 @@ function renderTopBoard(list){
 }
 
 async function renderBoard(){
-  let list=await Board.all();
-  const cap=(CONFIG.board&&CONFIG.board.maxShown)||300;
-  if(list.length>cap) list=list.slice(0,cap);
-  renderTopBoard(list);
-
   const el=$("#boardList"), pg=$("#boardPager"), controls=$("#boardControls");
   if(!el) return;
 
-  const sorted=sortBoardList(list,boardSort);
-  const total=sorted.length;
   const limit=boardExpanded?BOARD_EXPANDED_LIMIT:BOARD_COLLAPSED_LIMIT;
+  const offset=(boardPage-1)*limit;
+  const topList=await Board.top();
+  renderTopBoard(topList);
+
+  const pageData=await Board.page({sort:boardSort,limit,offset});
+  const slice=pageData.items||[];
+  const total=Number(pageData.total||0);
   const totalPages=Math.max(1,Math.ceil(total/limit));
-  if(boardPage>totalPages) boardPage=totalPages;
-  if(boardPage<1) boardPage=1;
-  const start=(boardPage-1)*limit;
-  const slice=sorted.slice(start,start+limit);
+
+  if(boardPage>totalPages){
+    boardPage=totalPages;
+    return renderBoard();
+  }
+  if(boardPage<1){
+    boardPage=1;
+    return renderBoard();
+  }
 
   if(controls){
     controls.innerHTML=`<div class="board-sort" role="group" aria-label="Board sort">
