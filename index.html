@@ -208,6 +208,48 @@
   .sched-aug .aug-shine{position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-18deg);animation:augshine 3.2s ease-in-out infinite}
   @keyframes augshine{0%{left:-60%}55%{left:130%}100%{left:130%}}
   /* board */
+  .board-top{display:none;margin:0 0 14px}
+  .board-top.show{display:block}
+  .top-board-title{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    margin:0 0 9px;padding:0 2px;
+  }
+  .top-board-title strong{font-size:14px;font-weight:900;color:#123a2e;letter-spacing:-.1px}
+  .top-board-title span{font-size:11.5px;font-weight:800;color:#6c8375;background:#EAF3DE;border-radius:999px;padding:4px 9px;white-space:nowrap}
+  .top-board-list{
+    display:flex;flex-direction:column;gap:0;overflow:hidden;
+    background:#FFFFFF;border:2px solid rgba(15,59,58,.13);border-radius:18px;
+    box-shadow:0 6px 0 rgba(15,59,58,.10);
+  }
+  .top-board-card{
+    position:relative;overflow:hidden;min-height:58px;
+    display:grid;grid-template-columns:58px minmax(118px,.78fr) minmax(0,1.6fr) auto;
+    align-items:center;gap:10px;
+    background:linear-gradient(180deg,#FFFFFF,#F7FBF0);
+    border:0;border-bottom:1.5px solid rgba(15,59,58,.10);
+    border-radius:0;padding:10px 12px;
+    box-shadow:none;
+  }
+  .top-board-card:last-child{border-bottom:0}
+  .top-board-card.first{background:linear-gradient(180deg,#FFF9DB,#FFFFFF)}
+  .top-board-rank{display:flex;align-items:center;gap:4px;margin:0}
+  .top-board-rank .medal{font-size:21px;line-height:1}
+  .top-board-rank .rank-num{font-size:11px;font-weight:900;color:#6c8375}
+  .top-board-rank .likes{display:none}
+  .top-board-meta{min-width:0}
+  .top-board-nick{font-size:13.5px;font-weight:900;color:#1c3d30;margin:0 0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .top-board-team{display:inline-block;font-size:10px;font-weight:900;color:#fff;border-radius:999px;padding:2px 7px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0}
+  .top-board-msg{font-size:13px;font-weight:700;color:#2f4739;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;word-break:normal}
+  .top-board-like{font-size:12.5px;font-weight:900;color:#E24B6A;background:#FFF1F4;border-radius:999px;padding:5px 9px;white-space:nowrap}
+  @media (max-width:640px){
+    .top-board-card{grid-template-columns:46px minmax(84px,.72fr) minmax(0,1fr) auto;gap:7px;padding:9px 10px;min-height:56px}
+    .top-board-rank .medal{font-size:19px}
+    .top-board-rank .rank-num{display:none}
+    .top-board-nick{font-size:12.5px}
+    .top-board-team{font-size:9.5px;padding:2px 6px}
+    .top-board-msg{font-size:12.2px}
+    .top-board-like{font-size:11.5px;padding:4px 7px}
+  }
   .board-list{display:flex;flex-direction:column;gap:9px}
   .board-item{display:flex;align-items:flex-start;gap:11px;background:#fff;border:1.5px solid rgba(15,59,58,.10);border-radius:14px;padding:12px 13px}
   .board-item .bi-main{flex:1;min-width:0}
@@ -276,6 +318,7 @@
   <section class="panel" id="board">
     <h2><span class="n">💬</span><span data-i18n="boardTitle"></span></h2>
     <p class="sub" data-i18n="boardSub"></p>
+    <div id="boardTop" class="board-top"></div>
     <div id="boardList" class="board-list"></div>
     <div id="boardPager" class="pager"></div>
   </section>
@@ -370,7 +413,7 @@ const _CFG = (typeof window!=="undefined" && window.MUNIVERSE_CONFIG) || {};
 const CONFIG = {
   gisu: _CFG.gisu || 1,                 // 기수
   passPrefix: "IDC",       // 입소번호 접두어
-  hashtags: ["#아이돌수련회", "#아이돌수련회입소식", "#Muniverse"], // 언어별 태그는 I18N.<lang>.hashtags 우선
+  hashtags: ["#MBC", "#뮤니버스", "#아이돌수련회"], // 언어별 태그는 I18N.<lang>.hashtags 우선
   shareUrl: _CFG.shareUrl || "",        // 이벤트 페이지 URL (config.js에서 채우면 X 공유에 포함)
   // 팀 정의: id / 표시명 / 대표색(입소증 배지·강조). 색은 자유 교체 가능.
   // 참가팀 + 멤버(ko 표기 / en 표기). 외국어 UI에서는 en으로 노출.
@@ -436,7 +479,7 @@ const I18N = {
     tapCopy:"탭하면 해시태그가 복사됩니다",
     footer:"© Muniverse · 아이돌 수련회 1기",
     // certificate
-    hashtags:["#아이돌수련회","#아이돌수련회입소식","#Muniverse"],
+    hashtags:["#MBC","#뮤니버스","#아이돌수련회"],
     cTitle:"입소 신고증",
     cTitleSub:"",
     cSeries:"Muniverse Series · 아이돌 수련회",
@@ -481,7 +524,7 @@ const I18N = {
     igGuide:"Image saved! Create a new post on Instagram and paste the caption.",
     tapCopy:"Tap to copy hashtags",
     footer:"© Muniverse · Idol Training Camp Class 1",
-    hashtags:["#IdolTrainingCamp","#IdolTrainingCampEnrollment","#Muniverse"],
+    hashtags:["#MBC","#Muniverse","#IDOLCAMP"],
     cTitle:"ENROLLMENT PASS",
     cTitleSub:"입소증",
     cSeries:"Muniverse Series · IDOL TRAINING CAMP",
@@ -526,7 +569,7 @@ const I18N = {
     igGuide:"画像を保存しました！Instagramで新規投稿を作成し、キャプションを貼り付けてください。",
     tapCopy:"タップでハッシュタグをコピー",
     footer:"© Muniverse · アイドル修練会 1期",
-    hashtags:["#アイドル修練会","#アイドル修練会入所式","#Muniverse"],
+    hashtags:["#MBC","#Muniverse","#IDOLCAMP"],
     cTitle:"入所申告証",
     cTitleSub:"입소증",
     cSeries:"Muniverse Series · アイドル修練会",
@@ -571,7 +614,7 @@ const I18N = {
     igGuide:"图片已保存！在 Instagram 新建帖子并粘贴文案即可。",
     tapCopy:"点击复制话题标签",
     footer:"© Muniverse · 偶像修炼会 第1期",
-    hashtags:["#偶像修炼会","#偶像修炼会入所式","#Muniverse"],
+    hashtags:["#MBC","#Muniverse","#IDOLCAMP"],
     cTitle:"入所申报证",
     cTitleSub:"입소증",
     cSeries:"Muniverse Series · 偶像修炼会",
@@ -616,7 +659,7 @@ const I18N = {
     igGuide:"圖片已儲存！在 Instagram 新建貼文並貼上文案即可。",
     tapCopy:"點擊複製話題標籤",
     footer:"© Muniverse · 偶像修煉會 第1期",
-    hashtags:["#偶像修煉會","#偶像修煉會入所式","#Muniverse"],
+    hashtags:["#MBC","#Muniverse","#IDOLCAMP"],
     cTitle:"入所申報證",
     cTitleSub:"입소증",
     cSeries:"Muniverse Series · 偶像修煉會",
@@ -985,15 +1028,58 @@ const Board = {
     return {likes, on};
   }
 }
+function renderTopBoard(list){
+  const topEl=$("#boardTop");
+  if(!topEl) return;
+  const ranked=(list||[])
+    .map(it=>({...it, likes:Number(it.likes||0)}))
+    .sort((a,b)=>{
+      if(b.likes!==a.likes) return b.likes-a.likes;
+      const bt=new Date(b.ts||0).getTime()||0;
+      const at=new Date(a.ts||0).getTime()||0;
+      return bt-at;
+    })
+    .slice(0,3);
+
+  if(!ranked.length){
+    topEl.classList.remove("show");
+    topEl.innerHTML="";
+    return;
+  }
+
+  const medals=["🥇","🥈","🥉"];
+  topEl.classList.add("show");
+  topEl.innerHTML=`<div class="top-board-title">
+      <strong>🔥 인기 다짐 TOP 3</strong>
+      <span>좋아요 많은 순</span>
+    </div>
+    <div class="top-board-list">
+      ${ranked.map((it,i)=>{
+        const tm=CONFIG.teams.find(x=>x.id===it.team);
+        const tname=tm?tm.name:esc(it.team||"");
+        return `<article class="top-board-card ${i===0?'first':''}">
+          <div class="top-board-rank"><span class="medal">${medals[i]}</span><span class="rank-num">${i+1}위</span></div>
+          <div class="top-board-meta">
+            <div class="top-board-nick">${esc(it.nick)}</div>
+            ${tm?`<div class="top-board-team" style="background:${tm.color}">${esc(tname)}</div>`:''}
+          </div>
+          <div class="top-board-msg">${esc(clean(it.msg))}</div>
+          <div class="top-board-like">♥ ${it.likes}</div>
+        </article>`;
+      }).join("")}
+    </div>`;
+}
+
 async function renderBoard(){
   let list=await Board.all();
   const cap=(CONFIG.board&&CONFIG.board.maxShown)||300;
   if(list.length>cap) list=list.slice(0,cap);
+  renderTopBoard(list);
   const el=$("#boardList"), pg=$("#boardPager");
   if(!el) return;
   const total=list.length, pages=Math.max(1,Math.ceil(total/PAGE_SIZE));
   if(boardPage>pages) boardPage=pages;
-  if(!total){ el.innerHTML=`<div class="board-empty">${esc(t().boardEmpty)}</div>`; pg.innerHTML=""; return; }
+  if(!total){ renderTopBoard([]); el.innerHTML=`<div class="board-empty">${esc(t().boardEmpty)}</div>`; pg.innerHTML=""; return; }
   const start=(boardPage-1)*PAGE_SIZE, slice=list.slice(start,start+PAGE_SIZE);
   el.innerHTML=slice.map(it=>{
     const tm=CONFIG.teams.find(x=>x.id===it.team); const tname=tm?tm.name:esc(it.team||"");
@@ -1006,7 +1092,7 @@ async function renderBoard(){
       <button class="board-like" data-id="${esc(it.id)}" aria-pressed="${liked}"><span class="heart">${liked?'❤️':'🤍'}</span><span class="cnt">${it.likes}</span></button>
     </div>`;
   }).join("");
-  el.querySelectorAll(".board-like").forEach(b=>{ b.onclick=async()=>{ const r=await Board.like(b.dataset.id); if(r){ b.setAttribute("aria-pressed",r.on); b.querySelector(".heart").textContent=r.on?'❤️':'🤍'; b.querySelector(".cnt").textContent=r.likes; } }; });
+  el.querySelectorAll(".board-like").forEach(b=>{ b.onclick=async()=>{ const r=await Board.like(b.dataset.id); if(r){ b.setAttribute("aria-pressed",r.on); b.querySelector(".heart").textContent=r.on?'❤️':'🤍'; b.querySelector(".cnt").textContent=r.likes; await renderBoard(); } }; });
   // pager
   if(pages<=1){ pg.innerHTML=""; return; }
   let ph=`<button ${boardPage===1?'disabled':''} data-go="${boardPage-1}">‹</button>`;
@@ -1231,15 +1317,30 @@ async function renderCert(){
     cy += 92;
   }
 
-  ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillStyle='#3C5245';
-  const ss=fitText(ctx,T.cSlogan,cardW-150,22,15);
-  ctx.font=`600 ${ss}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-  ctx.fillText(T.cSlogan, W/2, cy+4);
+  // main closing slogan — 결과물에서 가장 감정적으로 남는 문장
+  const sloganY = Math.min(cy+8, H-M-116);
+  const sloganW = cardW-170;
+  const sloganH = 58;
+  ctx.save();
+  ctx.shadowColor='rgba(15,59,58,.08)';
+  ctx.shadowBlur=10;
+  ctx.shadowOffsetY=5;
+  roundRect(ctx,(W-sloganW)/2,sloganY-28,sloganW,sloganH,20);
+  ctx.fillStyle='#F4F8EA';
+  ctx.fill();
+  ctx.restore();
+
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  ctx.fillStyle='#123A2E';
+  const ss=fitText(ctx,T.cSlogan,sloganW-56,31,20);
+  ctx.font=`900 ${ss}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
+  ctx.fillText(T.cSlogan, W/2, sloganY+1);
 
   drawCampStamp(ctx, W-M-152, H-M-160, tm.color);
 
   ctx.globalAlpha=1; ctx.fillStyle='#8AA07E'; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
-  ctx.font='700 20px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif';
+  ctx.font='800 18px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif';
   ctx.fillText(tags().join('  '), W/2, H-M-40);
 }
 
