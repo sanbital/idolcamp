@@ -259,6 +259,9 @@
     text-shadow:0 2px 4px rgba(15,59,58,.3);
     white-space:normal;word-break:keep-all;overflow-wrap:anywhere
   }
+  .sched-aug .aug-txt .aug-line{display:block}
+  .sched-aug .aug-txt .aug-line + .aug-line{margin-top:3px}
+  html[lang="en"] .sched-aug .aug-txt{max-width:760px;font-size:clamp(13px,2.2vw,17px)}
   .sched-aug .aug-spark{margin-left:auto;font-size:26px;z-index:1}
   .sched-aug .aug-shine{position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-18deg);animation:augshine 3.2s ease-in-out infinite}
   @keyframes augshine{0%{left:-60%}55%{left:130%}100%{left:130%}}
@@ -275,7 +278,15 @@
     .sched-aug{padding:16px 14px;gap:10px}
     .sched-aug .aug-emoji{font-size:28px}
     .sched-aug .aug-badge{font-size:13px;padding:5px 11px}
-    .sched-aug .aug-txt{font-size:16px;white-space:normal}
+    .sched-aug .aug-txt{
+      font-size:13.5px;
+      white-space:normal;
+      word-break:keep-all;
+      overflow-wrap:anywhere;
+      line-height:1.42
+    }
+    html[lang="en"] .sched-aug .aug-txt{font-size:12.5px}
+    .sched-aug .aug-txt .aug-line + .aug-line{margin-top:4px}
     .sched-aug .aug-spark{font-size:22px}
   }
   /* board */
@@ -484,7 +495,7 @@
       <span class="aug-emoji">📱</span>
       <div class="aug-main">
         <span class="aug-badge" data-i18n="augTag">8월 대공개</span>
-        <span class="aug-txt" data-i18n="chApp">🎬 숨겨진 분량까지 모두 모아, 더 크게 더 재밌게<br>🏕️ 〈아이돌 수련회〉 확장판 뮤니버스 앱에서 독점 공개</span>
+        <span class="aug-txt" data-i18n="chApp">🎬 숨겨진 분량까지 모두 모아, 더 크게 더 재밌게<br>🏕️ 〈아이돌 수련회〉 확장판, 뮤니버스 앱 독점 공개</span>
       </div>
       <span class="aug-spark">✨</span>
     </div>
@@ -550,7 +561,7 @@ const I18N = {
     tabEnroll:"입소", tabTalent:"장기자랑", tabFarewell:"퇴소", tabKit:"수료 키트",
     soon:"준비중", soonToast:"순차 공개 준비 중입니다. 조금만 기다려 주세요!",
     schTitle:"방송 일정", schSub:"채널별 공개 일정을 확인하세요.|모든 일정은 KST 기준입니다.", schKstNote:"모든 일정은 KST 기준입니다.", schMbcTime:"방송 · 19:00 KST (저녁 7시)", schYtTime:"유튜브 업로드 · 18:00 KST (저녁 6시)",
-    chMBC:"MBC M", chYT:"뮤니버스 유튜브", chApp:"🎬 숨겨진 분량까지 모두 모아, 더 크게 더 재밌게|🏕️ 〈아이돌 수련회〉 확장판 뮤니버스 앱에서 독점 공개",
+    chMBC:"MBC M", chYT:"뮤니버스 유튜브", chApp:"🎬 숨겨진 분량까지 모두 모아, 더 크게 더 재밌게|🏕️ 〈아이돌 수련회〉 확장판, 뮤니버스 앱 독점 공개",
     augTag:"8월 대공개", calMonth:"2026년 7월", calWeekdays:["일","월","화","수","목","금","토"],
     heroTitle:"아이돌 수련회 1기 입소 신고",
     heroSub:"본격 K-POP 아이돌 친목 버라이어티!|지금 아이돌 수련회에 입소하세요.",
@@ -598,7 +609,7 @@ const I18N = {
     tabEnroll:"Enrollment", tabTalent:"Talent Show", tabFarewell:"Farewell", tabKit:"Completion Kit",
     soon:"Preparing", soonToast:"This section is being prepared for release. Please stay tuned!",
     schTitle:"Broadcast Schedule", schSub:"Check the release schedule by channel.|All times are in KST.", schKstNote:"All times are in KST.", schMbcTime:"Broadcast · 19:00 KST (7 PM)", schYtTime:"YouTube Upload · 18:00 KST (6 PM)",
-    chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"🎬 All the hidden moments, bigger and funnier|🏕️ Watch the 〈IDOL SCHOOL CAMP〉 extended cut exclusively on the Muniverse app",
+    chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"🎬 All hidden moments, bigger and funnier|🏕️ 〈IDOL SCHOOL CAMP〉 Extended Cut, exclusively on the Muniverse app",
     augTag:"Big August Release", calMonth:"July 2026", calWeekdays:["S","M","T","W","T","F","S"],
     heroTitle:"Idol School Camp — Class 1 Enrollment",
     heroSub:"A full-on K-POP idol friendship variety!|Join Idol School Camp now.",
@@ -645,7 +656,7 @@ const I18N = {
     tabEnroll:"入所", tabTalent:"隠し芸", tabFarewell:"退所", tabKit:"修了キット",
     soon:"準備中", soonToast:"順次公開に向けて準備中です。少々お待ちください！",
     schTitle:"放送スケジュール", schSub:"チャンネル別の公開スケジュールをご確認ください。|すべてKST基準です。", schKstNote:"すべてKST基準です。", schMbcTime:"放送 · 19:00 KST (午後7時)", schYtTime:"YouTube公開 · 18:00 KST (午後6時)",
-    chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"🎬 未公開シーンまで全部集めて、もっと大きく、もっと楽しく|🏕️ 〈IDOL SCHOOL CAMP〉拡張版をMuniverseアプリで独占公開",
+    chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"🎬 未公開シーンまで集めて、もっと大きくもっと楽しく|🏕️ 〈IDOL SCHOOL CAMP〉拡張版、Muniverseアプリ独占公開",
     augTag:"8月 大公開", calMonth:"2026年7月", calWeekdays:["日","月","火","水","木","金","土"],
     heroTitle:"IDOL SCHOOL CAMP 1期 入所申告",
     heroSub:"本格K-POPアイドル親睦バラエティ！|今すぐIDOL SCHOOL CAMPに入所しよう。",
@@ -692,7 +703,7 @@ const I18N = {
     tabEnroll:"入所", tabTalent:"才艺表演", tabFarewell:"退所", tabKit:"结业礼包",
     soon:"准备中", soonToast:"该区域正在准备陆续开放，敬请期待！",
     schTitle:"播出日程", schSub:"查看各频道的播出日程。|所有时间均为 KST。", schKstNote:"所有时间均为 KST。", schMbcTime:"播出 · 19:00 KST（晚7点）", schYtTime:"YouTube 上传 · 18:00 KST（晚6点）",
-    chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"🎬 隐藏片段全部集结，更大规模、更有趣|🏕️ 〈IDOL SCHOOL CAMP〉扩展版在 Muniverse App 独家公开",
+    chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"🎬 隐藏片段全部集结，更大规模、更有趣|🏕️ 〈IDOL SCHOOL CAMP〉扩展版，Muniverse App 独家公开",
     augTag:"8月盛大公开", calMonth:"2026年7月", calWeekdays:["日","一","二","三","四","五","六"],
     heroTitle:"IDOL SCHOOL CAMP 第1期 入所申报",
     heroSub:"正式 K-POP 偶像联谊综艺！|现在加入 IDOL SCHOOL CAMP。",
@@ -739,7 +750,7 @@ const I18N = {
     tabEnroll:"入所", tabTalent:"才藝表演", tabFarewell:"退所", tabKit:"結業禮包",
     soon:"準備中", soonToast:"該區域正在準備陸續開放，敬請期待！",
     schTitle:"播出日程", schSub:"查看各頻道的播出日程。|所有時間均為 KST。", schKstNote:"所有時間均為 KST。", schMbcTime:"播出 · 19:00 KST（晚間7點）", schYtTime:"YouTube 上傳 · 18:00 KST（晚間6點）",
-    chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"🎬 隱藏片段全部集結，更大規模、更有趣|🏕️ 〈IDOL SCHOOL CAMP〉擴充版在 Muniverse App 獨家公開",
+    chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"🎬 隱藏片段全部集結，更大規模、更有趣|🏕️ 〈IDOL SCHOOL CAMP〉擴充版，Muniverse App 獨家公開",
     augTag:"8月盛大公開", calMonth:"2026年7月", calWeekdays:["日","一","二","三","四","五","六"],
     heroTitle:"IDOL SCHOOL CAMP 第1期 入所申報",
     heroSub:"正式 K-POP 偶像聯誼綜藝！|現在加入 IDOL SCHOOL CAMP。",
@@ -891,7 +902,11 @@ function buildSchedule(){
 }
 function setI18nValue(el, value){
   if(typeof value==="string" && value.includes("|")){
-    el.innerHTML = value.split("|").map(part=>esc(part)).join('<span class="desktop-space"> </span><br class="mo-br">');
+    if(el.classList && el.classList.contains("aug-txt")){
+      el.innerHTML = value.split("|").map(part=>`<span class="aug-line">${esc(part)}</span>`).join("");
+    } else {
+      el.innerHTML = value.split("|").map(part=>esc(part)).join('<span class="desktop-space"> </span><br class="mo-br">');
+    }
   } else {
     el.textContent = value;
   }
