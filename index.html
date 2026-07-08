@@ -188,7 +188,8 @@
   .sched-card .sc-date{font-family:"Jua","Gaegu","Pretendard",sans-serif;color:#fff;text-align:center;padding:9px 8px;font-size:19px;letter-spacing:.5px;display:flex;justify-content:center;align-items:baseline;gap:6px}
   .sched-card .sc-date .wd{font-size:13px;opacity:.92;font-weight:700}
   .sched-card .sc-body{padding:16px 10px 18px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
-  .sched-card .sc-emoji{font-size:38px;line-height:1}
+  .sched-card .sc-emoji{font-size:38px;line-height:1;display:flex;align-items:center;justify-content:center;min-height:40px}
+  .sched-card .sc-yt{width:56px;height:auto;display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.18))}
   .sched-card .sc-name{font-family:"Jua","Gaegu","Pretendard",sans-serif;font-size:18px;color:#1c3d30;line-height:1.2}
   .sched-card .sc-tag{font-size:11.5px;font-weight:800;color:#fff;border-radius:999px;padding:2px 10px}
   /* standout August banner */
@@ -196,7 +197,7 @@
   .sched-aug .aug-emoji{font-size:34px;flex:0 0 auto;filter:drop-shadow(0 2px 3px rgba(0,0,0,.2))}
   .sched-aug .aug-main{display:flex;flex-direction:column;gap:7px;align-items:flex-start;z-index:1}
   .sched-aug .aug-badge{font-family:"Jua","Gaegu","Pretendard",sans-serif;background:#F2C230;color:#0f3b3a;border:2px solid #0f3b3a;border-radius:999px;padding:6px 14px;font-size:15px;white-space:nowrap;transform:rotate(-3deg);box-shadow:0 3px 0 rgba(15,59,58,.25)}
-  .sched-aug .aug-txt{font-family:"Jua","Gaegu","Pretendard",sans-serif;color:#fff;font-size:21px;line-height:1.2;text-shadow:0 2px 4px rgba(15,59,58,.3)}
+  .sched-aug .aug-txt{font-family:"Jua","Gaegu","Pretendard",sans-serif;color:#fff;font-size:clamp(15px,4vw,21px);line-height:1.2;text-shadow:0 2px 4px rgba(15,59,58,.3);white-space:nowrap}
   .sched-aug .aug-spark{margin-left:auto;font-size:26px;z-index:1}
   .sched-aug .aug-shine{position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-18deg);animation:augshine 3.2s ease-in-out infinite}
   @keyframes augshine{0%{left:-60%}55%{left:130%}100%{left:130%}}
@@ -218,6 +219,7 @@
   .pager button{font-family:inherit;font-weight:800;font-size:13px;color:#1c4636;background:#EAF3DE;border:1.5px solid rgba(15,59,58,.14);border-radius:10px;min-width:34px;height:34px;cursor:pointer;padding:0 8px}
   .pager button[aria-current="true"]{background:#0f3b3a;color:#eafff4;border-color:#0f3b3a}
   .pager button[disabled]{opacity:.4;cursor:default}
+  .pager .pg-ell{display:flex;align-items:center;color:#8a9d90;font-weight:800;padding:0 2px}
   /* member chips */
   .members .team{padding:12px 12px}
   .members .team .nm{font-size:14px}
@@ -267,7 +269,7 @@
 
   <!-- FORM -->
   <section class="panel" id="formPanel">
-    <h2><span class="n">1</span><span data-i18n="formTitle"></span></h2>
+    <h2><span class="n">✏️</span><span data-i18n="formTitle"></span></h2>
     <p class="sub" data-i18n="formSub"></p>
 
     <div class="field">
@@ -358,20 +360,21 @@ const CONFIG = {
   // 팀 정의: id / 표시명 / 대표색(입소증 배지·강조). 색은 자유 교체 가능.
   // 참가팀 + 멤버(ko 표기 / en 표기). 외국어 UI에서는 en으로 노출.
   teams: [
-    { id:"idntt", name:"idntt", nameKo:"아이덴티티", color:"#2C6E7F", bg:"#EAF3F5", members:[
+    { id:"idntt", name:"idntt", nameKo:"아이덴티티", color:"#2F55C4", bg:"#E9EEFA", members:[
       {ko:"김도훈",en:"Kim Dohun"},{ko:"김희주",en:"Kim Heeju"},{ko:"남지운",en:"Nam Jiwoon"},
       {ko:"이청명",en:"Lee Cheongmyeong"},{ko:"박누리",en:"Park Nuri"},{ko:"김성준",en:"Kim Seongjun"} ]},
-    { id:"flareu", name:"FLARE U", nameKo:"플레어 유", color:"#E8792B", bg:"#FCEEE2", members:[
+    { id:"flareu", name:"FLARE U", nameKo:"플레어 유", color:"#EF5B2B", bg:"#FCEBE3", members:[
       {ko:"최립우",en:"Chuei Liyu"},{ko:"강우진",en:"Kang Woojin"} ]},
-    { id:"closeyoureyes", name:"CLOSE YOUR EYES", nameKo:"클로즈 유어 아이즈", color:"#6B4E9E", bg:"#EFEAF6", members:[
+    { id:"closeyoureyes", name:"CLOSE YOUR EYES", nameKo:"클로즈 유어 아이즈", color:"#6A4FB0", bg:"#EEEAF7", members:[
       {ko:"전민욱",en:"Minwook"},{ko:"마징시앙",en:"Jingxiang"},{ko:"장여준",en:"Yeojun"},{ko:"김성민",en:"Sungmin"},
       {ko:"송승호",en:"Seungho"},{ko:"켄신",en:"Kenshin"},{ko:"서경배",en:"Kyoungbae"} ]},
-    { id:"ahof", name:"AHOF", nameKo:"아홉", color:"#C79A16", bg:"#F8F1DA", members:[
+    { id:"ahof", name:"AHOF", nameKo:"아홉", color:"#1B2A57", bg:"#E7EAF2", members:[
       {ko:"박한",en:"Han"},{ko:"스티븐",en:"Steven"},{ko:"제이엘",en:"JL"},{ko:"서정우",en:"Jeongwoo"},{ko:"박주원",en:"Juwon"},
       {ko:"차웅기",en:"Woongki"},{ko:"즈언",en:"Chih En"},{ko:"장슈아이보",en:"Shuaibo"},{ko:"다이스케",en:"Daisuke"} ]},
   ],
-  // Supabase 로깅(선택). 쓰려면 아래 채우기. 비워두면 로깅 없이 정상 동작.
-  supabase: { url:"", anonKey:"", table:"enrollments" }
+  // Supabase(선택). 채우면 공유형 게시판/순차 입소번호 동작. 비우면 로컬 동작.
+  supabase: { url:"", anonKey:"", table:"enrollments", msgTable:"board_messages" },
+  board: { maxShown: 300 }  // 게시판 최신 N개까지 노출(30개/페이지 → 최대 10페이지)
 };
 
 /* -------- I18N -------- */
@@ -420,7 +423,7 @@ const I18N = {
     cSeries:"Muniverse Series · 아이돌 수련회",
     cNick:"입소생",
     cTeam:"참가 팀",
-    cPick:"최애",
+    cPick:"함께 입소한 수련생",
     cNo:"입소 번호",
     cDate:"입소일",
     cSlogan:"오늘부터 아이돌 수련회 1기 입소생입니다.",
@@ -465,7 +468,7 @@ const I18N = {
     cSeries:"Muniverse Series · IDOL TRAINING CAMP",
     cNick:"Trainee",
     cTeam:"Team",
-    cPick:"Bias",
+    cPick:"Campmate",
     cNo:"Pass No.",
     cDate:"Enrolled",
     cSlogan:"From today, I'm a Class 1 trainee of Idol Training Camp.",
@@ -510,7 +513,7 @@ const I18N = {
     cSeries:"Muniverse Series · アイドル修練会",
     cNick:"入所生",
     cTeam:"参加チーム",
-    cPick:"推し",
+    cPick:"入所仲間",
     cNo:"入所番号",
     cDate:"入所日",
     cSlogan:"今日からアイドル修練会 1期の入所生です。",
@@ -555,7 +558,7 @@ const I18N = {
     cSeries:"Muniverse Series · 偶像修炼会",
     cNick:"入所生",
     cTeam:"参加队伍",
-    cPick:"本命",
+    cPick:"入所伙伴",
     cNo:"入所编号",
     cDate:"入所日期",
     cSlogan:"从今天起，我是偶像修炼会第1期入所生。",
@@ -600,7 +603,7 @@ const I18N = {
     cSeries:"Muniverse Series · 偶像修煉會",
     cNick:"入所生",
     cTeam:"參加隊伍",
-    cPick:"本命",
+    cPick:"入所夥伴",
     cNo:"入所編號",
     cDate:"入所日期",
     cSlogan:"從今天起，我是偶像修煉會第1期入所生。",
@@ -694,7 +697,8 @@ function buildChips(){
 }
 function buildSchedule(){
   const T=t(), wd=T.calWeekdays;
-  const CH={ mbc:{c:'#C0392B', ic:'📺', name:T.chMBC}, yt:{c:'#E8792B', ic:'▶️', name:T.chYT} };
+  const YT='<svg class="sc-yt" viewBox="0 0 90 64" xmlns="http://www.w3.org/2000/svg" aria-label="YouTube"><rect width="90" height="64" rx="17" fill="#FF0000"/><path d="M36 19 L66 32 L36 45 Z" fill="#fff"/></svg>';
+  const CH={ mbc:{c:'#C0392B', ic:'📺', name:T.chMBC}, yt:{c:'#E8792B', ic:YT, name:T.chYT} };
   const first=3; // 2026-07-01 = Wednesday (Sun=0)
   const items=[ {d:8,ch:'mbc'},{d:10,ch:'yt'},{d:15,ch:'mbc'},{d:17,ch:'yt'},{d:24,ch:'yt'},{d:31,ch:'yt'} ];
   const rots=['-1.5deg','1.5deg','-1deg','1deg','-1.5deg','1deg'];
@@ -730,10 +734,16 @@ function validate(){
 /* -------- utils -------- */
 function tags(){ const h=t().hashtags; return (h&&h.length)?h:CONFIG.hashtags; }
 function hashStr(s){ let h=2166136261>>>0; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619)>>>0;} return h; }
+let currentPass = null; // set at issue time (sequential if Supabase on)
+function mmdd(d){ d=d||new Date(); return String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0"); }
 function passNo(nick, team){
+  // IDC - 1기 - 입소일(MMDD) - 닉네임 고유 4자리
   const seed=hashStr(nick+"|"+team+"|"+new Date().toDateString());
-  const num=(seed%90000+10000);
-  return `${CONFIG.passPrefix}-${CONFIG.gisu}-${num}`;
+  const num=String(seed%10000).padStart(4,"0");
+  return `${CONFIG.passPrefix}-${CONFIG.gisu}-${mmdd()}-${num}`;
+}
+function seqPass(seq){ // 공유 DB 연동 시: 실제 입소 순번
+  return `${CONFIG.passPrefix}-${CONFIG.gisu}-${mmdd()}-${String(seq).padStart(4,"0")}`;
 }
 function teamById(id){ return CONFIG.teams.find(x=>x.id===id)||CONFIG.teams[0]; }
 function toast(msg){ const el=$("#toast"); el.textContent=msg; el.classList.add("show"); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove("show"),1900); }
@@ -751,23 +761,33 @@ function clean(str){
 }
 
 /* -------- board store (Supabase if configured, else local) -------- */
-const PAGE_SIZE=30, LS_KEY="itc_board_v1", LS_LIKED="itc_liked_v1";
+const PAGE_SIZE=10, LS_KEY="itc_board_v1", LS_LIKED="itc_liked_v1";
 let boardPage=1;
 function lsGet(k,def){ try{ const v=localStorage.getItem(k); return v==null?def:JSON.parse(v); }catch(e){ return def; } }
 function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
 function seedBoard(){ return [
-  {id:"s1", nick:"수련생1호", team:"idntt", msg:"1기 입소 완료! 끝까지 함께해요 🔥", likes:14, ts:Date.now()-6e5},
-  {id:"s2", nick:"모닥불지기", team:"ahof", msg:"최애 보러 매주 본방사수 갑니다", likes:9, ts:Date.now()-5e5},
-  {id:"s3", nick:"camper_lee", team:"closeyoureyes", msg:"수련회 대박나자!! 우리 팀 화이팅", likes:6, ts:Date.now()-4e5},
-  {id:"s4", nick:"별밤", team:"flareu", msg:"플레어유 데뷔 축하해 🏕️", likes:8, ts:Date.now()-3e5},
-  {id:"s5", nick:"릴리", team:"idntt", msg:"입소증 너무 예뻐요 ㅠㅠ 소장각", likes:5, ts:Date.now()-2e5},
+  {id:"s1", nick:"수련생1호", team:"idntt", msg:"1기 입소 완료! 끝까지 함께해요 🔥", likes:14, ts:Date.now()-14e5},
+  {id:"s2", nick:"모닥불지기", team:"ahof", msg:"최애 보러 매주 본방사수 갑니다", likes:9, ts:Date.now()-13e5},
+  {id:"s3", nick:"camper_lee", team:"closeyoureyes", msg:"수련회 대박나자!! 우리 팀 화이팅", likes:6, ts:Date.now()-12e5},
+  {id:"s4", nick:"별밤", team:"flareu", msg:"플레어유 데뷔 축하해 🏕️", likes:8, ts:Date.now()-11e5},
+  {id:"s5", nick:"릴리", team:"idntt", msg:"입소증 너무 예뻐요 ㅠㅠ 소장각", likes:5, ts:Date.now()-10e5},
+  {id:"s6", nick:"텐트요정", team:"ahof", msg:"장기자랑 기대된다 두근두근", likes:4, ts:Date.now()-9e5},
+  {id:"s7", nick:"우진러버", team:"flareu", msg:"강우진 무대 최고였어 🥹", likes:11, ts:Date.now()-8e5},
+  {id:"s8", nick:"캠프파이어", team:"closeyoureyes", msg:"켄신 파트 계속 돌려봄", likes:7, ts:Date.now()-7e5},
+  {id:"s9", nick:"도훈바라기", team:"idntt", msg:"김도훈 센터 실화냐 심장아파", likes:13, ts:Date.now()-6e5},
+  {id:"s10", nick:"수련중", team:"ahof", msg:"우리 다 수료할 때까지 파이팅!", likes:3, ts:Date.now()-5e5},
+  {id:"s11", nick:"밤하늘", team:"idntt", msg:"입소 신고 완료~ 잘 부탁해요", likes:2, ts:Date.now()-4e5},
+  {id:"s12", nick:"초코파이", team:"ahof", msg:"아홉 아홉! 아홉이 최고", likes:6, ts:Date.now()-3e5},
+  {id:"s13", nick:"여준픽", team:"closeyoureyes", msg:"장여준 눈빛 미쳤다 진짜", likes:9, ts:Date.now()-2e5},
+  {id:"s14", nick:"립우야", team:"flareu", msg:"최립우 그림 실력 무엇 👏", likes:5, ts:Date.now()-1e5},
 ]; }
 const Board = {
   sb(){ const s=CONFIG.supabase; return (s&&s.url&&s.anonKey)?s:null; },
   async all(){
     const s=this.sb();
     if(s){ try{
-      const r=await fetch(`${s.url}/rest/v1/${s.msgTable||'board_messages'}?select=*&order=created_at.desc`,{headers:{apikey:s.anonKey,Authorization:"Bearer "+s.anonKey}});
+      const cap=(CONFIG.board&&CONFIG.board.maxShown)||300;
+      const r=await fetch(`${s.url}/rest/v1/${s.msgTable||'board_messages'}?select=*&order=created_at.desc&limit=${cap}`,{headers:{apikey:s.anonKey,Authorization:"Bearer "+s.anonKey}});
       const d=await r.json(); return d.map(x=>({id:String(x.id),nick:x.nickname,team:x.team,msg:x.message,likes:x.likes||0,ts:x.created_at}));
     }catch(e){ /* fall through */ } }
     let d=lsGet(LS_KEY,null); if(!d){ d=seedBoard(); lsSet(LS_KEY,d); } return d;
@@ -797,7 +817,9 @@ const Board = {
   }
 };
 async function renderBoard(){
-  const list=await Board.all();
+  let list=await Board.all();
+  const cap=(CONFIG.board&&CONFIG.board.maxShown)||300;
+  if(list.length>cap) list=list.slice(0,cap);
   const el=$("#boardList"), pg=$("#boardPager");
   if(!el) return;
   const total=list.length, pages=Math.max(1,Math.ceil(total/PAGE_SIZE));
@@ -819,7 +841,9 @@ async function renderBoard(){
   // pager
   if(pages<=1){ pg.innerHTML=""; return; }
   let ph=`<button ${boardPage===1?'disabled':''} data-go="${boardPage-1}">‹</button>`;
-  for(let i=1;i<=pages;i++) ph+=`<button aria-current="${i===boardPage}" data-go="${i}">${i}</button>`;
+  const nums=[...new Set([1,pages,boardPage,boardPage-1,boardPage+1])].filter(n=>n>=1&&n<=pages).sort((a,b)=>a-b);
+  let prev=0;
+  nums.forEach(n=>{ if(prev && n-prev>1) ph+=`<span class="pg-ell">…</span>`; ph+=`<button aria-current="${n===boardPage}" data-go="${n}">${n}</button>`; prev=n; });
   ph+=`<button ${boardPage===pages?'disabled':''} data-go="${boardPage+1}">›</button>`;
   pg.innerHTML=ph;
   pg.querySelectorAll("button[data-go]").forEach(b=>{ if(!b.disabled) b.onclick=()=>{ boardPage=+b.dataset.go; renderBoard(); $("#board").scrollIntoView({behavior:"smooth",block:"start"}); }; });
@@ -907,7 +931,7 @@ async function renderCert(){
   const msg=$("#msg").value.trim();
   const now=new Date();
   const dateStr=T.dateFmt(now.getFullYear(), now.getMonth()+1, now.getDate());
-  const pno=passNo(nick, tm.id);
+  const pno=currentPass || passNo(nick, tm.id);
 
   try{ await document.fonts.ready; }catch(e){}
 
@@ -988,8 +1012,10 @@ async function renderCert(){
   cy += tph + (mn?14:40);
   if(mn){
     ctx.textAlign="center"; ctx.textBaseline="top"; ctx.fillStyle=tm.color;
-    ctx.font=`800 27px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-    ctx.fillText(`${T.cPick} · ${mn}`, W/2, cy);
+    const mline=`${T.cPick} · ${mn}`;
+    const msz=fitText(ctx, mline, cardW-150, 27, 17);
+    ctx.font=`800 ${msz}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
+    ctx.fillText(mline, W/2, cy);
     cy += 48;
   }
 
@@ -1042,9 +1068,11 @@ function canvasBlob(){ return new Promise(res=>$("#certCanvas").toBlob(res,"imag
 
 async function issue(){
   $("#result").classList.add("show");
+  // 입소번호: 공유 DB 연동 시 실제 순번, 아니면 결정적 고유번호
+  currentPass = null;
+  try{ const seq = await logEnrollment(); if(seq) currentPass = seqPass(seq); }catch(e){}
   await renderCert();
   $("#result").scrollIntoView({behavior:"smooth",block:"start"});
-  logEnrollment();
   // post 다짐 to board
   const pledge=$("#msg").value.trim();
   if(pledge){ try{ await Board.add({nick:$("#nick").value.trim(), team:selectedTeam, msg:pledge}); boardPage=1; renderBoard(); }catch(e){} }
@@ -1094,20 +1122,22 @@ async function copyHash(){
 }
 
 /* -------- Supabase logging (optional, non-blocking) -------- */
+/* returns the enrollment sequence id (bigint) when Supabase is on, else null */
 async function logEnrollment(){
   const S=CONFIG.supabase;
-  if(!S.url || !S.anonKey) return; // disabled
+  if(!S.url || !S.anonKey) return null; // disabled → deterministic pass used
   try{
-    await fetch(`${S.url}/rest/v1/${S.table}`,{
+    const r=await fetch(`${S.url}/rest/v1/${S.table}`,{
       method:"POST",
-      headers:{ "Content-Type":"application/json", "apikey":S.anonKey, "Authorization":"Bearer "+S.anonKey, "Prefer":"return=minimal" },
+      headers:{ "Content-Type":"application/json", "apikey":S.anonKey, "Authorization":"Bearer "+S.anonKey, "Prefer":"return=representation" },
       body:JSON.stringify({
         team:selectedTeam, nickname:$("#nick").value.trim(),
-        pass_no:passNo($("#nick").value.trim(),selectedTeam),
-        lang, created_at:new Date().toISOString()
+        member:selectedMember||null, lang, created_at:new Date().toISOString()
       })
     });
-  }catch(e){ /* never block the user */ }
+    const rows=await r.json();
+    return (Array.isArray(rows)&&rows[0]&&rows[0].id)?rows[0].id:null;
+  }catch(e){ return null; }
 }
 
 /* -------- wire up -------- */
