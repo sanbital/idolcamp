@@ -125,7 +125,7 @@
   .team input{position:absolute;opacity:0;pointer-events:none}
   .team[data-on="true"]{border-color:var(--tc,#0f3b3a);box-shadow:0 0 0 3px var(--tc-soft,rgba(15,59,58,.15)),0 8px 16px rgba(15,59,58,.12);background:var(--tc-bg,#fff)}
   .team[data-on="true"] .tick{opacity:1;transform:scale(1)}
-  .team .tick{margin-left:auto;width:24px;height:24px;flex:0 0 24px;min-width:24px;min-height:24px;aspect-ratio:1/1;border-radius:999px;background:var(--tc,#0f3b3a);color:var(--tc-txt,#fff);
+  .team .tick{margin-left:auto;width:24px;height:24px;flex:0 0 24px;min-width:24px;min-height:24px;aspect-ratio:1/1;border-radius:999px;background:var(--tc,#0f3b3a);color:var(--tc-txt,#fff);border:1px solid var(--tc-border,var(--tc,#0f3b3a));
     display:grid;place-items:center;font-size:14px;line-height:1;opacity:0;transform:scale(.6);transition:.15s}
 
   input[type=text]{
@@ -370,8 +370,7 @@
   <!-- HERO -->
   <header class="hero">
     <span class="eyebrow">Muniverse Series</span>
-    <img class="hero-logo" id="heroLogo" alt="아이돌 수련회" style="display:none" />
-    <div class="hero-wordmark" data-i18n="heroWordmark">아이돌 수련회</div>
+    <img class="hero-logo" id="heroLogo" alt="아이돌 수련회" />
     <h1 data-i18n="heroTitle"></h1>
     <p data-i18n="heroSub"></p>
   </header>
@@ -494,15 +493,15 @@ const CONFIG = {
   // 팀 정의: id / 표시명 / 대표색(입소증 배지·강조). 색은 자유 교체 가능.
   // 참가팀 + 멤버(ko 표기 / en 표기). 외국어 UI에서는 en으로 노출.
   teams: [
-    { id:"idntt", name:"idntt", nameKo:"아이덴티티", color:"#111111", bg:"#F1F1F1", badgeText:"#FFFFFF", members:[
+    { id:"idntt", name:"idntt", nameKo:"아이덴티티", color:"#111111", bg:"#F1F1F1", badgeText:"#FFFFFF", badgeBorder:"#111111", members:[
       {ko:"김도훈",en:"Kim Dohun"},{ko:"김희주",en:"Kim Heeju"},{ko:"남지운",en:"Nam Jiwoon"},
       {ko:"이청명",en:"Lee Cheongmyeong"},{ko:"박누리",en:"Park Nuri"},{ko:"김성준",en:"Kim Seongjun"} ]},
-    { id:"flareu", name:"FLARE U", nameKo:"플레어 유", color:"#8FD4CB", bg:"#E4F8F5", badgeText:"#0F3B3A", members:[
+    { id:"flareu", name:"FLARE U", nameKo:"플레어 유", color:"#8FD4CB", bg:"#E4F8F5", badgeText:"#0F3B3A", badgeBorder:"#8FD4CB", members:[
       {ko:"최립우",en:"Chuei Liyu"},{ko:"강우진",en:"Kang Woojin"} ]},
-    { id:"closeyoureyes", name:"CLOSE YOUR EYES", nameKo:"클로즈 유어 아이즈", color:"#111111", bg:"#FFFFFF", badgeText:"#FFFFFF", members:[
+    { id:"closeyoureyes", name:"CLOSE YOUR EYES", nameKo:"클로즈 유어 아이즈", color:"#FFFFFF", bg:"#FFFFFF", badgeText:"#111111", badgeBorder:"#111111", members:[
       {ko:"전민욱",en:"Minwook"},{ko:"마징시앙",en:"Jingxiang"},{ko:"장여준",en:"Yeojun"},{ko:"김성민",en:"Sungmin"},
       {ko:"송승호",en:"Seungho"},{ko:"켄신",en:"Kenshin"},{ko:"서경배",en:"Kyoungbae"} ]},
-    { id:"ahof", name:"AHOF", nameKo:"아홉", color:"#292E4E", bg:"#E9EAF3", badgeText:"#FFFFFF", members:[
+    { id:"ahof", name:"AHOF", nameKo:"아홉", color:"#E7E8F0", bg:"#F3F4FA", badgeText:"#292E4E", badgeBorder:"#C9CBD8", members:[
       {ko:"박한",en:"Han"},{ko:"스티븐",en:"Steven"},{ko:"제이엘",en:"JL"},{ko:"서정우",en:"Jeongwoo"},{ko:"박주원",en:"Juwon"},
       {ko:"차웅기",en:"Woongki"},{ko:"즈언",en:"Chih En"},{ko:"장슈아이보",en:"Shuaibo"},{ko:"다이스케",en:"Daisuke"} ]},
   ],
@@ -802,7 +801,8 @@ function buildTeams(){
     el.style.setProperty("--tc", tm.color);
     el.style.setProperty("--tc-bg", tm.bg);
     el.style.setProperty("--tc-soft", tm.color+"33");
-    el.style.setProperty("--tc-txt", tm.badgeText || "#fff");
+    el.style.setProperty("--tc-txt", tm.badgeText || "#fff"); el.style.setProperty("--tc-border", tm.badgeBorder || tm.color);
+    el.style.setProperty("--tc-border", tm.badgeBorder || tm.color);
     el.innerHTML =
       `<span class="chip" style="background:${tm.color}"></span>
        <span class="nm">${tm.name}</span>
@@ -983,7 +983,7 @@ function selectedPhotoMeta(){
 }
 
 /* -------- board store (Supabase if configured, else local) -------- */
-const BOARD_COLLAPSED_LIMIT=7, BOARD_EXPANDED_LIMIT=30, LS_KEY="itc_board_v1", LS_LIKED="itc_liked_v1";
+const BOARD_COLLAPSED_LIMIT=7, BOARD_EXPANDED_LIMIT=9999, LS_KEY="itc_board_v1", LS_LIKED="itc_liked_v1";
 let boardExpanded=false, boardSort="latest";
 function lsGet(k,def){ try{ const v=localStorage.getItem(k); return v==null?def:JSON.parse(v); }catch(e){ return def; } }
 function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
@@ -1153,7 +1153,8 @@ function sortBoardList(list, mode){
 }
 function teamBadgeStyle(tm){
   if(!tm) return "";
-  return `background:${tm.color};color:${tm.badgeText||"#fff"}`;
+  const border=tm.badgeBorder || tm.color;
+  return `background:${tm.color};color:${tm.badgeText||"#fff"};border:1px solid ${border}`;
 }
 async function jumpToBoardMessage(id){
   boardExpanded=true;
@@ -1224,7 +1225,7 @@ async function renderBoard(){
         <button type="button" data-sort="latest" aria-pressed="${boardSort==="latest"}">${esc(t().sortLatest||"최신 순")}</button>
         <button type="button" data-sort="likes" aria-pressed="${boardSort==="likes"}">${esc(t().sortLikes||"좋아요 순")}</button>
       </div>
-      ${total>BOARD_COLLAPSED_LIMIT?`<button type="button" class="board-toggle" data-toggle="board">${boardExpanded?esc(t().boardCollapse||"접기"):esc(t().boardExpand||"펼치기")} ${boardExpanded?Math.min(total,BOARD_EXPANDED_LIMIT):Math.min(total,BOARD_EXPANDED_LIMIT)}</button>`:""}`;
+      ${total>BOARD_COLLAPSED_LIMIT?`<button type="button" class="board-toggle" data-toggle="board">${boardExpanded?esc(t().boardCollapse||"접기"):esc(t().boardExpand||"펼치기")}</button>`:""}`;
     controls.querySelectorAll("[data-sort]").forEach(b=>{
       b.onclick=()=>{ boardSort=b.dataset.sort; renderBoard(); };
     });
@@ -1512,7 +1513,7 @@ async function renderCert(){
   ctx.font=`600 ${ss}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
   ctx.fillText(T.cSlogan, W/2, sloganY);
 
-  drawCampStamp(ctx, W-M-152, H-M-160, tm.color, T.cStampArc || "아이돌 수련회");
+  drawCampStamp(ctx, W-M-152, H-M-160, tm.badgeBorder || tm.color, T.cStampArc || "아이돌 수련회");
 
   ctx.globalAlpha=1; ctx.fillStyle='#8AA07E'; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
   ctx.font='800 18px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif';
