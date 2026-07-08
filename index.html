@@ -76,9 +76,21 @@
     padding:5px 13px;border-radius:999px;margin-bottom:14px;
   }
   .hero-logo{width:min(74%,430px);height:auto;display:block;margin:2px auto 12px;filter:drop-shadow(0 8px 16px rgba(15,59,58,.25))}
-  .hero h1{margin:0 0 6px;font-size:clamp(20px,4.6vw,30px);font-weight:900;color:#0f3b2c;letter-spacing:-.4px}
+  .hero-wordmark{
+    font-family:"Jua","Gaegu","Pretendard",sans-serif;
+    margin:0 auto 10px;
+    font-size:clamp(38px,9vw,72px);
+    line-height:.95;
+    font-weight:900;
+    letter-spacing:-1.2px;
+    color:#0f3b2c;
+    text-shadow:0 5px 0 rgba(255,255,255,.22), 0 12px 20px rgba(15,59,58,.22);
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+  .hero h1{margin:0 0 6px;font-size:clamp(20px,4.6vw,30px);font-weight:900;color:#0f3b2c;letter-spacing:-.4px;word-break:keep-all;overflow-wrap:anywhere}
   .hero p{margin:0;font-size:clamp(13px,2.9vw,15px);font-weight:600;color:#20452f}
-  .period{margin-top:14px;display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:800;
+  .period{margin-top:14px;display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:800;word-break:keep-all;overflow-wrap:anywhere;
     color:#0f3b3a;background:#F2C230;border:2px solid #0f3b3a;padding:7px 14px;border-radius:999px;
     box-shadow:0 4px 0 rgba(15,59,58,.25)}
 
@@ -90,7 +102,7 @@
   .panel h2{margin:0 0 4px;font-size:18px;font-weight:900;color:#123a2e;display:flex;align-items:center;gap:9px}
   .panel h2 .n{width:26px;height:26px;flex:0 0 26px;border-radius:9px;background:var(--mint);color:#08301f;
     font-size:14px;font-weight:900;display:grid;place-items:center;box-shadow:0 3px 0 rgba(15,59,58,.2)}
-  .panel .sub{margin:0 0 16px;font-size:13px;color:var(--ink-soft);padding-left:35px;word-break:keep-all;overflow-wrap:break-word;line-break:strict}
+  .panel .sub{margin:0 0 16px;font-size:13px;color:var(--ink-soft);padding-left:35px;word-break:keep-all;overflow-wrap:anywhere;line-break:loose}
   .panel .sub .mo-br{display:none}
   .panel .sub .desktop-space{display:inline}
 
@@ -113,7 +125,7 @@
   .team input{position:absolute;opacity:0;pointer-events:none}
   .team[data-on="true"]{border-color:var(--tc,#0f3b3a);box-shadow:0 0 0 3px var(--tc-soft,rgba(15,59,58,.15)),0 8px 16px rgba(15,59,58,.12);background:var(--tc-bg,#fff)}
   .team[data-on="true"] .tick{opacity:1;transform:scale(1)}
-  .team .tick{margin-left:auto;width:24px;height:24px;flex:0 0 24px;min-width:24px;min-height:24px;aspect-ratio:1/1;border-radius:999px;background:var(--tc,#0f3b3a);color:#fff;
+  .team .tick{margin-left:auto;width:24px;height:24px;flex:0 0 24px;min-width:24px;min-height:24px;aspect-ratio:1/1;border-radius:999px;background:var(--tc,#0f3b3a);color:var(--tc-txt,#fff);
     display:grid;place-items:center;font-size:14px;line-height:1;opacity:0;transform:scale(.6);transition:.15s}
 
   input[type=text]{
@@ -235,6 +247,10 @@
     .sched-note-row{grid-template-columns:1fr}
     .sched-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     .sched-card .sc-time{font-size:11px;padding:4px 8px}
+    .board-controls{align-items:stretch;gap:8px}
+    .board-sort{flex:1;min-width:0}
+    .board-sort button{flex:1;padding:8px 8px}
+    .board-toggle{flex:0 0 auto;padding:8px 10px}
     .sched-aug{padding:16px 14px;gap:10px}
     .sched-aug .aug-emoji{font-size:28px}
     .sched-aug .aug-badge{font-size:13px;padding:5px 11px}
@@ -275,6 +291,16 @@
   .top-board-team{display:inline-block;font-size:10px;font-weight:900;color:#fff;border-radius:999px;padding:2px 7px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0}
   .top-board-msg{font-size:13px;font-weight:700;color:#2f4739;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;word-break:normal}
   .top-board-like{font-size:12.5px;font-weight:900;color:#E24B6A;background:#FFF1F4;border-radius:999px;padding:5px 9px;white-space:nowrap}
+  .board-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px}
+  .board-sort{display:flex;gap:6px;padding:5px;background:#EAF3DE;border-radius:999px;border:1.5px solid rgba(15,59,58,.10)}
+  .board-sort button,.board-toggle{
+    font-family:inherit;border:0;border-radius:999px;cursor:pointer;font-size:12px;font-weight:900;
+    padding:8px 12px;white-space:nowrap;transition:.14s
+  }
+  .board-sort button{background:transparent;color:#557063}
+  .board-sort button[aria-pressed="true"]{background:#0F3B3A;color:#EAFFF4;box-shadow:0 3px 9px rgba(15,59,58,.20)}
+  .board-toggle{background:#fff;color:#0F3B3A;border:1.5px solid rgba(15,59,58,.14);box-shadow:0 3px 0 rgba(15,59,58,.10)}
+  .board-toggle:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(15,59,58,.10)}
   @media (max-width:640px){
     .top-board-card{grid-template-columns:46px minmax(84px,.72fr) minmax(0,1fr) auto;gap:7px;padding:9px 10px;min-height:56px}
     .top-board-rank .medal{font-size:19px}
@@ -285,17 +311,18 @@
     .top-board-like{font-size:11.5px;padding:4px 7px}
   }
   .board-list{display:flex;flex-direction:column;gap:9px}
-  .board-item{display:flex;align-items:flex-start;gap:11px;background:#fff;border:1.5px solid rgba(15,59,58,.10);border-radius:14px;padding:12px 13px}
+  .board-item{display:flex;align-items:flex-start;gap:11px;background:#fff;border:1.5px solid rgba(15,59,58,.10);border-radius:14px;padding:12px 13px;scroll-margin-top:18px;transition:box-shadow .25s, border-color .25s, background .25s}
   .board-item .bi-main{flex:1;min-width:0}
   .board-item .bi-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px}
   .board-item .bi-nick{font-weight:800;font-size:13.5px;color:#1c3d30}
   .board-item .bi-team{font-size:10.5px;font-weight:800;color:#fff;border-radius:999px;padding:2px 8px;white-space:nowrap}
-  .board-item .bi-msg{font-size:13.5px;color:#2f4739;word-break:break-word;line-height:1.5}
+  .board-item .bi-msg{font-size:13.5px;color:#2f4739;word-break:keep-all;overflow-wrap:anywhere;line-height:1.5}
   .board-like{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:1px;background:transparent;border:0;cursor:pointer;font-family:inherit;color:#8a9d90;padding:2px 4px}
   .board-like .heart{font-size:20px;line-height:1;transition:transform .15s}
   .board-like .cnt{font-size:11px;font-weight:800}
   .board-like[aria-pressed="true"]{color:#E24B6A}
   .board-like:active .heart{transform:scale(1.35)}
+  .board-item.spotlight{border-color:#F2C230;background:#FFFBE8;box-shadow:0 0 0 4px rgba(242,194,48,.28),0 8px 18px rgba(15,59,58,.12)}
   .board-empty{text-align:center;color:#7d9184;font-size:13px;padding:22px 0;font-weight:600}
   .pager{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:14px}
   .pager button{font-family:inherit;font-weight:800;font-size:13px;color:#1c4636;background:#EAF3DE;border:1.5px solid rgba(15,59,58,.14);border-radius:10px;min-width:34px;height:34px;cursor:pointer;padding:0 8px}
@@ -343,7 +370,8 @@
   <!-- HERO -->
   <header class="hero">
     <span class="eyebrow">Muniverse Series</span>
-    <img class="hero-logo" id="heroLogo" alt="아이돌 수련회" />
+    <img class="hero-logo" id="heroLogo" alt="아이돌 수련회" style="display:none" />
+    <div class="hero-wordmark" data-i18n="heroWordmark">아이돌 수련회</div>
     <h1 data-i18n="heroTitle"></h1>
     <p data-i18n="heroSub"></p>
   </header>
@@ -353,6 +381,7 @@
     <h2><span class="n">💬</span><span data-i18n="boardTitle"></span></h2>
     <p class="sub" data-i18n="boardSub"></p>
     <div id="boardTop" class="board-top"></div>
+    <div id="boardControls" class="board-controls"></div>
     <div id="boardList" class="board-list"></div>
     <div id="boardPager" class="pager"></div>
   </section>
@@ -465,15 +494,15 @@ const CONFIG = {
   // 팀 정의: id / 표시명 / 대표색(입소증 배지·강조). 색은 자유 교체 가능.
   // 참가팀 + 멤버(ko 표기 / en 표기). 외국어 UI에서는 en으로 노출.
   teams: [
-    { id:"idntt", name:"idntt", nameKo:"아이덴티티", color:"#2F55C4", bg:"#E9EEFA", members:[
+    { id:"idntt", name:"idntt", nameKo:"아이덴티티", color:"#111111", bg:"#F1F1F1", badgeText:"#FFFFFF", members:[
       {ko:"김도훈",en:"Kim Dohun"},{ko:"김희주",en:"Kim Heeju"},{ko:"남지운",en:"Nam Jiwoon"},
       {ko:"이청명",en:"Lee Cheongmyeong"},{ko:"박누리",en:"Park Nuri"},{ko:"김성준",en:"Kim Seongjun"} ]},
-    { id:"flareu", name:"FLARE U", nameKo:"플레어 유", color:"#EF5B2B", bg:"#FCEBE3", members:[
+    { id:"flareu", name:"FLARE U", nameKo:"플레어 유", color:"#8FD4CB", bg:"#E4F8F5", badgeText:"#0F3B3A", members:[
       {ko:"최립우",en:"Chuei Liyu"},{ko:"강우진",en:"Kang Woojin"} ]},
-    { id:"closeyoureyes", name:"CLOSE YOUR EYES", nameKo:"클로즈 유어 아이즈", color:"#6A4FB0", bg:"#EEEAF7", members:[
+    { id:"closeyoureyes", name:"CLOSE YOUR EYES", nameKo:"클로즈 유어 아이즈", color:"#111111", bg:"#FFFFFF", badgeText:"#FFFFFF", members:[
       {ko:"전민욱",en:"Minwook"},{ko:"마징시앙",en:"Jingxiang"},{ko:"장여준",en:"Yeojun"},{ko:"김성민",en:"Sungmin"},
       {ko:"송승호",en:"Seungho"},{ko:"켄신",en:"Kenshin"},{ko:"서경배",en:"Kyoungbae"} ]},
-    { id:"ahof", name:"AHOF", nameKo:"아홉", color:"#1B2A57", bg:"#E7EAF2", members:[
+    { id:"ahof", name:"AHOF", nameKo:"아홉", color:"#292E4E", bg:"#E9EAF3", badgeText:"#FFFFFF", members:[
       {ko:"박한",en:"Han"},{ko:"스티븐",en:"Steven"},{ko:"제이엘",en:"JL"},{ko:"서정우",en:"Jeongwoo"},{ko:"박주원",en:"Juwon"},
       {ko:"차웅기",en:"Woongki"},{ko:"즈언",en:"Chih En"},{ko:"장슈아이보",en:"Shuaibo"},{ko:"다이스케",en:"Daisuke"} ]},
   ],
@@ -497,9 +526,10 @@ const LANGS = [
 const I18N = {
   "ko":{
     brandSub:"아이돌 수련회 1기",
+    heroWordmark:"아이돌 수련회",
     tabEnroll:"입소", tabTalent:"장기자랑", tabFarewell:"퇴소", tabKit:"수료 키트",
     soon:"예정", soonToast:"곧 공개됩니다. 조금만 기다려 주세요!",
-    schTitle:"방송 일정", schSub:"채널별 공개 일정을 확인하세요. 모든 일정은 KST 기준입니다.", schKstNote:"모든 일정은 KST 기준입니다.", schMbcTime:"방송 · 19:00 KST (저녁 7시)", schYtTime:"유튜브 업로드 · 18:00 KST (저녁 6시)",
+    schTitle:"방송 일정", schSub:"채널별 공개 일정을 확인하세요.|모든 일정은 KST 기준입니다.", schKstNote:"모든 일정은 KST 기준입니다.", schMbcTime:"방송 · 19:00 KST (저녁 7시)", schYtTime:"유튜브 업로드 · 18:00 KST (저녁 6시)",
     chMBC:"MBC M", chYT:"뮤니버스 유튜브", chApp:"뮤니버스 앱 단독 확장판",
     augTag:"8월 대공개", calMonth:"2026년 7월", calWeekdays:["일","월","화","수","목","금","토"],
     heroTitle:"아이돌 수련회 1기 입소 신고",
@@ -510,6 +540,7 @@ const I18N = {
     teamLabel:"참가 팀 선택",
     memberLabel:"멤버 선택", memberAll:"팀 전체",
     boardTitle:"입소생 다짐 게시판", boardSub:"입소생들의 다짐 한마디입니다.|마음에 드는 다짐엔 좋아요를 눌러주세요.", boardEmpty:"아직 다짐이 없어요. 첫 입소생이 되어보세요!",
+    topBoardTitle:"🔥 인기 다짐 TOP 3", topBoardSub:"좋아요 많은 순", sortLatest:"최신 순", sortLikes:"좋아요 순", boardExpand:"펼치기", boardCollapse:"접기",
     nickLabel:"닉네임",
     nickPh:"닉네임을 입력하세요",
     msgLabel:"입소 다짐 한마디",
@@ -536,26 +567,28 @@ const I18N = {
     cNo:"입소 번호",
     cDate:"입소일",
     cSlogan:"오늘부터 아이돌 수련회 1기 입소생입니다.",
-    cStamp:"입소 승인",
+    cStamp:"입소 승인", cStampArc:"아이돌 수련회",
     cChips:["열심히 응원할게요!","1등 가자!","최애 파이팅 🔥","끝까지 함께해요","입소 완료 ☑"],
     shareCaption:"아이돌 수련회 1기 입소 완료! 참가팀은 {team} 🏕️",
     dateFmt:(y,m,d)=>`${y}년 ${m}월 ${d}일`,
   },
   "en":{
-    brandSub:"Idol Training Camp · Class 1",
+    brandSub:"Idol School Camp · Class 1",
+    heroWordmark:"IDOL SCHOOL CAMP",
     tabEnroll:"Enrollment", tabTalent:"Talent Show", tabFarewell:"Farewell", tabKit:"Completion Kit",
     soon:"Soon", soonToast:"Coming soon. Stay tuned!",
-    schTitle:"Broadcast Schedule", schSub:"Check the release schedule by channel. All times are in KST.", schKstNote:"All times are in KST.", schMbcTime:"Broadcast · 19:00 KST (7 PM)", schYtTime:"YouTube Upload · 18:00 KST (6 PM)",
+    schTitle:"Broadcast Schedule", schSub:"Check the release schedule by channel.|All times are in KST.", schKstNote:"All times are in KST.", schMbcTime:"Broadcast · 19:00 KST (7 PM)", schYtTime:"YouTube Upload · 18:00 KST (6 PM)",
     chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"Muniverse App Exclusive (Extended Cut)",
     augTag:"Premieres in August", calMonth:"July 2026", calWeekdays:["S","M","T","W","T","F","S"],
-    heroTitle:"Idol Training Camp — Class 1 Enrollment",
+    heroTitle:"Idol School Camp — Class 1 Enrollment",
     heroSub:"A full-on K-POP idol friendship variety, coming soon!",
     period:"Enrollment · Jul 8 (Wed) – Jul 17 (Fri)",
     formTitle:"Fill out your enrollment",
-    formSub:"Pick your team and nickname to get your own enrollment pass.",
+    formSub:"Pick your team and nickname.|Get your own Idol School Camp pass.",
     teamLabel:"Pick your team",
     memberLabel:"Pick a member", memberAll:"Whole team",
-    boardTitle:"Enrollment Message Board", boardSub:"Enrollees' one-line pledges. Tap the heart on the ones you like.", boardEmpty:"No pledges yet. Be the first enrollee!",
+    boardTitle:"Enrollment Message Board", boardSub:"Enrollees' one-line pledges.|Tap the heart on the ones you like.", boardEmpty:"No pledges yet. Be the first enrollee!",
+    topBoardTitle:"🔥 Top 3 Pledges", topBoardSub:"Most liked", sortLatest:"Latest", sortLikes:"Most liked", boardExpand:"Show more", boardCollapse:"Collapse",
     nickLabel:"Nickname",
     nickPh:"Enter your nickname",
     msgLabel:"Your camp motto",
@@ -570,42 +603,44 @@ const I18N = {
     shareIG:"Post on Instagram",
     igGuide:"Image saved! Create a new post on Instagram and paste the caption.",
     tapCopy:"Tap to copy hashtags",
-    footer:"© Muniverse · Idol Training Camp Class 1",
+    footer:"© Muniverse · Idol School Camp Class 1",
     hashtags:["#MBC","#Muniverse","#IDOLCAMP"],
-    cTitle:"ENROLLMENT PASS",
-    cTitleSub:"입소증",
-    cSeries:"Muniverse Series · IDOL TRAINING CAMP",
+    cTitle:"IDOL SCHOOL CAMP PASS",
+    cTitleSub:"",
+    cSeries:"Muniverse Series · IDOL SCHOOL CAMP",
     cNick:"Trainee",
     cTeam:"Team",
     cPick:"Campmate",
     cNo:"Pass No.",
     cDate:"Enrolled",
-    cSlogan:"From today, I'm a Class 1 trainee of Idol Training Camp.",
-    cStamp:"ADMITTED",
+    cSlogan:"From today, I'm a Class 1 camper of Idol School Camp.",
+    cStamp:"ADMITTED", cStampArc:"IDOL SCHOOL CAMP",
     cChips:["Cheering hard!","Let's win #1!","Bias fighting 🔥","Together till the end","Checked in ☑"],
-    shareCaption:"Enrolled in Idol Training Camp Class 1! My team is {team} 🏕️",
+    shareCaption:"Enrolled in Idol School Camp Class 1! My team is {team} 🏕️",
     dateFmt:(y,m,d)=>`${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][m-1]} ${d}, ${y}`,
   },
   "ja":{
-    brandSub:"アイドル修練会 1期",
+    brandSub:"IDOL SCHOOL CAMP 1期",
+    heroWordmark:"IDOL SCHOOL CAMP",
     tabEnroll:"入所", tabTalent:"隠し芸", tabFarewell:"退所", tabKit:"修了キット",
     soon:"近日", soonToast:"近日公開予定です。お楽しみに！",
-    schTitle:"放送スケジュール", schSub:"チャンネル別の公開スケジュールをご確認ください。すべてKST基準です。", schKstNote:"すべてKST基準です。", schMbcTime:"放送 · 19:00 KST (午後7時)", schYtTime:"YouTube公開 · 18:00 KST (午後6時)",
+    schTitle:"放送スケジュール", schSub:"チャンネル別の公開スケジュールをご確認ください。|すべてKST基準です。", schKstNote:"すべてKST基準です。", schMbcTime:"放送 · 19:00 KST (午後7時)", schYtTime:"YouTube公開 · 18:00 KST (午後6時)",
     chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"Muniverseアプリ独占 拡張版",
     augTag:"8月 大公開", calMonth:"2026年7月", calWeekdays:["日","月","火","水","木","金","土"],
-    heroTitle:"アイドル修練会 1期 入所申告",
+    heroTitle:"IDOL SCHOOL CAMP 1期 入所申告",
     heroSub:"本格 K-POP アイドル親睦バラエティ、カミングスーン！",
     period:"入所申告期間 · 7/8(水) 〜 7/17(金)",
     formTitle:"入所申告書の作成",
-    formSub:"応援チームとニックネームを入力すると、あなただけの入所証が発行されます。",
+    formSub:"応援チームとニックネームを入力すると、|あなただけのIDOL SCHOOL CAMP入所証が発行されます。",
     teamLabel:"参加チームを選択",
     memberLabel:"メンバーを選択", memberAll:"チーム全体",
-    boardTitle:"入所生 決意ボード", boardSub:"入所生たちの意気込み一言。気に入った投稿にはいいねを押してね。", boardEmpty:"まだ投稿がありません。最初の入所生になろう！",
+    boardTitle:"入所生 決意ボード", boardSub:"入所生たちの意気込み一言。|気に入った投稿にはいいねを押してね。", boardEmpty:"まだ投稿がありません。最初の入所生になろう！",
+    topBoardTitle:"🔥 人気決意 TOP 3", topBoardSub:"いいね順", sortLatest:"最新順", sortLikes:"いいね順", boardExpand:"もっと見る", boardCollapse:"閉じる",
     nickLabel:"ニックネーム",
     nickPh:"ニックネームを入力",
     msgLabel:"入所の意気込み",
     optional:"(任意)",
-    msgPh:"修練会での一言！",
+    msgPh:"IDOL SCHOOL CAMPでの一言！",
     issueBtn:"入所証を発行する",
     certReady:"入所証が発行されました！🎉",
     download:"画像を保存",
@@ -615,42 +650,44 @@ const I18N = {
     shareIG:"Instagramに投稿",
     igGuide:"画像を保存しました！Instagramで新規投稿を作成し、キャプションを貼り付けてください。",
     tapCopy:"タップでハッシュタグをコピー",
-    footer:"© Muniverse · アイドル修練会 1期",
+    footer:"© Muniverse · IDOL SCHOOL CAMP 1期",
     hashtags:["#MBC","#Muniverse","#IDOLCAMP"],
-    cTitle:"入所申告証",
-    cTitleSub:"입소증",
-    cSeries:"Muniverse Series · アイドル修練会",
+    cTitle:"IDOL SCHOOL CAMP 入所証",
+    cTitleSub:"",
+    cSeries:"Muniverse Series · IDOL SCHOOL CAMP",
     cNick:"入所生",
     cTeam:"参加チーム",
     cPick:"入所仲間",
     cNo:"入所番号",
     cDate:"入所日",
-    cSlogan:"今日からアイドル修練会 1期の入所生です。",
-    cStamp:"入所承認",
+    cSlogan:"今日からIDOL SCHOOL CAMP 1期の入所生です。",
+    cStamp:"入所承認", cStampArc:"IDOL SCHOOL CAMP",
     cChips:["精一杯応援します！","1位を目指そう！","推し ファイティン 🔥","最後まで一緒に","入所完了 ☑"],
-    shareCaption:"アイドル修練会 1期に入所完了！参加チームは {team} 🏕️",
+    shareCaption:"IDOL SCHOOL CAMP 1期に入所完了！参加チームは {team} 🏕️",
     dateFmt:(y,m,d)=>`${y}年${m}月${d}日`,
   },
   "zh-CN":{
-    brandSub:"偶像修炼会 第1期",
+    brandSub:"IDOL SCHOOL CAMP 第1期",
+    heroWordmark:"IDOL SCHOOL CAMP",
     tabEnroll:"入所", tabTalent:"才艺表演", tabFarewell:"退所", tabKit:"结业礼包",
     soon:"即将", soonToast:"敬请期待，即将开放！",
-    schTitle:"播出日程", schSub:"查看各频道的播出日程。所有时间均为 KST。", schKstNote:"所有时间均为 KST。", schMbcTime:"播出 · 19:00 KST（晚7点）", schYtTime:"YouTube 上传 · 18:00 KST（晚6点）",
+    schTitle:"播出日程", schSub:"查看各频道的播出日程。|所有时间均为 KST。", schKstNote:"所有时间均为 KST。", schMbcTime:"播出 · 19:00 KST（晚7点）", schYtTime:"YouTube 上传 · 18:00 KST（晚6点）",
     chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"Muniverse App 独家扩展版",
     augTag:"8月盛大公开", calMonth:"2026年7月", calWeekdays:["日","一","二","三","四","五","六"],
-    heroTitle:"偶像修炼会 第1期 入所申报",
+    heroTitle:"IDOL SCHOOL CAMP 第1期 入所申报",
     heroSub:"正宗 K-POP 偶像亲睦综艺，即将上线！",
     period:"入所申报期间 · 7.8(周三) 〜 7.17(周五)",
     formTitle:"填写入所申报",
-    formSub:"选择应援队伍并输入昵称，即可领取专属入所证。",
+    formSub:"选择应援队伍并输入昵称，|即可领取专属 IDOL SCHOOL CAMP 入所证。",
     teamLabel:"选择参加队伍",
     memberLabel:"选择成员", memberAll:"全队",
-    boardTitle:"入所生宣言墙", boardSub:"入所生们的一句宣言。喜欢的宣言点个赞吧。", boardEmpty:"还没有宣言，来当第一位入所生吧！",
+    boardTitle:"入所生宣言墙", boardSub:"入所生们的一句宣言。|喜欢的宣言点个赞吧。", boardEmpty:"还没有宣言，来当第一位入所生吧！",
+    topBoardTitle:"🔥 人气宣言 TOP 3", topBoardSub:"按点赞数", sortLatest:"最新", sortLikes:"点赞数", boardExpand:"展开", boardCollapse:"收起",
     nickLabel:"昵称",
     nickPh:"请输入昵称",
     msgLabel:"入所宣言一句话",
     optional:"(选填)",
-    msgPh:"说出你的修炼会宣言！",
+    msgPh:"说出你的 IDOL SCHOOL CAMP 宣言！",
     issueBtn:"领取入所证",
     certReady:"入所证已生成！🎉",
     download:"保存图片",
@@ -660,42 +697,44 @@ const I18N = {
     shareIG:"发到 Instagram",
     igGuide:"图片已保存！在 Instagram 新建帖子并粘贴文案即可。",
     tapCopy:"点击复制话题标签",
-    footer:"© Muniverse · 偶像修炼会 第1期",
+    footer:"© Muniverse · IDOL SCHOOL CAMP 第1期",
     hashtags:["#MBC","#Muniverse","#IDOLCAMP"],
-    cTitle:"入所申报证",
-    cTitleSub:"입소증",
-    cSeries:"Muniverse Series · 偶像修炼会",
+    cTitle:"IDOL SCHOOL CAMP 入所证",
+    cTitleSub:"",
+    cSeries:"Muniverse Series · IDOL SCHOOL CAMP",
     cNick:"入所生",
     cTeam:"参加队伍",
     cPick:"入所伙伴",
     cNo:"入所编号",
     cDate:"入所日期",
-    cSlogan:"从今天起，我是偶像修炼会第1期入所生。",
-    cStamp:"入所批准",
+    cSlogan:"从今天起，我是 IDOL SCHOOL CAMP 第1期入所生。",
+    cStamp:"入所批准", cStampArc:"IDOL SCHOOL CAMP",
     cChips:["全力应援！","冲第一名！","本命加油 🔥","一起到最后","入所完成 ☑"],
-    shareCaption:"偶像修炼会第1期入所完成！参加队伍是 {team} 🏕️",
+    shareCaption:"IDOL SCHOOL CAMP 第1期入所完成！参加队伍是 {team} 🏕️",
     dateFmt:(y,m,d)=>`${y}年${m}月${d}日`,
   },
   "zh-TW":{
-    brandSub:"偶像修煉會 第1期",
+    brandSub:"IDOL SCHOOL CAMP 第1期",
+    heroWordmark:"IDOL SCHOOL CAMP",
     tabEnroll:"入所", tabTalent:"才藝表演", tabFarewell:"退所", tabKit:"結業禮包",
     soon:"即將", soonToast:"敬請期待，即將開放！",
-    schTitle:"播出日程", schSub:"查看各頻道的播出日程。所有時間均為 KST。", schKstNote:"所有時間均為 KST。", schMbcTime:"播出 · 19:00 KST（晚間7點）", schYtTime:"YouTube 上傳 · 18:00 KST（晚間6點）",
+    schTitle:"播出日程", schSub:"查看各頻道的播出日程。|所有時間均為 KST。", schKstNote:"所有時間均為 KST。", schMbcTime:"播出 · 19:00 KST（晚間7點）", schYtTime:"YouTube 上傳 · 18:00 KST（晚間6點）",
     chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"Muniverse App 獨家擴充版",
     augTag:"8月盛大公開", calMonth:"2026年7月", calWeekdays:["日","一","二","三","四","五","六"],
-    heroTitle:"偶像修煉會 第1期 入所申報",
+    heroTitle:"IDOL SCHOOL CAMP 第1期 入所申報",
     heroSub:"正宗 K-POP 偶像親睦綜藝，即將上線！",
     period:"入所申報期間 · 7.8(週三) 〜 7.17(週五)",
     formTitle:"填寫入所申報",
-    formSub:"選擇應援隊伍並輸入暱稱，即可領取專屬入所證。",
+    formSub:"選擇應援隊伍並輸入暱稱，|即可領取專屬 IDOL SCHOOL CAMP 入所證。",
     teamLabel:"選擇參加隊伍",
     memberLabel:"選擇成員", memberAll:"全隊",
-    boardTitle:"入所生宣言牆", boardSub:"入所生們的一句宣言。喜歡的宣言按個讚吧。", boardEmpty:"還沒有宣言，來當第一位入所生吧！",
+    boardTitle:"入所生宣言牆", boardSub:"入所生們的一句宣言。|喜歡的宣言按個讚吧。", boardEmpty:"還沒有宣言，來當第一位入所生吧！",
+    topBoardTitle:"🔥 人氣宣言 TOP 3", topBoardSub:"按讚數", sortLatest:"最新", sortLikes:"按讚數", boardExpand:"展開", boardCollapse:"收合",
     nickLabel:"暱稱",
     nickPh:"請輸入暱稱",
     msgLabel:"入所宣言一句話",
     optional:"(選填)",
-    msgPh:"說出你的修煉會宣言！",
+    msgPh:"說出你的 IDOL SCHOOL CAMP 宣言！",
     issueBtn:"領取入所證",
     certReady:"入所證已生成！🎉",
     download:"儲存圖片",
@@ -705,20 +744,20 @@ const I18N = {
     shareIG:"發到 Instagram",
     igGuide:"圖片已儲存！在 Instagram 新建貼文並貼上文案即可。",
     tapCopy:"點擊複製話題標籤",
-    footer:"© Muniverse · 偶像修煉會 第1期",
+    footer:"© Muniverse · IDOL SCHOOL CAMP 第1期",
     hashtags:["#MBC","#Muniverse","#IDOLCAMP"],
-    cTitle:"入所申報證",
-    cTitleSub:"입소증",
-    cSeries:"Muniverse Series · 偶像修煉會",
+    cTitle:"IDOL SCHOOL CAMP 入所證",
+    cTitleSub:"",
+    cSeries:"Muniverse Series · IDOL SCHOOL CAMP",
     cNick:"入所生",
     cTeam:"參加隊伍",
     cPick:"入所夥伴",
     cNo:"入所編號",
     cDate:"入所日期",
-    cSlogan:"從今天起，我是偶像修煉會第1期入所生。",
-    cStamp:"入所批准",
+    cSlogan:"從今天起，我是 IDOL SCHOOL CAMP 第1期入所生。",
+    cStamp:"入所批准", cStampArc:"IDOL SCHOOL CAMP",
     cChips:["全力應援！","衝第一名！","本命加油 🔥","一起到最後","入所完成 ☑"],
-    shareCaption:"偶像修煉會第1期入所完成！參加隊伍是 {team} 🏕️",
+    shareCaption:"IDOL SCHOOL CAMP 第1期入所完成！參加隊伍是 {team} 🏕️",
     dateFmt:(y,m,d)=>`${y}年${m}月${d}日`,
   },
 };
@@ -763,6 +802,7 @@ function buildTeams(){
     el.style.setProperty("--tc", tm.color);
     el.style.setProperty("--tc-bg", tm.bg);
     el.style.setProperty("--tc-soft", tm.color+"33");
+    el.style.setProperty("--tc-txt", tm.badgeText || "#fff");
     el.innerHTML =
       `<span class="chip" style="background:${tm.color}"></span>
        <span class="nm">${tm.name}</span>
@@ -785,7 +825,7 @@ function buildMembers(){
     const on = isAll ? (selectedMember===null) : (selectedMember===m.ko);
     const el=document.createElement("label");
     el.className="team member-chip"; el.dataset.on=on;
-    el.style.setProperty("--tc", tm.color); el.style.setProperty("--tc-bg", tm.bg); el.style.setProperty("--tc-soft", tm.color+"33");
+    el.style.setProperty("--tc", tm.color); el.style.setProperty("--tc-bg", tm.bg); el.style.setProperty("--tc-soft", tm.color+"33"); el.style.setProperty("--tc-txt", tm.badgeText || "#fff");
     el.innerHTML=`<span class="nm">${label}</span><span class="tick">✓</span><input type="radio" name="member">`;
     el.querySelector("input").onchange=()=>{ selectedMember = isAll?null:m.ko; buildMembers(); };
     box.appendChild(el);
@@ -943,8 +983,8 @@ function selectedPhotoMeta(){
 }
 
 /* -------- board store (Supabase if configured, else local) -------- */
-const PAGE_SIZE=7, LS_KEY="itc_board_v1", LS_LIKED="itc_liked_v1";
-let boardPage=1;
+const BOARD_COLLAPSED_LIMIT=7, BOARD_EXPANDED_LIMIT=30, LS_KEY="itc_board_v1", LS_LIKED="itc_liked_v1";
+let boardExpanded=false, boardSort="latest";
 function lsGet(k,def){ try{ const v=localStorage.getItem(k); return v==null?def:JSON.parse(v); }catch(e){ return def; } }
 function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
 function boardNickKey(nick){ return String(nick||"").trim().toLocaleLowerCase(); }
@@ -1094,18 +1134,44 @@ const Board = {
     return {likes, on};
   }
 }
-function renderTopBoard(list){
-  const topEl=$("#boardTop");
-  if(!topEl) return;
-  const ranked=(list||[])
-    .map(it=>({...it, likes:Number(it.likes||0)}))
-    .sort((a,b)=>{
+function sortBoardList(list, mode){
+  const arr=(list||[]).map(it=>({...it, likes:Number(it.likes||0)}));
+  if(mode==="likes"){
+    return arr.sort((a,b)=>{
       if(b.likes!==a.likes) return b.likes-a.likes;
       const bt=new Date(b.ts||0).getTime()||0;
       const at=new Date(a.ts||0).getTime()||0;
       return bt-at;
-    })
-    .slice(0,3);
+    });
+  }
+  return arr.sort((a,b)=>{
+    const bt=new Date(b.ts||0).getTime()||0;
+    const at=new Date(a.ts||0).getTime()||0;
+    if(bt!==at) return bt-at;
+    return Number(b.likes||0)-Number(a.likes||0);
+  });
+}
+function teamBadgeStyle(tm){
+  if(!tm) return "";
+  return `background:${tm.color};color:${tm.badgeText||"#fff"}`;
+}
+async function jumpToBoardMessage(id){
+  boardExpanded=true;
+  boardSort="likes";
+  await renderBoard();
+  requestAnimationFrame(()=>{
+    const target=[...document.querySelectorAll(".board-item")].find(el=>String(el.dataset.id)===String(id));
+    if(target){
+      target.scrollIntoView({behavior:"smooth",block:"center"});
+      target.classList.add("spotlight");
+      setTimeout(()=>target.classList.remove("spotlight"),1800);
+    }
+  });
+}
+function renderTopBoard(list){
+  const topEl=$("#boardTop");
+  if(!topEl) return;
+  const ranked=sortBoardList(list,"likes").slice(0,3);
 
   if(!ranked.length){
     topEl.classList.remove("show");
@@ -1116,24 +1182,27 @@ function renderTopBoard(list){
   const medals=["🥇","🥈","🥉"];
   topEl.classList.add("show");
   topEl.innerHTML=`<div class="top-board-title">
-      <strong>🔥 인기 다짐 TOP 3</strong>
-      <span>좋아요 많은 순</span>
+      <strong>${esc(t().topBoardTitle||"🔥 인기 다짐 TOP 3")}</strong>
+      <span>${esc(t().topBoardSub||"좋아요 많은 순")}</span>
     </div>
     <div class="top-board-list">
       ${ranked.map((it,i)=>{
         const tm=CONFIG.teams.find(x=>x.id===it.team);
         const tname=tm?tm.name:esc(it.team||"");
-        return `<article class="top-board-card ${i===0?'first':''}">
+        return `<button type="button" class="top-board-card ${i===0?'first':''}" data-jump="${esc(it.id)}" aria-label="${esc(clean(it.msg))}">
           <div class="top-board-rank"><span class="medal">${medals[i]}</span><span class="rank-num">${i+1}위</span></div>
           <div class="top-board-meta">
             <div class="top-board-nick">${esc(it.nick)}</div>
-            ${tm?`<div class="top-board-team" style="background:${tm.color}">${esc(tname)}</div>`:''}
+            ${tm?`<div class="top-board-team" style="${teamBadgeStyle(tm)}">${esc(tname)}</div>`:''}
           </div>
           <div class="top-board-msg">${esc(clean(it.msg))}</div>
           <div class="top-board-like">♥ ${it.likes}</div>
-        </article>`;
+        </button>`;
       }).join("")}
     </div>`;
+  topEl.querySelectorAll("[data-jump]").forEach(b=>{
+    b.onclick=()=>jumpToBoardMessage(b.dataset.jump);
+  });
 }
 
 async function renderBoard(){
@@ -1141,33 +1210,60 @@ async function renderBoard(){
   const cap=(CONFIG.board&&CONFIG.board.maxShown)||300;
   if(list.length>cap) list=list.slice(0,cap);
   renderTopBoard(list);
-  const el=$("#boardList"), pg=$("#boardPager");
+
+  const el=$("#boardList"), pg=$("#boardPager"), controls=$("#boardControls");
   if(!el) return;
-  const total=list.length, pages=Math.max(1,Math.ceil(total/PAGE_SIZE));
-  if(boardPage>pages) boardPage=pages;
-  if(!total){ renderTopBoard([]); el.innerHTML=`<div class="board-empty">${esc(t().boardEmpty)}</div>`; pg.innerHTML=""; return; }
-  const start=(boardPage-1)*PAGE_SIZE, slice=list.slice(start,start+PAGE_SIZE);
+
+  const sorted=sortBoardList(list,boardSort);
+  const total=sorted.length;
+  const limit=boardExpanded?BOARD_EXPANDED_LIMIT:BOARD_COLLAPSED_LIMIT;
+  const slice=sorted.slice(0,limit);
+
+  if(controls){
+    controls.innerHTML=`<div class="board-sort" role="group" aria-label="Board sort">
+        <button type="button" data-sort="latest" aria-pressed="${boardSort==="latest"}">${esc(t().sortLatest||"최신 순")}</button>
+        <button type="button" data-sort="likes" aria-pressed="${boardSort==="likes"}">${esc(t().sortLikes||"좋아요 순")}</button>
+      </div>
+      ${total>BOARD_COLLAPSED_LIMIT?`<button type="button" class="board-toggle" data-toggle="board">${boardExpanded?esc(t().boardCollapse||"접기"):esc(t().boardExpand||"펼치기")} ${boardExpanded?Math.min(total,BOARD_EXPANDED_LIMIT):Math.min(total,BOARD_EXPANDED_LIMIT)}</button>`:""}`;
+    controls.querySelectorAll("[data-sort]").forEach(b=>{
+      b.onclick=()=>{ boardSort=b.dataset.sort; renderBoard(); };
+    });
+    const toggle=controls.querySelector("[data-toggle='board']");
+    if(toggle) toggle.onclick=()=>{ boardExpanded=!boardExpanded; renderBoard(); };
+  }
+
+  if(!total){
+    renderTopBoard([]);
+    el.innerHTML=`<div class="board-empty">${esc(t().boardEmpty)}</div>`;
+    if(pg) pg.innerHTML="";
+    return;
+  }
+
   el.innerHTML=slice.map(it=>{
     const tm=CONFIG.teams.find(x=>x.id===it.team); const tname=tm?tm.name:esc(it.team||"");
     const liked=Board.isLiked(it.id);
-    return `<div class="board-item">
+    return `<div class="board-item" data-id="${esc(it.id)}">
       <div class="bi-main">
-        <div class="bi-head"><span class="bi-nick">${esc(it.nick)}</span>${tm?`<span class="bi-team" style="background:${tm.color}">${esc(tname)}</span>`:''}</div>
+        <div class="bi-head"><span class="bi-nick">${esc(it.nick)}</span>${tm?`<span class="bi-team" style="${teamBadgeStyle(tm)}">${esc(tname)}</span>`:''}</div>
         <div class="bi-msg">${esc(clean(it.msg))}</div>
       </div>
       <button class="board-like" data-id="${esc(it.id)}" aria-pressed="${liked}"><span class="heart">${liked?'❤️':'🤍'}</span><span class="cnt">${it.likes}</span></button>
     </div>`;
   }).join("");
-  el.querySelectorAll(".board-like").forEach(b=>{ b.onclick=async()=>{ const r=await Board.like(b.dataset.id); if(r){ b.setAttribute("aria-pressed",r.on); b.querySelector(".heart").textContent=r.on?'❤️':'🤍'; b.querySelector(".cnt").textContent=r.likes; await renderBoard(); } }; });
-  // pager
-  if(pages<=1){ pg.innerHTML=""; return; }
-  let ph=`<button ${boardPage===1?'disabled':''} data-go="${boardPage-1}">‹</button>`;
-  const nums=[...new Set([1,pages,boardPage,boardPage-1,boardPage+1])].filter(n=>n>=1&&n<=pages).sort((a,b)=>a-b);
-  let prev=0;
-  nums.forEach(n=>{ if(prev && n-prev>1) ph+=`<span class="pg-ell">…</span>`; ph+=`<button aria-current="${n===boardPage}" data-go="${n}">${n}</button>`; prev=n; });
-  ph+=`<button ${boardPage===pages?'disabled':''} data-go="${boardPage+1}">›</button>`;
-  pg.innerHTML=ph;
-  pg.querySelectorAll("button[data-go]").forEach(b=>{ if(!b.disabled) b.onclick=()=>{ boardPage=+b.dataset.go; renderBoard(); $("#board").scrollIntoView({behavior:"smooth",block:"start"}); }; });
+
+  el.querySelectorAll(".board-like").forEach(b=>{
+    b.onclick=async()=>{
+      const r=await Board.like(b.dataset.id);
+      if(r){
+        b.setAttribute("aria-pressed",r.on);
+        b.querySelector(".heart").textContent=r.on?'❤️':'🤍';
+        b.querySelector(".cnt").textContent=r.likes;
+        await renderBoard();
+      }
+    };
+  });
+
+  if(pg) pg.innerHTML="";
 }
 
 /* -------- CERTIFICATE RENDER (Canvas 1080x1350) -------- */
@@ -1229,7 +1325,7 @@ function drawArcText(ctx, str, cx, cy, r, opts){
 }
 
 // custom 아이돌 수련회 seal: double ring + arc text + tent icon
-function drawCampStamp(ctx, cx, cy, color){
+function drawCampStamp(ctx, cx, cy, color, arcText="아이돌 수련회"){
   ctx.save();
   ctx.translate(cx,cy); ctx.rotate(-Math.PI/12); ctx.globalAlpha=.92;
   ctx.lineJoin="round"; ctx.lineCap="round";
@@ -1239,7 +1335,7 @@ function drawCampStamp(ctx, cx, cy, color){
   ctx.setLineDash([2,7]); ctx.lineWidth=2; ctx.beginPath(); ctx.arc(0,0,R-9,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
   // arc text
   const CJK=`"Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-  drawArcText(ctx,"아이돌 수련회",0,0,R-23,{font:`900 19px ${CJK}`,color,position:"top",letterSpacing:0.02});
+  drawArcText(ctx,arcText,0,0,R-23,{font:`900 18px ${CJK}`,color,position:"top",letterSpacing:0.02});
   drawArcText(ctx,"Muniverse",0,0,R-24,{font:`800 15px "Pretendard",system-ui,sans-serif`,color,position:"bottom",letterSpacing:0.10});
   // separators
   drawStar(ctx,-(R-23),0,6,color,null);
@@ -1416,7 +1512,7 @@ async function renderCert(){
   ctx.font=`600 ${ss}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
   ctx.fillText(T.cSlogan, W/2, sloganY);
 
-  drawCampStamp(ctx, W-M-152, H-M-160, tm.color);
+  drawCampStamp(ctx, W-M-152, H-M-160, tm.color, T.cStampArc || "아이돌 수련회");
 
   ctx.globalAlpha=1; ctx.fillStyle='#8AA07E'; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
   ctx.font='800 18px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif';
@@ -1439,7 +1535,8 @@ async function issue(){
   if(pledge){
     try{
       const result=await Board.add({nick:$("#nick").value.trim(), team:selectedTeam, msg:pledge});
-      boardPage=1;
+      boardExpanded=false;
+      boardSort="latest";
       await renderBoard();
       if(result && result.duplicate) toast("이미 등록된 닉네임입니다. 다짐은 한 번만 올라가요.");
       else if(result && result.error) toast("다짐 등록 실패 · Supabase 설정을 확인해주세요.");
