@@ -935,22 +935,37 @@ const Board = {
     const s=this.sb();
     if(s){
       try{
-        // Supabase DB의 nickname_key unique 제약과 함께 동작합니다.
-        // 같은 닉네임이면 409 duplicate로 막고, 로컬 fallback도 하지 않습니다.
+        // 1차 방어: insert 전에 DB에서 같은 nickname_key가 있는지 먼저 확인
+        const check=await fetch(`${s.url}/rest/v1/${this.table()}?nickname_key=eq.${encodeURIComponent(key)}&select=id&limit=1`,{
+          headers:this.headers()
+        });
+        if(check.ok){
+          const exists=await check.json();
+          if(exists && exists.length) return {inserted:false, duplicate:true};
+        }else{
+          console.warn("Board duplicate precheck failed. Continue with unique constraint.", await check.text());
+        }
+
+        // 2차 방어: nickname_key를 직접 함께 저장
+        // 3차 방어: DB unique index가 최종 중복을 차단
         const r=await fetch(`${s.url}/rest/v1/${this.table()}`,{
           method:"POST",
           headers:this.headers({"Content-Type":"application/json",Prefer:"return=minimal"}),
-          body:JSON.stringify({nickname:entry.nick,team:entry.team,message:entry.msg,likes:0})
+          body:JSON.stringify({nickname:entry.nick,nickname_key:key,team:entry.team,message:entry.msg,likes:0})
         });
         if(r.ok) return {inserted:true, duplicate:false};
+
         const errText=await r.text();
         if(r.status===409 || /duplicate key|23505|unique/i.test(errText)){
           console.info("Board duplicate nickname blocked.", errText);
           return {inserted:false, duplicate:true};
         }
-        throw new Error(errText);
+
+        console.warn("Board insert failed.", errText);
+        return {inserted:false, duplicate:false, error:true};
       }catch(err){
-        console.warn("Board insert failed. Falling back to local board only for non-duplicate errors.", err);
+        console.warn("Board insert failed.", err);
+        return {inserted:false, duplicate:false, error:true};
       }
     }
 
@@ -1365,6 +1380,7 @@ async function issue(){
       boardPage=1;
       await renderBoard();
       if(result && result.duplicate) toast("이미 등록된 닉네임입니다. 다짐은 한 번만 올라가요.");
+      else if(result && result.error) toast("다짐 등록 실패 · Supabase 설정을 확인해주세요.");
     }catch(e){}
   }
 }
