@@ -1337,11 +1337,22 @@ async function renderCert(){
 
   if(msg){
     roundRect(ctx,infoX,cy,infoW,76,18); ctx.fillStyle='#EFF5E7'; ctx.fill();
-    ctx.fillStyle=tm.color; ctx.font='900 40px Georgia,serif'; ctx.textAlign='left'; ctx.fillText('“',infoX+14,cy+52);
-    ctx.fillStyle='#123A2E'; ctx.textAlign='center'; ctx.textBaseline='middle';
-    const ms=fitText(ctx,msg,infoW-110,30,18);
+
+    // 사용자 입력 다짐: 양쪽 따옴표 + 볼드 강조
+    ctx.fillStyle=tm.color;
+    ctx.font='900 40px Georgia,serif';
+    ctx.textBaseline='middle';
+    ctx.textAlign='left';
+    ctx.fillText('“',infoX+14,cy+42);
+    ctx.textAlign='right';
+    ctx.fillText('”',infoX+infoW-14,cy+42);
+
+    ctx.fillStyle='#123A2E';
+    ctx.textAlign='center';
+    ctx.textBaseline='middle';
+    const ms=fitText(ctx,msg,infoW-140,30,18);
     ctx.font=`900 ${ms}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
-    ctx.fillText(ellipsizeText(ctx,msg,infoW-110), infoX+infoW/2, cy+40);
+    ctx.fillText(ellipsizeText(ctx,msg,infoW-140), infoX+infoW/2, cy+40);
     cy += 102;
   }
 
