@@ -263,6 +263,7 @@
   .sched-aug .aug-txt .aug-line + .aug-line{margin-top:3px}
   html[lang="en"] .sched-aug .aug-txt{max-width:760px;font-size:clamp(13px,2.2vw,17px)}
   .sched-aug .aug-spark{margin-left:auto;font-size:26px;z-index:1}
+  .sched-aug:focus-visible{outline:4px solid rgba(255,255,255,.9);outline-offset:3px}
   .sched-aug .aug-shine{position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-18deg);animation:augshine 3.2s ease-in-out infinite}
   @keyframes augshine{0%{left:-60%}55%{left:130%}100%{left:130%}}
   @media (max-width:640px){
@@ -490,12 +491,12 @@
     </div>
     <div class="sched-month"><span>⛺</span> <span data-i18n="calMonth">2026년 7월</span> <span>🔥</span></div>
     <div id="schedGrid" class="sched-grid"></div>
-    <div class="sched-aug">
+    <div class="sched-aug" id="augExtendedBanner" role="link" tabindex="0" aria-label="Muniverse extended cut" style="cursor:pointer">
       <div class="aug-shine"></div>
       <span class="aug-emoji">📱</span>
       <div class="aug-main">
         <span class="aug-badge" data-i18n="augTag">8월 대공개</span>
-        <span class="aug-txt" data-i18n="chApp">숨겨진 분량까지 모두 모아, 더 크게 더 재밌게 🎬<br>〈아이돌 수련회〉 확장판, 뮤니버스 앱 독점 공개 🏕️</span>
+        <span class="aug-txt" data-i18n="chApp">🎬 숨겨진 분량까지 모두 모아, 더 크게 더 재밌게<br>🏕️ 〈아이돌 수련회〉 확장판, 뮤니버스 앱 독점 공개</span>
       </div>
       <span class="aug-spark">✨</span>
     </div>
@@ -561,7 +562,7 @@ const I18N = {
     tabEnroll:"입소", tabTalent:"장기자랑", tabFarewell:"퇴소", tabKit:"수료 키트",
     soon:"준비중", soonToast:"순차 공개 준비 중입니다. 조금만 기다려 주세요!",
     schTitle:"방송 일정", schSub:"채널별 공개 일정을 확인하세요.|모든 일정은 KST 기준입니다.", schKstNote:"모든 일정은 KST 기준입니다.", schMbcTime:"방송 · 19:00 KST (저녁 7시)", schYtTime:"유튜브 업로드 · 18:00 KST (저녁 6시)",
-    chMBC:"MBC M", chYT:"뮤니버스 유튜브", chApp:"숨겨진 분량까지 모두 모아, 더 크게 더 재밌게 🎬|〈아이돌 수련회〉 확장판, 뮤니버스 앱 독점 공개 🏕️",
+    chMBC:"MBC M", chYT:"뮤니버스 유튜브", chApp:"🎬 숨겨진 분량까지 모두 모아, 더 크게 더 재밌게|🏕️ 〈아이돌 수련회〉 확장판, 뮤니버스 앱 독점 공개",
     augTag:"8월 대공개", calMonth:"2026년 7월", calWeekdays:["일","월","화","수","목","금","토"],
     heroTitle:"아이돌 수련회 1기 입소 신고",
     heroSub:"본격 K-POP 아이돌 친목 버라이어티!|지금 아이돌 수련회에 입소하세요.",
@@ -609,7 +610,7 @@ const I18N = {
     tabEnroll:"Enrollment", tabTalent:"Talent Show", tabFarewell:"Farewell", tabKit:"Completion Kit",
     soon:"Preparing", soonToast:"This section is being prepared for release. Please stay tuned!",
     schTitle:"Broadcast Schedule", schSub:"Check the release schedule by channel.|All times are in KST.", schKstNote:"All times are in KST.", schMbcTime:"Broadcast · 19:00 KST (7 PM)", schYtTime:"YouTube Upload · 18:00 KST (6 PM)",
-    chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"All hidden moments, bigger and funnier 🎬|〈IDOL SCHOOL CAMP〉 Extended Cut, exclusively on the Muniverse app 🏕️",
+    chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"🎬 All hidden moments, bigger and funnier|🏕️ 〈IDOL SCHOOL CAMP〉 Extended Cut, exclusively on the Muniverse app",
     augTag:"Big August Release", calMonth:"July 2026", calWeekdays:["S","M","T","W","T","F","S"],
     heroTitle:"Idol School Camp — Class 1 Enrollment",
     heroSub:"A full-on K-POP idol friendship variety!|Join Idol School Camp now.",
@@ -656,7 +657,7 @@ const I18N = {
     tabEnroll:"入所", tabTalent:"隠し芸", tabFarewell:"退所", tabKit:"修了キット",
     soon:"準備中", soonToast:"順次公開に向けて準備中です。少々お待ちください！",
     schTitle:"放送スケジュール", schSub:"チャンネル別の公開スケジュールをご確認ください。|すべてKST基準です。", schKstNote:"すべてKST基準です。", schMbcTime:"放送 · 19:00 KST (午後7時)", schYtTime:"YouTube公開 · 18:00 KST (午後6時)",
-    chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"未公開シーンまで集めて、もっと大きくもっと楽しく 🎬|〈IDOL SCHOOL CAMP〉拡張版、Muniverseアプリ独占公開 🏕️",
+    chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"🎬 未公開シーンまで集めて、もっと大きくもっと楽しく|🏕️ 〈IDOL SCHOOL CAMP〉拡張版、Muniverseアプリ独占公開",
     augTag:"8月 大公開", calMonth:"2026年7月", calWeekdays:["日","月","火","水","木","金","土"],
     heroTitle:"IDOL SCHOOL CAMP 1期 入所申告",
     heroSub:"本格K-POPアイドル親睦バラエティ！|今すぐIDOL SCHOOL CAMPに入所しよう。",
@@ -703,7 +704,7 @@ const I18N = {
     tabEnroll:"入所", tabTalent:"才艺表演", tabFarewell:"退所", tabKit:"结业礼包",
     soon:"准备中", soonToast:"该区域正在准备陆续开放，敬请期待！",
     schTitle:"播出日程", schSub:"查看各频道的播出日程。|所有时间均为 KST。", schKstNote:"所有时间均为 KST。", schMbcTime:"播出 · 19:00 KST（晚7点）", schYtTime:"YouTube 上传 · 18:00 KST（晚6点）",
-    chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"隐藏片段全部集结，更大规模、更有趣 🎬|〈IDOL SCHOOL CAMP〉扩展版，Muniverse App 独家公开 🏕️",
+    chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"🎬 隐藏片段全部集结，更大规模、更有趣|🏕️ 〈IDOL SCHOOL CAMP〉扩展版，Muniverse App 独家公开",
     augTag:"8月盛大公开", calMonth:"2026年7月", calWeekdays:["日","一","二","三","四","五","六"],
     heroTitle:"IDOL SCHOOL CAMP 第1期 入所申报",
     heroSub:"正式 K-POP 偶像联谊综艺！|现在加入 IDOL SCHOOL CAMP。",
@@ -750,7 +751,7 @@ const I18N = {
     tabEnroll:"入所", tabTalent:"才藝表演", tabFarewell:"退所", tabKit:"結業禮包",
     soon:"準備中", soonToast:"該區域正在準備陸續開放，敬請期待！",
     schTitle:"播出日程", schSub:"查看各頻道的播出日程。|所有時間均為 KST。", schKstNote:"所有時間均為 KST。", schMbcTime:"播出 · 19:00 KST（晚間7點）", schYtTime:"YouTube 上傳 · 18:00 KST（晚間6點）",
-    chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"隱藏片段全部集結，更大規模、更有趣 🎬|〈IDOL SCHOOL CAMP〉擴充版，Muniverse App 獨家公開 🏕️",
+    chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"🎬 隱藏片段全部集結，更大規模、更有趣|🏕️ 〈IDOL SCHOOL CAMP〉擴充版，Muniverse App 獨家公開",
     augTag:"8月盛大公開", calMonth:"2026年7月", calWeekdays:["日","一","二","三","四","五","六"],
     heroTitle:"IDOL SCHOOL CAMP 第1期 入所申報",
     heroSub:"正式 K-POP 偶像聯誼綜藝！|現在加入 IDOL SCHOOL CAMP。",
@@ -1438,10 +1439,17 @@ function isLightHexColor(hex){
   return luminance >= 0.72;
 }
 function certAccentColor(tm){
+  if(tm && tm.id==="closeyoureyes") return "#FFFFFF";
   return isLightHexColor(tm && tm.color) ? (tm.badgeBorder || "#123A2E") : tm.color;
 }
+function certBorderColor(tm){
+  if(tm && tm.id==="closeyoureyes") return tm.badgeBorder || "#111111";
+  const accent = certAccentColor(tm);
+  return isLightHexColor(accent) ? (tm.badgeBorder || "#123A2E") : accent;
+}
 function certTextOnTeamColor(tm){
-  return isLightHexColor(tm && tm.color) ? "#123A2E" : "rgba(255,255,255,.95)";
+  const accent = certAccentColor(tm);
+  return isLightHexColor(accent) ? "#111111" : "rgba(255,255,255,.95)";
 }
 
 function drawCampStamp(ctx, cx, cy, color, arcText="아이돌 수련회"){
@@ -1482,6 +1490,7 @@ async function renderCert(){
   const mn = memberName();
   const photoMeta = selectedPhotoMeta();
   const certAccent = certAccentColor(tm);
+  const certBorder = certBorderColor(tm);
   const certOnAccent = certTextOnTeamColor(tm);
 
   try{ await document.fonts.ready; }catch(e){}
@@ -1498,9 +1507,10 @@ async function renderCert(){
   roundRect(ctx,M,M,cardW,cardH,40); ctx.fillStyle="#FBF6E9"; ctx.fill();
   ctx.restore();
   roundRect(ctx,M+26,M+26,cardW-52,cardH-52,28);
-  ctx.setLineDash([12,10]); ctx.lineWidth=3; ctx.strokeStyle=certAccent; ctx.globalAlpha=.55; ctx.stroke();
+  ctx.setLineDash([12,10]); ctx.lineWidth=3; ctx.strokeStyle=certBorder; ctx.globalAlpha=.55; ctx.stroke();
   ctx.setLineDash([]); ctx.globalAlpha=1;
-  roundRect(ctx,M,M,cardW,104,{tl:40,tr:40,br:0,bl:0}); ctx.fillStyle=certAccent; ctx.fill();
+  roundRect(ctx,M,M,cardW,104,{tl:40,tr:40,br:0,bl:0}); ctx.fillStyle=certBorder; ctx.fill();
+  if(isLightHexColor(certAccent)){ ctx.lineWidth=3; ctx.strokeStyle=certBorder; ctx.stroke(); }
   ctx.fillStyle=certOnAccent; ctx.textAlign="center"; ctx.textBaseline="middle";
   ctx.font=`800 24px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
   ctx.fillText(T.cSeries, W/2, M+54);
@@ -1542,7 +1552,7 @@ async function renderCert(){
     ctx.beginPath(); ctx.arc(photoX+photoW*0.18, photoY+photoH*0.28, 56, 0, 7); ctx.fill();
     ctx.fillStyle=tm.color+'33';
     ctx.fillRect(photoX+60, photoY+photoH-120, photoW-120, 26);
-    ctx.fillStyle=certAccent;
+    ctx.fillStyle=certBorder;
     ctx.font='900 42px "Pretendard","Noto Sans KR",sans-serif';
     ctx.textAlign='center'; ctx.textBaseline='middle';
     ctx.fillText(mn || tm.name, photoX+photoW/2, photoY+photoH/2-12);
@@ -1555,7 +1565,7 @@ async function renderCert(){
   overlay.addColorStop(1,'rgba(15,59,58,.82)');
   ctx.fillStyle=overlay; ctx.fillRect(photoX,photoY,photoW,photoH);
   ctx.restore();
-  roundRect(ctx,photoX,photoY,photoW,photoH,28); ctx.lineWidth=6; ctx.strokeStyle=certAccent; ctx.stroke();
+  roundRect(ctx,photoX,photoY,photoW,photoH,28); ctx.lineWidth=6; ctx.strokeStyle=certBorder; ctx.stroke();
 
   ctx.textAlign='left'; ctx.textBaseline='alphabetic';
   ctx.fillStyle='rgba(255,255,255,.96)';
@@ -1607,7 +1617,7 @@ async function renderCert(){
     roundRect(ctx,infoX,cy,infoW,76,18); ctx.fillStyle='#EFF5E7'; ctx.fill();
 
     // 사용자 입력 다짐: 양쪽 따옴표 + 볼드 강조
-    ctx.fillStyle=certAccent;
+    ctx.fillStyle=certBorder;
     ctx.font='900 40px Georgia,serif';
     ctx.textBaseline='middle';
     ctx.textAlign='left';
@@ -1633,7 +1643,7 @@ async function renderCert(){
   ctx.font=`600 ${ss}px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif`;
   ctx.fillText(T.cSlogan, W/2, sloganY);
 
-  drawCampStamp(ctx, W-M-152, H-M-160, certAccent, T.cStampArc || "아이돌 수련회");
+  drawCampStamp(ctx, W-M-152, H-M-160, certBorder, T.cStampArc || "아이돌 수련회");
 
   ctx.globalAlpha=1; ctx.fillStyle='#8AA07E'; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
   ctx.font='800 18px "Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",sans-serif';
@@ -1751,6 +1761,19 @@ document.querySelectorAll('.tab').forEach(tb=>{
   tb.addEventListener('click',()=>{ if(tb.classList.contains('locked')) toast(t().soonToast); });
 });
 $("#heroLogo").src=LOGO_SRC;
+
+const augBanner = $("#augExtendedBanner");
+if(augBanner){
+  const openAugLink = ()=>window.open("https://www.muniverse.io/titles/bb4d517b-7770-4695-957c-0e44056217fb?defaultTab=details", "_blank", "noopener");
+  augBanner.addEventListener("click", openAugLink);
+  augBanner.addEventListener("keydown", (e)=>{
+    if(e.key==="Enter" || e.key===" "){
+      e.preventDefault();
+      openAugLink();
+    }
+  });
+}
+
 
 document.documentElement.lang=lang;
 loadMemberPhotos();
