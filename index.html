@@ -12,6 +12,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@700&display=swap" rel="stylesheet" />
+<!-- 🔑 연결 설정: config.js 파일의 키값만 채우면 됩니다 (아래 파일이 없어도 정상 동작) -->
+<script src="config.js" onerror="window.__noConfig=1"></script>
 <style>
   :root{
     --green:#8FB35A;        /* page base green */
@@ -351,12 +353,14 @@
    Single-file, client-side (GitHub Pages ready). No server required.
    ========================================================================= */
 
-/* -------- CONFIG : 실무자가 여기만 바꾸면 됩니다 -------- */
+/* -------- CONFIG -------- */
+/* 🔑 실제 연결값은 config.js 에서 채웁니다. (이 파일은 수정할 필요 없음) */
+const _CFG = (typeof window!=="undefined" && window.MUNIVERSE_CONFIG) || {};
 const CONFIG = {
-  gisu: 1,                 // 기수
+  gisu: _CFG.gisu || 1,                 // 기수
   passPrefix: "IDC",       // 입소번호 접두어
   hashtags: ["#아이돌수련회", "#아이돌수련회입소식", "#Muniverse"], // 언어별 태그는 I18N.<lang>.hashtags 우선
-  shareUrl: "",            // 이벤트 페이지 URL (배포 후 채우면 X 공유에 포함)
+  shareUrl: _CFG.shareUrl || "",        // 이벤트 페이지 URL (config.js에서 채우면 X 공유에 포함)
   // 팀 정의: id / 표시명 / 대표색(입소증 배지·강조). 색은 자유 교체 가능.
   // 참가팀 + 멤버(ko 표기 / en 표기). 외국어 UI에서는 en으로 노출.
   teams: [
@@ -372,9 +376,9 @@ const CONFIG = {
       {ko:"박한",en:"Han"},{ko:"스티븐",en:"Steven"},{ko:"제이엘",en:"JL"},{ko:"서정우",en:"Jeongwoo"},{ko:"박주원",en:"Juwon"},
       {ko:"차웅기",en:"Woongki"},{ko:"즈언",en:"Chih En"},{ko:"장슈아이보",en:"Shuaibo"},{ko:"다이스케",en:"Daisuke"} ]},
   ],
-  // Supabase(선택). 채우면 공유형 게시판/순차 입소번호 동작. 비우면 로컬 동작.
-  supabase: { url:"", anonKey:"", table:"enrollments", msgTable:"board_messages" },
-  board: { maxShown: 300 }  // 게시판 최신 N개까지 노출(30개/페이지 → 최대 10페이지)
+  // Supabase: config.js 의 supabaseUrl / supabaseAnonKey 만 채우면 공유형 게시판·순차 입소번호 동작. 비우면 로컬 동작.
+  supabase: { url: _CFG.supabaseUrl || "", anonKey: _CFG.supabaseAnonKey || "", table:"enrollments", msgTable:"board_messages" },
+  board: { maxShown: _CFG.maxShown || 300 }  // 게시판 최신 N개까지 노출(10개/페이지)
 };
 
 /* -------- I18N -------- */
@@ -1121,23 +1125,26 @@ async function copyHash(){
   catch(e){ toast(tags().join(" ")); }
 }
 
-/* -------- Supabase logging (optional, non-blocking) -------- */
-/* returns the enrollment sequence id (bigint) when Supabase is on, else null */
+/* -------- Supabase enrollment (optional) -------- */
+/* returns sequential id when the enroll() RPC exists, else null (→ deterministic pass) */
 async function logEnrollment(){
   const S=CONFIG.supabase;
-  if(!S.url || !S.anonKey) return null; // disabled → deterministic pass used
+  if(!S.url || !S.anonKey) return null;
+  const H={ "Content-Type":"application/json", "apikey":S.anonKey, "Authorization":"Bearer "+S.anonKey };
+  const nick=$("#nick").value.trim();
+  // 1) enroll() RPC → returns 입소 순번(id). 테이블은 비공개 유지(security definer).
   try{
-    const r=await fetch(`${S.url}/rest/v1/${S.table}`,{
-      method:"POST",
-      headers:{ "Content-Type":"application/json", "apikey":S.anonKey, "Authorization":"Bearer "+S.anonKey, "Prefer":"return=representation" },
-      body:JSON.stringify({
-        team:selectedTeam, nickname:$("#nick").value.trim(),
-        member:selectedMember||null, lang, created_at:new Date().toISOString()
-      })
-    });
-    const rows=await r.json();
-    return (Array.isArray(rows)&&rows[0]&&rows[0].id)?rows[0].id:null;
-  }catch(e){ return null; }
+    const r=await fetch(`${S.url}/rest/v1/rpc/enroll`,{method:"POST",headers:H,
+      body:JSON.stringify({p_team:selectedTeam, p_nick:nick, p_member:selectedMember||null, p_lang:lang})});
+    if(r.ok){ const v=await r.json(); if(typeof v==="number") return v; if(v&&v.id) return v.id; }
+  }catch(e){}
+  // 2) fallback: 단순 insert(순번 미반환)
+  try{
+    await fetch(`${S.url}/rest/v1/${S.table}`,{method:"POST",
+      headers:{...H,"Prefer":"return=minimal"},
+      body:JSON.stringify({team:selectedTeam, nickname:nick, member:selectedMember||null, lang, created_at:new Date().toISOString()})});
+  }catch(e){}
+  return null;
 }
 
 /* -------- wire up -------- */
