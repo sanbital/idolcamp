@@ -180,8 +180,10 @@
   }
   .share-row .btn{
     flex:1 1 0;min-width:0;
-    display:flex;align-items:center;justify-content:center;gap:8px;
-    white-space:nowrap;word-break:keep-all;overflow-wrap:normal;line-height:1.15
+    display:flex;align-items:center;justify-content:center;gap:7px;
+    white-space:nowrap;word-break:keep-all;overflow-wrap:normal;line-height:1.15;
+    font-size:clamp(15px,3.8vw,18px);
+    letter-spacing:-.3px;
   }
   .hashline{margin-top:14px;font-size:13px;font-weight:700;color:#2a5241;background:#EAF3DE;border:1.5px dashed rgba(15,59,58,.3);
     border-radius:12px;padding:11px 12px;cursor:pointer;max-width:420px;margin-left:auto;margin-right:auto;position:relative}
@@ -255,7 +257,7 @@
     .sched-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     .sched-card .sc-time{font-size:11px;padding:4px 8px}
     .share-row{gap:8px}
-    .share-row .btn{font-size:18px;padding-left:8px;padding-right:8px;gap:6px}
+    .share-row .btn{font-size:16px;padding-left:8px;padding-right:8px;gap:5px}
     .board-controls{align-items:stretch;gap:8px}
     .board-sort{flex:1;min-width:0}
     .board-sort button{flex:1;padding:8px 8px}
@@ -371,9 +373,9 @@
   <!-- TABS -->
   <nav class="tabs" id="tabbar" role="tablist" aria-label="sections">
     <button class="tab active" data-tab="enroll" data-i18n="tabEnroll">입소</button>
-    <button class="tab locked" data-tab="talent" aria-disabled="true"><span class="lock">🔒</span><span data-i18n="tabTalent">장기자랑</span><em class="soon" data-i18n="soon">예정</em></button>
-    <button class="tab locked" data-tab="farewell" aria-disabled="true"><span class="lock">🔒</span><span data-i18n="tabFarewell">퇴소</span><em class="soon" data-i18n="soon">예정</em></button>
-    <button class="tab locked" data-tab="kit" aria-disabled="true"><span class="lock">🛍️</span><span data-i18n="tabKit">수료 키트</span><em class="soon" data-i18n="soon">예정</em></button>
+    <button class="tab locked" data-tab="talent" aria-disabled="true"><span class="lock">🔒</span><span data-i18n="tabTalent">장기자랑</span><em class="soon" data-i18n="soon">준비중</em></button>
+    <button class="tab locked" data-tab="farewell" aria-disabled="true"><span class="lock">🔒</span><span data-i18n="tabFarewell">퇴소</span><em class="soon" data-i18n="soon">준비중</em></button>
+    <button class="tab locked" data-tab="kit" aria-disabled="true"><span class="lock">🛍️</span><span data-i18n="tabKit">수료 키트</span><em class="soon" data-i18n="soon">준비중</em></button>
   </nav>
 
   <!-- HERO -->
@@ -536,12 +538,12 @@ const I18N = {
     brandSub:"아이돌 수련회 1기",
     heroWordmark:"아이돌 수련회",
     tabEnroll:"입소", tabTalent:"장기자랑", tabFarewell:"퇴소", tabKit:"수료 키트",
-    soon:"예정", soonToast:"곧 공개됩니다. 조금만 기다려 주세요!",
+    soon:"준비중", soonToast:"순차 공개 준비 중입니다. 조금만 기다려 주세요!",
     schTitle:"방송 일정", schSub:"채널별 공개 일정을 확인하세요.|모든 일정은 KST 기준입니다.", schKstNote:"모든 일정은 KST 기준입니다.", schMbcTime:"방송 · 19:00 KST (저녁 7시)", schYtTime:"유튜브 업로드 · 18:00 KST (저녁 6시)",
     chMBC:"MBC M", chYT:"뮤니버스 유튜브", chApp:"뮤니버스 앱 단독 확장판",
     augTag:"8월 대공개", calMonth:"2026년 7월", calWeekdays:["일","월","화","수","목","금","토"],
     heroTitle:"아이돌 수련회 1기 입소 신고",
-    heroSub:"본격 K-POP 아이돌 친목 버라이어티, 커밍순!",
+    heroSub:"본격 K-POP 아이돌 친목 버라이어티!|지금 아이돌 수련회에 입소하세요.",
     period:"입소 신고 기간 · 7.8(수) ~ 7.17(금)",
     formTitle:"입소 신고서 작성",
     formSub:"응원 팀과 닉네임을 입력하면|나만의 입소 신고증이 발급됩니다.",
@@ -561,7 +563,7 @@ const I18N = {
     share:"공유하기",
     shareX:"X에 올리기",
     shareIG:"인스타그램 올리기",
-    igGuide:"이미지 저장 완료! 인스타그램에서 새 게시물로 올리고 캡션을 붙여넣기 하세요.",
+    igGuide:"이미지 저장 완료! 열린 인스타그램에서 새 게시물을 만들고 캡션을 붙여넣기 하세요.",
     tapCopy:"탭하면 해시태그가 복사됩니다",
     footer:"© Muniverse · 아이돌 수련회 1기",
     // certificate
@@ -584,12 +586,12 @@ const I18N = {
     brandSub:"Idol School Camp · Class 1",
     heroWordmark:"IDOL SCHOOL CAMP",
     tabEnroll:"Enrollment", tabTalent:"Talent Show", tabFarewell:"Farewell", tabKit:"Completion Kit",
-    soon:"Soon", soonToast:"Coming soon. Stay tuned!",
+    soon:"Preparing", soonToast:"This section is being prepared for release. Please stay tuned!",
     schTitle:"Broadcast Schedule", schSub:"Check the release schedule by channel.|All times are in KST.", schKstNote:"All times are in KST.", schMbcTime:"Broadcast · 19:00 KST (7 PM)", schYtTime:"YouTube Upload · 18:00 KST (6 PM)",
     chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"Muniverse App Exclusive (Extended Cut)",
     augTag:"Premieres in August", calMonth:"July 2026", calWeekdays:["S","M","T","W","T","F","S"],
     heroTitle:"Idol School Camp — Class 1 Enrollment",
-    heroSub:"A full-on K-POP idol friendship variety, coming soon!",
+    heroSub:"A full-on K-POP idol friendship variety!|Join Idol School Camp now.",
     period:"Enrollment · Jul 8 (Wed) – Jul 17 (Fri)",
     formTitle:"Fill out your enrollment",
     formSub:"Pick your team and nickname.|Get your own Idol School Camp pass.",
@@ -609,7 +611,7 @@ const I18N = {
     share:"Share",
     shareX:"Post on X",
     shareIG:"Post on Instagram",
-    igGuide:"Image saved! Create a new post on Instagram and paste the caption.",
+    igGuide:"Image saved! Create a new Instagram post and paste the copied caption.",
     tapCopy:"Tap to copy hashtags",
     footer:"© Muniverse · Idol School Camp Class 1",
     hashtags:["#MBC","#Muniverse","#IDOLCAMP"],
@@ -631,12 +633,12 @@ const I18N = {
     brandSub:"IDOL SCHOOL CAMP 1期",
     heroWordmark:"IDOL SCHOOL CAMP",
     tabEnroll:"入所", tabTalent:"隠し芸", tabFarewell:"退所", tabKit:"修了キット",
-    soon:"近日", soonToast:"近日公開予定です。お楽しみに！",
+    soon:"準備中", soonToast:"順次公開に向けて準備中です。少々お待ちください！",
     schTitle:"放送スケジュール", schSub:"チャンネル別の公開スケジュールをご確認ください。|すべてKST基準です。", schKstNote:"すべてKST基準です。", schMbcTime:"放送 · 19:00 KST (午後7時)", schYtTime:"YouTube公開 · 18:00 KST (午後6時)",
     chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"Muniverseアプリ独占 拡張版",
     augTag:"8月 大公開", calMonth:"2026年7月", calWeekdays:["日","月","火","水","木","金","土"],
     heroTitle:"IDOL SCHOOL CAMP 1期 入所申告",
-    heroSub:"本格 K-POP アイドル親睦バラエティ、カミングスーン！",
+    heroSub:"本格K-POPアイドル親睦バラエティ！|今すぐIDOL SCHOOL CAMPに入所しよう。",
     period:"入所申告期間 · 7/8(水) 〜 7/17(金)",
     formTitle:"入所申告書の作成",
     formSub:"応援チームとニックネームを入力すると、|あなただけのIDOL SCHOOL CAMP入所証が発行されます。",
@@ -656,7 +658,7 @@ const I18N = {
     share:"シェア",
     shareX:"Xに投稿",
     shareIG:"Instagramに投稿",
-    igGuide:"画像を保存しました！Instagramで新規投稿を作成し、キャプションを貼り付けてください。",
+    igGuide:"画像を保存しました！開いたInstagramで新規投稿を作成し、キャプションを貼り付けてください。",
     tapCopy:"タップでハッシュタグをコピー",
     footer:"© Muniverse · IDOL SCHOOL CAMP 1期",
     hashtags:["#MBC","#Muniverse","#IDOLCAMP"],
@@ -678,12 +680,12 @@ const I18N = {
     brandSub:"IDOL SCHOOL CAMP 第1期",
     heroWordmark:"IDOL SCHOOL CAMP",
     tabEnroll:"入所", tabTalent:"才艺表演", tabFarewell:"退所", tabKit:"结业礼包",
-    soon:"即将", soonToast:"敬请期待，即将开放！",
+    soon:"准备中", soonToast:"该区域正在准备陆续开放，敬请期待！",
     schTitle:"播出日程", schSub:"查看各频道的播出日程。|所有时间均为 KST。", schKstNote:"所有时间均为 KST。", schMbcTime:"播出 · 19:00 KST（晚7点）", schYtTime:"YouTube 上传 · 18:00 KST（晚6点）",
     chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"Muniverse App 独家扩展版",
     augTag:"8月盛大公开", calMonth:"2026年7月", calWeekdays:["日","一","二","三","四","五","六"],
     heroTitle:"IDOL SCHOOL CAMP 第1期 入所申报",
-    heroSub:"正宗 K-POP 偶像亲睦综艺，即将上线！",
+    heroSub:"正式 K-POP 偶像联谊综艺！|现在加入 IDOL SCHOOL CAMP。",
     period:"入所申报期间 · 7.8(周三) 〜 7.17(周五)",
     formTitle:"填写入所申报",
     formSub:"选择应援队伍并输入昵称，|即可领取专属 IDOL SCHOOL CAMP 入所证。",
@@ -703,7 +705,7 @@ const I18N = {
     share:"分享",
     shareX:"发到 X",
     shareIG:"发到 Instagram",
-    igGuide:"图片已保存！在 Instagram 新建帖子并粘贴文案即可。",
+    igGuide:"图片已保存！请在打开的 Instagram 新建帖子并粘贴文案。",
     tapCopy:"点击复制话题标签",
     footer:"© Muniverse · IDOL SCHOOL CAMP 第1期",
     hashtags:["#MBC","#Muniverse","#IDOLCAMP"],
@@ -725,12 +727,12 @@ const I18N = {
     brandSub:"IDOL SCHOOL CAMP 第1期",
     heroWordmark:"IDOL SCHOOL CAMP",
     tabEnroll:"入所", tabTalent:"才藝表演", tabFarewell:"退所", tabKit:"結業禮包",
-    soon:"即將", soonToast:"敬請期待，即將開放！",
+    soon:"準備中", soonToast:"該區域正在準備陸續開放，敬請期待！",
     schTitle:"播出日程", schSub:"查看各頻道的播出日程。|所有時間均為 KST。", schKstNote:"所有時間均為 KST。", schMbcTime:"播出 · 19:00 KST（晚間7點）", schYtTime:"YouTube 上傳 · 18:00 KST（晚間6點）",
     chMBC:"MBC M", chYT:"Muniverse YouTube", chApp:"Muniverse App 獨家擴充版",
     augTag:"8月盛大公開", calMonth:"2026年7月", calWeekdays:["日","一","二","三","四","五","六"],
     heroTitle:"IDOL SCHOOL CAMP 第1期 入所申報",
-    heroSub:"正宗 K-POP 偶像親睦綜藝，即將上線！",
+    heroSub:"正式 K-POP 偶像聯誼綜藝！|現在加入 IDOL SCHOOL CAMP。",
     period:"入所申報期間 · 7.8(週三) 〜 7.17(週五)",
     formTitle:"填寫入所申報",
     formSub:"選擇應援隊伍並輸入暱稱，|即可領取專屬 IDOL SCHOOL CAMP 入所證。",
@@ -750,7 +752,7 @@ const I18N = {
     share:"分享",
     shareX:"發到 X",
     shareIG:"發到 Instagram",
-    igGuide:"圖片已儲存！在 Instagram 新建貼文並貼上文案即可。",
+    igGuide:"圖片已儲存！請在開啟的 Instagram 新建貼文並貼上文案。",
     tapCopy:"點擊複製話題標籤",
     footer:"© Muniverse · IDOL SCHOOL CAMP 第1期",
     hashtags:["#MBC","#Muniverse","#IDOLCAMP"],
@@ -1641,19 +1643,25 @@ async function nativeShare(){
   await download(); await copyHash(); toast(t().download+" · "+t().tapCopy+" ✓");
 }
 async function shareInstagram(){
-  const blob=await canvasBlob();
-  const file=new File([blob], fileName(), {type:"image/png"});
-  // Mobile: native share sheet includes Instagram (Feed/Stories/Direct)
-  if(navigator.canShare && navigator.canShare({files:[file]})){
-    try{ await navigator.share({files:[file], text:caption()}); return; }
-    catch(e){ if(e.name==="AbortError") return; }
+  // Instagram은 웹에서 이미지/캡션을 자동 첨부할 수 없어서
+  // 클릭 즉시 인스타그램을 열고, 현재 페이지에서는 이미지 저장 + 캡션 복사를 처리합니다.
+  const instagramUrl="https://www.instagram.com/";
+  let igWin=null;
+  try{ igWin=window.open(instagramUrl, "_blank", "noopener"); }catch(e){}
+
+  try{
+    await download();
+    try{ await navigator.clipboard.writeText(caption()); }catch(e){ await copyHash(); }
+    if(!igWin || igWin.closed){
+      window.location.href=instagramUrl;
+    }
+    toast(t().igGuide);
+  }catch(e){
+    if(!igWin || igWin.closed){
+      window.open(instagramUrl, "_blank", "noopener");
+    }
+    toast(t().igGuide);
   }
-  // Fallback (desktop): save image + copy caption + open Instagram
-  await download();
-  try{ await navigator.clipboard.writeText(caption()); }catch(e){}
-  const mobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  window.open(mobile ? "instagram://library" : "https://www.instagram.com/", "_blank", "noopener");
-  toast(t().igGuide);
 }
 function shareX(){
   const url=`https://twitter.com/intent/tweet?text=${encodeURIComponent(caption())}`;
