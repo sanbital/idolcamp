@@ -1302,6 +1302,83 @@
     .score-head .score-desc .mo-br{display:block!important}
   }
 
+
+  /* final mobile scoreboard overflow/readability fix */
+  html,body{max-width:100%;overflow-x:hidden!important}
+  .wrap{width:100%;max-width:1080px;overflow:hidden}
+  .topbar{max-width:100%}
+  .langs{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .langs::-webkit-scrollbar{display:none}
+  .scoreboard{width:100%;max-width:100%;overflow:hidden}
+  .score-head{
+    grid-template-columns:82px minmax(0,1fr) auto!important;
+    gap:10px!important;align-items:center!important;margin-bottom:5px!important;
+  }
+  .score-logo{width:82px!important;height:54px!important;object-fit:contain!important;justify-self:start!important}
+  .score-head h2{font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif!important;font-size:18px!important;line-height:1.08!important;font-weight:900!important;letter-spacing:-.3px!important}
+  .score-head p{
+    font-size:11px!important;line-height:1.28!important;font-weight:600!important;color:#2F5141!important;
+    white-space:normal!important;overflow:visible!important;text-overflow:clip!important;display:block!important;
+    word-break:keep-all!important;overflow-wrap:anywhere!important;
+  }
+  .score-notice{
+    margin:0 0 7px 92px!important;padding:0!important;border:0!important;background:transparent!important;border-radius:0!important;
+    display:block!important;width:auto!important;color:#2F5141!important;font-size:11px!important;line-height:1.28!important;
+    font-weight:600!important;word-break:keep-all!important;overflow-wrap:anywhere!important;
+  }
+  .score-notice-icon{display:none!important}
+  .score-list{gap:6px!important}
+  .score-card{
+    min-height:44px!important;padding:7px 9px!important;border-radius:12px!important;overflow:hidden!important;
+    background:#FFFDF3!important;color:#123A2E!important;
+  }
+  .score-card-line .score-top{grid-template-columns:32px minmax(0,1fr) auto!important;gap:8px!important;align-items:center!important}
+  .score-rank{width:30px!important;height:30px!important;font-size:12px!important;border-radius:10px!important;flex:0 0 auto!important}
+  .score-team{display:grid!important;grid-template-columns:minmax(120px,.55fr) minmax(0,1fr)!important;gap:9px!important;align-items:center!important;min-width:0!important}
+  .score-team .name{
+    font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif!important;font-size:14px!important;font-weight:900!important;
+    letter-spacing:-.35px!important;line-height:1.05!important;color:#123A2E!important;
+    white-space:nowrap!important;overflow:visible!important;text-overflow:clip!important;
+  }
+  .score-team .sub,.score-card[style*="111111"] .score-team .sub,.score-card[style*="#111111"] .score-team .sub{
+    font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif!important;font-size:10px!important;line-height:1.05!important;
+    font-weight:800!important;color:#3F5F4D!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+  }
+  .score-total b{font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif!important;font-size:18px!important;font-weight:950!important;line-height:1!important;white-space:nowrap!important;color:#197B31!important}
+  .score-updated{font-size:9.5px!important;margin-top:5px!important}
+  @media (max-width:640px){
+    .wrap{padding-left:10px!important;padding-right:10px!important;padding-top:8px!important}
+    .topbar{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:6px!important;margin-bottom:4px!important}
+    .top-muniverse-logo{width:170px!important;max-width:52vw!important}
+    .langs{width:100%!important;display:flex!important;gap:5px!important;padding:4px!important;border-radius:14px!important}
+    .langs button{flex:1 0 auto!important;min-width:max-content!important;font-size:12px!important;padding:7px 10px!important}
+    .scoreboard{padding:10px 9px 9px!important;border-radius:18px!important}
+    .score-head{grid-template-columns:68px minmax(0,1fr) auto!important;gap:8px!important;margin-bottom:5px!important}
+    .score-logo{width:68px!important;height:46px!important}
+    .score-head h2{font-size:16px!important}
+    .score-head p{font-size:10px!important;line-height:1.24!important}
+    .score-head:after{font-size:8px!important;padding:3px 6px!important}
+    .score-notice{margin-left:76px!important;font-size:10px!important;line-height:1.24!important;margin-bottom:7px!important}
+    .score-card{min-height:45px!important;padding:7px 8px!important;border-radius:12px!important}
+    .score-card-line .score-top{grid-template-columns:31px minmax(0,1fr) auto!important;gap:7px!important}
+    .score-rank{width:29px!important;height:29px!important;font-size:11px!important}
+    .score-team{grid-template-columns:1fr!important;gap:3px!important}
+    .score-team .name{font-size:13.2px!important;line-height:1.05!important;white-space:nowrap!important;overflow:visible!important;text-overflow:clip!important}
+    .score-team .sub{font-size:9.2px!important;line-height:1.05!important;max-width:100%!important}
+    .score-total b{font-size:17px!important}
+    .score-updated{font-size:8.8px!important}
+  }
+  @media (max-width:380px){
+    .score-head{grid-template-columns:62px minmax(0,1fr) auto!important;gap:6px!important}
+    .score-logo{width:62px!important;height:42px!important}
+    .score-head h2{font-size:15px!important}
+    .score-head p,.score-notice{font-size:9.3px!important}
+    .score-notice{margin-left:68px!important}
+    .score-team .name{font-size:12.4px!important}
+    .score-team .sub{font-size:8.5px!important}
+    .score-total b{font-size:15.5px!important}
+  }
+
 </style>
 </head>
 <body>
@@ -1533,7 +1610,7 @@ const I18N = {
     memberLabel:"멤버 선택", memberAll:"팀 전체",
     boardTitle:"입소생 다짐 게시판", boardSub:"입소생들의 다짐 한마디입니다.|마음에 드는 다짐엔 좋아요를 눌러주세요.", boardEmpty:"아직 다짐이 없어요. 첫 입소생이 되어보세요!",
     topBoardTitle:"🔥 인기 다짐 TOP 3", topBoardSub:"좋아요 많은 순", sortLatest:"최신 순", sortLikes:"좋아요 순", boardExpand:"펼치기", boardCollapse:"접기",
-    scoreTitle:"수련회 점수판", scoreSub:"입소생들의 다짐(10점)·좋아요(획득 1개당 1점)·공유하기(50점) 점수를 합산합니다. 점수판은 1분마다 새로고침됩니다.", scoreTotal:"누적 점수", scorePledge:"다짐", scoreLike:"좋아요", scoreShare:"공유하기", scoreMeme:"짤 장기자랑", scoreWorldcup:"명장면 월드컵", scoreSoon:"예정", scoreLoading:"스코어보드를 불러오는 중입니다.", scoreEmpty:"아직 집계된 점수가 없습니다.", scoreUpdated:"마지막 업데이트", scoreReload:"1분", scoreShareNote:"공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreDesc:"입소생들의 다짐(10점)·좋아요(획득 1개당 1점)·공유하기(50점) 점수를 합산합니다.|점수판은 1분마다 새로고침됩니다.|공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreCtaTitle:"왕메달+배너광고, 우리 팀이 가져가자!", scoreCtaBody:"우승 팀 이름으로 왕메달을 걸고, 뮤니버스 배너 광고의 주인공이 되어보세요!",
+    scoreTitle:"수련회 점수판", scoreSub:"다짐 10점 · 좋아요 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.", scoreTotal:"누적 점수", scorePledge:"다짐", scoreLike:"좋아요", scoreShare:"공유하기", scoreMeme:"짤 장기자랑", scoreWorldcup:"명장면 월드컵", scoreSoon:"예정", scoreLoading:"스코어보드를 불러오는 중입니다.", scoreEmpty:"아직 집계된 점수가 없습니다.", scoreUpdated:"마지막 업데이트", scoreReload:"1분", scoreShareNote:"공유 점수는 매일 09:59(KST)에 반영됩니다.", scoreDesc:"입소생들의 다짐(10점)·좋아요(획득 1개당 1점)·공유하기(50점) 점수를 합산합니다.|점수판은 1분마다 새로고침됩니다.|공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreCtaTitle:"왕메달+배너광고, 우리 팀이 가져가자!", scoreCtaBody:"우승 팀 이름으로 왕메달을 걸고, 뮤니버스 배너 광고의 주인공이 되어보세요!",
     nickLabel:"닉네임",
     nickPh:"닉네임을 입력하세요",
     msgLabel:"입소 다짐 한마디",
@@ -1981,7 +2058,7 @@ async function renderScoreboard(){
           <div class="score-rank">${rankN}위</div>
           <div class="score-team">
             <div class="name">${esc(tm.name||r.team_name||r.team_id)}</div>
-            <div class="sub">${esc(T.scorePledge||"다짐")} ${scoreNum(r.pledge_score)}점 · ${esc(T.scoreLike||"좋아요")} ${scoreNum(r.like_score)}점 · ${esc(T.scoreShare||"공유")} ${scoreNum(r.share_score)}점</div>
+            <div class="sub">${esc(T.scorePledge||"다짐")} ${scoreNum(r.pledge_score)}점 · ${esc(T.scoreLike||"좋아요")} ${scoreNum(r.like_score)}점 · ${esc(T.scoreShareShort||"공유")} ${scoreNum(r.share_score)}점</div>
           </div>
           <div class="score-total"><b>${scoreNum(r.total_score)}점</b></div>
         </div>
