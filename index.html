@@ -2074,6 +2074,164 @@
     }
   }
 
+
+  /* FINAL mobile text rhythm fix */
+  @media (max-width:640px){
+    .scoreboard{
+      padding-top:10px!important;
+    }
+    .score-head{
+      grid-template-columns:78px minmax(0,1fr) auto!important;
+      gap:8px!important;
+      margin-bottom:3px!important;
+      align-items:start!important;
+    }
+    .score-logo{
+      width:74px!important;
+      height:54px!important;
+      margin-top:2px!important;
+    }
+    .score-head h2{
+      margin:0 0 3px!important;
+      font-size:18px!important;
+      line-height:1.04!important;
+    }
+    .score-head p{
+      margin:0!important;
+      font-size:9.7px!important;
+      line-height:1.16!important;
+      font-weight:500!important;
+      color:#365446!important;
+      word-break:keep-all!important;
+      overflow-wrap:anywhere!important;
+    }
+    .score-head p .i18n-line{
+      display:block!important;
+      margin:0!important;
+      padding:0!important;
+      line-height:1.16!important;
+    }
+    .score-head p .line-2{
+      font-size:8.55px!important;
+      line-height:1.12!important;
+      letter-spacing:-0.28px!important;
+      margin-top:1px!important;
+      margin-bottom:1px!important;
+    }
+    .score-head p .line-3{
+      margin-top:1px!important;
+    }
+    .score-head p .desktop-space{
+      display:none!important;
+    }
+    .score-head p .mo-br{
+      display:none!important;
+    }
+    .score-notice{
+      margin:2px 0 7px 86px!important;
+      padding:0!important;
+      border:0!important;
+      background:transparent!important;
+      border-radius:0!important;
+      display:block!important;
+      font-size:9.7px!important;
+      line-height:1.18!important;
+      font-weight:500!important;
+      color:#365446!important;
+      word-break:keep-all!important;
+      overflow-wrap:anywhere!important;
+    }
+    .score-notice-icon{
+      display:none!important;
+    }
+
+    .score-cta{
+      min-height:70px!important;
+      padding:10px 58px 10px 12px!important;
+      align-items:center!important;
+    }
+    .score-cta-copy{
+      gap:3px!important;
+      justify-content:center!important;
+      min-width:0!important;
+    }
+    .score-cta-copy strong{
+      font-size:14.8px!important;
+      line-height:1.08!important;
+      font-weight:900!important;
+      letter-spacing:-0.35px!important;
+      white-space:normal!important;
+      overflow:visible!important;
+      text-overflow:clip!important;
+      word-break:keep-all!important;
+    }
+    .score-cta-copy strong .i18n-line{
+      display:block!important;
+      margin:0!important;
+      line-height:1.08!important;
+    }
+    .score-cta-copy strong .desktop-space,
+    .score-cta-copy strong .mo-br{
+      display:none!important;
+    }
+    .score-cta-copy span{
+      font-size:9.2px!important;
+      line-height:1.16!important;
+      font-weight:500!important;
+      white-space:normal!important;
+      overflow:visible!important;
+      word-break:keep-all!important;
+      overflow-wrap:anywhere!important;
+    }
+    .score-cta-copy span .i18n-line{
+      display:block!important;
+      margin:0!important;
+      line-height:1.16!important;
+    }
+    .score-cta-copy span .desktop-space,
+    .score-cta-copy span .mo-br{
+      display:none!important;
+    }
+  }
+  @media (max-width:380px){
+    .score-head{
+      grid-template-columns:68px minmax(0,1fr) auto!important;
+      gap:7px!important;
+    }
+    .score-logo{
+      width:64px!important;
+      height:48px!important;
+    }
+    .score-head h2{
+      font-size:16px!important;
+    }
+    .score-head p{
+      font-size:9px!important;
+      line-height:1.14!important;
+    }
+    .score-head p .i18n-line{
+      line-height:1.14!important;
+    }
+    .score-head p .line-2{
+      font-size:7.9px!important;
+    }
+    .score-notice{
+      margin-left:75px!important;
+      font-size:9px!important;
+      line-height:1.15!important;
+    }
+    .score-cta{
+      min-height:66px!important;
+      padding-right:52px!important;
+    }
+    .score-cta-copy strong{
+      font-size:13.4px!important;
+    }
+    .score-cta-copy span{
+      font-size:8.5px!important;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -2302,7 +2460,7 @@ const I18N = {
     memberLabel:"멤버 선택", memberAll:"팀 전체",
     boardTitle:"입소생 다짐 게시판", boardSub:"입소생들의 다짐 한마디입니다.|마음에 드는 다짐엔 좋아요를 눌러주세요.", boardEmpty:"아직 다짐이 없어요. 첫 입소생이 되어보세요!",
     topBoardTitle:"🔥 인기 다짐 TOP 3", topBoardSub:"좋아요 많은 순", sortLatest:"최신 순", sortLikes:"좋아요 순", boardExpand:"펼치기", boardCollapse:"접기",
-    scoreTitle:"수련회 점수판", scoreSub:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.", scoreTotal:"누적 점수", scorePledge:"다짐", scoreLike:"좋아요", scoreShare:"공유하기", scoreMeme:"짤 장기자랑", scoreWorldcup:"명장면 월드컵", scoreSoon:"예정", scoreLoading:"스코어보드를 불러오는 중입니다.", scoreEmpty:"아직 집계된 점수가 없습니다.", scoreUpdated:"마지막 업데이트", scoreReload:"1분", scoreShareNote:"공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreDesc:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.|공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreCtaTitle:"아티스트에게 왕메달 선물하고, 뮤니버스 배너 광고 걸자!", scoreCtaBody:"우리 팀이 우승하면 왕메달을 걸고, 뮤니버스 배너 광고의 주인공이 될 수 있어요!",
+    scoreTitle:"수련회 점수판", scoreSub:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.", scoreTotal:"누적 점수", scorePledge:"다짐", scoreLike:"좋아요", scoreShare:"공유하기", scoreMeme:"짤 장기자랑", scoreWorldcup:"명장면 월드컵", scoreSoon:"예정", scoreLoading:"스코어보드를 불러오는 중입니다.", scoreEmpty:"아직 집계된 점수가 없습니다.", scoreUpdated:"마지막 업데이트", scoreReload:"1분", scoreShareNote:"공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreDesc:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.|공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreCtaTitle:"아티스트에게 왕메달 선물하고,|뮤니버스 배너 광고 걸자!", scoreCtaBody:"우리 팀이 우승하면 왕메달을 걸고,|뮤니버스 배너 광고의 주인공이 될 수 있어요!",
     nickLabel:"닉네임",
     nickPh:"닉네임을 입력하세요",
     msgLabel:"입소 다짐 한마디",
