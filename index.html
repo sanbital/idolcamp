@@ -2232,6 +2232,282 @@
     }
   }
 
+
+  /* ABSOLUTE FINAL: mobile score description and CTA tight line-height */
+  @media (max-width:640px){
+    .scoreboard .score-head{
+      grid-template-columns:76px minmax(0,1fr) auto!important;
+      gap:8px!important;
+      align-items:start!important;
+      margin-bottom:5px!important;
+    }
+    .scoreboard .score-logo{
+      width:72px!important;
+      height:52px!important;
+      margin-top:1px!important;
+    }
+    .scoreboard .score-headtext{
+      min-width:0!important;
+    }
+    .scoreboard .score-titlerow{
+      margin:0 0 3px!important;
+      align-items:center!important;
+    }
+    .scoreboard .score-titlerow h2{
+      margin:0!important;
+      line-height:1!important;
+    }
+    .scoreboard .score-titlerow h2 span,
+    .scoreboard .score-titlerow h2 [data-i18n="scoreTitle"]{
+      font-size:18px!important;
+      line-height:1!important;
+      font-weight:900!important;
+      letter-spacing:-.35px!important;
+    }
+    .scoreboard .score-reload{
+      align-self:start!important;
+      margin-top:0!important;
+      padding:4px 7px!important;
+      font-size:9px!important;
+      line-height:1!important;
+    }
+
+    .scoreboard .score-desc{
+      margin:0!important;
+      padding:0!important;
+      display:block!important;
+      font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif!important;
+      font-size:9.3px!important;
+      line-height:1.05!important;
+      font-weight:500!important;
+      letter-spacing:-.18px!important;
+      color:#365446!important;
+      white-space:normal!important;
+      word-break:keep-all!important;
+      overflow-wrap:anywhere!important;
+    }
+    .scoreboard .score-desc .i18n-line{
+      display:block!important;
+      margin:0!important;
+      padding:0!important;
+      line-height:1.05!important;
+      min-height:0!important;
+    }
+    .scoreboard .score-desc .line-1{
+      margin-bottom:1px!important;
+    }
+    .scoreboard .score-desc .line-2{
+      font-size:8.15px!important;
+      line-height:1!important;
+      letter-spacing:-.34px!important;
+      margin-bottom:1px!important;
+    }
+    .scoreboard .score-desc .line-3{
+      margin-bottom:1px!important;
+    }
+    .scoreboard .score-desc .line-4{
+      font-size:8.55px!important;
+      line-height:1.08!important;
+      letter-spacing:-.28px!important;
+    }
+    .scoreboard .score-desc .desktop-space,
+    .scoreboard .score-desc .mo-br,
+    .scoreboard .score-desc br{
+      display:none!important;
+      line-height:0!important;
+      height:0!important;
+      margin:0!important;
+      padding:0!important;
+    }
+
+    .scoreboard .score-list{
+      margin-top:8px!important;
+    }
+
+    .scoreboard .score-cta{
+      min-height:64px!important;
+      padding:9px 56px 9px 11px!important;
+      align-items:center!important;
+    }
+    .scoreboard .score-cta-copy{
+      gap:2px!important;
+      justify-content:center!important;
+      min-width:0!important;
+    }
+    .scoreboard .score-cta-copy strong{
+      margin:0!important;
+      padding:0!important;
+      display:block!important;
+      font-size:14px!important;
+      line-height:1.02!important;
+      font-weight:900!important;
+      letter-spacing:-.38px!important;
+      white-space:normal!important;
+      word-break:keep-all!important;
+      overflow-wrap:anywhere!important;
+    }
+    .scoreboard .score-cta-copy strong .i18n-line{
+      display:block!important;
+      margin:0!important;
+      padding:0!important;
+      line-height:1.02!important;
+    }
+    .scoreboard .score-cta-copy span{
+      margin:0!important;
+      padding:0!important;
+      display:block!important;
+      font-size:8.7px!important;
+      line-height:1.08!important;
+      font-weight:500!important;
+      white-space:normal!important;
+      word-break:keep-all!important;
+      overflow-wrap:anywhere!important;
+    }
+    .scoreboard .score-cta-copy span .i18n-line{
+      display:block!important;
+      margin:0!important;
+      padding:0!important;
+      line-height:1.08!important;
+    }
+    .scoreboard .score-cta-copy .desktop-space,
+    .scoreboard .score-cta-copy .mo-br,
+    .scoreboard .score-cta-copy br{
+      display:none!important;
+      line-height:0!important;
+      height:0!important;
+    }
+  }
+
+  @media (max-width:380px){
+    .scoreboard .score-head{
+      grid-template-columns:68px minmax(0,1fr) auto!important;
+      gap:7px!important;
+    }
+    .scoreboard .score-logo{
+      width:64px!important;
+      height:47px!important;
+    }
+    .scoreboard .score-titlerow h2 span,
+    .scoreboard .score-titlerow h2 [data-i18n="scoreTitle"]{
+      font-size:16px!important;
+    }
+    .scoreboard .score-desc{
+      font-size:8.75px!important;
+      line-height:1.03!important;
+    }
+    .scoreboard .score-desc .i18n-line{
+      line-height:1.03!important;
+    }
+    .scoreboard .score-desc .line-2{
+      font-size:7.65px!important;
+      line-height:1!important;
+    }
+    .scoreboard .score-desc .line-4{
+      font-size:8.05px!important;
+      line-height:1.05!important;
+    }
+    .scoreboard .score-cta-copy strong{
+      font-size:13px!important;
+    }
+    .scoreboard .score-cta-copy span{
+      font-size:8.1px!important;
+    }
+  }
+
+
+  /* CTA rollback: 이전 자연 줄바꿈 버전 */
+  @media (max-width:640px){
+    .scoreboard .score-cta{
+      min-height:72px!important;
+      padding:12px 62px 12px 12px!important;
+      border-radius:15px!important;
+      align-items:center!important;
+      background:linear-gradient(135deg,#46c96d 0%,#6fcb62 100%)!important;
+      border:2px solid rgba(24,94,63,.34)!important;
+      box-shadow:0 5px 0 rgba(15,59,58,.18)!important;
+    }
+    .scoreboard .score-cta-copy{
+      gap:4px!important;
+      justify-content:center!important;
+      min-width:0!important;
+    }
+    .scoreboard .score-cta-copy strong{
+      display:block!important;
+      margin:0!important;
+      padding:0!important;
+      font-size:15.6px!important;
+      line-height:1.16!important;
+      font-weight:950!important;
+      letter-spacing:-0.25px!important;
+      color:#FFF1A7!important;
+      white-space:normal!important;
+      word-break:keep-all!important;
+      overflow-wrap:anywhere!important;
+    }
+    .scoreboard .score-cta-copy span{
+      display:block!important;
+      margin:0!important;
+      padding:0!important;
+      font-size:9.9px!important;
+      line-height:1.28!important;
+      font-weight:700!important;
+      color:rgba(255,255,255,.94)!important;
+      white-space:normal!important;
+      word-break:keep-all!important;
+      overflow-wrap:anywhere!important;
+    }
+    .scoreboard .score-cta-copy strong .i18n-line,
+    .scoreboard .score-cta-copy span .i18n-line{
+      display:inline!important;
+      line-height:inherit!important;
+    }
+    .scoreboard .score-cta-copy strong .desktop-space,
+    .scoreboard .score-cta-copy span .desktop-space{
+      display:inline!important;
+    }
+    .scoreboard .score-cta-copy strong .mo-br,
+    .scoreboard .score-cta-copy span .mo-br,
+    .scoreboard .score-cta-copy br{
+      display:none!important;
+    }
+    .scoreboard .score-cta-medal{
+      right:8px!important;
+      top:50%!important;
+      transform:translateY(-50%)!important;
+      width:46px!important;
+      height:46px!important;
+    }
+    .scoreboard .medal-face{
+      inset:6px!important;
+    }
+    .scoreboard .medal-kor{
+      font-size:7.2px!important;
+      line-height:1.04!important;
+    }
+  }
+
+  @media (max-width:380px){
+    .scoreboard .score-cta{
+      min-height:68px!important;
+      padding:10px 56px 10px 10px!important;
+    }
+    .scoreboard .score-cta-copy strong{
+      font-size:14.2px!important;
+      line-height:1.14!important;
+    }
+    .scoreboard .score-cta-copy span{
+      font-size:9px!important;
+      line-height:1.22!important;
+    }
+    .scoreboard .score-cta-medal{
+      width:42px!important;
+      height:42px!important;
+    }
+    .scoreboard .medal-kor{
+      font-size:6.5px!important;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -2460,7 +2736,7 @@ const I18N = {
     memberLabel:"멤버 선택", memberAll:"팀 전체",
     boardTitle:"입소생 다짐 게시판", boardSub:"입소생들의 다짐 한마디입니다.|마음에 드는 다짐엔 좋아요를 눌러주세요.", boardEmpty:"아직 다짐이 없어요. 첫 입소생이 되어보세요!",
     topBoardTitle:"🔥 인기 다짐 TOP 3", topBoardSub:"좋아요 많은 순", sortLatest:"최신 순", sortLikes:"좋아요 순", boardExpand:"펼치기", boardCollapse:"접기",
-    scoreTitle:"수련회 점수판", scoreSub:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.", scoreTotal:"누적 점수", scorePledge:"다짐", scoreLike:"좋아요", scoreShare:"공유하기", scoreMeme:"짤 장기자랑", scoreWorldcup:"명장면 월드컵", scoreSoon:"예정", scoreLoading:"스코어보드를 불러오는 중입니다.", scoreEmpty:"아직 집계된 점수가 없습니다.", scoreUpdated:"마지막 업데이트", scoreReload:"1분", scoreShareNote:"공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreDesc:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.|공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreCtaTitle:"아티스트에게 왕메달 선물하고,|뮤니버스 배너 광고 걸자!", scoreCtaBody:"우리 팀이 우승하면 왕메달을 걸고,|뮤니버스 배너 광고의 주인공이 될 수 있어요!",
+    scoreTitle:"수련회 점수판", scoreSub:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.", scoreTotal:"누적 점수", scorePledge:"다짐", scoreLike:"좋아요", scoreShare:"공유하기", scoreMeme:"짤 장기자랑", scoreWorldcup:"명장면 월드컵", scoreSoon:"예정", scoreLoading:"스코어보드를 불러오는 중입니다.", scoreEmpty:"아직 집계된 점수가 없습니다.", scoreUpdated:"마지막 업데이트", scoreReload:"1분", scoreShareNote:"공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreDesc:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.|공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreCtaTitle:"아티스트에게 왕메달 선물하고, 뮤니버스 배너 광고 걸자!", scoreCtaBody:"우리 팀이 우승하면 왕메달을 걸고, 뮤니버스 배너 광고의 주인공이 될 수 있어요!",
     nickLabel:"닉네임",
     nickPh:"닉네임을 입력하세요",
     msgLabel:"입소 다짐 한마디",
