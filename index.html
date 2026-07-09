@@ -2509,172 +2509,18 @@
   }
 
 
-  /* TRUE FINAL: mobile score copy compact + localized point unit */
+  /* score i18n unit + mobile CTA wrap final */
+  .score-total b{white-space:nowrap!important}
   @media (max-width:640px){
-    .scoreboard .score-head{
-      grid-template-columns:76px minmax(0,1fr) auto!important;
-      gap:8px!important;
-      align-items:start!important;
-      margin-bottom:5px!important;
-    }
-    .scoreboard .score-logo{
-      width:72px!important;
-      height:52px!important;
-      margin-top:2px!important;
-      object-fit:contain!important;
-    }
-    .scoreboard .score-headtext{
-      min-width:0!important;
-    }
-    .scoreboard .score-titlerow{
-      margin:0 0 4px!important;
-      align-items:center!important;
-    }
-    .scoreboard .score-titlerow h2{
-      margin:0!important;
-      line-height:1!important;
-    }
-    .scoreboard .score-titlerow h2 span,
-    .scoreboard .score-titlerow h2 [data-i18n="scoreTitle"]{
-      font-size:18px!important;
-      line-height:1!important;
-      font-weight:900!important;
-      letter-spacing:-.35px!important;
-    }
-    .scoreboard .score-reload{
-      padding:4px 7px!important;
-      font-size:9px!important;
-      line-height:1!important;
-      white-space:nowrap!important;
-    }
-
-    .scoreboard .score-desc{
-      margin:0!important;
-      padding:0!important;
-      display:block!important;
-      white-space:normal!important;
-      overflow:visible!important;
-      font-size:0!important;
-      line-height:0!important;
-    }
-    .scoreboard .score-desc > [data-i18n="scoreDesc"]{
-      display:block!important;
-      margin:0!important;
-      padding:0!important;
-      font-size:0!important;
-      line-height:0!important;
-    }
-    .scoreboard .score-desc .i18n-line{
-      display:block!important;
-      margin:0!important;
-      padding:0!important;
-      min-height:0!important;
-      font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif!important;
-      font-size:9.4px!important;
-      line-height:1.08!important;
-      font-weight:500!important;
-      letter-spacing:-.18px!important;
-      color:#365446!important;
-      word-break:keep-all!important;
-      overflow-wrap:anywhere!important;
-    }
-    .scoreboard .score-desc .line-1{
-      margin-bottom:1px!important;
-    }
-    .scoreboard .score-desc .line-2{
-      font-size:8.1px!important;
-      line-height:1.05!important;
-      letter-spacing:-.35px!important;
-      margin-bottom:1px!important;
-    }
-    .scoreboard .score-desc .line-3{
-      margin-bottom:1px!important;
-    }
-    .scoreboard .score-desc .line-4{
-      font-size:8.65px!important;
-      line-height:1.1!important;
-      letter-spacing:-.3px!important;
-    }
-    .scoreboard .score-desc .desktop-space,
-    .scoreboard .score-desc .mo-br,
-    .scoreboard .score-desc br{
-      display:none!important;
-      line-height:0!important;
-      height:0!important;
-      margin:0!important;
-      padding:0!important;
-    }
-    .scoreboard .score-list{
-      margin-top:8px!important;
-    }
-
-    .scoreboard .score-cta{
-      min-height:72px!important;
-      padding:12px 62px 12px 12px!important;
-      align-items:center!important;
-    }
-    .scoreboard .score-cta-copy{
-      gap:4px!important;
-      justify-content:center!important;
-      min-width:0!important;
-    }
     .scoreboard .score-cta-copy strong{
-      display:block!important;
-      margin:0!important;
-      padding:0!important;
-      font-size:15.2px!important;
-      line-height:1.14!important;
-      font-weight:950!important;
-      letter-spacing:-0.3px!important;
-      white-space:normal!important;
-      word-break:keep-all!important;
-      overflow-wrap:anywhere!important;
-    }
-    .scoreboard .score-cta-copy span{
-      display:block!important;
-      margin:0!important;
-      padding:0!important;
-      font-size:9.5px!important;
-      line-height:1.22!important;
-      font-weight:650!important;
-      white-space:normal!important;
-      word-break:keep-all!important;
-      overflow-wrap:anywhere!important;
-    }
-  }
-
-  @media (max-width:380px){
-    .scoreboard .score-head{
-      grid-template-columns:68px minmax(0,1fr) auto!important;
-      gap:7px!important;
-    }
-    .scoreboard .score-logo{
-      width:64px!important;
-      height:47px!important;
-    }
-    .scoreboard .score-titlerow h2 span,
-    .scoreboard .score-titlerow h2 [data-i18n="scoreTitle"]{
-      font-size:16px!important;
-    }
-    .scoreboard .score-desc .i18n-line{
-      font-size:8.8px!important;
-      line-height:1.05!important;
-    }
-    .scoreboard .score-desc .line-2{
-      font-size:7.55px!important;
-      line-height:1!important;
-    }
-    .scoreboard .score-desc .line-4{
-      font-size:8px!important;
-      line-height:1.06!important;
-    }
-    .scoreboard .score-cta-copy strong{
-      font-size:14px!important;
-      line-height:1.12!important;
-    }
-    .scoreboard .score-cta-copy span{
-      font-size:8.8px!important;
       line-height:1.18!important;
+      word-break:keep-all!important;
+      overflow-wrap:normal!important;
+    }
+    .scoreboard .score-cta-copy span{
+      line-height:1.28!important;
+      word-break:keep-all!important;
+      overflow-wrap:anywhere!important;
     }
   }
 
@@ -2906,7 +2752,7 @@ const I18N = {
     memberLabel:"멤버 선택", memberAll:"팀 전체",
     boardTitle:"입소생 다짐 게시판", boardSub:"입소생들의 다짐 한마디입니다.|마음에 드는 다짐엔 좋아요를 눌러주세요.", boardEmpty:"아직 다짐이 없어요. 첫 입소생이 되어보세요!",
     topBoardTitle:"🔥 인기 다짐 TOP 3", topBoardSub:"좋아요 많은 순", sortLatest:"최신 순", sortLikes:"좋아요 순", boardExpand:"펼치기", boardCollapse:"접기",
-    scoreTitle:"수련회 점수판", scoreSub:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.", scoreTotal:"누적 점수", scorePledge:"다짐", scoreLike:"좋아요", scoreShare:"공유하기", scoreMeme:"짤 장기자랑", scoreWorldcup:"명장면 월드컵", scoreSoon:"예정", scoreLoading:"스코어보드를 불러오는 중입니다.", scoreEmpty:"아직 집계된 점수가 없습니다.", scoreUpdated:"마지막 업데이트", scoreReload:"1분", scoreUnit:"점", scoreAutoRefresh:"1분마다 새로고침", scoreShareNote:"공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreDesc:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.|공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreCtaTitle:"아티스트에게 왕메달 선물하고, 뮤니버스 배너 광고 걸자!", scoreCtaBody:"우리 팀이 우승하면 왕메달을 걸고, 뮤니버스 배너 광고의 주인공이 될 수 있어요!",
+    scoreTitle:"수련회 점수판", scoreSub:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.", scoreTotal:"누적 점수", scorePledge:"다짐", scoreLike:"좋아요", scoreShare:"공유하기", scoreShareShort:"공유", scoreMeme:"짤 장기자랑", scoreWorldcup:"명장면 월드컵", scoreSoon:"예정", scoreLoading:"스코어보드를 불러오는 중입니다.", scoreEmpty:"아직 집계된 점수가 없습니다.", scoreUpdated:"마지막 업데이트", scoreReload:"1분", scoreAutoRefresh:"1분마다 새로고침", scoreShareNote:"공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreDesc:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.|공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreCtaTitle:"아티스트에게 왕메달 선물하고, 뮤니버스 배너 광고 걸자!", scoreCtaBody:"우리 팀이 우승하면 왕메달을 걸고, 뮤니버스 배너 광고의 주인공이 될 수 있어요!",
     nickLabel:"닉네임",
     nickPh:"닉네임을 입력하세요",
     msgLabel:"입소 다짐 한마디",
@@ -2955,7 +2801,7 @@ const I18N = {
     memberLabel:"Pick a member", memberAll:"Whole team",
     boardTitle:"Enrollment Message Board", boardSub:"Enrollees' one-line pledges.|Tap the heart on the ones you like.", boardEmpty:"No pledges yet. Be the first enrollee!",
     topBoardTitle:"🔥 Top 3 Pledges", topBoardSub:"Most liked", sortLatest:"Latest", sortLikes:"Most liked", boardExpand:"Show more", boardCollapse:"Collapse",
-    scoreTitle:"Camp Scoreboard", scoreSub:"Team scores add up pledges (10 pts), likes (1 pt each), and verified shares (50 pts). The scoreboard reloads every minute.", scoreTotal:"Total Score", scorePledge:"Pledge", scoreLike:"Likes", scoreShare:"Shares", scoreMeme:"Meme Talent Show", scoreWorldcup:"Best Scene World Cup", scoreSoon:"Soon", scoreLoading:"Loading scoreboard.", scoreEmpty:"No scores yet.", scoreUpdated:"Last updated", scoreReload:"1 min", scoreShareNote:"Share scores are updated once a day at 9:59 AM KST.", scoreDesc:"Team scores add up pledges (10 pts), likes (1 pt each), and verified shares (50 pts).|The scoreboard reloads every minute.|Share scores are updated once a day at 9:59 AM KST.", scoreCtaTitle:"Win the crown medal and banner ad!", scoreCtaBody:"Win camp, claim the crown medal, and star in a Muniverse banner ad!",
+    scoreTitle:"Camp Scoreboard", scoreSub:"Team scores add up pledges (10 pts), likes (1 pt each), and verified shares (50 pts). The scoreboard reloads every minute.", scoreTotal:"Total Score", scorePledge:"Pledge", scoreLike:"Likes", scoreShare:"Shares", scoreShareShort:"Shares", scoreMeme:"Meme Talent Show", scoreWorldcup:"Best Scene World Cup", scoreSoon:"Soon", scoreLoading:"Loading scoreboard.", scoreEmpty:"No scores yet.", scoreUpdated:"Last updated", scoreReload:"1 min", scoreAutoRefresh:"refreshes every minute", scoreShareNote:"Share scores are updated once a day at 9:59 AM KST.", scoreDesc:"Team scores add up pledges (10 pts), likes (1 pt each), and verified shares (50 pts).|The scoreboard reloads every minute.|Share scores are updated once a day at 9:59 AM KST.", scoreCtaTitle:"Win the crown medal and banner ad!", scoreCtaBody:"Win camp, claim the crown medal, and star in a Muniverse banner ad!",
     nickLabel:"Nickname",
     nickPh:"Enter your nickname",
     msgLabel:"Your camp motto",
@@ -3003,7 +2849,7 @@ const I18N = {
     memberLabel:"メンバーを選択", memberAll:"チーム全体",
     boardTitle:"入所生 決意ボード", boardSub:"入所生たちの意気込み一言。|気に入った投稿にはいいねを押してね。", boardEmpty:"まだ投稿がありません。最初の入所生になろう！",
     topBoardTitle:"🔥 人気決意 TOP 3", topBoardSub:"いいね順", sortLatest:"最新順", sortLikes:"いいね順", boardExpand:"もっと見る", boardCollapse:"閉じる",
-    scoreTitle:"キャンプ点数表", scoreSub:"誓い（10点）・いいね（1個1点）・共有（50点）のスコアをチーム別に合算します。点数表は1分ごとに更新されます。", scoreTotal:"累計スコア", scorePledge:"誓い", scoreLike:"いいね", scoreShare:"共有", scoreMeme:"画像芸大会", scoreWorldcup:"名場面W杯", scoreSoon:"予定", scoreLoading:"スコアボードを読み込み中です。", scoreEmpty:"まだ集計されたスコアがありません。", scoreUpdated:"最終更新", scoreReload:"1分", scoreShareNote:"共有スコアは1日1回、午前9時59分（KST）に更新されます。", scoreDesc:"誓い（10点）・いいね（1個1点）・共有（50点）のスコアをチーム別に合算します。|点数表は1分ごとに更新されます。|共有スコアは1日1回、午前9時59分（KST）に更新されます。", scoreCtaTitle:"王メダルとバナー広告をつかもう！", scoreCtaBody:"優勝して王メダルを掲げ、Muniverseバナー広告の主役になりましょう！",
+    scoreTitle:"キャンプ点数表", scoreSub:"誓い（10点）・いいね（1個1点）・共有（50点）のスコアをチーム別に合算します。点数表は1分ごとに更新されます。", scoreTotal:"累計スコア", scorePledge:"誓い", scoreLike:"いいね", scoreShare:"共有", scoreShareShort:"共有", scoreMeme:"画像芸大会", scoreWorldcup:"名場面W杯", scoreSoon:"予定", scoreLoading:"スコアボードを読み込み中です。", scoreEmpty:"まだ集計されたスコアがありません。", scoreUpdated:"最終更新", scoreReload:"1分", scoreAutoRefresh:"1分ごとに更新", scoreShareNote:"共有スコアは1日1回、午前9時59分（KST）に更新されます。", scoreDesc:"誓い（10点）・いいね（1個1点）・共有（50点）のスコアをチーム別に合算します。|点数表は1分ごとに更新されます。|共有スコアは1日1回、午前9時59分（KST）に更新されます。", scoreCtaTitle:"王メダルとバナー広告をつかもう！", scoreCtaBody:"優勝して王メダルを掲げ、Muniverseバナー広告の主役になりましょう！",
     nickLabel:"ニックネーム",
     nickPh:"ニックネームを入力",
     msgLabel:"入所の意気込み",
@@ -3051,7 +2897,7 @@ const I18N = {
     memberLabel:"选择成员", memberAll:"全队",
     boardTitle:"入所生宣言墙", boardSub:"入所生们的一句宣言。|喜欢的宣言点个赞吧。", boardEmpty:"还没有宣言，来当第一位入所生吧！",
     topBoardTitle:"🔥 人气宣言 TOP 3", topBoardSub:"按点赞数", sortLatest:"最新", sortLikes:"点赞数", boardExpand:"展开", boardCollapse:"收起",
-    scoreTitle:"营地积分榜", scoreSub:"按团队汇总誓言（10分）、点赞（每个1分）与分享（50分）得分。积分榜每1分钟更新一次。", scoreTotal:"累计分数", scorePledge:"誓言", scoreLike:"点赞", scoreShare:"分享", scoreMeme:"表情包才艺秀", scoreWorldcup:"名场面世界杯", scoreSoon:"待公开", scoreLoading:"正在加载积分榜。", scoreEmpty:"暂无积分。", scoreUpdated:"最后更新", scoreReload:"1分钟", scoreShareNote:"分享得分每天上午9点59分（KST）更新一次。", scoreDesc:"按团队汇总誓言（10分）、点赞（每个1分）与分享（50分）得分。|积分榜每1分钟更新一次。|分享得分每天上午9点59分（KST）更新一次。", scoreCtaTitle:"赢下王者奖牌和横幅广告！", scoreCtaBody:"夺冠后挂上王者奖牌，并成为Muniverse横幅广告主角！",
+    scoreTitle:"营地积分榜", scoreSub:"按团队汇总誓言（10分）、点赞（每个1分）与分享（50分）得分。积分榜每1分钟更新一次。", scoreTotal:"累计分数", scorePledge:"誓言", scoreLike:"点赞", scoreShare:"分享", scoreShareShort:"分享", scoreMeme:"表情包才艺秀", scoreWorldcup:"名场面世界杯", scoreSoon:"待公开", scoreLoading:"正在加载积分榜。", scoreEmpty:"暂无积分。", scoreUpdated:"最后更新", scoreReload:"1分钟", scoreAutoRefresh:"每分钟刷新", scoreShareNote:"分享得分每天上午9点59分（KST）更新一次。", scoreDesc:"按团队汇总誓言（10分）、点赞（每个1分）与分享（50分）得分。|积分榜每1分钟更新一次。|分享得分每天上午9点59分（KST）更新一次。", scoreCtaTitle:"赢下王者奖牌和横幅广告！", scoreCtaBody:"夺冠后挂上王者奖牌，并成为Muniverse横幅广告主角！",
     nickLabel:"昵称",
     nickPh:"请输入昵称",
     msgLabel:"入所宣言一句话",
@@ -3099,7 +2945,7 @@ const I18N = {
     memberLabel:"選擇成員", memberAll:"全隊",
     boardTitle:"入所生宣言牆", boardSub:"入所生們的一句宣言。|喜歡的宣言按個讚吧。", boardEmpty:"還沒有宣言，來當第一位入所生吧！",
     topBoardTitle:"🔥 人氣宣言 TOP 3", topBoardSub:"按讚數", sortLatest:"最新", sortLikes:"按讚數", boardExpand:"展開", boardCollapse:"收合",
-    scoreTitle:"營地積分榜", scoreSub:"按團隊彙總誓言（10分）、按讚（每個1分）與分享（50分）得分。積分榜每1分鐘更新一次。", scoreTotal:"累計分數", scorePledge:"誓言", scoreLike:"按讚", scoreShare:"分享", scoreMeme:"迷因才藝秀", scoreWorldcup:"名場面世界盃", scoreSoon:"待公開", scoreLoading:"正在載入積分榜。", scoreEmpty:"暫無積分。", scoreUpdated:"最後更新", scoreReload:"1分鐘", scoreShareNote:"分享得分每天上午9點59分（KST）更新一次。", scoreDesc:"按團隊彙總誓言（10分）、按讚（每個1分）與分享（50分）得分。|積分榜每1分鐘更新一次。|分享得分每天上午9點59分（KST）更新一次。", scoreCtaTitle:"贏下王者獎牌和橫幅廣告！", scoreCtaBody:"奪冠後掛上王者獎牌，並成為Muniverse橫幅廣告主角！",
+    scoreTitle:"營地積分榜", scoreSub:"按團隊彙總誓言（10分）、按讚（每個1分）與分享（50分）得分。積分榜每1分鐘更新一次。", scoreTotal:"累計分數", scorePledge:"誓言", scoreLike:"按讚", scoreShare:"分享", scoreShareShort:"分享", scoreMeme:"迷因才藝秀", scoreWorldcup:"名場面世界盃", scoreSoon:"待公開", scoreLoading:"正在載入積分榜。", scoreEmpty:"暫無積分。", scoreUpdated:"最後更新", scoreReload:"1分鐘", scoreAutoRefresh:"每分鐘更新", scoreShareNote:"分享得分每天上午9點59分（KST）更新一次。", scoreDesc:"按團隊彙總誓言（10分）、按讚（每個1分）與分享（50分）得分。|積分榜每1分鐘更新一次。|分享得分每天上午9點59分（KST）更新一次。", scoreCtaTitle:"贏下王者獎牌和橫幅廣告！", scoreCtaBody:"奪冠後掛上王者獎牌，並成為Muniverse橫幅廣告主角！",
     nickLabel:"暱稱",
     nickPh:"請輸入暱稱",
     msgLabel:"入所宣言一句話",
@@ -3264,11 +3110,7 @@ function setI18nValue(el, value){
     if(el.classList && el.classList.contains("aug-txt")){
       el.innerHTML = value.split("|").map(part=>`<span class="aug-line">${esc(part)}</span>`).join("");
     } else {
-      if(el.closest && el.closest(".score-desc")){
-        el.innerHTML = value.split("|").map((part,idx)=>`<span class="i18n-line line-${idx+1}">${esc(part)}</span>`).join("");
-      } else {
-        el.innerHTML = value.split("|").map((part,idx)=>`<span class="i18n-line line-${idx+1}">${esc(part)}</span>`).join('<span class="desktop-space"> </span><br class="mo-br">');
-      }
+      el.innerHTML = value.split("|").map((part,idx)=>`<span class="i18n-line line-${idx+1}">${esc(part)}</span>`).join('<span class="desktop-space"> </span><br class="mo-br">');
     }
   } else {
     el.textContent = value;
@@ -3311,7 +3153,16 @@ function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;'
 
 /* -------- scoreboard -------- */
 function scoreNum(n){ return Number(n||0).toLocaleString(lang==="ko"?"ko-KR":"en-US"); }
-function scoreValue(n){ const unit=(t().scoreUnit!=null?t().scoreUnit:"점"); return `${scoreNum(n)}${unit}`; }
+function scoreUnit(){
+  return ({ko:"점",en:" pts",ja:"点",zh:"分",tw:"分"}[lang] || "점");
+}
+function scoreValue(n){ return `${scoreNum(n)}${scoreUnit()}`; }
+function scoreShareLabelShort(){
+  return ({ko:"공유",en:"Shares",ja:"共有",zh:"分享",tw:"分享"}[lang] || "공유");
+}
+function scoreAutoRefreshLabel(){
+  return ({ko:"1분마다 새로고침",en:"refreshes every minute",ja:"1分ごとに更新",zh:"每分钟刷新",tw:"每分鐘更新"}[lang] || "1분마다 새로고침");
+}
 function teamScoreStyle(teamId){
   const tm=teamById(teamId);
   const light = typeof isLightHexColor==="function" ? isLightHexColor(tm.color) : false;
@@ -3359,14 +3210,14 @@ async function renderScoreboard(){
           <div class="score-rank">${rankN}위</div>
           <div class="score-team">
             <div class="name">${esc(tm.name||r.team_name||r.team_id)}</div>
-            <div class="sub">${esc(T.scorePledge||"다짐")} ${scoreValue(r.pledge_score)} · ${esc(T.scoreLike||"좋아요")} ${scoreValue(r.like_score)} · ${esc(T.scoreShareShort||"공유")} ${scoreValue(r.share_score)}</div>
+            <div class="sub">${esc(T.scorePledge||"다짐")} ${scoreValue(r.pledge_score)} · ${esc(T.scoreLike||"좋아요")} ${scoreValue(r.like_score)} · ${esc(T.scoreShareShort||scoreShareLabelShort())} ${scoreValue(r.share_score)}</div>
           </div>
           <div class="score-total"><b>${scoreValue(r.total_score)}</b></div>
         </div>
       </article>`;
     }).join("");
     const last=rows.map(r=>r.updated_at).sort().pop();
-    if(upd) upd.textContent = `${T.scoreUpdated||"마지막 업데이트"} ${scoreDateLabel(last)} · ${T.scoreAutoRefresh||"1분마다 새로고침"}`;
+    if(upd) upd.textContent = `${T.scoreUpdated||"마지막 업데이트"} ${scoreDateLabel(last)} · ${T.scoreAutoRefresh||scoreAutoRefreshLabel()}`;
   }catch(e){
     el.innerHTML=`<div class="score-empty">${esc(T.scoreEmpty||"아직 집계된 점수가 없습니다.")}</div>`;
     if(upd) upd.textContent="";
