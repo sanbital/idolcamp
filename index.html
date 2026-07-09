@@ -2508,6 +2508,176 @@
     }
   }
 
+
+  /* TRUE FINAL: mobile score copy compact + localized point unit */
+  @media (max-width:640px){
+    .scoreboard .score-head{
+      grid-template-columns:76px minmax(0,1fr) auto!important;
+      gap:8px!important;
+      align-items:start!important;
+      margin-bottom:5px!important;
+    }
+    .scoreboard .score-logo{
+      width:72px!important;
+      height:52px!important;
+      margin-top:2px!important;
+      object-fit:contain!important;
+    }
+    .scoreboard .score-headtext{
+      min-width:0!important;
+    }
+    .scoreboard .score-titlerow{
+      margin:0 0 4px!important;
+      align-items:center!important;
+    }
+    .scoreboard .score-titlerow h2{
+      margin:0!important;
+      line-height:1!important;
+    }
+    .scoreboard .score-titlerow h2 span,
+    .scoreboard .score-titlerow h2 [data-i18n="scoreTitle"]{
+      font-size:18px!important;
+      line-height:1!important;
+      font-weight:900!important;
+      letter-spacing:-.35px!important;
+    }
+    .scoreboard .score-reload{
+      padding:4px 7px!important;
+      font-size:9px!important;
+      line-height:1!important;
+      white-space:nowrap!important;
+    }
+
+    .scoreboard .score-desc{
+      margin:0!important;
+      padding:0!important;
+      display:block!important;
+      white-space:normal!important;
+      overflow:visible!important;
+      font-size:0!important;
+      line-height:0!important;
+    }
+    .scoreboard .score-desc > [data-i18n="scoreDesc"]{
+      display:block!important;
+      margin:0!important;
+      padding:0!important;
+      font-size:0!important;
+      line-height:0!important;
+    }
+    .scoreboard .score-desc .i18n-line{
+      display:block!important;
+      margin:0!important;
+      padding:0!important;
+      min-height:0!important;
+      font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif!important;
+      font-size:9.4px!important;
+      line-height:1.08!important;
+      font-weight:500!important;
+      letter-spacing:-.18px!important;
+      color:#365446!important;
+      word-break:keep-all!important;
+      overflow-wrap:anywhere!important;
+    }
+    .scoreboard .score-desc .line-1{
+      margin-bottom:1px!important;
+    }
+    .scoreboard .score-desc .line-2{
+      font-size:8.1px!important;
+      line-height:1.05!important;
+      letter-spacing:-.35px!important;
+      margin-bottom:1px!important;
+    }
+    .scoreboard .score-desc .line-3{
+      margin-bottom:1px!important;
+    }
+    .scoreboard .score-desc .line-4{
+      font-size:8.65px!important;
+      line-height:1.1!important;
+      letter-spacing:-.3px!important;
+    }
+    .scoreboard .score-desc .desktop-space,
+    .scoreboard .score-desc .mo-br,
+    .scoreboard .score-desc br{
+      display:none!important;
+      line-height:0!important;
+      height:0!important;
+      margin:0!important;
+      padding:0!important;
+    }
+    .scoreboard .score-list{
+      margin-top:8px!important;
+    }
+
+    .scoreboard .score-cta{
+      min-height:72px!important;
+      padding:12px 62px 12px 12px!important;
+      align-items:center!important;
+    }
+    .scoreboard .score-cta-copy{
+      gap:4px!important;
+      justify-content:center!important;
+      min-width:0!important;
+    }
+    .scoreboard .score-cta-copy strong{
+      display:block!important;
+      margin:0!important;
+      padding:0!important;
+      font-size:15.2px!important;
+      line-height:1.14!important;
+      font-weight:950!important;
+      letter-spacing:-0.3px!important;
+      white-space:normal!important;
+      word-break:keep-all!important;
+      overflow-wrap:anywhere!important;
+    }
+    .scoreboard .score-cta-copy span{
+      display:block!important;
+      margin:0!important;
+      padding:0!important;
+      font-size:9.5px!important;
+      line-height:1.22!important;
+      font-weight:650!important;
+      white-space:normal!important;
+      word-break:keep-all!important;
+      overflow-wrap:anywhere!important;
+    }
+  }
+
+  @media (max-width:380px){
+    .scoreboard .score-head{
+      grid-template-columns:68px minmax(0,1fr) auto!important;
+      gap:7px!important;
+    }
+    .scoreboard .score-logo{
+      width:64px!important;
+      height:47px!important;
+    }
+    .scoreboard .score-titlerow h2 span,
+    .scoreboard .score-titlerow h2 [data-i18n="scoreTitle"]{
+      font-size:16px!important;
+    }
+    .scoreboard .score-desc .i18n-line{
+      font-size:8.8px!important;
+      line-height:1.05!important;
+    }
+    .scoreboard .score-desc .line-2{
+      font-size:7.55px!important;
+      line-height:1!important;
+    }
+    .scoreboard .score-desc .line-4{
+      font-size:8px!important;
+      line-height:1.06!important;
+    }
+    .scoreboard .score-cta-copy strong{
+      font-size:14px!important;
+      line-height:1.12!important;
+    }
+    .scoreboard .score-cta-copy span{
+      font-size:8.8px!important;
+      line-height:1.18!important;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -2736,7 +2906,7 @@ const I18N = {
     memberLabel:"멤버 선택", memberAll:"팀 전체",
     boardTitle:"입소생 다짐 게시판", boardSub:"입소생들의 다짐 한마디입니다.|마음에 드는 다짐엔 좋아요를 눌러주세요.", boardEmpty:"아직 다짐이 없어요. 첫 입소생이 되어보세요!",
     topBoardTitle:"🔥 인기 다짐 TOP 3", topBoardSub:"좋아요 많은 순", sortLatest:"최신 순", sortLikes:"좋아요 순", boardExpand:"펼치기", boardCollapse:"접기",
-    scoreTitle:"수련회 점수판", scoreSub:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.", scoreTotal:"누적 점수", scorePledge:"다짐", scoreLike:"좋아요", scoreShare:"공유하기", scoreMeme:"짤 장기자랑", scoreWorldcup:"명장면 월드컵", scoreSoon:"예정", scoreLoading:"스코어보드를 불러오는 중입니다.", scoreEmpty:"아직 집계된 점수가 없습니다.", scoreUpdated:"마지막 업데이트", scoreReload:"1분", scoreShareNote:"공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreDesc:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.|공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreCtaTitle:"아티스트에게 왕메달 선물하고, 뮤니버스 배너 광고 걸자!", scoreCtaBody:"우리 팀이 우승하면 왕메달을 걸고, 뮤니버스 배너 광고의 주인공이 될 수 있어요!",
+    scoreTitle:"수련회 점수판", scoreSub:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.", scoreTotal:"누적 점수", scorePledge:"다짐", scoreLike:"좋아요", scoreShare:"공유하기", scoreMeme:"짤 장기자랑", scoreWorldcup:"명장면 월드컵", scoreSoon:"예정", scoreLoading:"스코어보드를 불러오는 중입니다.", scoreEmpty:"아직 집계된 점수가 없습니다.", scoreUpdated:"마지막 업데이트", scoreReload:"1분", scoreUnit:"점", scoreAutoRefresh:"1분마다 새로고침", scoreShareNote:"공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreDesc:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.|공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreCtaTitle:"아티스트에게 왕메달 선물하고, 뮤니버스 배너 광고 걸자!", scoreCtaBody:"우리 팀이 우승하면 왕메달을 걸고, 뮤니버스 배너 광고의 주인공이 될 수 있어요!",
     nickLabel:"닉네임",
     nickPh:"닉네임을 입력하세요",
     msgLabel:"입소 다짐 한마디",
@@ -3094,7 +3264,11 @@ function setI18nValue(el, value){
     if(el.classList && el.classList.contains("aug-txt")){
       el.innerHTML = value.split("|").map(part=>`<span class="aug-line">${esc(part)}</span>`).join("");
     } else {
-      el.innerHTML = value.split("|").map((part,idx)=>`<span class="i18n-line line-${idx+1}">${esc(part)}</span>`).join('<span class="desktop-space"> </span><br class="mo-br">');
+      if(el.closest && el.closest(".score-desc")){
+        el.innerHTML = value.split("|").map((part,idx)=>`<span class="i18n-line line-${idx+1}">${esc(part)}</span>`).join("");
+      } else {
+        el.innerHTML = value.split("|").map((part,idx)=>`<span class="i18n-line line-${idx+1}">${esc(part)}</span>`).join('<span class="desktop-space"> </span><br class="mo-br">');
+      }
     }
   } else {
     el.textContent = value;
@@ -3137,6 +3311,7 @@ function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;'
 
 /* -------- scoreboard -------- */
 function scoreNum(n){ return Number(n||0).toLocaleString(lang==="ko"?"ko-KR":"en-US"); }
+function scoreValue(n){ const unit=(t().scoreUnit!=null?t().scoreUnit:"점"); return `${scoreNum(n)}${unit}`; }
 function teamScoreStyle(teamId){
   const tm=teamById(teamId);
   const light = typeof isLightHexColor==="function" ? isLightHexColor(tm.color) : false;
@@ -3184,14 +3359,14 @@ async function renderScoreboard(){
           <div class="score-rank">${rankN}위</div>
           <div class="score-team">
             <div class="name">${esc(tm.name||r.team_name||r.team_id)}</div>
-            <div class="sub">${esc(T.scorePledge||"다짐")} ${scoreNum(r.pledge_score)}점 · ${esc(T.scoreLike||"좋아요")} ${scoreNum(r.like_score)}점 · ${esc(T.scoreShareShort||"공유")} ${scoreNum(r.share_score)}점</div>
+            <div class="sub">${esc(T.scorePledge||"다짐")} ${scoreValue(r.pledge_score)} · ${esc(T.scoreLike||"좋아요")} ${scoreValue(r.like_score)} · ${esc(T.scoreShareShort||"공유")} ${scoreValue(r.share_score)}</div>
           </div>
-          <div class="score-total"><b>${scoreNum(r.total_score)}점</b></div>
+          <div class="score-total"><b>${scoreValue(r.total_score)}</b></div>
         </div>
       </article>`;
     }).join("");
     const last=rows.map(r=>r.updated_at).sort().pop();
-    if(upd) upd.textContent = `${T.scoreUpdated||"마지막 업데이트"} ${scoreDateLabel(last)} · 1분마다 새로고침`;
+    if(upd) upd.textContent = `${T.scoreUpdated||"마지막 업데이트"} ${scoreDateLabel(last)} · ${T.scoreAutoRefresh||"1분마다 새로고침"}`;
   }catch(e){
     el.innerHTML=`<div class="score-empty">${esc(T.scoreEmpty||"아직 집계된 점수가 없습니다.")}</div>`;
     if(upd) upd.textContent="";
