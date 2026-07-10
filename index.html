@@ -2842,7 +2842,7 @@ const I18N = {
     memberLabel:"멤버 선택", memberAll:"팀 전체",
     boardTitle:"입소생 다짐 게시판", boardSub:"입소생들의 다짐 한마디입니다.|마음에 드는 다짐엔 좋아요를 눌러주세요.", boardEmpty:"아직 다짐이 없어요. 첫 입소생이 되어보세요!",
     topBoardTitle:"🔥 인기 다짐 TOP 3", topBoardSub:"좋아요 많은 순", sortLatest:"최신 순", sortLikes:"좋아요 순", boardExpand:"펼치기", boardCollapse:"접기",
-    scoreTitle:"수련회 점수판", scoreSub:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.", scoreTotal:"누적 점수", scorePledge:"다짐", scoreLike:"좋아요", scoreShare:"공유하기", scoreShareShort:"공유", scoreMeme:"짤 장기자랑", scoreWorldcup:"명장면 월드컵", scoreSoon:"예정", scoreLoading:"스코어보드를 불러오는 중입니다.", scoreEmpty:"아직 집계된 점수가 없습니다.", scoreUpdated:"마지막 업데이트", scoreReload:"1분", scoreAutoRefresh:"1분마다 새로고침", scoreShareNote:"공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreDesc:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.|공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreCtaTitle:"아티스트에게 왕메달 선물하고, 뮤니버스 배너 광고 걸자!", scoreCtaBody:"우리 팀이 우승하면 왕메달을 걸고, 뮤니버스 배너 광고의 주인공이 될 수 있어요!", pledgeRestricted:"다른 닉네임으로 참여해 주세요.\n점수 부정 적립 방지를 위해 숫자·철자·이모지만 바꾼 닉네임은 다짐 등록이 제한돼요.",
+    scoreTitle:"수련회 점수판", scoreSub:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.", scoreTotal:"누적 점수", scorePledge:"다짐", scoreLike:"좋아요", scoreShare:"공유하기", scoreShareShort:"공유", scoreMeme:"짤 장기자랑", scoreWorldcup:"명장면 월드컵", scoreSoon:"예정", scoreLoading:"스코어보드를 불러오는 중입니다.", scoreEmpty:"아직 집계된 점수가 없습니다.", scoreUpdated:"마지막 업데이트", scoreReload:"1분", scoreAutoRefresh:"1분마다 새로고침", scoreShareNote:"공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreDesc:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.|공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreCtaTitle:"아티스트에게 왕메달 선물하고, 뮤니버스 배너 광고 걸자!", scoreCtaBody:"우리 팀이 우승하면 왕메달을 걸고, 뮤니버스 배너 광고의 주인공이 될 수 있어요!", pledgeRestricted:"다른 닉네임으로 다짐을 남겨주세요.\n점수 부정 적립 방지를 위해 숫자·철자·이모지만 바꾼 닉네임은 다짐 등록이 제한돼요.",
     nickLabel:"닉네임",
     nickPh:"닉네임을 입력하세요",
     msgLabel:"입소 다짐 한마디",
@@ -3476,6 +3476,15 @@ function boardSimilarNick(a,b){
 function boardRestrictionMessage(){
   return (t().pledgeRestricted || "비슷한 닉네임이 반복 등록되어 제한됐습니다.\n점수 부정 적립 방지를 위해 숫자·철자만 바꾼 닉네임은 다짐 등록이 제한돼요.");
 }
+function duplicateNickMessage(){
+  return ({
+    ko:"다른 닉네임으로 다짐을 남겨주세요.\n점수 부정 적립 방지를 위해 숫자·철자·이모지만 바꾼 닉네임은 다짐 등록이 제한돼요.",
+    en:"This nickname has already been used.\nYour pass is issued, but pledge registration and scoring are limited.",
+    ja:"このニックネームはすでに登録されています。\n入所証は発行されますが、誓いの登録と点数反映は制限されます。",
+    zh:"该昵称已被使用。\n入营证仍会发放，但誓言登记和计分将被限制。",
+    tw:"此暱稱已被使用。\n入營證仍會發放，但誓言登記和計分將被限制。"
+  }[lang] || "다른 닉네임으로 다짐을 남겨주세요.\n점수 부정 적립 방지를 위해 숫자·철자·이모지만 바꾼 닉네임은 다짐 등록이 제한돼요.");
+}
 
 function seedBoard(){ return [
   {id:"s1", nick:"수련생1호", team:"idntt", msg:"1기 입소 완료! 끝까지 함께해요 🔥", likes:14, ts:Date.now()-14e5},
@@ -3546,6 +3555,49 @@ const Board = {
     }catch(e){ console.warn("Board top load failed. Falling back to local board.", e); } }
     return sortBoardList((await this.all()).filter(x=>x.eligible!==false),"likes").slice(0,3);
   },
+  async exactNickExists(key){
+    if(!key) return false;
+    const s=this.sb();
+    if(s){
+      try{
+        const r=await fetch(`${s.url}/rest/v1/${this.table()}?nickname_key=eq.${encodeURIComponent(key)}&select=id&limit=1`,{
+          headers:this.headers()
+        });
+        if(r.ok){
+          const rows=await r.json();
+          return !!(rows && rows.length);
+        }
+        console.warn("Exact nickname precheck failed.", await r.text());
+        return false;
+      }catch(e){
+        console.warn("Exact nickname precheck failed.", e);
+        return false;
+      }
+    }
+    try{
+      const local=await this.all();
+      return local.some(x=>boardNickKey(x.nick)===key);
+    }catch(e){
+      return false;
+    }
+  },
+  async checkNickAvailable(e){
+    const entry={nick:(e.nick||"").trim().slice(0,16), team:e.team, msg:clean((e.msg||"").slice(0,24))};
+    const key=boardNickKey(entry.nick);
+    if(!key) return {ok:false, inserted:false, duplicate:false, error:false};
+
+    // 정확히 같은 닉네임은 팀/다짐 여부와 상관없이 먼저 차단합니다.
+    if(await this.exactNickExists(key)){
+      return {ok:false, inserted:false, duplicate:true};
+    }
+
+    // 숫자·철자·이모지만 바꾼 반복 닉네임은 차단합니다.
+    if(await this.similarNickExists(entry)){
+      return {ok:false, inserted:false, duplicate:false, restricted:true, reason:"similar_nickname"};
+    }
+
+    return {ok:true, entry, key};
+  },
   async similarNickExists(entry){
     const base=boardNickBase(entry.nick);
     if(base.length<3) return false;
@@ -3580,13 +3632,11 @@ const Board = {
     }
   },
   async add(e){
-    const entry={nick:(e.nick||"").trim().slice(0,16), team:e.team, msg:clean((e.msg||"").slice(0,24))};
-    const key=boardNickKey(entry.nick);
-    if(!key) return {inserted:false, duplicate:false};
+    const pre=await this.checkNickAvailable(e);
+    if(!pre || !pre.ok) return pre || {inserted:false, duplicate:false, error:true};
 
-    if(await this.similarNickExists(entry)){
-      return {inserted:false, duplicate:false, restricted:true, reason:"similar_nickname"};
-    }
+    const entry=pre.entry;
+    const key=pre.key;
 
     const s=this.sb();
     if(s){
@@ -4144,26 +4194,33 @@ function fileName(){ return `아이돌수련회_입소증_${($("#nick").value.tr
 function canvasBlob(){ return new Promise(res=>$("#certCanvas").toBlob(res,"image/png")); }
 
 async function issue(){
+  const nick=$("#nick").value.trim();
+  const pledge=$("#msg").value.trim();
+
   $("#result").classList.add("show");
-  // 입소번호: 공유 DB 연동 시 실제 순번, 아니면 결정적 고유번호
+  // 입소번호/입소증은 닉네임 중복·반복 여부와 관계없이 발급합니다.
   currentPass = null;
   try{ const seq = await logEnrollment(); if(seq) currentPass = seqPass(seq); }catch(e){}
   await renderCert();
   $("#result").scrollIntoView({behavior:"smooth",block:"start"});
-  // post 다짐 to board
-  const pledge=$("#msg").value.trim();
+
+  // 다짐 문구가 있을 때만 게시판 등록/점수 반영을 시도합니다.
+  // 중복·반복 닉네임이면 입소증은 유지하고, 다짐 등록과 점수 반영만 제한합니다.
   if(pledge){
     try{
-      const result=await Board.add({nick:$("#nick").value.trim(), team:selectedTeam, msg:pledge});
+      const result=await Board.add({nick, team:selectedTeam, msg:pledge});
       boardExpanded=false;
       boardSort="latest";
       boardPage=1;
       await renderBoard();
       renderScoreboard();
+
       if(result && result.restricted) centerAlert(boardRestrictionMessage());
-      else if(result && result.duplicate) toast("이미 등록된 닉네임입니다. 다짐은 한 번만 올라가요.");
+      else if(result && result.duplicate) centerAlert(duplicateNickMessage());
       else if(result && result.error) toast("다짐 등록 실패 · Supabase 설정을 확인해주세요.");
-    }catch(e){}
+    }catch(e){
+      console.warn("Pledge add failed.", e);
+    }
   }
 }
 async function download(){
