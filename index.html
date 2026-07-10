@@ -3252,14 +3252,38 @@ function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;'
 /* -------- scoreboard -------- */
 function scoreNum(n){ return Number(n||0).toLocaleString(lang==="ko"?"ko-KR":"en-US"); }
 function scoreUnit(){
-  return ({ko:"점",en:" pts",ja:"点",zh:"分",tw:"分"}[lang] || "점");
+  return ({
+    ko:"점",
+    en:" pts",
+    ja:"点",
+    "zh-CN":"分",
+    "zh-TW":"分",
+    zh:"分",
+    tw:"分"
+  }[lang] || "점");
 }
 function scoreValue(n){ return `${scoreNum(n)}${scoreUnit()}`; }
 function scoreShareLabelShort(){
-  return ({ko:"공유",en:"Shares",ja:"共有",zh:"分享",tw:"分享"}[lang] || "공유");
+  return ({
+    ko:"공유",
+    en:"Shares",
+    ja:"共有",
+    "zh-CN":"分享",
+    "zh-TW":"分享",
+    zh:"分享",
+    tw:"分享"
+  }[lang] || "공유");
 }
 function scoreAutoRefreshLabel(){
-  return ({ko:"1분마다 새로고침",en:"refreshes every minute",ja:"1分ごとに更新",zh:"每分钟刷新",tw:"每分鐘更新"}[lang] || "1분마다 새로고침");
+  return ({
+    ko:"1분마다 새로고침",
+    en:"refreshes every minute",
+    ja:"1分ごとに更新",
+    "zh-CN":"每分钟刷新",
+    "zh-TW":"每分鐘更新",
+    zh:"每分钟刷新",
+    tw:"每分鐘更新"
+  }[lang] || "1분마다 새로고침");
 }
 function teamScoreStyle(teamId){
   const tm=teamById(teamId);
