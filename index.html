@@ -3773,6 +3773,18 @@ function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){}
 
 function boardNickKey(nick){ return String(nick||"").trim().toLocaleLowerCase(); }
 
+// 한글 자음·모음(낱자)만으로 이루어진 닉네임 여부.
+// 예) "ㅔ1ㅍ", "ㅋㅋㅋ", "ㅜㅜ" → true / "아홉", "steven", "田中" → false
+// 완성형 한글(가-힣)·영문·일본어/한자가 하나라도 있으면 정상으로 봅니다.
+function boardIsJamoOnly(str){
+  const s=String(str||"").normalize("NFKC");
+  const hasJamo=/[\u3131-\u3163\u1100-\u11FF\uFFA0-\uFFDC]/.test(s); // 호환/조합형/반각 낱자
+  const hasSyllable=/[\uAC00-\uD7A3]/.test(s);                       // 완성형 한글 가-힣
+  const hasLatin=/[A-Za-z]/.test(s);                                 // 영문
+  const hasKanaHan=/[\u3040-\u30FF\u4E00-\u9FFF]/.test(s);           // 가나/한자
+  return hasJamo && !hasSyllable && !hasLatin && !hasKanaHan;
+}
+
 function boardNickBase(nick){
   const raw=String(nick||"").normalize("NFKC").toLocaleLowerCase();
 
@@ -3845,6 +3857,15 @@ function boardSimilarNick(a,b){
 }
 function boardRestrictionMessage(){
   return (t().pledgeRestricted || "비슷한 닉네임이 반복 등록되어 제한됐습니다.\n점수 부정 적립 방지를 위해 숫자·철자만 바꾼 닉네임은 다짐 등록이 제한돼요.");
+}
+function jamoRestrictionMessage(){
+  return ({
+    ko:"완성된 한글 닉네임으로 다짐을 남겨주세요.\n자음·모음 낱자(예: ㅔ, ㅋ, ㅍ)만으로 된 닉네임은 다짐 등록이 제한돼요.",
+    en:"Please use a proper nickname.\nNicknames made only of Korean letter components are not allowed.",
+    ja:"きちんとしたニックネームを入力してください。\nハングルの字母だけのニックネームは登録できません。",
+    zh:"请使用完整的昵称。\n仅由韩文字母组成的昵称无法登记誓言。",
+    tw:"請使用完整的暱稱。\n僅由韓文字母組成的暱稱無法登記誓言。"
+  }[lang] || "완성된 한글 닉네임으로 다짐을 남겨주세요.\n자음·모음 낱자만으로 된 닉네임은 다짐 등록이 제한돼요.");
 }
 function duplicateNickMessage(){
   return ({
@@ -3955,6 +3976,11 @@ const Board = {
     const entry={nick:(e.nick||"").trim().slice(0,16), team:e.team, msg:clean((e.msg||"").slice(0,24))};
     const key=boardNickKey(entry.nick);
     if(!key) return {ok:false, inserted:false, duplicate:false, error:false};
+
+    // 한글 자음·모음(낱자)만으로 된 닉네임은 차단합니다. (예: "ㅔ1ㅍ", "ㅋㅋㅋ")
+    if(boardIsJamoOnly(entry.nick)){
+      return {ok:false, inserted:false, duplicate:false, restricted:true, reason:"jamo_only"};
+    }
 
     // 정확히 같은 닉네임은 팀/다짐 여부와 상관없이 먼저 차단합니다.
     if(await this.exactNickExists(key)){
@@ -4585,7 +4611,8 @@ async function issue(){
       await renderBoard();
       renderScoreboard();
 
-      if(result && result.restricted) centerAlert(boardRestrictionMessage());
+      if(result && result.reason==="jamo_only") centerAlert(jamoRestrictionMessage());
+      else if(result && result.restricted) centerAlert(boardRestrictionMessage());
       else if(result && result.duplicate) centerAlert(duplicateNickMessage());
       else if(result && result.error) toast("다짐 등록 실패 · Supabase 설정을 확인해주세요.");
     }catch(e){
