@@ -3858,6 +3858,15 @@ function boardSimilarNick(a,b){
 function boardRestrictionMessage(){
   return (t().pledgeRestricted || "비슷한 닉네임이 반복 등록되어 제한됐습니다.\n점수 부정 적립 방지를 위해 숫자·철자만 바꾼 닉네임은 다짐 등록이 제한돼요.");
 }
+function rateLimitMessage(){
+  return ({
+    ko:"잠시 후 다시 시도해주세요.\n짧은 시간에 너무 많이 등록되어 잠깐 제한됐어요.",
+    en:"Please try again in a moment.\nToo many submissions in a short time.",
+    ja:"少し時間をおいて再度お試しください。\n短時間に登録が多すぎます。",
+    zh:"请稍后再试。\n短时间内提交次数过多。",
+    tw:"請稍後再試。\n短時間內送出次數過多。"
+  }[lang] || "잠시 후 다시 시도해주세요.\n짧은 시간에 너무 많이 등록되어 잠깐 제한됐어요.");
+}
 function jamoRestrictionMessage(){
   return ({
     ko:"완성된 한글 닉네임으로 다짐을 남겨주세요.\n자음·모음 낱자(예: ㅔ, ㅋ, ㅍ)만으로 된 닉네임은 다짐 등록이 제한돼요.",
@@ -4048,14 +4057,24 @@ const Board = {
           console.warn("Board duplicate precheck failed. Continue with unique constraint.", await check.text());
         }
 
-        // 2차 방어: nickname_key를 직접 함께 저장
-        // 3차 방어: DB unique index가 최종 중복을 차단
-        const r=await fetch(`${s.url}/rest/v1/${this.table()}`,{
+        // 등록은 서버 RPC(submit_pledge)로만 수행합니다.
+        //  · anon 의 board_messages 직접 INSERT 권한은 회수되어 있어 봇의 직접 POST가 막힙니다.
+        //  · 서버에서 IP 레이트리밋 + 한글 낱자 + 중복 닉네임을 강제로 검증합니다.
+        const r=await fetch(`${s.url}/rest/v1/rpc/submit_pledge`,{
           method:"POST",
-          headers:this.headers({"Content-Type":"application/json",Prefer:"return=minimal"}),
-          body:JSON.stringify({nickname:entry.nick,nickname_key:key,team:entry.team,message:entry.msg,likes:0})
+          headers:this.headers({"Content-Type":"application/json"}),
+          body:JSON.stringify({p_nick:entry.nick, p_team:entry.team, p_message:entry.msg})
         });
-        if(r.ok) return {inserted:true, duplicate:false};
+        if(r.ok){
+          let status=""; try{ status=await r.json(); }catch(e){ status=""; }
+          status=String(status==null?"":status).replace(/^"|"$/g,"");
+          if(status==="ok")           return {inserted:true, duplicate:false};
+          if(status==="duplicate")    return {inserted:false, duplicate:true};
+          if(status==="blocked_jamo") return {inserted:false, restricted:true, reason:"jamo_only"};
+          if(status==="rate_limited") return {inserted:false, error:false, rateLimited:true};
+          if(status==="invalid" || status==="blocked") return {inserted:false, restricted:true};
+          return {inserted:false, duplicate:false, error:true};
+        }
 
         const errText=await r.text();
         if(r.status===409 || /duplicate key|23505|unique/i.test(errText)){
@@ -4063,7 +4082,7 @@ const Board = {
           return {inserted:false, duplicate:true};
         }
 
-        console.warn("Board insert failed.", errText);
+        console.warn("Board submit failed.", errText);
         return {inserted:false, duplicate:false, error:true};
       }catch(err){
         console.warn("Board insert failed.", err);
@@ -4612,6 +4631,7 @@ async function issue(){
       renderScoreboard();
 
       if(result && result.reason==="jamo_only") centerAlert(jamoRestrictionMessage());
+      else if(result && result.rateLimited) centerAlert(rateLimitMessage());
       else if(result && result.restricted) centerAlert(boardRestrictionMessage());
       else if(result && result.duplicate) centerAlert(duplicateNickMessage());
       else if(result && result.error) toast("다짐 등록 실패 · Supabase 설정을 확인해주세요.");
