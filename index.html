@@ -14,6 +14,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@700&display=swap" rel="stylesheet" />
 <!-- 🔑 연결 설정: config.js 파일의 키값만 채우면 됩니다 (아래 파일이 없어도 정상 동작) -->
 <script src="config.js" onerror="window.__noConfig=1"></script>
+<!-- Cloudflare Turnstile: 봇 방지 캡차 (사이트키는 config.js 의 turnstileSiteKey 로 주입) -->
+<script>
+  window.__turnstileWidgetId = null;
+  window.onTurnstileReady = function(){
+    function doRender(){
+      try{
+        var cfg = (window.MUNIVERSE_CONFIG || {});
+        var key = cfg.turnstileSiteKey || "";
+        var holder = document.getElementById("cf-turnstile-holder");
+        if(!key || !holder || !window.turnstile) return;
+        holder.style.display = "";
+        window.__turnstileWidgetId = window.turnstile.render(holder, { sitekey: key, theme: "light", size: "flexible" });
+      }catch(e){ console.warn("Turnstile render failed.", e); }
+    }
+    if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", doRender);
+    else doRender();
+  };
+</script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileReady&render=explicit" async defer></script>
 <style>
   :root{
     --green:#8FB35A;        /* page base green */
@@ -3056,6 +3075,8 @@
       <div class="chips" id="msgChips"></div>
     </div>
 
+    <div id="cf-turnstile-holder" style="display:none;margin:10px 0 4px;"></div>
+
     <button class="cta" id="issueBtn" disabled>
       <span>🎫</span><span data-i18n="issueBtn"></span>
     </button>
@@ -3133,6 +3154,7 @@ const CONFIG = {
   passPrefix: "IDC",       // 입소번호 접두어
   hashtags: ["#MBC", "#뮤니버스", "#아이돌수련회"], // 언어별 태그는 I18N.<lang>.hashtags 우선
   shareUrl: _CFG.shareUrl || "",        // 이벤트 페이지 URL (config.js에서 채우면 X 공유에 포함)
+  turnstileSiteKey: _CFG.turnstileSiteKey || "",   // Cloudflare Turnstile 사이트 키(공개키). 비우면 캡차 미사용.
   // 팀 정의: id / 표시명 / 대표색(입소증 배지·강조). 색은 자유 교체 가능.
   // 참가팀 + 멤버(ko 표기 / en 표기). 외국어 UI에서는 en으로 노출.
   teams: [
@@ -3867,6 +3889,24 @@ function rateLimitMessage(){
     tw:"請稍後再試。\n短時間內送出次數過多。"
   }[lang] || "잠시 후 다시 시도해주세요.\n짧은 시간에 너무 많이 등록되어 잠깐 제한됐어요.");
 }
+function turnstileMessage(){
+  return ({
+    ko:"보안 확인을 완료한 뒤 다시 시도해주세요.\n(자동입력 방지 확인이 필요해요.)",
+    en:"Please complete the security check and try again.",
+    ja:"セキュリティ確認を完了してから再度お試しください。",
+    zh:"请完成安全验证后再试。",
+    tw:"請完成安全驗證後再試。"
+  }[lang] || "보안 확인을 완료한 뒤 다시 시도해주세요.\n(자동입력 방지 확인이 필요해요.)");
+}
+function blockedIpMessage(){
+  return ({
+    ko:"현재 환경에서는 다짐 등록이 제한됐어요.",
+    en:"Pledge submission is restricted from your current network.",
+    ja:"現在の環境では登録が制限されています。",
+    zh:"当前网络环境暂时无法登记。",
+    tw:"目前的網路環境暫時無法登記。"
+  }[lang] || "현재 환경에서는 다짐 등록이 제한됐어요.");
+}
 function jamoRestrictionMessage(){
   return ({
     ko:"완성된 한글 닉네임으로 다짐을 남겨주세요.\n자음·모음 낱자(예: ㅔ, ㅋ, ㅍ)만으로 된 닉네임은 다짐 등록이 제한돼요.",
@@ -4057,32 +4097,31 @@ const Board = {
           console.warn("Board duplicate precheck failed. Continue with unique constraint.", await check.text());
         }
 
-        // 등록은 서버 RPC(submit_pledge)로만 수행합니다.
-        //  · anon 의 board_messages 직접 INSERT 권한은 회수되어 있어 봇의 직접 POST가 막힙니다.
-        //  · 서버에서 IP 레이트리밋 + 한글 낱자 + 중복 닉네임을 강제로 검증합니다.
-        const r=await fetch(`${s.url}/rest/v1/rpc/submit_pledge`,{
+        // 등록은 Edge Function(submit-pledge)로만 수행합니다.
+        //  · Cloudflare Turnstile 토큰을 서버에서 검증한 뒤에만 다짐이 저장됩니다.
+        //  · 서버에서 캡차 + IP 레이트리밋 + 한글 낱자 + 중복 닉네임 + 차단 IP를 강제합니다.
+        const r=await fetch(`${s.url}/functions/v1/submit-pledge`,{
           method:"POST",
           headers:this.headers({"Content-Type":"application/json"}),
-          body:JSON.stringify({p_nick:entry.nick, p_team:entry.team, p_message:entry.msg})
+          body:JSON.stringify({nick:entry.nick, team:entry.team, message:entry.msg, token:(e&&e.token)||""})
         });
         if(r.ok){
-          let status=""; try{ status=await r.json(); }catch(e){ status=""; }
-          status=String(status==null?"":status).replace(/^"|"$/g,"");
-          if(status==="ok")           return {inserted:true, duplicate:false};
-          if(status==="duplicate")    return {inserted:false, duplicate:true};
-          if(status==="blocked_jamo") return {inserted:false, restricted:true, reason:"jamo_only"};
-          if(status==="rate_limited") return {inserted:false, error:false, rateLimited:true};
+          let status=""; try{ const j=await r.json(); status=(j&&j.status)||""; }catch(err2){ status=""; }
+          if(status==="ok")            return {inserted:true, duplicate:false};
+          if(status==="duplicate")     return {inserted:false, duplicate:true};
+          if(status==="blocked_jamo")  return {inserted:false, restricted:true, reason:"jamo_only"};
+          if(status==="rate_limited")  return {inserted:false, error:false, rateLimited:true};
+          if(status==="turnstile_failed") return {inserted:false, error:false, turnstile:true};
+          if(status==="blocked_ip")    return {inserted:false, error:false, blockedIp:true};
           if(status==="invalid" || status==="blocked") return {inserted:false, restricted:true};
           return {inserted:false, duplicate:false, error:true};
         }
 
         const errText=await r.text();
         if(r.status===409 || /duplicate key|23505|unique/i.test(errText)){
-          console.info("Board duplicate nickname blocked.", errText);
           return {inserted:false, duplicate:true};
         }
-
-        console.warn("Board submit failed.", errText);
+        console.warn("Board submit failed.", r.status, errText);
         return {inserted:false, duplicate:false, error:true};
       }catch(err){
         console.warn("Board insert failed.", err);
@@ -4623,14 +4662,22 @@ async function issue(){
   // 중복·반복 닉네임이면 입소증은 유지하고, 다짐 등록과 점수 반영만 제한합니다.
   if(pledge){
     try{
-      const result=await Board.add({nick, team:selectedTeam, msg:pledge});
+      const token = (window.turnstile && window.__turnstileWidgetId!=null)
+        ? (window.turnstile.getResponse(window.__turnstileWidgetId) || "")
+        : "";
+      const result=await Board.add({nick, team:selectedTeam, msg:pledge, token});
       boardExpanded=false;
       boardSort="latest";
       boardPage=1;
       await renderBoard();
       renderScoreboard();
 
+      // 캡차 토큰은 1회용이므로 매 시도 후 새 토큰을 준비합니다.
+      if(window.turnstile && window.__turnstileWidgetId!=null){ try{ window.turnstile.reset(window.__turnstileWidgetId); }catch(e){} }
+
       if(result && result.reason==="jamo_only") centerAlert(jamoRestrictionMessage());
+      else if(result && result.turnstile) centerAlert(turnstileMessage());
+      else if(result && result.blockedIp) centerAlert(blockedIpMessage());
       else if(result && result.rateLimited) centerAlert(rateLimitMessage());
       else if(result && result.restricted) centerAlert(boardRestrictionMessage());
       else if(result && result.duplicate) centerAlert(duplicateNickMessage());
