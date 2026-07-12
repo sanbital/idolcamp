@@ -3140,6 +3140,32 @@
 
 <div class="toast" id="toast"></div>
 
+<!-- 📊 방문자 통계 추적 스크립트 추가 -->
+<script>
+  (function() {
+    if (!localStorage.getItem('idolcamp_visited')) {
+      const SUPABASE_URL = 'https://kkaoerbblpuszptiibvo.supabase.co';
+      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtrYW9lcmJibHB1c3pwdGlpYnZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NDY5MTMsImV4cCI6MjA5ODEyMjkxM30.Xf549NzokL9zY7AT8Jd5NYFRj81r7z2hS6i7kZbpCMw';
+
+      fetch(`${SUPABASE_URL}/rest/v1/rpc/track_visitor`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        if(response.ok) {
+          localStorage.setItem('idolcamp_visited', 'true');
+        }
+      })
+      .catch(error => console.error('Tracking failed:', error));
+    }
+  })();
+</script>
+<!-- // 방문자 통계 추적 스크립트 끝 -->
+
 <script>
 /* =========================================================================
    아이돌 수련회 — 입소 신고증 발급 · Muniverse
