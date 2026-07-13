@@ -817,7 +817,7 @@
   .score-logo{width:34px!important;height:28px!important}
   .score-head h2{font-size:16px!important;line-height:1.05!important;margin:0!important}
   .score-head p{margin:1px 0 0!important;font-size:10.5px!important;line-height:1.18!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
-  .score-head:after{content:"↻ 1분";justify-self:end;background:#DDEED4;color:#315D44;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:950;white-space:nowrap}
+  .score-head:after{content:"↻ 10분";justify-self:end;background:#DDEED4;color:#315D44;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:950;white-space:nowrap}
   .score-notice{display:block!important;width:auto!important;margin:0 0 6px!important;padding:0!important;border:0!important;background:transparent!important;border-radius:0!important;color:#4C6558!important;font-size:10.8px!important;line-height:1.25!important;font-weight:850!important}
   .score-notice-icon{display:none!important}
   .score-list{gap:4px!important}
@@ -1038,7 +1038,7 @@
     overflow:hidden!important;
   }
   .score-head:after{
-    content:"↻ 1분"!important;
+    content:"↻ 10분"!important;
     align-self:start!important;
     margin-top:0!important;
     padding:3px 7px!important;
@@ -2991,9 +2991,9 @@
       <div class="score-headtext">
         <div class="score-titlerow">
           <h2><span data-i18n="scoreTitle"></span></h2>
-          <span class="score-reload" aria-hidden="true">↻ <span data-i18n="scoreReload">1분</span></span>
+          <span class="score-reload" aria-hidden="true">↻ <span data-i18n="scoreReload">10분</span></span>
         </div>
-        <p class="score-desc"><span data-i18n="scoreDesc">입소생들의 다짐(10점)·좋아요(획득 1개당 1점)·공유하기(50점) 점수를 합산합니다. 점수판은 1분마다 새로고침됩니다. 공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.</span></p>
+        <p class="score-desc"><span data-i18n="scoreDesc">입소생들의 다짐(10점)·좋아요(획득 1개당 1점)·공유하기(50점) 점수를 합산합니다. 점수판은 10분마다 새로고침됩니다. 공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.</span></p>
       </div>
     </div>
     <div id="scoreList" class="score-list">
@@ -3140,31 +3140,7 @@
 
 <div class="toast" id="toast"></div>
 
-<!-- 📊 방문자 통계 추적 스크립트 추가 -->
-<script>
-  (function() {
-    if (!localStorage.getItem('idolcamp_visited')) {
-      const SUPABASE_URL = 'https://kkaoerbblpuszptiibvo.supabase.co';
-      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtrYW9lcmJibHB1c3pwdGlpYnZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NDY5MTMsImV4cCI6MjA5ODEyMjkxM30.Xf549NzokL9zY7AT8Jd5NYFRj81r7z2hS6i7kZbpCMw';
-
-      fetch(`${SUPABASE_URL}/rest/v1/rpc/track_visitor`, {
-        method: 'POST',
-        headers: {
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(response => {
-        if(response.ok) {
-          localStorage.setItem('idolcamp_visited', 'true');
-        }
-      })
-      .catch(error => console.error('Tracking failed:', error));
-    }
-  })();
-</script>
-<!-- // 방문자 통계 추적 스크립트 끝 -->
+<!-- 방문자 통계는 운영 DB에 쓰지 않습니다. Cloudflare Web Analytics 또는 GA4를 사용하세요. -->
 
 <script>
 /* =========================================================================
@@ -3199,6 +3175,13 @@ const CONFIG = {
   // Supabase: config.js 의 supabaseUrl / supabaseAnonKey 만 채우면 공유형 게시판·순차 입소번호 동작. 비우면 로컬 동작.
   supabase: { url: _CFG.supabaseUrl || "", anonKey: _CFG.supabaseAnonKey || "", table:"enrollments", msgTable:"board_messages" },
   board: { maxShown: _CFG.maxShown || 1000 },  // 전체 관리 조회용. 게시판 화면은 DB 페이지 단위로 계속 증가  // 게시판 최신 N개까지 노출(10개/페이지)
+  idolcampApiUrl: _CFG.idolcampApiUrl || "",
+  scoreboardCacheUrl: _CFG.scoreboardCacheUrl || "",
+  scoreboardRefreshMs: Math.max(600000, Number(_CFG.scoreboardRefreshMs)||600000),
+  boardCacheMs: Math.max(30000, Number(_CFG.boardCacheMs)||60000),
+  memberPhotoCacheMs: Math.max(3600000, Number(_CFG.memberPhotoCacheMs)||21600000),
+  enableVisitorTracking: _CFG.enableVisitorTracking === true,
+  allowDemoBoardFallback: _CFG.allowDemoBoardFallback === true,
   memberPhotos: {
     table: _CFG.memberPhotoTable || "camp_member_photos",
     bucket: _CFG.memberPhotoBucket || "idolcamp-members"
@@ -3229,10 +3212,10 @@ const I18N = {
     formSub:"응원 팀과 닉네임을 입력하면|나만의 입소 신고증이 발급됩니다.",
     teamLabel:"참가 팀 선택",
     memberLabel:"멤버 선택", memberAll:"팀 전체",
-    boardTitle:"입소생 다짐 게시판", boardSub:"입소생들의 다짐 한마디입니다.|마음에 드는 다짐엔 좋아요를 눌러주세요.", boardEmpty:"아직 다짐이 없어요. 첫 입소생이 되어보세요!",
+    boardTitle:"입소생 다짐 게시판", boardSub:"입소생들의 다짐 한마디입니다.|마음에 드는 다짐엔 좋아요를 눌러주세요.", boardEmpty:"아직 다짐이 없어요. 첫 입소생이 되어보세요!", boardError:"게시판을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.",
     topBoardTitle:"🔥 인기 다짐 TOP 3", topBoardSub:"좋아요 많은 순", sortLatest:"최신 순", sortLikes:"좋아요 순", boardExpand:"펼치기", boardCollapse:"접기",
     playlistTitle:"아이돌 수련회 지금 바로 보러 가기!", playlistSubtitle:"뮤니버스 유튜브 채널에서 매주 금요일 6시 공개",
-    scoreTitle:"수련회 점수판", scoreSub:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.", scoreTotal:"누적 점수", scorePledge:"다짐", scoreLike:"좋아요", scoreShare:"공유하기", scoreShareShort:"공유", scoreMeme:"짤 장기자랑", scoreWorldcup:"명장면 월드컵", scoreSoon:"예정", scoreLoading:"스코어보드를 불러오는 중입니다.", scoreEmpty:"아직 집계된 점수가 없습니다.", scoreUpdated:"마지막 업데이트", scoreReload:"1분", scoreAutoRefresh:"1분마다 새로고침", scoreShareNote:"공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreDesc:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 1분마다 새로고침됩니다.|공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreCtaTitle:"아티스트에게 왕메달 선물하고, 뮤니버스 배너 광고 걸자!", scoreCtaBody:"우리 팀이 우승하면 왕메달을 걸고, 뮤니버스 배너 광고의 주인공이 될 수 있어요!", pledgeRestricted:"다른 닉네임으로 다짐을 남겨주세요.\n점수 부정 적립 방지를 위해 숫자·철자·이모지만 바꾼 닉네임은 다짐 등록이 제한돼요.",
+    scoreTitle:"수련회 점수판", scoreSub:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 10분마다 새로고침됩니다.", scoreTotal:"누적 점수", scorePledge:"다짐", scoreLike:"좋아요", scoreShare:"공유하기", scoreShareShort:"공유", scoreMeme:"짤 장기자랑", scoreWorldcup:"명장면 월드컵", scoreSoon:"예정", scoreLoading:"스코어보드를 불러오는 중입니다.", scoreEmpty:"아직 집계된 점수가 없습니다.", scoreUpdated:"마지막 업데이트", scoreReload:"10분", scoreAutoRefresh:"10분마다 새로고침", scoreShareNote:"공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreDesc:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 10분마다 새로고침됩니다.|공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreCtaTitle:"아티스트에게 왕메달 선물하고, 뮤니버스 배너 광고 걸자!", scoreCtaBody:"우리 팀이 우승하면 왕메달을 걸고, 뮤니버스 배너 광고의 주인공이 될 수 있어요!", pledgeRestricted:"다른 닉네임으로 다짐을 남겨주세요.\n점수 부정 적립 방지를 위해 숫자·철자·이모지만 바꾼 닉네임은 다짐 등록이 제한돼요.",
     nickLabel:"닉네임",
     nickPh:"닉네임을 입력하세요",
     msgLabel:"입소 다짐 한마디",
@@ -3279,10 +3262,10 @@ const I18N = {
     formSub:"Pick your team and nickname.|Get your own Idol School Camp pass.",
     teamLabel:"Pick your team",
     memberLabel:"Pick a member", memberAll:"Whole team",
-    boardTitle:"Enrollment Message Board", boardSub:"Enrollees' one-line pledges.|Tap the heart on the ones you like.", boardEmpty:"No pledges yet. Be the first enrollee!",
+    boardTitle:"Enrollment Message Board", boardSub:"Enrollees' one-line pledges.|Tap the heart on the ones you like.", boardEmpty:"No pledges yet. Be the first enrollee!", boardError:"The board is temporarily unavailable. Please try again shortly.",
     topBoardTitle:"🔥 Top 3 Pledges", topBoardSub:"Most liked", sortLatest:"Latest", sortLikes:"Most liked", boardExpand:"Show more", boardCollapse:"Collapse",
     playlistTitle:"Watch Idol School Camp Now!", playlistSubtitle:"New episodes every Friday at 6 PM on the Muniverse YouTube channel.",
-    scoreTitle:"Camp Scoreboard", scoreSub:"Team scores add up pledges (10 pts), likes (1 pt each), and verified shares (50 pts). The scoreboard reloads every minute.", scoreTotal:"Total Score", scorePledge:"Pledge", scoreLike:"Likes", scoreShare:"Shares", scoreShareShort:"Shares", scoreMeme:"Meme Talent Show", scoreWorldcup:"Best Scene World Cup", scoreSoon:"Soon", scoreLoading:"Loading scoreboard.", scoreEmpty:"No scores yet.", scoreUpdated:"Last updated", scoreReload:"1 min", scoreAutoRefresh:"refreshes every minute", scoreShareNote:"Share scores are updated once a day at 9:59 AM KST.", scoreDesc:"Team scores add up pledges (10 pts), likes (1 pt each), and verified shares (50 pts).|The scoreboard reloads every minute.|Share scores are updated once a day at 9:59 AM KST.", scoreCtaTitle:"Win the crown medal and banner ad!", scoreCtaBody:"Win camp, claim the crown medal, and star in a Muniverse banner ad!", pledgeRestricted:"Please join with a different nickname.\nTo prevent unfair scoring, nicknames changed only by numbers, small spelling edits, or emoji are restricted.",
+    scoreTitle:"Camp Scoreboard", scoreSub:"Team scores add up pledges (10 pts), likes (1 pt each), and verified shares (50 pts). The scoreboard reloads every 10 minutes.", scoreTotal:"Total Score", scorePledge:"Pledge", scoreLike:"Likes", scoreShare:"Shares", scoreShareShort:"Shares", scoreMeme:"Meme Talent Show", scoreWorldcup:"Best Scene World Cup", scoreSoon:"Soon", scoreLoading:"Loading scoreboard.", scoreEmpty:"No scores yet.", scoreUpdated:"Last updated", scoreReload:"10 min", scoreAutoRefresh:"refreshes every 10 minutes", scoreShareNote:"Share scores are updated once a day at 9:59 AM KST.", scoreDesc:"Team scores add up pledges (10 pts), likes (1 pt each), and verified shares (50 pts).|The scoreboard reloads every 10 minutes.|Share scores are updated once a day at 9:59 AM KST.", scoreCtaTitle:"Win the crown medal and banner ad!", scoreCtaBody:"Win camp, claim the crown medal, and star in a Muniverse banner ad!", pledgeRestricted:"Please join with a different nickname.\nTo prevent unfair scoring, nicknames changed only by numbers, small spelling edits, or emoji are restricted.",
     nickLabel:"Nickname",
     nickPh:"Enter your nickname",
     msgLabel:"Your camp motto",
@@ -3328,10 +3311,10 @@ const I18N = {
     formSub:"応援チームとニックネームを入力すると、|あなただけのIDOL SCHOOL CAMP入所証が発行されます。",
     teamLabel:"参加チームを選択",
     memberLabel:"メンバーを選択", memberAll:"チーム全体",
-    boardTitle:"入所生 決意ボード", boardSub:"入所生たちの意気込み一言。|気に入った投稿にはいいねを押してね。", boardEmpty:"まだ投稿がありません。最初の入所生になろう！",
+    boardTitle:"入所生 決意ボード", boardSub:"入所生たちの意気込み一言。|気に入った投稿にはいいねを押してね。", boardEmpty:"まだ投稿がありません。最初の入所生になろう！", boardError:"掲示板を読み込めませんでした。しばらくしてからもう一度お試しください。",
     topBoardTitle:"🔥 人気決意 TOP 3", topBoardSub:"いいね順", sortLatest:"最新順", sortLikes:"いいね順", boardExpand:"もっと見る", boardCollapse:"閉じる",
     playlistTitle:"『IDOL SCHOOL CAMP』を今すぐ見る！", playlistSubtitle:"ムニバース公式YouTubeチャンネルで毎週金曜よる6時公開",
-    scoreTitle:"キャンプ点数表", scoreSub:"誓い（10点）・いいね（1個1点）・共有（50点）のスコアをチーム別に合算します。点数表は1分ごとに更新されます。", scoreTotal:"累計スコア", scorePledge:"誓い", scoreLike:"いいね", scoreShare:"共有", scoreShareShort:"共有", scoreMeme:"画像芸大会", scoreWorldcup:"名場面W杯", scoreSoon:"予定", scoreLoading:"スコアボードを読み込み中です。", scoreEmpty:"まだ集計されたスコアがありません。", scoreUpdated:"最終更新", scoreReload:"1分", scoreAutoRefresh:"1分ごとに更新", scoreShareNote:"共有スコアは1日1回、午前9時59分（KST）に更新されます。", scoreDesc:"誓い（10点）・いいね（1個1点）・共有（50点）のスコアをチーム別に合算します。|点数表は1分ごとに更新されます。|共有スコアは1日1回、午前9時59分（KST）に更新されます。", scoreCtaTitle:"王メダルとバナー広告をつかもう！", scoreCtaBody:"優勝して王メダルを掲げ、Muniverseバナー広告の主役になりましょう！", pledgeRestricted:"ニックネームの繰り返しパターンが検出されたため制限されました。\n不正な点数加算を防ぐため、数字・一部の文字・絵文字だけを変えたニックネームは制限されます。",
+    scoreTitle:"キャンプ点数表", scoreSub:"誓い（10点）・いいね（1個1点）・共有（50点）のスコアをチーム別に合算します。点数表は10分ごとに更新されます。", scoreTotal:"累計スコア", scorePledge:"誓い", scoreLike:"いいね", scoreShare:"共有", scoreShareShort:"共有", scoreMeme:"画像芸大会", scoreWorldcup:"名場面W杯", scoreSoon:"予定", scoreLoading:"スコアボードを読み込み中です。", scoreEmpty:"まだ集計されたスコアがありません。", scoreUpdated:"最終更新", scoreReload:"10分", scoreAutoRefresh:"10分ごとに更新", scoreShareNote:"共有スコアは1日1回、午前9時59分（KST）に更新されます。", scoreDesc:"誓い（10点）・いいね（1個1点）・共有（50点）のスコアをチーム別に合算します。|点数表は10分ごとに更新されます。|共有スコアは1日1回、午前9時59分（KST）に更新されます。", scoreCtaTitle:"王メダルとバナー広告をつかもう！", scoreCtaBody:"優勝して王メダルを掲げ、Muniverseバナー広告の主役になりましょう！", pledgeRestricted:"ニックネームの繰り返しパターンが検出されたため制限されました。\n不正な点数加算を防ぐため、数字・一部の文字・絵文字だけを変えたニックネームは制限されます。",
     nickLabel:"ニックネーム",
     nickPh:"ニックネームを入力",
     msgLabel:"入所の意気込み",
@@ -3377,10 +3360,10 @@ const I18N = {
     formSub:"选择应援队伍并输入昵称，|即可领取专属 IDOL SCHOOL CAMP 入所证。",
     teamLabel:"选择参加队伍",
     memberLabel:"选择成员", memberAll:"全队",
-    boardTitle:"入所生宣言墙", boardSub:"入所生们的一句宣言。|喜欢的宣言点个赞吧。", boardEmpty:"还没有宣言，来当第一位入所生吧！",
+    boardTitle:"入所生宣言墙", boardSub:"入所生们的一句宣言。|喜欢的宣言点个赞吧。", boardEmpty:"还没有宣言，来当第一位入所生吧！", boardError:"暂时无法加载留言板，请稍后重试。",
     topBoardTitle:"🔥 人气宣言 TOP 3", topBoardSub:"按点赞数", sortLatest:"最新", sortLikes:"点赞数", boardExpand:"展开", boardCollapse:"收起",
     playlistTitle:"立即观看《IDOL SCHOOL CAMP》！", playlistSubtitle:"每周五晚6点于 Muniverse YouTube 频道公开",
-    scoreTitle:"营地积分榜", scoreSub:"按团队汇总誓言（10分）、点赞（每个1分）与分享（50分）得分。积分榜每1分钟更新一次。", scoreTotal:"累计分数", scorePledge:"誓言", scoreLike:"点赞", scoreShare:"分享", scoreShareShort:"分享", scoreMeme:"表情包才艺秀", scoreWorldcup:"名场面世界杯", scoreSoon:"待公开", scoreLoading:"正在加载积分榜。", scoreEmpty:"暂无积分。", scoreUpdated:"最后更新", scoreReload:"1分钟", scoreAutoRefresh:"每分钟刷新", scoreShareNote:"分享得分每天上午9点59分（KST）更新一次。", scoreDesc:"按团队汇总誓言（10分）、点赞（每个1分）与分享（50分）得分。|积分榜每1分钟更新一次。|分享得分每天上午9点59分（KST）更新一次。", scoreCtaTitle:"赢下王者奖牌和横幅广告！", scoreCtaBody:"夺冠后挂上王者奖牌，并成为Muniverse横幅广告主角！", pledgeRestricted:"检测到重复昵称模式，已限制登记。\n为防止不正当加分，仅更改数字、少量字母或表情符号的昵称将被限制。",
+    scoreTitle:"营地积分榜", scoreSub:"按团队汇总誓言（10分）、点赞（每个1分）与分享（50分）得分。积分榜每10分钟更新一次。", scoreTotal:"累计分数", scorePledge:"誓言", scoreLike:"点赞", scoreShare:"分享", scoreShareShort:"分享", scoreMeme:"表情包才艺秀", scoreWorldcup:"名场面世界杯", scoreSoon:"待公开", scoreLoading:"正在加载积分榜。", scoreEmpty:"暂无积分。", scoreUpdated:"最后更新", scoreReload:"10分钟", scoreAutoRefresh:"每10分钟刷新", scoreShareNote:"分享得分每天上午9点59分（KST）更新一次。", scoreDesc:"按团队汇总誓言（10分）、点赞（每个1分）与分享（50分）得分。|积分榜每10分钟更新一次。|分享得分每天上午9点59分（KST）更新一次。", scoreCtaTitle:"赢下王者奖牌和横幅广告！", scoreCtaBody:"夺冠后挂上王者奖牌，并成为Muniverse横幅广告主角！", pledgeRestricted:"检测到重复昵称模式，已限制登记。\n为防止不正当加分，仅更改数字、少量字母或表情符号的昵称将被限制。",
     nickLabel:"昵称",
     nickPh:"请输入昵称",
     msgLabel:"入所宣言一句话",
@@ -3426,10 +3409,10 @@ const I18N = {
     formSub:"選擇應援隊伍並輸入暱稱，|即可領取專屬 IDOL SCHOOL CAMP 入所證。",
     teamLabel:"選擇參加隊伍",
     memberLabel:"選擇成員", memberAll:"全隊",
-    boardTitle:"入所生宣言牆", boardSub:"入所生們的一句宣言。|喜歡的宣言按個讚吧。", boardEmpty:"還沒有宣言，來當第一位入所生吧！",
+    boardTitle:"入所生宣言牆", boardSub:"入所生們的一句宣言。|喜歡的宣言按個讚吧。", boardEmpty:"還沒有宣言，來當第一位入所生吧！", boardError:"暫時無法載入留言板，請稍後再試。",
     topBoardTitle:"🔥 人氣宣言 TOP 3", topBoardSub:"按讚數", sortLatest:"最新", sortLikes:"按讚數", boardExpand:"展開", boardCollapse:"收合",
     playlistTitle:"立即觀看《IDOL SCHOOL CAMP》！", playlistSubtitle:"每週五晚間6點於 Muniverse YouTube 頻道公開",
-    scoreTitle:"營地積分榜", scoreSub:"按團隊彙總誓言（10分）、按讚（每個1分）與分享（50分）得分。積分榜每1分鐘更新一次。", scoreTotal:"累計分數", scorePledge:"誓言", scoreLike:"按讚", scoreShare:"分享", scoreShareShort:"分享", scoreMeme:"迷因才藝秀", scoreWorldcup:"名場面世界盃", scoreSoon:"待公開", scoreLoading:"正在載入積分榜。", scoreEmpty:"暫無積分。", scoreUpdated:"最後更新", scoreReload:"1分鐘", scoreAutoRefresh:"每分鐘更新", scoreShareNote:"分享得分每天上午9點59分（KST）更新一次。", scoreDesc:"按團隊彙總誓言（10分）、按讚（每個1分）與分享（50分）得分。|積分榜每1分鐘更新一次。|分享得分每天上午9點59分（KST）更新一次。", scoreCtaTitle:"贏下王者獎牌和橫幅廣告！", scoreCtaBody:"奪冠後掛上王者獎牌，並成為Muniverse橫幅廣告主角！", pledgeRestricted:"偵測到重複暱稱模式，已限制登記。\n為防止不正當加分，僅更改數字、少量字母或表情符號的暱稱將被限制。",
+    scoreTitle:"營地積分榜", scoreSub:"按團隊彙總誓言（10分）、按讚（每個1分）與分享（50分）得分。積分榜每10分鐘更新一次。", scoreTotal:"累計分數", scorePledge:"誓言", scoreLike:"按讚", scoreShare:"分享", scoreShareShort:"分享", scoreMeme:"迷因才藝秀", scoreWorldcup:"名場面世界盃", scoreSoon:"待公開", scoreLoading:"正在載入積分榜。", scoreEmpty:"暫無積分。", scoreUpdated:"最後更新", scoreReload:"10分鐘", scoreAutoRefresh:"每10分鐘更新", scoreShareNote:"分享得分每天上午9點59分（KST）更新一次。", scoreDesc:"按團隊彙總誓言（10分）、按讚（每個1分）與分享（50分）得分。|積分榜每10分鐘更新一次。|分享得分每天上午9點59分（KST）更新一次。", scoreCtaTitle:"贏下王者獎牌和橫幅廣告！", scoreCtaBody:"奪冠後掛上王者獎牌，並成為Muniverse橫幅廣告主角！", pledgeRestricted:"偵測到重複暱稱模式，已限制登記。\n為防止不正當加分，僅更改數字、少量字母或表情符號的暱稱將被限制。",
     nickLabel:"暱稱",
     nickPh:"請輸入暱稱",
     msgLabel:"入所宣言一句話",
@@ -3600,6 +3583,21 @@ function setI18nValue(el, value){
     el.textContent = value;
   }
 }
+let boardHasRendered=false, boardObserver=null;
+function scheduleBoardRender(){
+  const board=document.getElementById("board");
+  if(boardHasRendered){ renderBoard(); return; }
+  if(!board || !("IntersectionObserver" in window)){ boardHasRendered=true; renderBoard(); return; }
+  if(boardObserver) return;
+  boardObserver=new IntersectionObserver(entries=>{
+    if(entries.some(x=>x.isIntersecting)){
+      boardHasRendered=true;
+      boardObserver.disconnect(); boardObserver=null;
+      renderBoard();
+    }
+  },{rootMargin:"500px 0px"});
+  boardObserver.observe(board);
+}
 function applyI18n(){
   document.querySelectorAll("[data-i18n]").forEach(el=>{
     const k=el.getAttribute("data-i18n"); if(t()[k]!=null) setI18nValue(el,t()[k]);
@@ -3607,7 +3605,7 @@ function applyI18n(){
   $("#nick").placeholder=t().nickPh;
   $("#msg").placeholder=t().msgPh;
   $("#hashText").textContent = tags().join(" ");
-  buildLangs(); buildChips(); buildSchedule(); bindScheduleLinks(); buildMembers(); renderBoard(); renderScoreboard();
+  buildLangs(); buildChips(); buildSchedule(); bindScheduleLinks(); buildMembers(); scheduleBoardRender(); renderScoreboard();
   // re-render certificate if visible
   if($("#result").classList.contains("show")) renderCert();
 }
@@ -3670,14 +3668,14 @@ function scoreShareLabelShort(){
 }
 function scoreAutoRefreshLabel(){
   return ({
-    ko:"1분마다 새로고침",
-    en:"refreshes every minute",
-    ja:"1分ごとに更新",
-    "zh-CN":"每分钟刷新",
-    "zh-TW":"每分鐘更新",
-    zh:"每分钟刷新",
-    tw:"每分鐘更新"
-  }[lang] || "1분마다 새로고침");
+    ko:"10분마다 새로고침",
+    en:"refreshes every 10 minutes",
+    ja:"10分ごとに更新",
+    "zh-CN":"每10分钟刷新",
+    "zh-TW":"每10分鐘更新",
+    zh:"每10分钟刷新",
+    tw:"每10分鐘更新"
+  }[lang] || "10분마다 새로고침");
 }
 function teamScoreStyle(teamId){
   const tm=teamById(teamId);
@@ -3693,15 +3691,25 @@ function scoreDateLabel(iso){
   }catch(e){ return ""; }
 }
 async function fetchScoreboard(){
-  const S=CONFIG.supabase;
-  if(!S.url || !S.anonKey) return [];
-  const url=`${S.url}/rest/v1/scoreboard_public?select=*&order=rank.asc`;
-  const r=await fetch(url,{headers:{
-    "apikey":S.anonKey,
-    "Authorization":"Bearer "+S.anonKey
-  }});
-  if(!r.ok) throw new Error("scoreboard fetch failed");
-  return await r.json();
+  const base=CONFIG.scoreboardCacheUrl;
+  if(!base) throw new Error("scoreboard cache URL is missing");
+  const bucket=Math.floor(Date.now()/CONFIG.scoreboardRefreshMs);
+  const url=base+(base.includes("?")?"&":"?")+"v="+bucket;
+  try{
+    const r=await fetch(url,{cache:"default"});
+    if(!r.ok) throw new Error("scoreboard cache fetch failed: "+r.status);
+    const payload=await r.json();
+    const rows=Array.isArray(payload)?payload:(payload&&payload.rows)||[];
+    localStorage.setItem("idolcamp_scoreboard_cache_v2",JSON.stringify({savedAt:Date.now(),rows}));
+    return rows;
+  }catch(e){
+    // CDN 일시 장애 시 마지막 정상 캐시만 보여주며 Postgres로 직접 fallback하지 않습니다.
+    try{
+      const saved=JSON.parse(localStorage.getItem("idolcamp_scoreboard_cache_v2")||"null");
+      if(saved && Array.isArray(saved.rows) && Date.now()-Number(saved.savedAt||0)<86400000) return saved.rows;
+    }catch(ignore){}
+    throw e;
+  }
 }
 async function renderScoreboard(){
   const el=$("#scoreList"), upd=$("#scoreUpdated");
@@ -3735,7 +3743,7 @@ async function renderScoreboard(){
     const last=rows.map(r=>r.updated_at).sort().pop();
     if(upd) upd.textContent = `${T.scoreUpdated||"마지막 업데이트"} ${scoreDateLabel(last)} · ${T.scoreAutoRefresh||scoreAutoRefreshLabel()}`;
   }catch(e){
-    el.innerHTML=`<div class="score-empty">${esc(T.scoreEmpty||"아직 집계된 점수가 없습니다.")}</div>`;
+    el.innerHTML=`<div class="score-empty">${esc(T.scoreLoading||"점수판을 불러오는 중입니다.")}</div>`;
     if(upd) upd.textContent="";
   }
 }
@@ -3791,10 +3799,19 @@ async function loadMemberPhotos(){
   const table=(CONFIG.memberPhotos&&CONFIG.memberPhotos.table)||"camp_member_photos";
   if(!s || !s.url || !s.anonKey) return;
   try{
+    const cacheKey="idolcamp_member_photos_v2";
+    const cached=JSON.parse(localStorage.getItem(cacheKey)||"null");
+    let rows=null;
+    if(cached && Array.isArray(cached.rows) && Date.now()-Number(cached.savedAt||0)<CONFIG.memberPhotoCacheMs){
+      rows=cached.rows;
+    }
     const cols='team_id,member_ko,member_en,photo_path,sort_order,is_group,active';
-    const r=await fetch(`${s.url}/rest/v1/${table}?select=${cols}&active=eq.true&order=team_id.asc,sort_order.asc`,{headers:supabaseHeaders()});
-    if(!r.ok) throw new Error(await r.text());
-    const rows=await r.json();
+    if(!rows){
+      const r=await fetch(`${s.url}/rest/v1/${table}?select=${cols}&active=eq.true&order=team_id.asc,sort_order.asc`,{headers:supabaseHeaders()});
+      if(!r.ok) throw new Error(await r.text());
+      rows=await r.json();
+      localStorage.setItem(cacheKey,JSON.stringify({savedAt:Date.now(),rows}));
+    }
     MEMBER_PHOTOS.clear(); TEAM_PHOTOS.clear();
     rows.forEach(row=>{
       const meta={...row,url:storagePublicUrl(row.photo_path)};
@@ -3818,6 +3835,15 @@ const BOARD_COLLAPSED_LIMIT=7, BOARD_EXPANDED_LIMIT=30, LS_KEY="itc_board_v1", L
 let boardExpanded=false, boardSort="latest", boardPage=1;
 function lsGet(k,def){ try{ const v=localStorage.getItem(k); return v==null?def:JSON.parse(v); }catch(e){ return def; } }
 function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+function getClientId(){
+  const key="idolcamp_client_id_v2";
+  let id=""; try{id=localStorage.getItem(key)||"";}catch(e){}
+  if(!id){
+    id=(crypto&&crypto.randomUUID)?crypto.randomUUID():(Date.now().toString(36)+Math.random().toString(36).slice(2));
+    try{localStorage.setItem(key,id);}catch(e){}
+  }
+  return id;
+}
 
 function boardNickKey(nick){ return String(nick||"").trim().toLocaleLowerCase(); }
 
@@ -3952,22 +3978,14 @@ function duplicateNickMessage(){
   }[lang] || "다른 닉네임으로 다짐을 남겨주세요.\n점수 부정 적립 방지를 위해 숫자·철자·이모지만 바꾼 닉네임은 다짐 등록이 제한돼요.");
 }
 
-function seedBoard(){ return [
-  {id:"s1", nick:"수련생1호", team:"idntt", msg:"1기 입소 완료! 끝까지 함께해요 🔥", likes:14, ts:Date.now()-14e5},
-  {id:"s2", nick:"모닥불지기", team:"ahof", msg:"최애 보러 매주 본방사수 갑니다", likes:9, ts:Date.now()-13e5},
-  {id:"s3", nick:"camper_lee", team:"closeyoureyes", msg:"수련회 대박나자!! 우리 팀 화이팅", likes:6, ts:Date.now()-12e5},
-  {id:"s4", nick:"별밤", team:"flareu", msg:"플레어유 데뷔 축하해 🏕️", likes:8, ts:Date.now()-11e5},
-  {id:"s5", nick:"릴리", team:"idntt", msg:"입소증 너무 예뻐요 ㅠㅠ 소장각", likes:5, ts:Date.now()-10e5},
-  {id:"s6", nick:"텐트요정", team:"ahof", msg:"장기자랑 기대된다 두근두근", likes:4, ts:Date.now()-9e5},
-  {id:"s7", nick:"우진러버", team:"flareu", msg:"강우진 무대 최고였어 🥹", likes:11, ts:Date.now()-8e5},
-  {id:"s8", nick:"캠프파이어", team:"closeyoureyes", msg:"켄신 파트 계속 돌려봄", likes:7, ts:Date.now()-7e5},
-  {id:"s9", nick:"도훈바라기", team:"idntt", msg:"김도훈 센터 실화냐 심장아파", likes:13, ts:Date.now()-6e5},
-  {id:"s10", nick:"수련중", team:"ahof", msg:"우리 다 수료할 때까지 파이팅!", likes:3, ts:Date.now()-5e5},
-  {id:"s11", nick:"밤하늘", team:"idntt", msg:"입소 신고 완료~ 잘 부탁해요", likes:2, ts:Date.now()-4e5},
-  {id:"s12", nick:"초코파이", team:"ahof", msg:"아홉 아홉! 아홉이 최고", likes:6, ts:Date.now()-3e5},
-  {id:"s13", nick:"여준픽", team:"closeyoureyes", msg:"장여준 눈빛 미쳤다 진짜", likes:9, ts:Date.now()-2e5},
-  {id:"s14", nick:"립우야", team:"flareu", msg:"최립우 그림 실력 무엇 👏", likes:5, ts:Date.now()-1e5},
-]; }
+function seedBoard(){ return []; } // 운영본에는 가짜 다짐을 절대 넣지 않습니다.
+const BOARD_MEM_CACHE=new Map();
+function boardCacheGet(key){
+  const hit=BOARD_MEM_CACHE.get(key);
+  return hit && Date.now()-hit.savedAt<CONFIG.boardCacheMs ? hit.value : null;
+}
+function boardCacheSet(key,value){ BOARD_MEM_CACHE.set(key,{savedAt:Date.now(),value}); return value; }
+function clearBoardCache(){ BOARD_MEM_CACHE.clear(); }
 const Board = {
   sb(){ const s=CONFIG.supabase; return (s&&s.url&&s.anonKey)?s:null; },
   table(){ const s=this.sb(); return (s&&s.msgTable)||'board_messages'; },
@@ -3990,36 +4008,42 @@ const Board = {
       const r=await fetch(`${s.url}/rest/v1/${this.table()}?select=*&score_eligible=is.true&order=created_at.desc&limit=${cap}`,{headers:this.headers()});
       if(!r.ok) throw new Error(await r.text());
       const d=await r.json(); return d.map(x=>this.mapRow(x));
-    }catch(e){ console.warn("Board load failed. Falling back to local board.", e); } }
+    }catch(e){ console.warn("Board load failed.", e); return []; } }
+    if(!CONFIG.allowDemoBoardFallback) return [];
     let d=lsGet(LS_KEY,null); if(!d){ d=seedBoard(); lsSet(LS_KEY,d); } return d;
   },
   async page({sort="latest",limit=7,offset=0}={}){
+    const cacheKey=`page:${sort}:${limit}:${offset}`;
+    const cached=boardCacheGet(cacheKey); if(cached) return cached;
     const s=this.sb();
     if(s){ try{
       const order=this.orderParam(sort);
-      const r=await fetch(`${s.url}/rest/v1/${this.table()}?select=*&score_eligible=is.true&order=${encodeURIComponent(order)}&limit=${limit}&offset=${offset}`,{
+      const cols="id,nickname,team,message,likes,created_at,score_eligible";
+      const r=await fetch(`${s.url}/rest/v1/${this.table()}?select=${cols}&score_eligible=is.true&order=${encodeURIComponent(order)}&limit=${limit}&offset=${offset}`,{
         headers:this.headers({Prefer:"count=exact"})
       });
       if(!r.ok) throw new Error(await r.text());
       const d=await r.json();
       const total=this.contentRangeTotal(r, offset+d.length);
-      return {items:d.map(x=>this.mapRow(x)), total};
-    }catch(e){ console.warn("Board page load failed. Falling back to local board.", e); } }
+      return boardCacheSet(cacheKey,{items:d.map(x=>this.mapRow(x)), total,error:false});
+    }catch(e){ console.warn("Board page load failed.", e); return {items:[],total:0,error:true}; } }
 
     const all=sortBoardList((await this.all()).filter(x=>x.eligible!==false), sort);
-    return {items:all.slice(offset,offset+limit), total:all.length};
+    return boardCacheSet(cacheKey,{items:all.slice(offset,offset+limit), total:all.length,error:false});
   },
   async top(){
+    const cached=boardCacheGet("top"); if(cached) return cached;
     const s=this.sb();
     if(s){ try{
       const order=this.orderParam("likes");
-      const r=await fetch(`${s.url}/rest/v1/${this.table()}?select=*&score_eligible=is.true&order=${encodeURIComponent(order)}&limit=3`,{
+      const cols="id,nickname,team,message,likes,created_at,score_eligible";
+      const r=await fetch(`${s.url}/rest/v1/${this.table()}?select=${cols}&score_eligible=is.true&order=${encodeURIComponent(order)}&limit=3`,{
         headers:this.headers()
       });
       if(!r.ok) throw new Error(await r.text());
-      const d=await r.json(); return d.map(x=>this.mapRow(x));
-    }catch(e){ console.warn("Board top load failed. Falling back to local board.", e); } }
-    return sortBoardList((await this.all()).filter(x=>x.eligible!==false),"likes").slice(0,3);
+      const d=await r.json(); return boardCacheSet("top",d.map(x=>this.mapRow(x)));
+    }catch(e){ console.warn("Board top load failed.", e); return []; } }
+    return boardCacheSet("top",sortBoardList((await this.all()).filter(x=>x.eligible!==false),"likes").slice(0,3));
   },
   async exactNickExists(key){
     if(!key) return false;
@@ -4103,26 +4127,16 @@ const Board = {
     }
   },
   async add(e){
-    const pre=await this.checkNickAvailable(e);
-    if(!pre || !pre.ok) return pre || {inserted:false, duplicate:false, error:true};
-
-    const entry=pre.entry;
-    const key=pre.key;
+    // 중복·유사 닉네임 판정은 submit-pledge 서버에서 한 번만 수행합니다.
+    // 브라우저의 중복 사전조회 2~3회를 없애고 로컬 형식 검증만 유지합니다.
+    const entry={nick:(e.nick||"").trim().slice(0,16), team:e.team, msg:clean((e.msg||"").slice(0,24))};
+    const key=boardNickKey(entry.nick);
+    if(!key) return {inserted:false,duplicate:false,error:false};
+    if(boardIsJamoOnly(entry.nick)) return {inserted:false,restricted:true,reason:"jamo_only"};
 
     const s=this.sb();
     if(s){
       try{
-        // 1차 방어: insert 전에 DB에서 같은 nickname_key가 있는지 먼저 확인
-        const check=await fetch(`${s.url}/rest/v1/${this.table()}?nickname_key=eq.${encodeURIComponent(key)}&select=id&limit=1`,{
-          headers:this.headers()
-        });
-        if(check.ok){
-          const exists=await check.json();
-          if(exists && exists.length) return {inserted:false, duplicate:true};
-        }else{
-          console.warn("Board duplicate precheck failed. Continue with unique constraint.", await check.text());
-        }
-
         // 등록은 Edge Function(submit-pledge)로만 수행합니다.
         //  · Cloudflare Turnstile 토큰을 서버에서 검증한 뒤에만 다짐이 저장됩니다.
         //  · 서버에서 캡차 + IP 레이트리밋 + 한글 낱자 + 중복 닉네임 + 차단 IP를 강제합니다.
@@ -4133,7 +4147,7 @@ const Board = {
         });
         if(r.ok){
           let status=""; try{ const j=await r.json(); status=(j&&j.status)||""; }catch(err2){ status=""; }
-          if(status==="ok")            return {inserted:true, duplicate:false};
+          if(status==="ok"){ clearBoardCache(); return {inserted:true, duplicate:false}; }
           if(status==="duplicate")     return {inserted:false, duplicate:true};
           if(status==="blocked_jamo")  return {inserted:false, restricted:true, reason:"jamo_only"};
           if(status==="rate_limited")  return {inserted:false, error:false, rateLimited:true};
@@ -4168,65 +4182,26 @@ const Board = {
     return {inserted:true, duplicate:false};
   },
   isLiked(id){ return !!lsGet(LS_LIKED,{})[id]; },
-  async rowLikes(id){
-    const s=this.sb(); if(!s) return null;
-    const r=await fetch(`${s.url}/rest/v1/${this.table()}?id=eq.${encodeURIComponent(id)}&select=likes&limit=1`,{headers:this.headers()});
-    if(!r.ok) throw new Error(await r.text());
-    const d=await r.json();
-    if(!d || !d.length) return null;
-    return Number(d[0].likes||0);
-  },
-  async rpcLike(id, delta){
-    const s=this.sb(); if(!s) return null;
-    const fn=delta>0?'increment_board_like':'decrement_board_like';
-    const r=await fetch(`${s.url}/rest/v1/rpc/${fn}`,{method:"POST",headers:this.headers({"Content-Type":"application/json"}),body:JSON.stringify({msg_id:id})});
-    if(!r.ok) throw new Error(await r.text());
-    const txt=await r.text();
-    if(!txt) return await this.rowLikes(id);
-    try{
-      const v=JSON.parse(txt);
-      if(typeof v==="number") return v;
-      if(v && typeof v.likes!=="undefined") return Number(v.likes||0);
-      if(Array.isArray(v) && v[0] && typeof v[0].likes!=="undefined") return Number(v[0].likes||0);
-    }catch(e){}
-    return await this.rowLikes(id);
-  },
-  async patchLike(id, delta){
-    const s=this.sb(); if(!s) return null;
-    const cur=await this.rowLikes(id);
-    if(cur==null) throw new Error("message row not found");
-    const next=Math.max(0, cur+delta);
-    const r=await fetch(`${s.url}/rest/v1/${this.table()}?id=eq.${encodeURIComponent(id)}`,{
-      method:"PATCH",
-      headers:this.headers({"Content-Type":"application/json",Prefer:"return=representation"}),
-      body:JSON.stringify({likes:next})
-    });
-    if(!r.ok) throw new Error(await r.text());
-    const d=await r.json().catch(()=>[]);
-    return Number((d&&d[0]&&d[0].likes)!=null?d[0].likes:next);
-  },
-  async persistLike(id, delta){
-    // 1순위: DB RPC(원자적 증가/감소). 없으면 2순위 REST PATCH로 저장.
-    try{ const v=await this.rpcLike(id, delta); if(v!=null && Number.isFinite(Number(v))) return Number(v); }
-    catch(e){ console.warn("Board like RPC failed. Trying REST PATCH fallback.", e); }
-    try{ const v=await this.patchLike(id, delta); if(v!=null && Number.isFinite(Number(v))) return Number(v); }
-    catch(e){ console.warn("Board like PATCH failed.", e); }
-    return null;
-  },
   async like(id){
-    const liked=lsGet(LS_LIKED,{}); const on=!liked[id]; const delta=on?1:-1;
-    const s=this.sb();
-    let savedLikes=null;
-    if(s) savedLikes=await this.persistLike(id, delta);
-
-    const d=await this.all(); const it=d.find(x=>String(x.id)===String(id));
-    let likes=it?Number(it.likes||0):0;
-    if(savedLikes!=null){ likes=savedLikes; }
-    else if(!s && it){ it.likes=Math.max(0, likes+delta); likes=it.likes; lsSet(LS_KEY,d); }
-    else if(s){ likes=Math.max(0, likes+delta); toast("좋아요 저장 실패 · Supabase 정책/RPC 확인 필요"); }
-
-    if(on) liked[id]=1; else delete liked[id]; lsSet(LS_LIKED,liked);
-    return {likes, on};
+    const api=CONFIG.idolcampApiUrl, s=this.sb();
+    if(!api || !s) throw new Error("idolcamp API is not configured");
+    const liked=lsGet(LS_LIKED,{}); const on=!liked[id];
+    const r=await fetch(`${api.replace(/\/$/,"")}/like`,{
+      method:"POST",
+      headers:this.headers({"Content-Type":"application/json"}),
+      body:JSON.stringify({messageId:String(id),action:on?"like":"unlike",clientId:getClientId()})
+    });
+    const body=await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(body.message||body.error||("like failed: "+r.status));
+    if(body.changed===false){
+      if(body.liked) liked[id]=1; else delete liked[id];
+      lsSet(LS_LIKED,liked);
+      return {likes:null,on:body.liked!==false,unchanged:true};
+    }
+    if(body.liked) liked[id]=1; else delete liked[id];
+    lsSet(LS_LIKED,liked);
+    clearBoardCache();
+    return {likes:Number(body.likes||0),on:!!body.liked};
   }
 }
 function sortBoardList(list, mode){
@@ -4308,10 +4283,16 @@ async function renderBoard(){
 
   const limit=boardExpanded?BOARD_EXPANDED_LIMIT:BOARD_COLLAPSED_LIMIT;
   const offset=(boardPage-1)*limit;
-  const topList=await Board.top();
+  const [topList,pageData]=await Promise.all([
+    Board.top(),
+    Board.page({sort:boardSort,limit,offset})
+  ]);
   renderTopBoard(topList);
-
-  const pageData=await Board.page({sort:boardSort,limit,offset});
+  if(pageData.error){
+    el.innerHTML=`<div class="board-empty">${esc(t().boardError||"게시판을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.")}</div>`;
+    if(pg) pg.innerHTML="";
+    return;
+  }
   const slice=pageData.items||[];
   const total=Number(pageData.total||0);
   const totalPages=Math.max(1,Math.ceil(total/limit));
@@ -4359,13 +4340,19 @@ async function renderBoard(){
 
   el.querySelectorAll(".board-like").forEach(b=>{
     b.onclick=async()=>{
-      const r=await Board.like(b.dataset.id);
-      if(r){
-        b.setAttribute("aria-pressed",r.on);
-        b.querySelector(".heart").textContent=r.on?'❤️':'🤍';
-        b.querySelector(".cnt").textContent=r.likes;
-        await renderBoard();
-      }
+      if(b.disabled) return;
+      b.disabled=true;
+      try{
+        const r=await Board.like(b.dataset.id);
+        if(r){
+          b.setAttribute("aria-pressed",r.on);
+          b.querySelector(".heart").textContent=r.on?'❤️':'🤍';
+          if(r.likes!=null) b.querySelector(".cnt").textContent=r.likes;
+        }
+      }catch(e){
+        console.warn("Like failed",e);
+        toast("좋아요 요청이 많습니다. 잠시 후 다시 시도해 주세요.");
+      }finally{ b.disabled=false; }
     };
   });
 
@@ -4695,8 +4682,7 @@ async function issue(){
       boardExpanded=false;
       boardSort="latest";
       boardPage=1;
-      await renderBoard();
-      renderScoreboard();
+      if(boardHasRendered) await renderBoard();
 
       // 캡차 토큰은 1회용이므로 매 시도 후 새 토큰을 준비합니다.
       if(window.turnstile && window.__turnstileWidgetId!=null){ try{ window.turnstile.reset(window.__turnstileWidgetId); }catch(e){} }
@@ -4763,25 +4749,21 @@ async function copyHash(){
   catch(e){ toast(tags().join(" ")); }
 }
 
-/* -------- Supabase enrollment (optional) -------- */
-/* returns sequential id when the enroll() RPC exists, else null (→ deterministic pass) */
+/* -------- rate-limited enrollment Edge Function -------- */
 async function logEnrollment(){
   const S=CONFIG.supabase;
-  if(!S.url || !S.anonKey) return null;
+  const api=CONFIG.idolcampApiUrl;
+  if(!S.url || !S.anonKey || !api) return null;
   const H={ "Content-Type":"application/json", "apikey":S.anonKey, "Authorization":"Bearer "+S.anonKey };
   const nick=$("#nick").value.trim();
-  // 1) enroll() RPC → returns 입소 순번(id). 테이블은 비공개 유지(security definer).
   try{
-    const r=await fetch(`${S.url}/rest/v1/rpc/enroll`,{method:"POST",headers:H,
-      body:JSON.stringify({p_team:selectedTeam, p_nick:nick, p_member:selectedMember||null, p_lang:lang})});
-    if(r.ok){ const v=await r.json(); if(typeof v==="number") return v; if(v&&v.id) return v.id; }
-  }catch(e){}
-  // 2) fallback: 단순 insert(순번 미반환)
-  try{
-    await fetch(`${S.url}/rest/v1/${S.table}`,{method:"POST",
-      headers:{...H,"Prefer":"return=minimal"},
-      body:JSON.stringify({team:selectedTeam, nickname:nick, member:selectedMember||null, lang, created_at:new Date().toISOString()})});
-  }catch(e){}
+    const r=await fetch(`${api.replace(/\/$/,"")}/enroll`,{method:"POST",headers:H,
+      body:JSON.stringify({team:selectedTeam,nick,member:selectedMember||null,lang,clientId:getClientId()})});
+    const v=await r.json().catch(()=>({}));
+    if(r.ok && v&&v.id) return v.id;
+    if(r.status===429) toast("입소 신고 요청이 많습니다. 잠시 후 다시 시도해 주세요.");
+    else console.warn("Enrollment failed",r.status,v);
+  }catch(e){ console.warn("Enrollment failed",e); }
   return null;
 }
 
@@ -4822,7 +4804,18 @@ document.documentElement.lang=lang;
 loadMemberPhotos();
 buildTeams();
 applyI18n();
-setInterval(renderScoreboard, 60000);
+let scoreboardLastFetch=Date.now();
+setInterval(()=>{
+  if(document.hidden) return;
+  scoreboardLastFetch=Date.now();
+  renderScoreboard();
+}, CONFIG.scoreboardRefreshMs);
+document.addEventListener("visibilitychange",()=>{
+  if(!document.hidden && Date.now()-scoreboardLastFetch>=CONFIG.scoreboardRefreshMs){
+    scoreboardLastFetch=Date.now();
+    renderScoreboard();
+  }
+});
 logoImg.onload=()=>{ if($("#result").classList.contains("show")) renderCert(); };
 </script>
 </body>
