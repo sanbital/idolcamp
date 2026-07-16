@@ -17,15 +17,23 @@
 <!-- Cloudflare Turnstile: 봇 방지 캡차 (사이트키는 config.js 의 turnstileSiteKey 로 주입) -->
 <script>
   window.__turnstileWidgetId = null;
+  window.__talentTurnstileWidgetId = null;
   window.onTurnstileReady = function(){
     function doRender(){
       try{
         var cfg = (window.MUNIVERSE_CONFIG || {});
         var key = cfg.turnstileSiteKey || "";
         var holder = document.getElementById("cf-turnstile-holder");
-        if(!key || !holder || !window.turnstile) return;
-        holder.style.display = "";
-        window.__turnstileWidgetId = window.turnstile.render(holder, { sitekey: key, theme: "light", size: "flexible" });
+        var talentHolder = document.getElementById("talent-turnstile-holder");
+        if(!key || !window.turnstile) return;
+        if(holder && window.__turnstileWidgetId==null){
+          holder.style.display = "";
+          window.__turnstileWidgetId = window.turnstile.render(holder, { sitekey: key, theme: "light", size: "flexible" });
+        }
+        if(talentHolder && window.__talentTurnstileWidgetId==null){
+          talentHolder.style.display = "";
+          window.__talentTurnstileWidgetId = window.turnstile.render(talentHolder, { sitekey: key, theme: "light", size: "flexible" });
+        }
       }catch(e){ console.warn("Turnstile render failed.", e); }
     }
     if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", doRender);
@@ -2963,7 +2971,194 @@
     .playlist-banner-play{width:46px!important;height:33px!important;border-radius:11px;}
   }
 
+  /* ================================================================
+     짤 장기자랑 — 기존 화면과 충돌하지 않도록 talent-* 네임스페이스 사용
+     ================================================================ */
+  .tab-panel{display:none}
+  .tab-panel.active{display:block;animation:talentFade .2s ease}
+  @keyframes talentFade{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:none}}
+  .talent-wrap{margin-top:18px;word-break:keep-all;overflow-wrap:break-word}
+  .talent-hero{position:relative;overflow:hidden;border:2px solid #0f3b3a;border-radius:24px;padding:25px 24px;background:linear-gradient(135deg,#FFF7D8 0%,#EAF8DC 58%,#DDF7EE 100%);box-shadow:0 8px 0 rgba(15,59,58,.16)}
+  .talent-hero:after{content:"🎬";position:absolute;right:20px;top:12px;font-size:70px;opacity:.15;transform:rotate(-8deg)}
+  .talent-kicker{font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif;font-size:12.5px;font-weight:800;color:#8b5d00;letter-spacing:.08em;text-transform:uppercase}
+  .talent-hero h1{position:relative;z-index:1;margin:5px 0 8px;font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif;font-weight:900;letter-spacing:-1px;font-size:clamp(27px,5vw,42px);line-height:1.12;color:#123a2e}
+  .talent-hero>p{position:relative;z-index:1;margin:0;max-width:820px;color:#345947;font-size:15px;font-weight:750;line-height:1.55;word-break:keep-all}
+  .talent-rules{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px;max-width:820px}
+  .talent-rule{background:rgba(255,255,255,.82);border:1.5px solid rgba(15,59,58,.15);border-radius:15px;padding:12px 14px;display:flex;align-items:center;gap:12px;color:#1c4636;font-weight:850;font-size:13px}
+  .talent-rule b{display:block;font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif;font-weight:900;font-size:19px;color:#0f3b3a;letter-spacing:-.5px}
+  .talent-rule-ic{flex:0 0 auto;width:42px;height:42px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.55),0 3px 0 rgba(15,59,58,.1)}
+  .talent-rule:nth-child(1) .talent-rule-ic{background:linear-gradient(155deg,#8FE3D0,#3FB6A6)}
+  .talent-rule:nth-child(2) .talent-rule-ic{background:linear-gradient(155deg,#FFB4C6,#F45C81)}
+  .talent-rule:nth-child(3) .talent-rule-ic{background:linear-gradient(155deg,#FFE39A,#F2B233)}
+  .talent-actions{display:flex;gap:10px;margin-top:17px;flex-wrap:wrap}
+  .talent-primary,.talent-secondary,.talent-xlink{font-family:inherit;border-radius:14px;font-weight:900;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:.12s}
+  .talent-primary,.talent-secondary{font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif;font-weight:800;letter-spacing:-.3px}
+  .talent-primary{border:2px solid #0f3b3a;background:linear-gradient(180deg,#6EE7A8,#34D399);color:#08301f;padding:13px 21px;box-shadow:0 5px 0 rgba(15,59,58,.25);font-size:15.5px}
+  .talent-primary:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(15,59,58,.25)}
+  .talent-primary[disabled]{opacity:.45;cursor:not-allowed;filter:grayscale(.4)}
+  .talent-secondary{border:2px solid rgba(15,59,58,.28);background:#fff;color:#0f3b3a;padding:13px 18px;font-size:15.5px}
+  .talent-program{position:relative;z-index:1;margin:16px 0;padding:18px 22px 16px;border:2px solid #4e7655;border-radius:18px;background-color:#fff5c9;background-image:repeating-linear-gradient(0deg,transparent 0,transparent 25px,rgba(147,113,43,.09) 26px);box-shadow:0 5px 0 rgba(63,91,55,.22),inset 0 0 0 4px rgba(255,255,255,.4)}
+  .talent-program-head{display:flex;align-items:center;gap:12px;padding-bottom:11px;border-bottom:3px double rgba(66,104,66,.32)}
+  .talent-program-ribbon{flex:0 0 auto;padding:8px 14px;background:#0f3b3a;color:#fff;font-size:11px;font-weight:950;letter-spacing:.08em;clip-path:polygon(0 0,91% 0,100% 50%,91% 100%,0 100%,8% 50%)}
+  .talent-program-title{margin:0;color:#123a2e;font-size:21px;font-weight:950;letter-spacing:-.5px}
+  .talent-program-sub{color:#756d45;font-size:11.5px;font-weight:850}
+  .talent-program-track{position:relative;margin-top:15px}
+  .talent-program-track:before{content:"";position:absolute;left:32px;top:54px;bottom:54px;border-left:3px dashed rgba(56,103,83,.42)}
+  .talent-stage{position:relative;display:grid;grid-template-columns:68px minmax(0,1fr);gap:14px;padding:2px 0 18px}
+  .talent-stage.final{padding-top:5px;padding-bottom:2px}
+  .talent-stage-marker{position:relative;z-index:2;width:64px;height:64px;border-radius:999px;border:4px solid #fff4c5;box-shadow:0 0 0 3px #174d48,0 3px 0 rgba(15,59,58,.22);background:#123f42;color:#fff;display:flex;align-items:center;justify-content:center;font-size:27px}
+  .talent-stage.final .talent-stage-marker{background:#cf6c22;box-shadow:0 0 0 3px #c76118,0 3px 0 rgba(120,50,0,.2)}
+  .talent-stage-marker small{position:absolute;top:-11px;left:0;right:0;text-align:center;color:#fff;font-size:8.5px;font-weight:950;letter-spacing:.04em}
+  .talent-stage-body{min-width:0}
+  .talent-stage-eyebrow{margin:0 0 3px;color:#786b45;font-size:9.5px;font-weight:950;letter-spacing:.14em}
+  .talent-stage-heading{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .talent-stage-heading h3{margin:0;color:#073934;font-size:21px;font-weight:950;letter-spacing:-.6px}
+  .talent-stage-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(280px,.95fr);gap:20px;margin-top:11px;align-items:start}
+  .talent-stage-block h4{margin:0 0 7px;color:#58705d;font-size:10.5px;font-weight:950;letter-spacing:.05em}
+  .talent-stage-list{list-style:none;margin:0;padding:0;color:#315544;font-size:12px;font-weight:800;line-height:1.7}
+  .talent-stage-list li{position:relative;padding-left:15px;word-break:keep-all}
+  .talent-stage-list li:before{content:"★";position:absolute;left:0;color:#2aa88d;font-size:9px;top:3px}
+  .talent-stage.final .talent-stage-list li:before{content:"✦";color:#d56b20}
+  .talent-stage-note{position:relative;min-height:108px;padding:28px 16px 13px;border:2px solid #efc85b;border-radius:5px;background:#fff0ae;box-shadow:3px 4px 0 rgba(169,107,20,.12);transform:rotate(.15deg)}
+  .talent-stage.final .talent-stage-note{background:#ffd6c6;border-color:#ed9f87}
+  .talent-stage-note:before,.talent-stage-note:after{content:"";position:absolute;top:-8px;width:42px;height:15px;background:rgba(255,251,226,.8);box-shadow:0 1px 1px rgba(90,70,30,.12)}
+  .talent-stage-note:before{left:12px;transform:rotate(-4deg)}
+  .talent-stage-note:after{right:12px;transform:rotate(4deg)}
+  .talent-stage-note h4{position:absolute;top:9px;left:16px;margin:0;color:#75501a;font-size:11px;font-weight:950}
+  .talent-pass{position:relative;margin:0 0 12px 78px;padding:9px 15px;width:max-content;max-width:calc(100% - 78px);border:2px dashed #c56b24;border-radius:6px;background:#fffaf0;color:#9a4a16;font-size:11.5px;font-weight:950;box-shadow:2px 3px 0 rgba(129,72,19,.13);transform:rotate(-.5deg)}
+  .talent-pass:before{content:"★";display:inline-grid;place-items:center;margin-right:8px;width:25px;height:25px;border-radius:50%;background:#d47129;color:#fff}
+  .talent-program .talent-test-open{margin:14px 0 0 78px;text-align:left;border-left:4px solid #2a9278;border-radius:0;background:rgba(255,255,255,.56)}
+  .talent-phase-badge{font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:-.3px;border-radius:999px;background:#0f3b3a;color:#fff;padding:7px 12px}
+  .talent-phase-badge.final{background:#a85b00}
+  .talent-test-open{margin-top:10px;padding:8px 11px;border-radius:10px;background:#DCFCE7;color:#166534;font-size:12px;font-weight:900;text-align:center}
+  .talent-section{margin-top:20px;background:#fff;border:2px solid rgba(15,59,58,.12);border-radius:22px;padding:20px;box-shadow:0 7px 0 rgba(15,59,58,.08)}
+  .talent-section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .talent-section h2{margin:0;color:#123a2e;font-size:20px;font-weight:950}
+  .talent-section-sub{margin:3px 0 0;color:#71857a;font-size:12px;font-weight:700}
+  .talent-updated{font-size:11.5px;font-weight:750;color:#71857a;text-align:right}
+  .talent-podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:stretch}
+  .talent-medal-card{position:relative;min-width:0;border-radius:18px;padding:13px 14px 12px;background:#fff;border:2px solid var(--medal,#d7aa2f);box-shadow:0 6px 0 color-mix(in srgb,var(--medal,#d7aa2f) 24%,transparent);display:flex;flex-direction:column;gap:6px}
+  .talent-medal-card.first{background:linear-gradient(180deg,#FFF9D9,#fff)}
+  .talent-medal-rank{display:flex;align-items:center;gap:7px;font-weight:950;color:#173e31}
+  .talent-medal-rank .emoji{font-size:25px}
+  .talent-medal-title{font-size:15px;font-weight:950;color:#123a2e;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;min-height:calc(2 * 1.3em)}
+  .talent-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;color:#6c8375;font-size:12px;font-weight:750}
+  .talent-team{display:inline-flex;border-radius:999px;padding:4px 8px;font-size:10.5px;font-weight:900;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .talent-like{font-size:18px;font-weight:950;color:#c7254e}
+  .talent-medal-card .talent-meta{margin-top:1px}
+  .talent-medal-card .talent-meta .talent-like{margin-left:auto;font-size:15px}
+  .talent-xlink{border:1.5px solid #111;background:#111;color:#fff;padding:10px 12px;font-size:12px;margin-top:2px}
+  .talent-report{font-family:inherit;cursor:pointer;border:1px solid #d9c7b0;background:transparent;color:#8a7a63;border-radius:10px;padding:6px 9px;font-size:11px;font-weight:800;transition:.12s}
+  .talent-report:hover{background:#f3e9d9;border-color:#c9a86f;color:#7a5a2a}
+  .talent-report-done{border-color:#BCDCC6;background:#EAF6EE;color:#2F7A4C;cursor:default;pointer-events:none;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center}
+  .talent-medal-card .talent-report{margin-top:6px}
+  .talent-item-actions{display:flex;flex-direction:column;gap:5px;align-items:stretch}
+  .talent-medal-card .talent-item-actions{flex-direction:row;gap:8px;margin-top:auto;padding-top:6px}
+  .talent-medal-card .talent-item-actions .talent-xlink{flex:1;margin-top:0}
+  .talent-medal-card .talent-item-actions .talent-report{flex:0 0 auto;margin-top:0}
+  .talent-warn{background:#FEF2F2;border:1.5px solid #F3B4B4;color:#9B1C1C;border-radius:14px;padding:12px 14px;font-size:12.5px;font-weight:800;line-height:1.55;margin:12px 0 2px;word-break:keep-all}
+  .talent-phase-note{margin:10px 0 0;color:#48685a;font-size:12.5px;font-weight:750;line-height:1.62}
+  .talent-principles-title{margin:16px 0 8px;font-size:14px;font-weight:900;color:#173e31}
+  .talent-principles{margin:0;padding-left:20px;color:#315544;font-size:12.5px;font-weight:700;line-height:1.75}
+  .talent-principles li{margin-bottom:6px;word-break:keep-all}
+  .talent-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+  .talent-info-card{border:1.5px solid rgba(15,59,58,.14);border-radius:16px;background:#F7FAF3;padding:14px}
+  .talent-info-card.final{background:#FFF8E2;border-color:#E9C76B}
+  .talent-info-card h3{margin:0 0 8px;color:#173e31;font-size:15px;font-weight:950}
+  .talent-info-card ul{margin:0;padding-left:18px;color:#315544;font-size:12.5px;font-weight:750;line-height:1.65}
+  .talent-info-card li+li{margin-top:5px}
+  .talent-rule b span{font-size:.6em;font-weight:900;margin-left:1px}
+  .talent-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 12px}
+  .talent-filters{display:flex;gap:6px;overflow-x:auto;max-width:100%;padding-bottom:2px;scrollbar-width:none}
+  .talent-filters::-webkit-scrollbar{display:none}
+  .talent-filter{white-space:nowrap;border:1.5px solid rgba(15,59,58,.15);background:#F2F7EA;color:#315544;border-radius:999px;padding:8px 11px;font-family:inherit;font-size:11.5px;font-weight:850;cursor:pointer}
+  .talent-filter.active{background:#0f3b3a;color:#fff;border-color:#0f3b3a}
+  .talent-table-head,.talent-row{display:grid;grid-template-columns:62px minmax(220px,1.5fr) minmax(110px,.7fr) minmax(112px,.65fr) 110px 116px;gap:10px;align-items:center}
+  .talent-table-head{padding:9px 13px;color:#71857a;font-size:11px;font-weight:900;border-bottom:1px solid rgba(15,59,58,.12)}
+  .talent-list{display:flex;flex-direction:column}
+  .talent-row{padding:9px 13px;border-bottom:1px solid rgba(15,59,58,.09);font-size:13px;min-height:52px}
+  .talent-row:last-child{border-bottom:0}
+  .talent-rank{font-size:16px;font-weight:950;color:#123a2e}
+  .talent-title{font-weight:900;color:#173e31;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .talent-account{color:#557064;font-weight:750;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .talent-row .talent-like{font-size:14px;margin:0}
+  .talent-empty{padding:34px 14px;text-align:center;color:#71857a;font-weight:800;background:#F7FAF3;border-radius:15px}
+  .talent-pager{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:15px;color:#557064;font-size:12px;font-weight:850}
+  .talent-pager button{border:1.5px solid rgba(15,59,58,.18);background:#F2F7EA;color:#0f3b3a;border-radius:10px;padding:8px 12px;font-family:inherit;font-weight:850;cursor:pointer}
+  .talent-pager button[disabled]{opacity:.35;cursor:default}
+  .talent-modal{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(5,26,21,.72);backdrop-filter:blur(5px)}
+  .talent-modal.open{display:flex}
+  .talent-dialog{width:min(620px,100%);max-height:92vh;overflow:auto;background:#fff;border:2px solid #0f3b3a;border-radius:22px;padding:21px;box-shadow:0 20px 60px rgba(0,0,0,.32)}
+  .talent-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+  .talent-dialog h2{margin:0;font-size:21px;color:#123a2e}
+  .talent-close{width:36px;height:36px;border-radius:999px;border:0;background:#EAF3DE;color:#123a2e;font-size:22px;cursor:pointer}
+  .talent-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .talent-field{margin-bottom:13px}
+  .talent-field.full{grid-column:1/-1}
+  .talent-field label{display:block;margin:0 0 7px;color:#315544;font-size:12.5px;font-weight:900}
+  .talent-field input,.talent-field select{width:100%;border:2px solid rgba(15,59,58,.15);border-radius:13px;background:#fff;color:#123a2e;padding:13px 14px;font-family:inherit;font-size:14px;font-weight:700}
+  .talent-help{font-size:11.5px;line-height:1.5;color:#71857a;margin-top:5px}
+  .talent-consents{display:flex;flex-direction:column;gap:9px;margin:10px 0 14px;padding:13px;border-radius:14px;background:#F4F8EA}
+  .talent-consents label{display:flex;align-items:flex-start;gap:8px;color:#315544;font-size:12px;font-weight:750;line-height:1.45}
+  .talent-consents input{margin-top:2px;accent-color:#0f3b3a}
+  .talent-form-status{display:none;margin:10px 0;border-radius:12px;padding:11px 12px;font-size:12.5px;font-weight:800;line-height:1.45}
+  .talent-form-status.show{display:block}
+  .talent-form-status.ok{background:#DCFCE7;color:#166534}
+  .talent-form-status.err{background:#FEE2E2;color:#991B1B}
+  .talent-mobile-register{display:none}
+  @media (max-width:760px){
+    .talent-rules{grid-template-columns:1fr}
+    .talent-podium{grid-template-columns:1fr}
+    .talent-medal-card{padding:11px 13px 10px;gap:5px}
+    .talent-table-head{display:none}
+    .talent-row{grid-template-columns:34px minmax(0,1fr) auto;grid-template-areas:"rank title likes" "rank meta button";gap:3px 9px;padding:9px 8px;min-height:0}
+    .talent-row .talent-rank{grid-area:rank;align-self:center;font-size:15px}
+    .talent-row .talent-title{grid-area:title;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+    .talent-row .talent-account{grid-area:meta;font-size:11px}
+    .talent-row .talent-team{display:none}
+    .talent-row .talent-like{grid-area:likes;align-self:center;font-size:13px}
+    .talent-row .talent-item-actions{grid-area:button;flex-direction:row;gap:6px;align-items:center}
+    .talent-row .talent-xlink{padding:6px 9px;font-size:10.5px;margin-top:0}
+    .talent-row .talent-report{padding:6px 8px;font-size:10px}
+  }
+  @media (max-width:640px){
+    .talent-wrap{margin-top:12px}
+    .talent-hero{padding:20px 16px;border-radius:20px}
+    .talent-hero:after{font-size:56px;right:7px}
+    .talent-hero>p{font-size:13.5px;padding-right:30px}
+    .talent-program{padding:15px 12px 13px;margin:13px 0}
+    .talent-program-head{display:grid;grid-template-columns:auto 1fr;gap:7px 9px}
+    .talent-program-ribbon{font-size:9px;padding:7px 11px}
+    .talent-program-title{font-size:17px}
+    .talent-program-sub{grid-column:1/-1;padding-left:2px;font-size:10.5px}
+    .talent-program-track:before{left:24px;top:46px;bottom:44px;border-left-width:2px}
+    .talent-stage{grid-template-columns:50px minmax(0,1fr);gap:10px;padding-bottom:14px}
+    .talent-stage-marker{width:46px;height:46px;border-width:3px;font-size:20px;box-shadow:0 0 0 2px #174d48,0 3px 0 rgba(15,59,58,.18)}
+    .talent-stage.final .talent-stage-marker{box-shadow:0 0 0 2px #c76118,0 3px 0 rgba(120,50,0,.18)}
+    .talent-stage-marker small{top:-9px;font-size:6.5px}
+    .talent-stage-heading{gap:6px}
+    .talent-stage-heading h3{font-size:17px;line-height:1.25}
+    .talent-stage-eyebrow{font-size:8.5px}
+    .talent-phase-badge{font-size:10.5px;padding:5px 8px}
+    .talent-stage-grid{grid-template-columns:1fr;gap:10px;margin-top:9px}
+    .talent-stage-list{font-size:11.5px;line-height:1.65}
+    .talent-stage-note{min-height:0;padding:27px 12px 11px}
+    .talent-pass{margin-left:60px;max-width:calc(100% - 60px);padding:7px 10px;font-size:10.5px}
+    .talent-pass:before{width:21px;height:21px;margin-right:6px}
+    .talent-program .talent-test-open{margin:11px 0 0 60px;font-size:10.5px}
+    .talent-actions .talent-primary,.talent-actions .talent-secondary{flex:1 1 140px}
+    .talent-section{padding:15px 12px;border-radius:18px}
+    .talent-section-head{align-items:flex-start;flex-direction:column}
+    .talent-updated{text-align:left}
+    .talent-form-grid{grid-template-columns:1fr}
+    .talent-info-grid{grid-template-columns:1fr}
+    .talent-field.full{grid-column:auto}
+    .talent-mobile-register{display:block;position:fixed;z-index:80;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));width:calc(100% - 24px)}
+    body.talent-tab-active{padding-bottom:76px}
+  }
+
 </style>
+<style id="tabgate">.tab-panel{display:none!important}</style>
 </head>
 <body>
 <div class="wrap">
@@ -3021,6 +3216,8 @@
     <button class="tab locked" data-tab="farewell" aria-disabled="true"><span class="lock">🔒</span><span data-i18n="tabFarewell">퇴소</span><em class="soon" data-i18n="soon">준비중</em></button>
     <button class="tab locked" data-tab="kit" aria-disabled="true"><span class="lock">🛍️</span><span data-i18n="tabKit">수료 키트</span><em class="soon" data-i18n="soon">준비중</em></button>
   </nav>
+
+<div class="tab-panel active" data-tab-panel="enroll">
 
   <!-- HERO -->
   <header class="hero">
@@ -3133,6 +3330,135 @@
     </div>
   </section>
 
+  </div><!-- /enroll panel -->
+
+  <div class="tab-panel" data-tab-panel="talent">
+    <main class="talent-wrap" id="talentApp">
+      <section class="talent-hero">
+        <div class="talent-kicker" data-talent-i18n="kicker">IDOL SCHOOL CAMP MEME TALENT SHOW</div>
+        <h1 data-talent-i18n="title">아이돌 수련회 짤 장기자랑</h1>
+        <p data-talent-i18n="intro">웃음과 감동이 오간 〈아이돌 수련회〉의 순간을 입소생 여러분만의 센스로 재해석해 X에 올려주세요!</p>
+        <div class="talent-program">
+          <div class="talent-program-head">
+            <span class="talent-program-ribbon" data-talent-i18n="programRibbon">CAMP PROGRAM</span>
+            <h2 class="talent-program-title" data-talent-i18n="programTitle">장기자랑 진행표</h2>
+            <span class="talent-program-sub" data-talent-i18n="programSub">첫 무대부터 마지막 밤까지</span>
+          </div>
+          <div class="talent-program-track">
+            <article class="talent-stage" id="talentPreliminaryCard">
+              <div class="talent-stage-marker"><small>STAGE 01</small>🎤</div>
+              <div class="talent-stage-body">
+                <p class="talent-stage-eyebrow" data-talent-i18n="preliminaryEyebrow">FIRST STAGE</p>
+                <div class="talent-stage-heading"><span class="talent-phase-badge" data-talent-i18n="preliminaryLabel">예선</span><h3 data-talent-i18n="preliminaryStageTitle">X 좋아요 예선 무대</h3></div>
+                <div class="talent-stage-grid">
+                  <div class="talent-stage-block"><h4 data-talent-i18n="programSchedule">무대 일정</h4><ul class="talent-stage-list" id="talentProgramPrelimSchedule"></ul><h4 data-talent-i18n="programProcess" style="margin-top:9px">진행 방식</h4><ul class="talent-stage-list"><li data-talent-i18n="prelimProcess">X 게시물 좋아요 수로 순위를 집계합니다.</li></ul></div>
+                  <div class="talent-stage-note"><h4 data-talent-i18n="programReward">🎁 예선 리워드</h4><ul class="talent-stage-list" id="talentProgramPrelimReward"></ul></div>
+                </div>
+              </div>
+            </article>
+            <div class="talent-pass" data-talent-i18n="finalistPass">TOP 10 결선 진출권</div>
+            <article class="talent-stage final" id="talentFinalCard">
+              <div class="talent-stage-marker"><small>STAGE 02</small>✨</div>
+              <div class="talent-stage-body">
+                <p class="talent-stage-eyebrow" data-talent-i18n="finalEyebrow">LAST NIGHT</p>
+                <div class="talent-stage-heading"><span class="talent-phase-badge final" data-talent-i18n="finalLabel">결선</span><h3 data-talent-i18n="finalStageTitle">뮤니버스 앱 결선 무대</h3></div>
+                <div class="talent-stage-grid">
+                  <div class="talent-stage-block"><h4 data-talent-i18n="programSchedule">무대 일정</h4><ul class="talent-stage-list" id="talentProgramFinalSchedule"></ul><h4 data-talent-i18n="programProcess" style="margin-top:9px">진행 방식</h4><ul class="talent-stage-list"><li data-talent-i18n="finalProcess">예선 TOP 10을 대상으로 뮤니버스 앱 결선 투표를 진행합니다.</li></ul></div>
+                  <div class="talent-stage-note"><h4 data-talent-i18n="programFinalReward">🏆 결선 리워드</h4><ul class="talent-stage-list" id="talentProgramFinalReward"></ul></div>
+                </div>
+              </div>
+            </article>
+          </div>
+          <div class="talent-test-open" id="talentTestOpenNotice" data-talent-i18n="testOpen" hidden>● 테스트 페이지에서는 일정과 무관하게 등록할 수 있습니다.</div>
+        </div>
+        <div class="talent-rules">
+          <div class="talent-rule"><span class="talent-rule-ic">📝</span><span><b>+10,000<span data-talent-i18n="unit">점</span></b><span data-talent-i18n="ruleRegister">정상 등록된 짤 1개</span></span></div>
+          <div class="talent-rule"><span class="talent-rule-ic">♥</span><span><b>+100<span data-talent-i18n="unit">점</span></b><span data-talent-i18n="ruleLike">X 좋아요 1개당</span></span></div>
+          <div class="talent-rule"><span class="talent-rule-ic">🏆</span><span><b>+10,000,000<span data-talent-i18n="unit">점</span></b><span data-talent-i18n="ruleWinner">결선 우승 짤 응원 팀 보너스</span></span></div>
+        </div>
+        <div class="talent-actions">
+          <button type="button" class="talent-primary" id="talentRegisterBtn" data-talent-i18n="register">장기자랑 등록하기</button>
+          <button type="button" class="talent-secondary" id="talentGuideBtn" data-talent-i18n="guide">참여 방법 보기</button>
+        </div>
+        <div class="talent-warn" data-talent-i18n="warn">⚠️ 〈아이돌 수련회〉와 무관하거나 욕설·혐오·비방·선정성·도용 등 운영 정책을 위반한 짤은 사전 안내 없이 삭제되며, 점수 및 리워드 지급이 취소될 수 있습니다.</div>
+      </section>
+
+      <section class="talent-section">
+        <div class="talent-section-head">
+          <div><h2 data-talent-i18n="topTitle">🏅 실시간 인기 짤 TOP 3</h2><p class="talent-section-sub" data-talent-i18n="topSub">X 좋아요 수가 가장 많은 짤입니다.</p></div>
+          <div class="talent-updated" id="talentUpdated"></div>
+        </div>
+        <div class="talent-podium" id="talentPodium"><div class="talent-empty">순위를 불러오는 중입니다.</div></div>
+      </section>
+
+      <section class="talent-section">
+        <div class="talent-section-head">
+          <div><h2 data-talent-i18n="rankingTitle">전체 순위</h2><p class="talent-section-sub" data-talent-i18n="rankingSub">한 페이지에 30개씩 표시됩니다.</p></div>
+        </div>
+        <div class="talent-controls"><div class="talent-filters" id="talentFilters"></div><div class="talent-updated" id="talentCount"></div></div>
+        <div class="talent-table-head"><span>순위</span><span>짤 제목</span><span>X 계정</span><span>응원 팀</span><span>X 좋아요</span><span></span></div>
+        <div class="talent-list" id="talentList"></div>
+        <div class="talent-pager" id="talentPager"></div>
+      </section>
+
+      <section class="talent-section" id="talentGuide" hidden>
+        <div class="talent-section-head"><div><h2 data-talent-i18n="guideTitle">참여 방법</h2><p class="talent-section-sub" data-talent-i18n="guideSub">참여 순서와 참가 안내를 확인하세요.</p></div></div>
+        <ol id="talentGuideSteps" style="margin:0;padding-left:22px;color:#315544;font-size:13px;font-weight:750;line-height:1.8"></ol>
+        <div class="talent-info-grid">
+          <article class="talent-info-card"><h3 data-talent-i18n="preliminaryTitle">예선 일정·리워드</h3><ul id="talentPreliminaryInfo"></ul></article>
+          <article class="talent-info-card final"><h3 data-talent-i18n="finalTitle">결선 일정·리워드</h3><ul id="talentFinalInfo"></ul></article>
+        </div>
+        <h3 class="talent-principles-title" data-talent-i18n="principlesTitle">참가 안내</h3>
+        <ol id="talentPrinciples" class="talent-principles"></ol>
+      </section>
+    </main>
+    <button type="button" class="talent-primary talent-mobile-register" id="talentMobileRegisterBtn" data-talent-i18n="register">장기자랑 등록하기</button>
+  </div><!-- /talent panel -->
+
+  <div class="talent-modal" id="talentModal">
+    <div class="talent-dialog" role="dialog" aria-modal="true" aria-labelledby="talentDialogTitle">
+      <div class="talent-dialog-head"><h2 id="talentDialogTitle" data-talent-i18n="formTitle">장기자랑 등록하기</h2><button type="button" class="talent-close" id="talentCloseBtn" aria-label="닫기">×</button></div>
+      <form id="talentForm" novalidate>
+        <div class="talent-form-grid">
+          <div class="talent-field"><label for="talentTeam" data-talent-i18n="teamLabel">응원 팀</label><select id="talentTeam" required></select></div>
+          <div class="talent-field"><label for="talentTitle" data-talent-i18n="titleLabel">짤 제목</label><input id="talentTitle" type="text" minlength="2" maxlength="60" required autocomplete="off"></div>
+          <div class="talent-field full"><label for="talentMuniverseAccount" data-talent-i18n="muniverseAccountLabel">뮤니버스 계정</label><input id="talentMuniverseAccount" type="text" minlength="2" maxlength="100" required autocomplete="username" placeholder="뮤니버스 관리자에서 확인 가능한 계정"><div class="talent-help" data-talent-i18n="muniverseAccountHelp">허위 계정은 순위·점수·리워드 대상에서 자동 제외됩니다.</div></div>
+          <div class="talent-field full"><label for="talentUrl" data-talent-i18n="urlLabel">X 게시물 주소</label><input id="talentUrl" type="url" placeholder="https://x.com/username/status/123..." required autocomplete="off"><div class="talent-help" data-talent-i18n="urlHelp">게시물 주소를 기준으로 X 계정명과 프로필 주소가 자동 등록됩니다.</div></div>
+        </div>
+        <div class="talent-consents">
+          <label><input type="checkbox" id="talentConsentPublic" required><span data-talent-i18n="consentPublic">게시물이 전체 공개 상태이며 결선 종료일까지 공개 상태를 유지합니다.</span></label>
+          <label><input type="checkbox" id="talentConsentRights" required><span data-talent-i18n="consentRights">본인이 제작했거나 등록 권한을 가진 짤이며 이벤트 활용에 동의합니다.</span></label>
+          <label><input type="checkbox" id="talentConsentOwner" required><span data-talent-i18n="consentOwner">본인이 게시자가 아닌 경우 게시자의 요청에 따라 등록이 삭제될 수 있으며, 점수 인정이 취소될 수 있습니다.</span></label>
+          <label><input type="checkbox" id="talentConsentRules" required><span data-talent-i18n="consentRules">운영 규정 위반 또는 부정 참여가 확인되면 등록과 점수가 취소될 수 있습니다.</span></label>
+          <label><input type="checkbox" id="talentConsentFollow" required><span data-talent-i18n="consentFollow">뮤니버스 공식 X 계정을 팔로우하고 있습니다.</span></label>
+          <label><input type="checkbox" id="talentConsentFinal" required><span data-talent-i18n="consentFinal">결선은 예선 TOP 10 짤을 대상으로 뮤니버스 앱에서 진행되며, 내 짤이 앱 내 결선 투표 콘텐츠로 사용되는 것에 동의합니다.</span></label>
+        </div>
+        <div class="talent-warn" data-talent-i18n="warn" style="margin:12px 0">⚠️ 〈아이돌 수련회〉와 무관하거나 욕설·혐오·비방·선정성·도용 등 운영 정책을 위반한 짤은 사전 안내 없이 삭제되며, 점수 및 리워드 지급이 취소될 수 있습니다.</div>
+        <div id="talent-turnstile-holder" style="display:none;margin:10px 0 4px"></div>
+        <div class="talent-form-status" id="talentFormStatus"></div>
+        <button type="submit" class="talent-primary" id="talentSubmitBtn" style="width:100%" data-talent-i18n="submit">등록하기</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="talent-modal" id="talentReportModal">
+    <div class="talent-dialog" role="dialog" aria-modal="true" aria-labelledby="talentReportTitle">
+      <div class="talent-dialog-head"><h2 id="talentReportTitle">짤 신고</h2><button type="button" class="talent-close" id="talentReportCloseBtn" aria-label="닫기">×</button></div>
+      <form id="talentReportForm" novalidate>
+        <div class="talent-form-grid">
+          <div class="talent-field full"><label for="talentReportMuniverse" id="talentReportMuniverseLabel">뮤니버스 계정</label><input id="talentReportMuniverse" type="text" minlength="2" maxlength="100" required autocomplete="username"></div>
+          <div class="talent-field full"><label for="talentReportX" id="talentReportXLabel">본인의 X 계정</label><input id="talentReportX" type="text" minlength="1" maxlength="16" pattern="^@?[A-Za-z0-9_]{1,15}$" required placeholder="@username" autocomplete="off"></div>
+          <div class="talent-field full"><label for="talentReportReason" id="talentReportReasonLabel">신고 사유</label><textarea id="talentReportReason" maxlength="200" rows="3"></textarea></div>
+        </div>
+        <div class="talent-consents"><label><input type="checkbox" id="talentReportFollow" required><span id="talentReportFollowLabel">뮤니버스 공식 X 계정을 팔로우하고 있습니다.</span></label></div>
+        <div class="talent-help" id="talentReportHelp">짤 등록 계정과 신고 계정은 별도로 관리됩니다. 첫 신고 때 신고용 계정 조합이 연결되며, 두 계정 모두 하루 3회로 제한됩니다.</div>
+        <div class="talent-form-status" id="talentReportStatus"></div>
+        <button type="submit" class="talent-primary" id="talentReportSubmitBtn" style="width:100%;margin-top:12px">신고 접수</button>
+      </form>
+    </div>
+  </div>
+
+
   <footer>
     <span data-i18n="footer"></span> · <b>#아이돌수련회</b>
   </footer>
@@ -3157,6 +3483,16 @@ const CONFIG = {
   hashtags: ["#MBC", "#뮤니버스", "#아이돌수련회"], // 언어별 태그는 I18N.<lang>.hashtags 우선
   shareUrl: _CFG.shareUrl || "",        // 이벤트 페이지 URL (config.js에서 채우면 X 공유에 포함)
   turnstileSiteKey: _CFG.turnstileSiteKey || "",   // Cloudflare Turnstile 사이트 키(공개키). 비우면 캡차 미사용.
+  talent: Object.assign({
+    enabled:false, previewBeforeStart:false, testRegistrationOpen:false, pageSize:30, maxEntriesPerAuthor:3, maxFinalistsPerAuthor:1,
+    registrationScore:10000, likeScore:100, finalWinnerScore:10000000, leaderboardRefreshMs:600000,
+    preliminaryStart:"2026-07-17T18:00:00+09:00", preliminaryEnd:"2026-08-07T23:59:59+09:00",
+    preliminaryCountEnd:"2026-08-10T11:59:59+09:00",
+    finalStart:"2026-08-11T10:00:00+09:00", finalEnd:"2026-08-17T17:00:00+09:00",
+    submitFunction:"submit-meme", leaderboardRpc:"meme_leaderboard_public"
+  }, _CFG.talent || {}),
+  scoreboardDemo: !!_CFG.scoreboardDemo,
+  scoreboardDemoRows: Array.isArray(_CFG.scoreboardDemoRows)?_CFG.scoreboardDemoRows:[],
   // 팀 정의: id / 표시명 / 대표색(입소증 배지·강조). 색은 자유 교체 가능.
   // 참가팀 + 멤버(ko 표기 / en 표기). 외국어 UI에서는 en으로 노출.
   teams: [
@@ -3475,7 +3811,7 @@ function buildLangs(){
     const b=document.createElement("button");
     b.textContent=L.label;
     b.setAttribute("aria-pressed", L.code===lang);
-    b.onclick=()=>{ lang=L.code; document.documentElement.lang=L.code; applyI18n(); };
+    b.onclick=()=>{ lang=L.code; document.documentElement.lang=L.code; applyI18n(); if(typeof applyTalentI18n==="function") applyTalentI18n(); };
     box.appendChild(b);
   });
 }
@@ -3734,7 +4070,7 @@ async function renderScoreboard(){
           <div class="score-rank">${rankN}위</div>
           <div class="score-team">
             <div class="name">${esc(tm.name||r.team_name||r.team_id)}</div>
-            <div class="sub">${esc(T.scorePledge||"다짐")} ${scoreValue(r.pledge_score)} · ${esc(T.scoreLike||"좋아요")} ${scoreValue(r.like_score)} · ${esc(T.scoreShareShort||scoreShareLabelShort())} ${scoreValue(r.share_score)}</div>
+            <div class="sub">${esc(T.scorePledge||"다짐")} ${scoreValue(r.pledge_score)} · ${esc(T.scoreLike||"좋아요")} ${scoreValue(r.like_score)} · ${esc(T.scoreShareShort||scoreShareLabelShort())} ${scoreValue(r.share_score)} · ${esc(T.scoreMeme||"짤 장기자랑")} ${Number(r.meme_score||0)>0?scoreValue(r.meme_score):(T.scoreSoon||"예정")}</div>
           </div>
           <div class="score-total"><b>${scoreValue(r.total_score)}</b></div>
         </div>
@@ -4767,6 +5103,312 @@ async function logEnrollment(){
   return null;
 }
 
+/* ========================================================================
+   짤 장기자랑
+   - ?talentDemo=1: DB/X API 없이 UI와 등록 흐름 테스트
+   - 운영: submit-meme Edge Function + meme_leaderboard_public RPC
+   ======================================================================== */
+const TALENT_DEMO = new URLSearchParams(location.search).get("talentDemo")==="1";
+const TALENT_I18N = {
+  ko:{kicker:"IDOL CAMP TALENT SHOW",title:"아이돌 수련회 장기자랑",intro:"웃음과 감동이 가득했던 〈아이돌 수련회〉의 순간을 여러분만의 센스로 재해석해 X에 올려주세요!",ruleRegister:"X 참여 1회당",ruleLike:"X 좋아요 1개당",ruleWinner:"결선 우승 짤 응원 팀 보너스",register:"장기자랑 등록하기",guide:"참여 방법 보기",guideTitle:"참여 방법",guideSub:"참여 순서와 운영 원칙을 확인하세요.",topTitle:"🏅 실시간 인기 짤 TOP 3",topSub:"X 좋아요 수가 가장 많은 짤입니다.",rankingTitle:"전체 순위",rankingSub:"한 페이지에 30개씩 표시됩니다.",formTitle:"장기자랑 등록하기",teamLabel:"응원 팀",titleLabel:"짤 제목",urlLabel:"X 게시물 주소",urlHelp:"게시물 주소를 기준으로 X 계정명과 프로필 주소가 자동 등록됩니다.",consentPublic:"게시물이 전체 공개 상태이며 결선 종료일까지 공개 상태를 유지합니다.",consentRights:"본인이 제작했거나 등록 권한을 가진 짤이며 이벤트 활용에 동의합니다.",consentOwner:"본인이 게시자가 아닌 경우 게시자의 요청에 따라 등록이 삭제될 수 있으며, 점수 인정이 취소될 수 있습니다.",consentRules:"운영 규정 위반 또는 부정 참여가 확인되면 등록과 점수가 취소될 수 있습니다.",submit:"등록하기",view:"X에서 보기",all:"전체",loading:"순위를 불러오는 중입니다.",empty:"등록된 짤이 없습니다.",prev:"이전",next:"다음",count:"짤",updated:"최근 집계",pending:"등록되었습니다! 순위와 점수에 바로 반영됩니다.",demoPending:"테스트 등록이 완료되었습니다. 실제 DB에는 저장되지 않았습니다.",submitError:"등록에 실패했습니다. 입력 내용과 게시물 공개 상태를 확인해주세요.",closed:"현재 등록 기간이 아닙니다.",prelim:"🗓 장기자랑 예선",review:"🗓 결선 검수",final:"🗓 뮤니버스 결선",ended:"🗓 종료",unit:"점",phaseNote:"X 게시물의 좋아요 수를 기준으로 순위를 집계합니다. 예선 TOP 10을 대상으로 뮤니버스 앱 결선 투표를 진행합니다.",warn:"⚠️ 〈아이돌 수련회〉와 무관하거나 욕설·혐오·비방·선정성·도용 등 운영 정책을 위반한 짤은 사전 안내 없이 삭제되며, 점수 및 리워드 지급이 취소될 수 있습니다.",principlesTitle:"운영 원칙",principles:["뮤니버스 회원가입과 공식 X 계정 팔로우는 필수입니다. 조건을 충족하지 않으면 순위·점수·리워드 대상에서 제외될 수 있습니다.", "정상 등록된 짤 1개당 응원 팀에 10,000점, X 좋아요 1개당 100점이 반영됩니다.", "한 X 계정으로 최대 3개 짤까지 등록할 수 있으며, 결선에는 계정당 최고 순위 짤 1개만 진출합니다.", "뮤니버스 계정 1개당 X 계정 1개만 등록할 수 있습니다. 허위 정보 또는 불일치 계정은 순위·점수·리워드 대상에서 제외됩니다.", "결선 진출 및 수상 안내는 등록한 X 계정을 기준으로 진행합니다. 발표 시점에 계정이 비공개이거나 확인할 수 없는 경우 대상에서 제외될 수 있습니다.", "신고가 10회 누적된 짤은 임시 숨김 처리되며, 운영진 검토 후 다시 공개되거나 삭제됩니다.", "〈아이돌 수련회〉와 무관하거나 욕설·혐오·비방·선정성·도용 등 운영 정책을 위반한 짤은 사전 안내 없이 삭제되며, 점수 및 리워드 지급이 취소될 수 있습니다."],guideSteps:["〈아이돌 수련회〉 방송 장면을 활용해 이미지·GIF·영상 형태의 짤을 제작합니다.", "뮤니버스 공식 X 계정을 팔로우한 뒤, 응원 팀명과 필수 해시태그를 포함해 전체 공개로 게시합니다.", "응원 팀·짤 제목·뮤니버스 계정·X 계정 및 게시물 주소를 등록합니다.", "등록한 짤은 즉시 공개되며, 운영진의 계정·등록 짤 검수 결과에 따라 순위와 점수가 조정되거나 취소될 수 있습니다."]},
+  en:{kicker:"IDOL CAMP TALENT SHOW",title:"Meme Talent Show",intro:"Turn your favorite IDOL SCHOOL CAMP moment into a meme and post it on X!",ruleRegister:"per X entry",ruleLike:"per X like",ruleWinner:"final winner bonus",register:"Submit a meme",guide:"How to join",guideTitle:"How to join",guideSub:"Include the required and team hashtags in your X post.",topTitle:"🏅 TOP 3 MEMES",topSub:"Ranked by likes on X.",rankingTitle:"All rankings",rankingSub:"30 entries per page.",formTitle:"Submit a meme",teamLabel:"Team",titleLabel:"Meme title",urlLabel:"X Post URL",urlHelp:"The X account and profile URL are verified automatically from the Post URL.",consentPublic:"The Post is public and will remain public through the final.",consentRights:"I created this work or have permission to submit it, and agree to event use.",consentOwner:"If I am not the publisher, the entry may be removed at the publisher's request and its score revoked.",consentRules:"The entry and score may be revoked for rule violations or manipulation.",submit:"Submit",view:"View on X",all:"All",loading:"Loading rankings.",empty:"No entries yet.",prev:"Previous",next:"Next",count:"entries",updated:"Last synced",pending:"Submitted. It will enter the ranking after review.",demoPending:"Demo submission complete. Nothing was saved to the live database.",submitError:"Submission failed. Check the form and the Post's visibility.",closed:"Submissions are currently closed.",prelim:"🗓 Talent Show Preliminary",review:"🗓 Finalist Review",final:"🗓 Muniverse Final",ended:"🗓 Ended",unit:" pts",phaseNote:"Preliminary rounds run on X likes; the Top 10 finalists are decided by voting in the Muniverse app.",warn:"⚠️ Entries unrelated to IDOL SCHOOL CAMP, or that others may find offensive or inappropriate, may be removed without notice.",principlesTitle:"Event Rules",principles:["Preliminary (Jul 17, 18:00 – Aug 7, 23:59 KST): ranked by X likes. Each X entry = 10,000 pts and each like = 100 pts for the team.","Final (Aug 10–Aug 14, KST): the Top 10 compete via voting in the Muniverse app; the winner's team gets 2,000,000 pts.","Up to 3 entries per X account; only each account's highest-ranked entry advances to the Top 10.","An entry reaching 10 reports is auto-hidden (removed from ranking and score) pending admin review.","Finalists are contacted via DM on the X account used to enter; accounts that are private at announcement are excluded.","Entries unrelated to IDOL SCHOOL CAMP, ones others may find offensive, or stolen works may be removed without notice."],guideSteps:["Create an image, GIF, or video from IDOL SCHOOL CAMP footage.","Post it publicly on X with your team.","Enter the title, team, and X Post URL — it appears in the ranking right away.","Each X entry earns 10,000 team points; every X like earns 100."]},
+  ja:{kicker:"IDOL CAMP TALENT SHOW",title:"ミーム芸能大会",intro:"『アイドル修練会』の名場面をミームにしてXへ投稿してください！",ruleRegister:"X参加1回につき",ruleLike:"Xいいね1件につき",ruleWinner:"決選1位チームボーナス",register:"作品を登録",guide:"参加方法",guideTitle:"参加方法",guideSub:"必須ハッシュタグと応援チームのハッシュタグを入れてください。",topTitle:"🏅 人気作品 TOP 3",topSub:"Xのいいね数順です。",rankingTitle:"総合ランキング",rankingSub:"1ページ30件表示",formTitle:"作品を登録",teamLabel:"応援チーム",titleLabel:"作品タイトル",urlLabel:"X投稿URL",urlHelp:"XアカウントとプロフィールURLは投稿URLから自動確認されます。",consentPublic:"投稿は公開状態で、決選終了まで公開を維持します。",consentRights:"本人が制作した、または登録権限のある作品で、イベント利用に同意します。",consentOwner:"投稿者本人でない場合、投稿者の要請により削除され、点数が取り消されることがあります。",consentRules:"規定違反や不正参加が確認された場合、登録と点数が取り消されることがあります。",submit:"登録する",view:"Xで見る",all:"全体",loading:"ランキングを読み込み中です。",empty:"登録作品がありません。",prev:"前へ",next:"次へ",count:"作品",updated:"最終集計",pending:"登録されました。承認後に順位と点数へ反映されます。",demoPending:"テスト登録が完了しました。実DBには保存されていません。",submitError:"登録に失敗しました。入力と投稿の公開状態を確認してください。",closed:"現在は登録期間外です。",prelim:"🗓 芸能大会予選",review:"🗓 決選審査",final:"🗓 Muniverse決選",ended:"🗓 終了",unit:"点",phaseNote:"予選はXのいいね数で進行し、決選のTOP10はMuniverseアプリの投票で最終順位を決定します。",warn:"⚠️『アイドル修練会』と無関係、または他の参加者・アーティストが不快に感じ得る作品は予告なく取り消される場合があります。",principlesTitle:"運営ルール",principles:["予選(7/17 18:00〜8/7 23:59, KST)：Xのいいね数で順位を決定。X参加1回=10,000点、いいね1件=100点がチームに反映されます。","決選(8/10〜8/14, KST)：TOP10をMuniverseアプリ投票で競い、1位作品のチームに2,000,000点が反映されます。","Xアカウント1つにつき最大3作品、決選にはアカウント別最高順位の1作のみ進出します。","通報が10件累積した作品は自動的に非表示となり、順位・点数から除外されます(運営確認後に復元/削除)。","決選当選作品は参加したXアカウントへDMでご案内します。発表時点で非公開(鍵)アカウントは対象外です。","『アイドル修練会』と無関係、または他者が不快に感じ得る作品・盗用作品は予告なく取り消される場合があります。"],guideSteps:["番組の場面から画像・GIF・動画を制作します。","応援チームと一緒にXへ全体公開で投稿します。","タイトル・チーム・投稿URLを登録するとすぐにランキングへ反映されます。","Xで参加するたびに10,000点、Xいいね1件ごとに100点が加算されます。"]},
+  "zh-CN":{kicker:"IDOL CAMP TALENT SHOW",title:"表情包才艺大赛",intro:"把《偶像训练营》的精彩瞬间制作成表情包并上传到X！",ruleRegister:"每次X参与",ruleLike:"每个X点赞",ruleWinner:"决赛冠军队奖励",register:"登记作品",guide:"参加方法",guideTitle:"参加方法",guideSub:"请添加指定话题标签和应援队标签。",topTitle:"🏅 人气作品 TOP 3",topSub:"按X点赞数排名。",rankingTitle:"全部排名",rankingSub:"每页显示30个作品。",formTitle:"登记作品",teamLabel:"应援队",titleLabel:"作品标题",urlLabel:"X帖子地址",urlHelp:"系统将根据帖子地址自动确认X账号及主页地址。",consentPublic:"帖子已公开，并将公开至决赛结束。",consentRights:"作品由本人制作或已获得登记授权，并同意活动使用。",consentOwner:"若本人不是发布者，可应发布者要求删除登记并取消分数。",consentRules:"如发现违规或作弊，登记和分数可能被取消。",submit:"登记作品",view:"前往X查看",all:"全部",loading:"正在加载排名。",empty:"暂无登记作品。",prev:"上一页",next:"下一页",count:"个作品",updated:"最后统计",pending:"已提交。审核通过后将反映到排名和分数。",demoPending:"测试登记完成，未写入正式数据库。",submitError:"登记失败，请检查输入内容和帖子公开状态。",closed:"当前不在登记期间。",prelim:"🗓 才艺大赛预赛",review:"🗓 决赛审核",final:"🗓 Muniverse决赛",ended:"🗓 结束",unit:"分",phaseNote:"预赛以X点赞数进行，决赛TOP10由Muniverse应用内投票决定最终排名。",warn:"⚠️ 与《偶像训练营》无关，或可能令他人感到不适的作品，可能不另行通知即被取消。",principlesTitle:"活动规则",principles:["预赛(7/17 18:00~8/7 23:59，KST)：按X点赞数排名。每次X参与=10,000分，每个点赞=100分计入应援队。","决赛(8/10~8/14，KST)：TOP10通过Muniverse应用投票，冠军作品的应援队获得2,000,000分。","每个X账号最多登记3个作品，决赛仅取各账号最高排名的1个作品。","被举报累计10次的作品将自动隐藏（从排名和分数中移除），经运营审核后恢复或删除。","决赛当选作品将通过参与时的X账号以私信(DM)通知。公布时处于非公开(锁定)的账号将被排除。","与《偶像训练营》无关、可能令他人不适或盗用的作品，可能不另行通知即被取消。"],guideSteps:["使用节目画面制作图片、GIF或视频。","与应援队一起在X上公开发布。","登记标题、队伍和X帖子地址后立即反映到排名。","每次通过X参与获得10,000分，每个X点赞再获得100分。"]},
+  "zh-TW":{kicker:"IDOL CAMP TALENT SHOW",title:"迷因才藝大賽",intro:"把《偶像訓練營》的精彩瞬間製作成迷因並上傳到X！",ruleRegister:"每次X參與",ruleLike:"每個X按讚",ruleWinner:"決賽冠軍隊獎勵",register:"登記作品",guide:"參加方法",guideTitle:"參加方法",guideSub:"請加入指定主題標籤及應援隊標籤。",topTitle:"🏅 人氣作品 TOP 3",topSub:"依X按讚數排名。",rankingTitle:"全部排名",rankingSub:"每頁顯示30個作品。",formTitle:"登記作品",teamLabel:"應援隊",titleLabel:"作品標題",urlLabel:"X貼文網址",urlHelp:"系統將依貼文網址自動確認X帳號及個人頁網址。",consentPublic:"貼文為公開狀態，並將公開至決賽結束。",consentRights:"作品由本人製作或已獲登記授權，並同意活動使用。",consentOwner:"若本人不是發布者，可依發布者要求刪除登記並取消分數。",consentRules:"如發現違規或作弊，登記和分數可能被取消。",submit:"登記作品",view:"前往X查看",all:"全部",loading:"正在載入排名。",empty:"尚無登記作品。",prev:"上一頁",next:"下一頁",count:"個作品",updated:"最後統計",pending:"已提交。審核通過後將反映到排名和分數。",demoPending:"測試登記完成，未寫入正式資料庫。",submitError:"登記失敗，請檢查輸入內容及貼文公開狀態。",closed:"目前不在登記期間。",prelim:"🗓 才藝大賽預賽",review:"🗓 決賽審核",final:"🗓 Muniverse決賽",ended:"🗓 結束",unit:"分",phaseNote:"預賽以X按讚數進行，決賽TOP10由Muniverse應用內投票決定最終排名。",warn:"⚠️ 與《偶像訓練營》無關，或可能令他人感到不適的作品，可能不另行通知即被取消。",principlesTitle:"活動規則",principles:["預賽(7/17 18:00~8/7 23:59，KST)：按X按讚數排名。每次X參與=10,000分，每個按讚=100分計入應援隊。","決賽(8/10~8/14，KST)：TOP10透過Muniverse應用投票，冠軍作品的應援隊獲得2,000,000分。","每個X帳號最多登記3個作品，決賽僅取各帳號最高排名的1個作品。","被檢舉累計10次的作品將自動隱藏（從排名與分數中移除），經運營審核後恢復或刪除。","決賽當選作品將透過參與時的X帳號以私訊(DM)通知。公布時處於非公開(鎖定)的帳號將被排除。","與《偶像訓練營》無關、可能令他人不適或盜用的作品，可能不另行通知即被取消。"],guideSteps:["使用節目畫面製作圖片、GIF或影片。","與應援隊一起在X上公開發布。","登記標題、隊伍及X貼文網址後立即反映到排名。","每次透過X參與獲得10,000分，每個X按讚再獲得100分。"]}
+};
+Object.assign(TALENT_I18N.ko,{
+  ruleRegister:"정상 등록된 짤 1개",countLabel:"총 {n}개 짤",ruleWinner:"결선 우승 짤 응원 팀 보너스",
+  muniverseAccountLabel:"뮤니버스 계정",muniverseAccountHelp:"계정 확인이 끝난 짤만 순위·점수·리워드 대상이 됩니다. 허위 계정은 자동 제외됩니다.",
+  consentFollow:"뮤니버스 공식 X 계정을 팔로우하고 있습니다.",
+  consentFinal:"결선은 예선 TOP 10 짤을 대상으로 뮤니버스 앱에서 진행되며, 내 짤이 앱 내 결선 투표 콘텐츠로 사용되는 것에 동의합니다.",
+  guideSub:"참여 순서와 참가 안내를 확인하세요.",principlesTitle:"참가 안내",
+  preliminaryLabel:"예선",finalLabel:"결선",preliminarySchedule:"7.17 18:00 – 8.10 11:59 KST",finalSchedule:"8.11 10:00 – 8.17 17:00 KST",
+  preliminarySummary:"등록은 8.7 23:59 마감 · X 좋아요는 8.10 11:59 최종 집계",finalSummary:"예선 TOP 10이 결선에 진출합니다.",testOpen:"테스트 페이지에서는 일정과 무관하게 등록할 수 있습니다.",
+  preliminaryTitle:"예선 일정·리워드",finalTitle:"결선 일정·리워드",
+  phaseNote:"X 게시물의 좋아요 수를 기준으로 순위를 집계하며, 8월 10일 11:59(KST)에 최종 집계합니다. 예선 TOP 10을 대상으로 뮤니버스 앱 결선 투표를 진행합니다.",
+  preliminaryInfo:["예선 시작: 7/17 18:00 KST", "등록 마감: 8/7 23:59 KST", "X 좋아요 집계 마감: 8/10 11:59 KST", "정상 등록된 짤 1개당 응원 팀에 10,000점 반영", "X 좋아요 1개당 응원 팀에 100점 반영", "각 팀 예선 1~3위 짤 등록자에게 응원 팀의 사인 앨범 증정"],
+  finalInfo:["결선: 8/11 10:00~8/17 17:00 KST", "결선 우승 짤의 응원 팀에 10,000,000점 제공", "결선 진출 짤 등록자 10명 전원에게 응원 팀 엽서 세트 증정", "사인 앨범과 엽서 세트는 중복 수령 가능"],
+  guideSteps:["〈아이돌 수련회〉 방송 장면을 활용해 이미지·GIF·영상 형태의 짤을 제작합니다.", "뮤니버스 공식 X 계정을 팔로우한 뒤, 응원 팀명과 필수 해시태그를 포함해 전체 공개로 게시합니다.", "응원 팀·짤 제목·뮤니버스 계정·X 계정 및 게시물 주소를 등록합니다.", "등록한 짤은 즉시 공개되며, 운영진의 계정·등록 짤 검수 결과에 따라 순위와 점수가 조정되거나 취소될 수 있습니다."],
+  principles:["뮤니버스 회원가입과 공식 X 계정 팔로우는 필수입니다. 조건을 충족하지 않으면 순위·점수·리워드 대상에서 제외될 수 있습니다.", "정상 등록된 짤 1개당 응원 팀에 10,000점, X 좋아요 1개당 100점이 반영됩니다.", "한 X 계정으로 최대 3개 짤까지 등록할 수 있으며, 결선에는 계정당 최고 순위 짤 1개만 진출합니다.", "뮤니버스 계정 1개당 X 계정 1개만 등록할 수 있습니다. 허위 정보 또는 불일치 계정은 순위·점수·리워드 대상에서 제외됩니다.", "결선 진출 및 수상 안내는 등록한 X 계정을 기준으로 진행합니다. 발표 시점에 계정이 비공개이거나 확인할 수 없는 경우 대상에서 제외될 수 있습니다.", "신고가 10회 누적된 짤은 임시 숨김 처리되며, 운영진 검토 후 다시 공개되거나 삭제됩니다.", "〈아이돌 수련회〉와 무관하거나 욕설·혐오·비방·선정성·도용 등 운영 정책을 위반한 짤은 사전 안내 없이 삭제되며, 점수 및 리워드 지급이 취소될 수 있습니다."],
+  pending:"등록되었습니다. 뮤니버스 계정 확인 후 순위와 점수에 반영됩니다."
+});
+Object.assign(TALENT_I18N.en,{
+  ruleRegister:"valid entry",ruleWinner:"final winner team bonus",muniverseAccountLabel:"Muniverse account",muniverseAccountHelp:"Only verified account pairs qualify for rankings, points, and rewards.",consentFollow:"I follow the official Muniverse account on X.",consentFinal:"I agree that the final round is held in the Muniverse app with the preliminary Top 10, and that my entry may be used as in-app final voting content.",guideSub:"Check the participation steps and entry information.",principlesTitle:"Entry Information",preliminaryLabel:"Preliminary",finalLabel:"Final",preliminarySchedule:"Jul 17, 18:00 – Aug 10, 11:59 KST",finalSchedule:"Aug 11, 10:00 – Aug 17, 17:00 KST",preliminarySummary:"Entries close Aug 7, 23:59 · X likes close Aug 10, 11:59",finalSummary:"The Preliminary Top 10 compete by Muniverse app vote.",testOpen:"Test page · Submissions are open now",preliminaryTitle:"Preliminary Schedule & Rewards",finalTitle:"Final Schedule & Rewards",phaseNote:"X likes are counted through Aug 10, 11:59 KST. The Top 10 advance to the Muniverse app final.",preliminaryInfo:["Starts: Jul 17, 18:00 KST","Entry deadline: Aug 7, 23:59 KST","Like count closes: Aug 10, 11:59 KST","10,000 team points per valid entry; 100 per X like","Signed group album for the Top 3 in each team"],finalInfo:["Aug 11, 10:00–Aug 17, 17:00 KST","10,000,000 points for the winning entry's team","A selected-team postcard set for all 10 finalists","Album and postcard rewards may be combined"],guideSteps:["Create an image, GIF, or video from IDOL SCHOOL CAMP.","Follow Muniverse on X and publish the entry publicly.","Submit your team, title, Muniverse account, and X Post URL.","Rankings and team points activate after account verification."],principles:["Muniverse membership and following the official Muniverse X account are mandatory; otherwise the entry is excluded from final calculation.","Each valid entry earns 10,000 team points and each X like earns 100.","Up to 3 entries per X account; only its highest-ranked entry can advance.","Muniverse and X accounts are verified as a one-to-one pair; false or mismatched accounts are excluded.","Finalists are contacted through the X account used to enter; private accounts at announcement are excluded.","An entry reaching 10 valid reports is hidden pending review.","Irrelevant, offensive, or stolen works may be removed without notice."],pending:"Submitted. Rankings and points activate after account verification."
+});
+Object.assign(TALENT_I18N.ja,{
+  ruleRegister:"有効作品登録",ruleWinner:"決選1位チームボーナス",muniverseAccountLabel:"Muniverseアカウント",muniverseAccountHelp:"アカウント確認済みの作品のみ順位・点数・特典の対象です。",consentFollow:"Muniverse公式Xアカウントをフォローしています。",consentFinal:"決選は予選TOP10作品を対象にMuniverseアプリで実施され、作品がアプリ内決選投票コンテンツとして使用されることに同意します。",preliminaryTitle:"予選日程・特典",finalTitle:"決選日程・特典",phaseNote:"Xいいねは8/10 11:59 KSTまで集計し、TOP10がMuniverseアプリ決選へ進出します。",preliminaryInfo:["開始: 7/17 18:00 KST","登録締切: 8/7 23:59 KST","集計締切: 8/10 11:59 KST","有効登録10,000点・Xいいね1件100点","各チーム予選1〜3位にグループサインアルバム"],finalInfo:["8/11 10:00〜8/17 17:00 KST","1位作品の応援チームに10,000,000点","TOP10全員に選択チームのポストカードセット","サインアルバムとの重複受領可"],principles:["MuniverseアカウントとXアカウントを1対1で確認し、虚偽・不一致は対象外です。","Muniverse公式Xのフォローは必須です。","決選当選作品は参加したXアカウントを基準に案内します。発表時に非公開（鍵）アカウントは対象外です。","有効な通報が10件累積した作品は確認のため自動非表示になります。"],pending:"登録されました。アカウント確認後に順位と点数へ反映されます。"
+});
+Object.assign(TALENT_I18N["zh-CN"],{
+  ruleRegister:"有效作品登记",ruleWinner:"决赛冠军队奖励",muniverseAccountLabel:"Muniverse账号",muniverseAccountHelp:"仅通过账号核验的作品计入排名、分数与奖励。",consentFollow:"我已关注Muniverse官方X账号。",consentFinal:"我同意决赛将在Muniverse应用中以预赛TOP10作品进行，且我的作品可用作应用内决赛投票内容。",preliminaryTitle:"预赛日程与奖励",finalTitle:"决赛日程与奖励",phaseNote:"X点赞统计截至8月10日11:59 KST，TOP10进入Muniverse应用决赛。",preliminaryInfo:["开始: 7/17 18:00 KST","登记截止: 8/7 23:59 KST","统计截止: 8/10 11:59 KST","有效登记10,000分；每个X点赞100分","各队预赛第1至3名获组合签名专辑"],finalInfo:["8/11 10:00至8/17 17:00 KST","冠军作品应援队获得10,000,000分","TOP10每人获自选队伍明信片套装","可与签名专辑重复领取"],principles:["Muniverse账号与X账号须一对一核验，虚假或不一致账号将被排除。","必须关注Muniverse官方X账号。","决赛获奖作品以参赛X账号为准通知；公布时为非公开账号者将被排除。","累计10次有效举报的作品将自动隐藏并等待审核。"],pending:"登记成功。账号核验后计入排名和分数。"
+});
+Object.assign(TALENT_I18N["zh-TW"],{
+  ruleRegister:"有效作品登記",ruleWinner:"決賽冠軍隊獎勵",muniverseAccountLabel:"Muniverse帳號",muniverseAccountHelp:"僅通過帳號核驗的作品列入排名、分數與獎勵。",consentFollow:"我已追蹤Muniverse官方X帳號。",consentFinal:"我同意決賽將在Muniverse應用程式中以預賽TOP10作品進行，且我的作品可用作應用程式內決賽投票內容。",preliminaryTitle:"預賽日程與獎勵",finalTitle:"決賽日程與獎勵",phaseNote:"X按讚統計至8月10日11:59 KST，TOP10進入Muniverse應用程式決賽。",preliminaryInfo:["開始: 7/17 18:00 KST","登記截止: 8/7 23:59 KST","統計截止: 8/10 11:59 KST","有效登記10,000分；每個X按讚100分","各隊預賽第1至3名獲團體簽名專輯"],finalInfo:["8/11 10:00至8/17 17:00 KST","冠軍作品應援隊獲10,000,000分","TOP10每人獲自選隊伍明信片套組","可與簽名專輯重複領取"],principles:["Muniverse帳號與X帳號須一對一核驗，虛假或不一致帳號將被排除。","必須追蹤Muniverse官方X帳號。","決賽獲獎作品以參賽X帳號為準通知；公布時為非公開帳號者將被排除。","累計10次有效檢舉的作品將自動隱藏並等待審核。"],pending:"登記成功。帳號核驗後列入排名與分數。"
+});
+TALENT_I18N.ja.guideSteps=["番組の場面から画像・GIF・動画を制作します。","Muniverse公式Xをフォローし、作品を全体公開で投稿します。","応援チーム・作品名・Muniverseアカウント・X投稿URLを登録します。","アカウント確認後に順位とチーム点数へ反映されます。"];
+TALENT_I18N["zh-CN"].guideSteps=["使用节目画面制作图片、GIF或视频。","关注Muniverse官方X并公开发布作品。","登记应援队、标题、Muniverse账号及X帖子地址。","账号核验后计入排名与队伍分数。"];
+TALENT_I18N["zh-TW"].guideSteps=["使用節目畫面製作圖片、GIF或影片。","追蹤Muniverse官方X並公開發布作品。","登記應援隊、標題、Muniverse帳號及X貼文網址。","帳號核驗後列入排名與隊伍分數。"];
+Object.assign(TALENT_I18N.ja,{guideSub:"参加手順と参加案内をご確認ください。",principlesTitle:"参加案内",preliminaryLabel:"予選",finalLabel:"決選",preliminarySchedule:"7/17 18:00 – 8/10 11:59 KST",finalSchedule:"8/11 10:00 – 8/17 17:00 KST",preliminarySummary:"登録は8/7 23:59締切・Xいいねは8/10 11:59最終集計",finalSummary:"予選TOP10がMuniverseアプリ投票で最終順位を競います。",testOpen:"テストページ・現在登録可能",principles:["Muniverseへの登録とMuniverse公式Xのフォローは必須です。未登録・未フォローの場合は最終集計から除外されます。","MuniverseアカウントとXアカウントを1対1で確認し、虚偽・不一致は対象外です。","決選当選作品は参加したXアカウントを基準に案内します。発表時に非公開（鍵）アカウントは対象外です。","有効な通報が10件累積した作品は確認のため自動非表示になります。"]});
+Object.assign(TALENT_I18N["zh-CN"],{guideSub:"请确认参加步骤和参赛须知。",principlesTitle:"参赛须知",preliminaryLabel:"预赛",finalLabel:"决赛",preliminarySchedule:"7/17 18:00 – 8/10 11:59 KST",finalSchedule:"8/11 10:00 – 8/17 17:00 KST",preliminarySummary:"8/7 23:59截止登记；X点赞统计至8/10 11:59",finalSummary:"预赛TOP10通过Muniverse应用投票决定最终名次。",testOpen:"测试页面 · 现在可登记",principles:["注册Muniverse并关注Muniverse官方X账号为必需条件；未注册或未关注者不计入最终统计。","Muniverse账号与X账号须一对一核验，虚假或不一致账号将被排除。","决赛获奖作品以参赛X账号为准通知；公布时为非公开账号者将被排除。","累计10次有效举报的作品将自动隐藏并等待审核。"]});
+Object.assign(TALENT_I18N["zh-TW"],{guideSub:"請確認參加步驟與參賽須知。",principlesTitle:"參賽須知",preliminaryLabel:"預賽",finalLabel:"決賽",preliminarySchedule:"7/17 18:00 – 8/10 11:59 KST",finalSchedule:"8/11 10:00 – 8/17 17:00 KST",preliminarySummary:"8/7 23:59截止登記；X按讚統計至8/10 11:59",finalSummary:"預賽TOP10透過Muniverse應用程式投票決定最終名次。",testOpen:"測試頁面 · 現在可登記",principles:["註冊Muniverse並追蹤Muniverse官方X帳號為必需條件；未註冊或未追蹤者不列入最終統計。","Muniverse帳號與X帳號須一對一核驗，虛假或不一致帳號將被排除。","決賽獲獎作品以參賽X帳號為準通知；公布時為非公開帳號者將被排除。","累計10次有效檢舉的作品將自動隱藏並等待審核。"]});
+Object.assign(TALENT_I18N.ko,{
+  kicker:"IDOL SCHOOL CAMP MEME TALENT SHOW",title:"아이돌 수련회 짤 장기자랑",
+  intro:"웃음과 감동이 오간 〈아이돌 수련회〉의 순간을 입소생 여러분만의 센스로 재해석해 X에 올려주세요!",
+  programRibbon:"CAMP PROGRAM",programTitle:"장기자랑 진행표",programSub:"첫 무대부터 마지막 밤까지",programSchedule:"무대 일정",programProcess:"진행 방식",programReward:"🎁 예선 리워드",programFinalReward:"🏆 결선 리워드",preliminaryEyebrow:"FIRST STAGE",finalEyebrow:"LAST NIGHT",preliminaryStageTitle:"X 좋아요 예선 무대",finalStageTitle:"뮤니버스 앱 결선 무대",prelimProcess:"X 게시물의 좋아요 수를 기준으로 순위를 집계합니다.",finalProcess:"예선 TOP 10을 대상으로 뮤니버스 앱 결선 투표를 진행합니다.",finalistPass:"TOP 10 결선 진출권",
+  testOpen:"● 테스트 페이지에서는 일정과 무관하게 등록할 수 있습니다.",
+  muniverseAccountHelp:"가입 여부와 공식 X 팔로우 확인에 사용됩니다. 짤은 등록 즉시 반영되며, 허위 계정은 사후 검수에서 제외됩니다.",
+  guideSteps:["〈아이돌 수련회〉 방송 장면을 활용해 이미지·GIF·영상 형태의 짤을 제작합니다.", "뮤니버스 공식 X 계정을 팔로우한 뒤, 응원 팀명과 필수 해시태그를 포함해 전체 공개로 게시합니다.", "응원 팀·짤 제목·뮤니버스 계정·X 계정 및 게시물 주소를 등록합니다.", "등록한 짤은 즉시 공개되며, 운영진의 계정·등록 짤 검수 결과에 따라 순위와 점수가 조정되거나 취소될 수 있습니다."],
+  pending:"등록되었습니다! 순위와 점수에 바로 반영됩니다."
+});
+Object.assign(TALENT_I18N.en,{
+  kicker:"IDOL SCHOOL CAMP MEME TALENT SHOW",title:"IDOL SCHOOL CAMP Meme Talent Show",intro:"Reimagine the funny, moving, and unforgettable moments of IDOL SCHOOL CAMP in your own style and share them on X!",
+  programRibbon:"CAMP PROGRAM",programTitle:"Talent Show Program",programSub:"From the first stage to the final night",programSchedule:"Schedule",programProcess:"How it works",programReward:"🎁 Preliminary rewards",programFinalReward:"🏆 Final rewards",preliminaryEyebrow:"FIRST STAGE",finalEyebrow:"LAST NIGHT",preliminaryStageTitle:"X Likes Preliminary",finalStageTitle:"Muniverse App Final",prelimProcess:"Rankings are based on likes on the X post.",finalProcess:"The Preliminary Top 10 are ranked by Muniverse app voting.",finalistPass:"TOP 10 FINALIST PASS",testOpen:"● Test page · Submissions are open regardless of schedule",
+  muniverseAccountHelp:"Used for post-entry membership and official-X-follow checks. Entries appear immediately; false accounts are removed after review.",guideSteps:["Create an image, GIF, or video from IDOL SCHOOL CAMP.","Follow Muniverse on X and publish the entry publicly.","Submit your team, title, Muniverse account, and X Post URL.","The entry appears in rankings and team points immediately; account review happens afterward."],pending:"Submitted! It is now reflected in rankings and points."
+});
+Object.assign(TALENT_I18N.ja,{programRibbon:"CAMP PROGRAM",programTitle:"芸能大会進行表",programSub:"最初の舞台から最後の夜まで",programSchedule:"舞台日程",programProcess:"進行方式",programReward:"🎁 予選特典",programFinalReward:"🏆 決選特典",preliminaryEyebrow:"FIRST STAGE",finalEyebrow:"LAST NIGHT",preliminaryStageTitle:"Xいいね予選舞台",finalStageTitle:"Muniverseアプリ決選舞台",prelimProcess:"X投稿のいいね数で順位を集計します。",finalProcess:"予選TOP10をMuniverseアプリ投票で決定します。",finalistPass:"TOP10 決選進出券",testOpen:"● テストページ・日程に関係なく現在登録可能",muniverseAccountHelp:"登録後の加入・公式Xフォロー確認に使用します。作品はすぐ反映され、虚偽アカウントは事後確認で除外されます。",guideSteps:["番組の場面から画像・GIF・動画を制作します。","Muniverse公式Xをフォローし、作品を全体公開で投稿します。","応援チーム・作品名・Muniverseアカウント・X投稿URLを登録します。","登録後すぐ順位とチーム点数に反映され、アカウント確認は事後に行われます。"],pending:"登録されました。順位と点数にすぐ反映されます。"});
+Object.assign(TALENT_I18N["zh-CN"],{programRibbon:"CAMP PROGRAM",programTitle:"才艺大赛流程",programSub:"从首场舞台到最终之夜",programSchedule:"舞台日程",programProcess:"进行方式",programReward:"🎁 预赛奖励",programFinalReward:"🏆 决赛奖励",preliminaryEyebrow:"FIRST STAGE",finalEyebrow:"LAST NIGHT",preliminaryStageTitle:"X点赞预赛舞台",finalStageTitle:"Muniverse应用决赛舞台",prelimProcess:"按X帖子点赞数统计排名。",finalProcess:"预赛TOP10通过Muniverse应用投票决定名次。",finalistPass:"TOP10 决赛入场券",testOpen:"● 测试页面 · 不受日程限制，现在可登记",muniverseAccountHelp:"用于登记后的会员与官方X关注核验。作品即时显示，虚假账号将在事后审核中排除。",guideSteps:["使用节目画面制作图片、GIF或视频。","关注Muniverse官方X并公开发布作品。","登记应援队、标题、Muniverse账号及X帖子地址。","登记后立即计入排名和队伍分数，账号核验在之后进行。"],pending:"登记成功！已立即计入排名和分数。"});
+Object.assign(TALENT_I18N["zh-TW"],{programRibbon:"CAMP PROGRAM",programTitle:"才藝大賽流程",programSub:"從首場舞台到最終之夜",programSchedule:"舞台日程",programProcess:"進行方式",programReward:"🎁 預賽獎勵",programFinalReward:"🏆 決賽獎勵",preliminaryEyebrow:"FIRST STAGE",finalEyebrow:"LAST NIGHT",preliminaryStageTitle:"X按讚預賽舞台",finalStageTitle:"Muniverse應用程式決賽舞台",prelimProcess:"依X貼文按讚數統計排名。",finalProcess:"預賽TOP10透過Muniverse應用程式投票決定名次。",finalistPass:"TOP10 決賽入場券",testOpen:"● 測試頁面 · 不受日程限制，目前可登記",muniverseAccountHelp:"用於登記後的會員與官方X追蹤核驗。作品即時顯示，虛假帳號將在事後審核中排除。",guideSteps:["使用節目畫面製作圖片、GIF或影片。","追蹤Muniverse官方X並公開發布作品。","登記應援隊、標題、Muniverse帳號及X貼文網址。","登記後立即列入排名與隊伍分數，帳號核驗在之後進行。"],pending:"登記成功！已立即列入排名與分數。"});
+function talentText(){ return TALENT_I18N[lang] || TALENT_I18N.en; }
+const TALENT_X = {
+  ko:{reportBtn:"🚩 신고",verifiedBadge:"✓ 검수 완료",reportConfirm:"이 짤을 신고할까요? 부적절·도용·규정 위반만 신고해주세요.",reportReason:"신고 사유(선택)",reportDone:"신고가 접수되었습니다.",reportDup:"이미 신고한 짤입니다.",reportLimit:"신고 요청이 너무 많습니다. 잠시 후 다시 시도해주세요.",reportHidden:"신고가 누적되어 임시 숨김 처리되었습니다. 운영진 검토 후 다시 공개되거나 삭제됩니다.",reportGone:"짤을 찾을 수 없습니다. 새로고침 후 다시 시도해주세요.",reportVerified:"관리자 검수가 완료된 짤은 신고할 수 없습니다.",reportUnavailable:"숨김·반려·삭제된 짤은 신고할 수 없습니다.",reportErr:"신고 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",posted:"등록되었습니다! 순위에 바로 반영됩니다.",demoReport:"테스트 신고가 접수되었습니다(실제 반영 없음)."},
+  en:{reportBtn:"🚩 Report",verifiedBadge:"✓ Verified",reportConfirm:"Report this entry? Please report only inappropriate, stolen, or rule-breaking works.",reportReason:"Reason (optional)",reportDone:"Report received.",reportDup:"You already reported this entry.",reportLimit:"Too many reports. Please try again later.",reportHidden:"This entry has been hidden for admin review.",reportGone:"This entry could not be found. Refresh and try again.",reportVerified:"Admin-verified entries can no longer be reported.",reportUnavailable:"Hidden, rejected, or removed entries cannot be reported.",reportErr:"The report could not be processed. Please try again shortly.",posted:"Submitted! It's now live in the ranking.",demoReport:"Demo report received (nothing saved)."},
+  ja:{reportBtn:"🚩 通報",verifiedBadge:"✓ 確認済み",reportConfirm:"この作品を通報しますか？不適切・盗用・規約違反のみ通報してください。",reportReason:"理由(任意)",reportDone:"通報を受け付けました。",reportDup:"すでに通報済みの作品です。",reportLimit:"通報が多すぎます。しばらくして再度お試しください。",reportHidden:"通報が累積し、確認待ちに切り替わりました。",reportGone:"すでに処理済みの作品です。",reportErr:"通報に失敗しました。",posted:"登録されました！ランキングに即時反映されます。",demoReport:"テスト通報を受け付けました(反映なし)。"},
+  "zh-CN":{reportBtn:"🚩 举报",verifiedBadge:"✓ 已核验",reportConfirm:"要举报该作品吗？请仅举报不当·盗用·违规内容。",reportReason:"举报理由(可选)",reportDone:"已收到举报。",reportDup:"你已举报过该作品。",reportLimit:"举报过于频繁，请稍后再试。",reportHidden:"举报累积，已转入待审核。",reportGone:"该作品已被处理。",reportErr:"举报失败。",posted:"已登记！即时反映到排名。",demoReport:"测试举报已收到(未写入)。"},
+  "zh-TW":{reportBtn:"🚩 檢舉",verifiedBadge:"✓ 已核驗",reportConfirm:"要檢舉該作品嗎？請僅檢舉不當·盜用·違規內容。",reportReason:"檢舉理由(可選)",reportDone:"已收到檢舉。",reportDup:"你已檢舉過該作品。",reportLimit:"檢舉過於頻繁，請稍後再試。",reportHidden:"檢舉累積，已轉入待審核。",reportGone:"該作品已被處理。",reportErr:"檢舉失敗。",posted:"已登記！即時反映到排名。",demoReport:"測試檢舉已收到(未寫入)。"}
+};
+Object.assign(TALENT_X.ko,{reportTitle:"짤 신고",reportMuniverse:"뮤니버스 계정",reportX:"본인의 X 계정",reportReason:"신고 사유",reportFollow:"뮤니버스 공식 X 계정을 팔로우하고 있습니다.",reportHelp:"짤 등록 계정과 신고 계정은 별도로 관리됩니다. 첫 신고 때 뮤니버스–X 계정이 1:1로 연결되며, 이후 어느 한쪽만 바꿀 수 없습니다. 두 계정 모두 하루 3회로 제한됩니다.",reportSubmit:"신고 접수",reportPending:"신고자 계정 정보를 확인할 수 없습니다. 입력값을 다시 확인해주세요.",reportMismatch:"입력한 신고자 계정의 기존 연결 정보가 일치하지 않습니다.",reportMuniverseConflict:"이 뮤니버스 계정은 이전 신고에서 다른 X 계정과 연결되었습니다. 처음 신고할 때 사용한 X 계정을 입력해주세요.",reportXConflict:"이 X 계정은 이전 신고에서 다른 뮤니버스 계정과 연결되었습니다. 처음 신고할 때 사용한 뮤니버스 계정을 입력해주세요.",reporterBlocked:"신고가 제한된 계정입니다. 운영진에게 문의해주세요.",reportFollowRequired:"뮤니버스 공식 X 팔로우 확인이 필요합니다.",reportDaily:"신고는 뮤니버스 계정과 X 계정 각각 하루 3회까지 가능합니다.",reportInvalid:"계정 형식을 확인해주세요.",postedVerified:"등록되었습니다! 순위와 점수에 반영됩니다.",postedPending:"등록되었습니다. 계정 확인 후 순위와 점수에 반영됩니다."});
+Object.assign(TALENT_X.en,{reportTitle:"Report entry",reportMuniverse:"Muniverse account",reportX:"Your X account",reportReason:"Reason",reportFollow:"I follow Muniverse on X.",reportHelp:"Entry and reporting accounts are managed separately. Your Muniverse–X pair is linked on the first report and neither side can be changed later. Each account is limited to 3 reports per day.",reportSubmit:"Submit report",reportPending:"The reporter account could not be confirmed. Check the values and try again.",reportMismatch:"The existing reporter account connection does not match.",reportMuniverseConflict:"This Muniverse account was paired with another X account on an earlier report. Use the original X account.",reportXConflict:"This X account was paired with another Muniverse account on an earlier report. Use the original Muniverse account.",reporterBlocked:"This reporter account is restricted. Contact the event team.",reportFollowRequired:"Following Muniverse on X must be verified.",reportDaily:"Each Muniverse and X account may report up to 3 times per day.",reportInvalid:"Check the account formats.",postedVerified:"Submitted and added to rankings.",postedPending:"Submitted. Rankings activate after account verification."});
+Object.assign(TALENT_X.ja,{reportTitle:"作品を通報",reportMuniverse:"Muniverseアカウント",reportX:"ご本人のXアカウント",reportReason:"通報理由",reportFollow:"Muniverse公式Xをフォローしています。",reportHelp:"確認済みのアカウント組み合わせのみ、1日3回まで通報できます。",reportSubmit:"通報する",reportPending:"アカウント確認後にもう一度お試しください。",reportMismatch:"別のアカウントと連携済みです。",reportFollowRequired:"公式Xのフォロー確認が必要です。",reportDaily:"通報は1日3回までです。",reportInvalid:"アカウント形式をご確認ください。",postedVerified:"登録され、順位に反映されました。",postedPending:"登録されました。アカウント確認後に反映されます。"});
+Object.assign(TALENT_X["zh-CN"],{reportTitle:"举报作品",reportMuniverse:"Muniverse账号",reportX:"您的X账号",reportReason:"举报理由",reportFollow:"我已关注Muniverse官方X。",reportHelp:"仅核验通过的账号组合可举报，每日最多3次。",reportSubmit:"提交举报",reportPending:"账号组合需先核验，请获批后重试。",reportMismatch:"其中一个账号已与其他账号绑定。",reportFollowRequired:"需核验已关注官方X。",reportDaily:"每个账号每日最多举报3次。",reportInvalid:"请检查账号格式。",postedVerified:"登记成功并计入排名。",postedPending:"登记成功，账号核验后计入排名。"});
+Object.assign(TALENT_X["zh-TW"],{reportTitle:"檢舉作品",reportMuniverse:"Muniverse帳號",reportX:"您的X帳號",reportReason:"檢舉理由",reportFollow:"我已追蹤Muniverse官方X。",reportHelp:"僅核驗通過的帳號組合可檢舉，每日最多3次。",reportSubmit:"提交檢舉",reportPending:"帳號組合需先核驗，請核准後重試。",reportMismatch:"其中一個帳號已與其他帳號綁定。",reportFollowRequired:"需核驗已追蹤官方X。",reportDaily:"每個帳號每日最多檢舉3次。",reportInvalid:"請檢查帳號格式。",postedVerified:"登記成功並列入排名。",postedPending:"登記成功，帳號核驗後列入排名。"});
+Object.assign(TALENT_X.ja,{reportHelp:"作品登録アカウントと通報アカウントは別管理です。最初の通報時にMuniverse–Xを通報用として連携し、以後片方だけの変更はできません。各アカウント1日3回までです。",reportPending:"通報者アカウント情報を確認できません。入力値をご確認ください。",reportMuniverseConflict:"このMuniverseアカウントは以前の通報で別のXアカウントと連携されています。",reportXConflict:"このXアカウントは以前の通報で別のMuniverseアカウントと連携されています。",reporterBlocked:"通報が制限されたアカウントです。",postedPending:"登録され、順位と点数にすぐ反映されました。"});
+Object.assign(TALENT_X["zh-CN"],{reportHelp:"作品登记账号与举报账号分开管理。首次举报时仅为举报建立Muniverse–X配对，此后不能只更换其中一方。每个账号每日限3次。",reportPending:"无法确认举报账号信息，请检查输入内容。",reportMuniverseConflict:"此Muniverse账号曾在之前的举报中与其他X账号配对。",reportXConflict:"此X账号曾在之前的举报中与其他Muniverse账号配对。",reporterBlocked:"该账号已被限制举报。",postedPending:"登记成功，已立即计入排名和分数。"});
+Object.assign(TALENT_X["zh-TW"],{reportHelp:"作品登記帳號與檢舉帳號分開管理。首次檢舉時僅為檢舉建立Muniverse–X配對，此後不能只更換其中一方。每個帳號每日限3次。",reportPending:"無法確認檢舉帳號資訊，請檢查輸入內容。",reportMuniverseConflict:"此Muniverse帳號曾在先前的檢舉中與其他X帳號配對。",reportXConflict:"此X帳號曾在先前的檢舉中與其他Muniverse帳號配對。",reporterBlocked:"該帳號已被限制檢舉。",postedPending:"登記成功，已立即列入排名與分數。"});
+Object.assign(TALENT_X.ko,{postedPending:"등록되었습니다! 순위와 점수에 바로 반영됩니다."});
+Object.assign(TALENT_X.en,{postedPending:"Submitted! It is now reflected in rankings and points."});
+function tx(k){ return (TALENT_X[lang]||TALENT_X.en)[k]; }
+const TALENT_SUBMIT_ERRORS={
+  ko:{invalid_team:"응원 팀을 다시 선택해주세요.",invalid_title:"짤 제목은 2~60자로 입력해주세요.",invalid_post_url:"올바른 X 게시물 주소를 입력해주세요.",invalid_muniverse_account:"뮤니버스 계정을 2~100자로 입력해주세요.",consent_required:"필수 참가 안내 항목에 모두 동의해주세요.",rate_limited:"등록 요청이 너무 많습니다. 잠시 후 다시 시도해주세요.",turnstile_failed:"보안 인증이 만료되었습니다. 다시 인증해주세요.",settings_unavailable:"일시적인 문제로 등록을 진행할 수 없습니다. 잠시 후 다시 시도해주세요.",registration_closed:"지금은 등록 기간이 아닙니다.",post_unavailable:"X 게시물을 불러올 수 없습니다. 게시물이 전체 공개 상태인지와 주소를 확인해주세요.",x_author_unavailable:"X 게시물의 작성자 정보를 확인할 수 없습니다.",already_submitted:"이미 등록된 X 게시물입니다.",author_entry_limit:"이 X 계정은 등록 가능한 짤 수를 모두 사용했습니다.",identity_pair_conflict:"입력한 뮤니버스 계정이 다른 X 등록 계정과 연결되어 있습니다. 짤 등록 계정 정보를 확인해주세요.",missing_server_secret:"일시적인 문제로 등록을 진행할 수 없습니다. 잠시 후 다시 시도해주세요.",service_unavailable:"일시적인 문제로 등록이 완료되지 않았습니다. 잠시 후 다시 시도해주세요. 문제가 계속되면 운영진에게 문의해주세요."},
+  en:{invalid_team:"Select a valid team.",invalid_title:"Enter a title between 2 and 60 characters.",invalid_post_url:"Enter a valid X Post URL.",invalid_muniverse_account:"Enter a valid Muniverse account.",consent_required:"Accept all required entry terms.",rate_limited:"Too many attempts. Try again shortly.",turnstile_failed:"Security verification expired. Please verify again.",settings_unavailable:"Something went wrong. Please try again shortly.",registration_closed:"Submissions are currently closed.",post_unavailable:"The X Post could not be loaded. Check that it is public and the URL is correct.",x_author_unavailable:"The X Post author could not be verified.",already_submitted:"This X Post has already been submitted.",author_entry_limit:"This X account has reached its entry limit.",identity_pair_conflict:"This Muniverse account is connected to another entry X account.",missing_server_secret:"Something went wrong. Please try again shortly.",service_unavailable:"Your submission could not be completed. Please try again shortly. Contact the team if it keeps failing."}
+};
+function talentSubmitError(code){const table=TALENT_SUBMIT_ERRORS[lang]||TALENT_SUBMIT_ERRORS.en;return table[code]||talentText().submitError;}
+let talentReportEntryId=null;
+function talentReportMessage(message,type){
+  const el=$("#talentReportStatus"); if(!el)return;
+  el.textContent=message;el.className=`talent-form-status show ${type}`;
+}
+function closeTalentReportModal(){
+  const modal=$("#talentReportModal");if(modal)modal.classList.remove("open");
+  talentReportEntryId=null;document.body.style.overflow="";
+}
+function reportTalent(id){
+  if(id==null||id==="")return;
+  talentReportEntryId=id;
+  const modal=$("#talentReportModal");if(!modal)return;
+  $("#talentReportStatus").className="talent-form-status";
+  const saved=localStorage.getItem("idolcamp_report_muniverse")||"";
+  if(saved&&!$("#talentReportMuniverse").value)$("#talentReportMuniverse").value=saved;
+  modal.classList.add("open");document.body.style.overflow="hidden";$("#talentReportMuniverse").focus();
+}
+async function submitTalentReport(e){
+  e.preventDefault();const form=e.currentTarget;
+  if(!form.checkValidity()){form.reportValidity();return;}
+  if(talentReportEntryId==null)return;
+  const muniverse=$("#talentReportMuniverse").value.trim();
+  const xUsername=$("#talentReportX").value.trim();
+  const reason=$("#talentReportReason").value.trim().slice(0,200);
+  const btn=$("#talentReportSubmitBtn");btn.disabled=true;
+  try{
+    if(TALENT_DEMO){talentReportMessage(tx("demoReport"),"ok");return;}
+    const S=CONFIG.supabase;
+    const r=await fetch(`${S.url}/rest/v1/rpc/meme_report`,{
+      method:"POST",headers:{"Content-Type":"application/json","apikey":S.anonKey,"Authorization":"Bearer "+S.anonKey},
+      body:JSON.stringify({p_entry_id:Number(talentReportEntryId),p_muniverse_account:muniverse,p_x_username:xUsername,p_reason:reason})
+    });
+    let status="";try{status=String(await r.json()??"").replace(/^"|"$/g,"");}catch(_){status="";}
+    if(!r.ok)throw new Error(status||"err");
+    localStorage.setItem("idolcamp_report_muniverse",muniverse);
+    const map={
+      ok:[tx("reportDone"),"ok"],hidden:[tx("reportHidden"),"ok"],already_reported:[tx("reportDup"),"err"],
+      daily_limited:[tx("reportDaily"),"err"],identity_pending:[tx("reportPending"),"err"],identity_mismatch:[tx("reportMismatch"),"err"],
+      identity_muniverse_conflict:[tx("reportMuniverseConflict"),"err"],identity_x_conflict:[tx("reportXConflict"),"err"],
+      reporter_muniverse_conflict:[tx("reportMuniverseConflict"),"err"],reporter_x_conflict:[tx("reportXConflict"),"err"],reporter_blocked:[tx("reporterBlocked"),"err"],
+      follow_required:[tx("reportFollowRequired"),"err"],invalid_identity:[tx("reportInvalid"),"err"],not_found:[tx("reportGone"),"err"],
+      report_blocked_verified:[tx("reportVerified"),"err"],report_not_available:[tx("reportUnavailable"),"err"]
+    };
+    const message=map[status]||[tx("reportErr"),"err"];
+    talentReportMessage(message[0],message[1]);
+    if(status==="hidden")loadTalent();
+    if(status==="ok"||status==="hidden")setTimeout(closeTalentReportModal,1400);
+  }catch(err){console.warn("report failed",err);talentReportMessage(tx("reportErr"),"err");}
+  finally{btn.disabled=false;}
+}
+function applyTalentI18n(){
+  const T=talentText();
+  document.querySelectorAll("[data-talent-i18n]").forEach(el=>{ const k=el.dataset.talentI18n; if(T[k]!=null) el.textContent=T[k]; });
+  const steps=$("#talentGuideSteps"); if(steps) steps.innerHTML=T.guideSteps.map(s=>`<li>${esc(s)}</li>`).join("");
+  const pr=$("#talentPrinciples"); if(pr&&Array.isArray(T.principles)) pr.innerHTML=T.principles.map(s=>`<li>${esc(s)}</li>`).join("");
+  const prelim=$("#talentPreliminaryInfo");if(prelim&&Array.isArray(T.preliminaryInfo))prelim.innerHTML=T.preliminaryInfo.map(s=>`<li>${esc(s)}</li>`).join("");
+  const finalInfo=$("#talentFinalInfo");if(finalInfo&&Array.isArray(T.finalInfo))finalInfo.innerHTML=T.finalInfo.map(s=>`<li>${esc(s)}</li>`).join("");
+  const programLists={
+    talentProgramPrelimSchedule:(T.preliminaryInfo||[]).slice(0,3),
+    talentProgramPrelimReward:(T.preliminaryInfo||[]).slice(3),
+    talentProgramFinalSchedule:(T.finalInfo||[]).slice(0,1),
+    talentProgramFinalReward:(T.finalInfo||[]).slice(1)
+  };
+  Object.entries(programLists).forEach(([id,items])=>{const el=document.getElementById(id);if(el)el.innerHTML=items.map(s=>`<li>${esc(s)}</li>`).join("");});
+  const reportLabels={talentReportTitle:"reportTitle",talentReportMuniverseLabel:"reportMuniverse",talentReportXLabel:"reportX",talentReportReasonLabel:"reportReason",talentReportFollowLabel:"reportFollow",talentReportHelp:"reportHelp",talentReportSubmitBtn:"reportSubmit"};
+  Object.entries(reportLabels).forEach(([id,k])=>{const el=document.getElementById(id);if(el&&tx(k))el.textContent=tx(k);});
+  renderTalentFilters(); updateTalentPhaseUI();
+}
+function talentPhase(){
+  const n=Date.now(), c=CONFIG.talent;
+  if(n<new Date(c.preliminaryStart).getTime()) return "before";
+  if(n<=new Date(c.preliminaryEnd).getTime()) return "preliminary";
+  if(n<new Date(c.finalStart).getTime()) return "review";
+  if(n<=new Date(c.finalEnd).getTime()) return "final";
+  return "ended";
+}
+function talentRegistrationOpen(){
+  const st=window.__memeStatus;
+  if(st && typeof st.registration_open==="boolean") return TALENT_DEMO || st.registration_open;
+  return TALENT_DEMO || !!CONFIG.talent.testRegistrationOpen || talentPhase()==="preliminary";
+}
+function talentFormatDate(iso){
+  const d=new Date(iso); if(!Number.isFinite(d.getTime())) return "";
+  return new Intl.DateTimeFormat(lang==="ko"?"ko-KR":"en-US",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit",timeZone:"Asia/Seoul",hour12:false}).format(d)+" KST";
+}
+function updateTalentPhaseUI(){
+  const T=talentText(), phase=talentPhase(), open=talentRegistrationOpen();
+  const prelim=$("#talentPreliminaryCard"), final=$("#talentFinalCard"), notice=$("#talentTestOpenNotice");
+  if(prelim) prelim.classList.toggle("active",phase==="preliminary"||phase==="review");
+  if(final) final.classList.toggle("active",phase==="final");
+  if(notice) notice.hidden=!(open&&phase!=="preliminary");
+  [$("#talentRegisterBtn"),$("#talentMobileRegisterBtn")].forEach(b=>{if(b){b.disabled=!open;b.title=open?"":T.closed;}});
+}
+function demoTalentRows(){
+  const titles=["조교에게 딱 걸린 순간","수련회 대참사ㅋㅋ","이 장면 평생 소장","갑자기 시작된 댄스배틀","우리 팀 단체 멘붕","스파이는 바로 너","카메라가 잡아버린 표정","장기자랑 레전드 탄생","퇴소 절대 못 해","붐 조교의 최후","이 조합 다시 보고 싶다","웃음 참기 실패","수련회 과몰입 현장"];
+  const teams=CONFIG.teams.map(x=>x.id); const arr=[];
+  for(let i=0;i<68;i++) arr.push({id:`demo-${i+1}`,rank:i+1,title:titles[i%titles.length]+(i>12?` ${i+1}`:""),username:`campfan${String(i+1).padStart(2,"0")}`,team_id:teams[i%teams.length],like_count:Math.max(3,4860-i*67+(i%4)*19),post_url:`https://x.com/muniverse/status/${1900000000000000000n+BigInt(i)}`,last_synced_at:new Date().toISOString()});
+  return arr;
+}
+let talentPage=1, talentTeam="", talentData=null, talentInited=false;
+async function fetchTalentLeaderboard(){
+  const pageSize=Number(CONFIG.talent.pageSize||30);
+  if(TALENT_DEMO){
+    const all=demoTalentRows();
+    const filtered=talentTeam?all.filter(x=>x.team_id===talentTeam):all;
+    const start=(talentPage-1)*pageSize;
+    return {top3:all.slice(0,3),entries:filtered.slice(start,start+pageSize),total:filtered.length,last_updated:new Date().toISOString()};
+  }
+  const S=CONFIG.supabase;
+  const r=await fetch(`${S.url}/rest/v1/rpc/${CONFIG.talent.leaderboardRpc}`,{method:"POST",headers:{"Content-Type":"application/json","apikey":S.anonKey,"Authorization":"Bearer "+S.anonKey},body:JSON.stringify({p_page:talentPage,p_page_size:pageSize,p_team_id:talentTeam||null})});
+  if(!r.ok) throw new Error(await r.text());
+  return await r.json();
+}
+function talentTeamBadge(teamId){
+  const tm=teamById(teamId); if(!tm) return "";
+  return `<span class="talent-team" style="${teamBadgeStyle(tm)}">${esc(tm.name)}</span>`;
+}
+function talentReportBtn(it){
+  if(String(it.identity_status||"pending")==="verified")
+    return `<span class="talent-report talent-report-done" aria-disabled="true" title="${esc(tx("verifiedBadge"))}">${esc(tx("verifiedBadge"))}</span>`;
+  return `<button type="button" class="talent-report" data-report-id="${esc(String(it.id))}">${esc(tx("reportBtn"))}</button>`;
+}
+function talentCard(it,i){
+  const medals=["🥇","🥈","🥉"], colors=["#D4A514","#A9B2BA","#B87333"];
+  const reportButton=talentReportBtn(it);
+  return `<article class="talent-medal-card ${i===0?"first":""}" style="--medal:${colors[i]}"><div class="talent-medal-rank"><span class="emoji">${medals[i]}</span><span>${i+1}</span></div><div class="talent-medal-title">${esc(it.title)}</div><div class="talent-meta"><span>@${esc(it.username)}</span>${talentTeamBadge(it.team_id)}<span class="talent-like">♥ ${Number(it.like_count||0).toLocaleString()}</span></div><div class="talent-item-actions"><a class="talent-xlink" href="${esc(it.post_url)}" target="_blank" rel="noopener noreferrer">${esc(talentText().view)}</a>${reportButton}</div></article>`;
+}
+function talentRow(it){
+  const reportButton=talentReportBtn(it);
+  return `<article class="talent-row"><div class="talent-rank">${Number(it.rank||0)}</div><div class="talent-title">${esc(it.title)}</div><div class="talent-account">@${esc(it.username)}</div><div>${talentTeamBadge(it.team_id)}</div><div class="talent-like">♥ ${Number(it.like_count||0).toLocaleString()}</div><div class="talent-item-actions"><a class="talent-xlink" href="${esc(it.post_url)}" target="_blank" rel="noopener noreferrer">${esc(talentText().view)}</a>${reportButton}</div></article>`;
+}
+function renderTalentFilters(){
+  const box=$("#talentFilters"); if(!box) return; const T=talentText();
+  const opts=[{id:"",name:T.all},...CONFIG.teams];
+  box.innerHTML=opts.map(o=>`<button type="button" class="talent-filter ${talentTeam===o.id?"active":""}" data-team="${esc(o.id)}">${esc(o.name)}</button>`).join("");
+  box.querySelectorAll("[data-team]").forEach(b=>b.onclick=()=>{talentTeam=b.dataset.team;talentPage=1;renderTalentFilters();loadTalent();});
+}
+async function loadTalent(silent){
+  const T=talentText(), podium=$("#talentPodium"), list=$("#talentList"), pager=$("#talentPager");
+  if(!silent){
+    if(podium) podium.innerHTML=`<div class="talent-empty">${esc(T.loading)}</div>`;
+    if(list) list.innerHTML=`<div class="talent-empty">${esc(T.loading)}</div>`;
+  }
+  try{
+    talentData=await fetchTalentLeaderboard();
+    const top=Array.isArray(talentData.top3)?talentData.top3:[];
+    const entries=Array.isArray(talentData.entries)?talentData.entries:[];
+    podium.innerHTML=top.length?top.map(talentCard).join(""):`<div class="talent-empty">${esc(T.empty)}</div>`;
+    // TOP 3는 위 메달 영역에도 보이지만, 전체 순위 목록에는 1위부터 전부 표시합니다.
+    const visible=entries;
+    list.innerHTML=visible.length?visible.map(talentRow).join(""):`<div class="talent-empty">${esc(T.empty)}</div>`;
+    [podium,list].forEach(c=>c&&c.querySelectorAll("[data-report-id]").forEach(b=>b.onclick=()=>reportTalent(b.dataset.reportId)));
+    const total=Number(talentData.total||0), pages=Math.max(1,Math.ceil(total/Number(CONFIG.talent.pageSize||30)));
+    $("#talentCount").textContent=T.countLabel?T.countLabel.replace("{n}",total.toLocaleString()):`${total.toLocaleString()} ${T.count}`;
+    $("#talentUpdated").textContent=talentData.last_updated?`${T.updated} ${talentFormatDate(talentData.last_updated)}`:"";
+    pager.innerHTML=pages>1?`<button type="button" data-move="prev" ${talentPage<=1?"disabled":""}>${esc(T.prev)}</button><span>${talentPage} / ${pages}</span><button type="button" data-move="next" ${talentPage>=pages?"disabled":""}>${esc(T.next)}</button>`:"";
+    pager.querySelectorAll("[data-move]").forEach(b=>b.onclick=()=>{talentPage+=b.dataset.move==="next"?1:-1;loadTalent();$("#talentList").scrollIntoView({behavior:"smooth",block:"start"});});
+  }catch(e){
+    console.warn("Talent leaderboard failed",e);
+    if(!silent){
+      if(podium) podium.innerHTML=`<div class="talent-empty">${esc(T.empty)}</div>`;
+      if(list) list.innerHTML=`<div class="talent-empty">${esc(T.submitError)}</div>`;
+    }
+  }
+}
+function openTalentModal(){
+  const T=talentText(); if(!talentRegistrationOpen()){toast(T.closed);return;}
+  const modal=$("#talentModal");modal.classList.add("open");document.body.style.overflow="hidden";$("#talentTitle").focus();
+}
+function closeTalentModal(){const m=$("#talentModal");m.classList.remove("open");document.body.style.overflow="";}
+function talentFormMessage(msg,type){const el=$("#talentFormStatus");el.textContent=msg;el.className=`talent-form-status show ${type}`;}
+async function submitTalentForm(e){
+  e.preventDefault(); const T=talentText(), form=e.currentTarget;
+  if(!form.checkValidity()){form.reportValidity();return;}
+  if(!talentRegistrationOpen()){talentFormMessage(T.closed,"err");return;}
+  const token=(window.turnstile&&window.__talentTurnstileWidgetId!=null)?window.turnstile.getResponse(window.__talentTurnstileWidgetId)||"":"";
+  const payload={team_id:$("#talentTeam").value,title:$("#talentTitle").value.trim(),muniverse_account:$("#talentMuniverseAccount").value.trim(),post_url:$("#talentUrl").value.trim(),turnstile_token:token,consents:{public:$("#talentConsentPublic").checked,rights:$("#talentConsentRights").checked,owner:$("#talentConsentOwner").checked,rules:$("#talentConsentRules").checked,follow:$("#talentConsentFollow").checked,final:$("#talentConsentFinal").checked,version:"2026-07-17"}};
+  const btn=$("#talentSubmitBtn");btn.disabled=true;
+  try{
+    if(TALENT_DEMO){localStorage.setItem("idolcamp_talent_demo_last",JSON.stringify(payload));await new Promise(r=>setTimeout(r,450));talentFormMessage(T.demoPending,"ok");}
+    else{
+      const S=CONFIG.supabase;
+      const r=await fetch(`${S.url}/functions/v1/${CONFIG.talent.submitFunction}`,{method:"POST",headers:{"Content-Type":"application/json","apikey":S.anonKey,"Authorization":"Bearer "+S.anonKey},body:JSON.stringify(payload)});
+      const out=await r.json().catch(()=>({})); if(!r.ok||!out.ok) throw new Error(out.message||out.code||"submit_failed");
+      talentFormMessage(out.identity_status==="verified"?tx("postedVerified"):tx("postedPending"),"ok");
+      talentPage=1; talentTeam=""; loadTalent();
+    }
+    form.reset(); setTimeout(closeTalentModal,1800);
+  }catch(err){console.warn(err);talentFormMessage(talentSubmitError(String(err?.message||"submit_failed")),"err");}
+  finally{btn.disabled=false;if(window.turnstile&&window.__talentTurnstileWidgetId!=null){try{window.turnstile.reset(window.__talentTurnstileWidgetId);}catch(_){}}}
+}
+function activateMainTab(name){
+  document.querySelectorAll(".tab[data-tab]").forEach(b=>b.classList.toggle("active",b.dataset.tab===name));
+  document.querySelectorAll("[data-tab-panel]").forEach(p=>p.classList.toggle("active",p.dataset.tabPanel===name));
+  document.body.classList.toggle("talent-tab-active",name==="talent");
+  if(name==="talent"){if(!talentInited)initTalent();history.replaceState(null,"","#talent");}else history.replaceState(null,"",location.pathname+location.search);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function initTalent(){
+  talentInited=true; applyTalentI18n();
+  const team=$("#talentTeam");team.innerHTML=CONFIG.teams.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join("");
+  renderTalentFilters();loadTalent();
+  [$("#talentRegisterBtn"),$("#talentMobileRegisterBtn")].forEach(b=>{if(b)b.onclick=openTalentModal;});
+  $("#talentCloseBtn").onclick=closeTalentModal;
+  $("#talentReportCloseBtn").onclick=closeTalentReportModal;
+  $("#talentReportForm").addEventListener("submit",submitTalentReport);
+  $("#talentGuideBtn").onclick=()=>{const g=$("#talentGuide");g.hidden=!g.hidden;if(!g.hidden)g.scrollIntoView({behavior:"smooth",block:"start"});};
+  $("#talentForm").addEventListener("submit",submitTalentForm);
+}
+function initMainTabs(){
+  const before=talentPhase()==="before"&&!CONFIG.talent.previewBeforeStart&&!TALENT_DEMO;
+  const talentTab=document.querySelector('.tab[data-tab="talent"]');
+  if(talentTab&&(!CONFIG.talent.enabled||before)){talentTab.classList.add("locked");talentTab.setAttribute("aria-disabled","true");talentTab.innerHTML=`<span class="lock">🔒</span><span>${esc(t().tabTalent||"장기자랑")}</span><em class="soon">${esc(t().soon||"준비중")}</em>`;}
+  document.querySelectorAll('.tab[data-tab]').forEach(tb=>tb.addEventListener('click',()=>{if(tb.classList.contains('locked')){toast(t().soonToast);return;}activateMainTab(tb.dataset.tab);}));
+  if(location.hash==="#talent"&&talentTab&&!talentTab.classList.contains("locked"))activateMainTab("talent");
+}
+
 /* -------- wire up -------- */
 $("#nick").addEventListener("input",e=>{ $("#nickCount").textContent=e.target.value.length; validate(); });
 $("#msg").addEventListener("input",e=>{ $("#msgCount").textContent=e.target.value.length; });
@@ -4777,9 +5419,72 @@ $("#shareBtn").addEventListener("click",nativeShare);
 $("#igBtn").addEventListener("click",shareInstagram);
 $("#xBtn").addEventListener("click",shareX);
 $("#hashline").addEventListener("click",copyHash);
-document.querySelectorAll('.tab').forEach(tb=>{
-  tb.addEventListener('click',()=>{ if(tb.classList.contains('locked')) toast(t().soonToast); });
-});
+initMainTabs();
+
+/* ===== 통합 오픈 게이트: 서버 시간 기준 자동 오픈 · 최초 접속 기본 탭 · 킬 스위치 ===== */
+(function(){
+  const VISIT_KEY='idolcamp_meme_event_20260717_visited';
+  const LAST_TAB_KEY='idolcamp_last_tab_v1';
+  const lockedHTML=()=>`<span class="lock">\u{1F512}</span><span data-i18n="tabTalent">${esc(t().tabTalent||"장기자랑")}</span><em class="soon">${esc(t().soon||"준비중")}</em>`;
+  function setTalentLock(lock){
+    const tb=document.querySelector('.tab[data-tab="talent"]'); if(!tb) return;
+    const is=tb.classList.contains('locked');
+    if(lock && !is){ tb.classList.add('locked'); tb.setAttribute('aria-disabled','true'); tb.innerHTML=lockedHTML(); }
+    if(!lock && is){ tb.classList.remove('locked'); tb.removeAttribute('aria-disabled'); tb.innerHTML=`<span data-i18n="tabTalent">${esc(t().tabTalent||"장기자랑")}</span>`; }
+  }
+  async function fetchStatus(ms){
+    try{
+      const S=CONFIG.supabase; if(!S.url||!S.anonKey) return null;
+      const ctl=new AbortController(); const to=setTimeout(()=>ctl.abort(),ms);
+      const r=await fetch(`${S.url}/rest/v1/rpc/meme_event_status`,{method:'POST',signal:ctl.signal,
+        headers:{apikey:S.anonKey,Authorization:`Bearer ${S.anonKey}`,'Content-Type':'application/json'},body:'{}'});
+      clearTimeout(to);
+      if(!r.ok) return null;
+      return await r.json();
+    }catch(_){ return null; }
+  }
+  function pickTab(visible){
+    const q=new URLSearchParams(location.search).get('tab');
+    const norm=v=>(v==='meme'||v==='talent')?'talent':((v==='admission'||v==='enroll')?'enroll':null);
+    const fromUrl=norm(q)||(location.hash==='#talent'?'talent':null);
+    if(fromUrl) return (fromUrl==='talent'&&!visible)?'enroll':fromUrl;
+    let visited=null,last=null;
+    try{ visited=localStorage.getItem(VISIT_KEY); last=localStorage.getItem(LAST_TAB_KEY); }catch(_){}
+    if(visible && !visited) return 'talent';
+    if(last==='talent') return visible?'talent':'enroll';
+    return 'enroll';
+  }
+  document.querySelectorAll('.tab[data-tab]').forEach(tb=>tb.addEventListener('click',()=>{
+    if(!tb.classList.contains('locked')){ try{localStorage.setItem(LAST_TAB_KEY,tb.dataset.tab);}catch(_){} }
+  }));
+  async function boot(){
+    const st=await fetchStatus(1800);
+    window.__memeStatus=st;
+    const visible=!!(st&&st.visible&&!st.kill)||(!st&&(CONFIG.talent.enabled&&talentPhase()!=='before'));
+    setTalentLock(!visible);
+    const tab=pickTab(visible);
+    if(tab==='talent'){
+      try{ localStorage.setItem(VISIT_KEY,'true'); }catch(_){}
+      if(typeof activateMainTab==='function') activateMainTab('talent');
+    }
+    if(typeof updateTalentPhaseUI==='function'){ try{ updateTalentPhaseUI(); }catch(_){}}
+    const g=document.getElementById('tabgate'); if(g) g.remove();
+    setInterval(async()=>{
+      if(document.hidden) return;
+      const s=await fetchStatus(3000); if(!s) return;
+      window.__memeStatus=s;
+      const v=!!(s.visible&&!s.kill);
+      setTalentLock(!v);
+      const tp=document.querySelector('.tab-panel[data-tab-panel="talent"]');
+      if(!v && tp && tp.classList.contains('active')){
+        if(typeof activateMainTab==='function') activateMainTab('enroll');
+      }
+      if(typeof updateTalentPhaseUI==='function'){ try{ updateTalentPhaseUI(); }catch(_){}}
+    }, 60000);
+  }
+  boot();
+})();
+
 $("#heroLogo").src=LOGO_SRC;
 const topMuniverseLogo=$("#topMuniverseLogo"); if(topMuniverseLogo) topMuniverseLogo.src=MUNIVERSE_WORDMARK_LOGO;
 const scoreLogo=$("#scoreLogo"); if(scoreLogo) scoreLogo.src=LOGO_SRC;
@@ -4816,6 +5521,9 @@ document.addEventListener("visibilitychange",()=>{
     renderScoreboard();
   }
 });
+// 장기자랑 순위 캐시를 10분마다 조용히 다시 읽습니다 (로딩 문구 없이 갱신).
+// 브라우저 탭이 백그라운드일 때는 건너뛰어 불필요한 요청을 줄입니다.
+setInterval(()=>{ if(talentInited && !document.hidden) loadTalent(true); }, Math.max(60000,Number(CONFIG.talent.leaderboardRefreshMs||600000)));
 logoImg.onload=()=>{ if($("#result").classList.contains("show")) renderCert(); };
 </script>
 </body>

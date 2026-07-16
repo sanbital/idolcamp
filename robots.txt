@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /score_admin_7f4a2c.html
+Disallow: /admin.html
+Disallow: /score_admin.html
+Disallow: /meme_admin.html

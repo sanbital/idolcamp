@@ -3,302 +3,172 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>아이돌 수련회 스코어보드 관리자</title>
+<title>아이돌 수련회 통합 관리자</title>
 <script src="./config.js"></script>
 <style>
-  :root {
-    --green:#0F3B3A; --mint:#7FE7C4; --yellow:#F2C230; --paper:#FBF6E9; --bg:#EAF5E0;
-    --shadow:0 8px 0 rgba(15,59,58,.16);
-  }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:Pretendard,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#9BC163,#EAF5E0);color:#123A2E}
-  .wrap{max-width:880px;margin:0 auto;padding:24px 16px 56px}
-  .hero{background:var(--paper);border:3px solid var(--green);border-radius:26px;padding:22px;box-shadow:var(--shadow);margin-bottom:18px}
-  .hero h1{margin:0;font-size:26px;font-weight:950;letter-spacing:-.5px}
-  .hero p{margin:8px 0 0;color:#597263;font-weight:800;line-height:1.45}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .card{background:rgba(255,255,255,.92);border:2px solid rgba(15,59,58,.14);border-radius:22px;padding:18px;box-shadow:0 6px 0 rgba(15,59,58,.10)}
-  h2{font-size:18px;margin:0 0 12px}
-  label{display:block;font-size:13px;font-weight:900;margin:12px 0 6px;color:#345246}
-  input,select,textarea{width:100%;border:2px solid rgba(15,59,58,.16);border-radius:14px;padding:12px 13px;font:inherit;font-weight:750;color:#123A2E;background:#fff}
-  textarea{min-height:82px;resize:vertical}
-  .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  button{border:0;border-radius:16px;padding:13px 16px;font-weight:950;font-size:15px;cursor:pointer;box-shadow:0 4px 0 rgba(15,59,58,.18)}
-  .primary{background:var(--yellow);color:#123A2E;border:2px solid var(--green)}
-  .ghost{background:#fff;color:#123A2E;border:2px solid var(--green)}
-  .danger{background:#FFE5E1;color:#8F2E26;border:2px solid #E08A80}
-  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-  .notice{padding:10px 12px;border-radius:14px;background:#EEF7E7;color:#496656;font-size:12.5px;font-weight:800;line-height:1.45;margin-top:12px}
-  .score-list{display:flex;flex-direction:column;gap:10px}
-  .score-row{display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;background:#F8F4E8;border:1px solid rgba(15,59,58,.12);border-radius:16px;padding:10px}
-  .rank{width:36px;height:36px;border-radius:12px;background:var(--yellow);border:2px solid var(--green);display:grid;place-items:center;font-weight:950}
-  .team{font-weight:950}
-  .meta{font-size:12px;color:#668070;font-weight:800;margin-top:3px}
-  .total{font-size:22px;font-weight:950;color:#0F3B3A}
-  table{width:100%;border-collapse:collapse;font-size:13px}
-  th,td{padding:9px 7px;border-bottom:1px solid rgba(15,59,58,.1);text-align:left;vertical-align:top}
-  th{font-size:12px;color:#647969}
-  .muted{color:#71836E;font-size:12px;font-weight:800}
-  .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#0F3B3A;color:#fff;padding:12px 16px;border-radius:999px;font-weight:900;display:none}
-  .toast.show{display:block}
-  @media(max-width:760px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
+:root{--green:#0F3B3A;--mint:#7FE7C4;--yellow:#F2C230;--paper:#FBF6E9;--bg:#EAF5E0;--red:#A52B3D;--shadow:0 8px 0 rgba(15,59,58,.14)}
+*{box-sizing:border-box}body{margin:0;font-family:Pretendard,system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(180deg,#9BC163,#EAF5E0);color:#123A2E}.wrap{max-width:1220px;margin:0 auto;padding:24px 16px 60px}.hero,.card{background:rgba(255,255,255,.94);border:2px solid rgba(15,59,58,.14);border-radius:22px;padding:18px;box-shadow:0 6px 0 rgba(15,59,58,.09)}.hero{background:var(--paper);border:3px solid var(--green);padding:22px;box-shadow:var(--shadow);margin-bottom:16px}.hero h1{margin:0;font-size:27px;font-weight:950}.hero p{margin:8px 0 0;color:#597263;font-weight:800;line-height:1.5}.keybar{display:grid;grid-template-columns:minmax(220px,1fr) auto auto auto;gap:9px;align-items:end;margin-top:15px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{margin-top:16px}h2{font-size:19px;margin:0 0 12px}h3{font-size:15px;margin:16px 0 8px}label{display:block;font-size:12px;font-weight:900;margin:10px 0 6px;color:#345246}input,select,textarea{width:100%;border:2px solid rgba(15,59,58,.16);border-radius:12px;padding:10px 12px;font:inherit;font-weight:750;color:#123A2E;background:#fff}textarea{min-height:84px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.toolbar,.actions{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}.toolbar>*{min-width:150px}.toolbar button,.actions button{min-width:0}button{border:0;border-radius:12px;padding:10px 13px;font-weight:950;font-size:13px;cursor:pointer;box-shadow:0 3px 0 rgba(15,59,58,.16);background:var(--green);color:#fff}button.primary{background:var(--yellow);color:#123A2E;border:2px solid var(--green)}button.ghost{background:#EEF7E7;color:#123A2E;border:1.5px solid #9FBCA8}button.warn{background:#A86000}button.danger{background:#FFE5E1;color:#8F2E26;border:1.5px solid #E08A80}button:disabled{opacity:.4;cursor:default}.notice{padding:10px 12px;border-radius:13px;background:#EEF7E7;color:#496656;font-size:12px;font-weight:800;line-height:1.5;margin-top:10px}.summary{display:grid;grid-template-columns:repeat(6,minmax(100px,1fr));gap:8px}.stat{border-radius:13px;background:#F4F8EA;padding:12px}.stat span{font-size:11px;font-weight:850;color:#668070}.stat b{display:block;font-size:22px;margin-top:3px}.score-list{display:flex;flex-direction:column;gap:9px}.score-row{display:grid;grid-template-columns:42px 1fr auto;gap:9px;align-items:center;background:#F8F4E8;border:1px solid rgba(15,59,58,.12);border-radius:15px;padding:10px}.rank{width:34px;height:34px;border-radius:11px;background:var(--yellow);border:2px solid var(--green);display:grid;place-items:center;font-weight:950}.team{font-weight:950}.meta,.muted{font-size:11.5px;color:#668070;font-weight:800;line-height:1.5}.total{font-size:20px;font-weight:950}.table-wrap{overflow:auto;margin-top:10px;max-height:540px}table{width:100%;border-collapse:collapse;font-size:12px;min-width:850px}th,td{padding:9px 7px;border-bottom:1px solid rgba(15,59,58,.1);text-align:left;vertical-align:middle}th{font-size:11px;color:#647969;position:sticky;top:0;background:#fff;z-index:1}.pill{display:inline-flex;border-radius:999px;padding:4px 7px;background:#EAF3DE;font-weight:900;font-size:10.5px}.pending{background:#FFF7D5}.verified{background:#DDF7E8}.rejected,.hidden{background:#FFE3E3}.finalist{background:#FFF8D5}.table-actions{display:flex;gap:5px;flex-wrap:wrap}.table-actions button{padding:6px 8px;font-size:10.5px}.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#0F3B3A;color:#fff;padding:11px 16px;border-radius:999px;font-weight:900;display:none;z-index:20}.toast.show{display:block}@media(max-width:840px){.grid{grid-template-columns:1fr}.summary{grid-template-columns:repeat(3,1fr)}.keybar{grid-template-columns:1fr 1fr}.keybar>label{grid-column:1/-1}}@media(max-width:560px){.summary{grid-template-columns:repeat(2,1fr)}.row,.keybar{grid-template-columns:1fr}.keybar>label{grid-column:auto}.wrap{padding:14px 10px 50px}}
 </style>
 </head>
-<body>
-<div class="wrap">
+<body><div class="wrap">
   <section class="hero">
-    <h1>🏕️ 아이돌 수련회 스코어보드 관리자</h1>
-    <p>이 페이지는 일반 이벤트 페이지에 노출되지 않습니다. 관리자 키가 맞아야 공유하기 점수를 입력할 수 있습니다.</p>
-    <div class="notice">
-      관리자 키는 Supabase SQL 실행 시 발급된 값을 사용하세요.<br>이 관리자 페이지에는 키가 저장되어 있지 않습니다.
+    <h1>🏕️ 아이돌 수련회 통합 관리자</h1>
+    <p>스코어보드, 장기자랑 계정 검수, 작품 관리, 신고·숨김, 결선 확정을 한 페이지에서 처리합니다.</p>
+    <div class="keybar">
+      <label>관리자 키<input id="adminKey" type="password" autocomplete="current-password" placeholder="스코어보드 관리자 키"></label>
+      <button class="ghost" id="saveKeyBtn">키 저장</button><button class="ghost" id="clearKeyBtn">키 삭제</button><button id="refreshBtn">전체 새로고침</button>
     </div>
   </section>
 
   <div class="grid">
     <section class="card">
       <h2>점수 입력</h2>
-      <label>관리자 키</label>
-      <input id="adminKey" type="password" placeholder="Supabase SQL 실행 시 발급된 관리자 키">
-      <div class="actions">
-        <button class="ghost" id="saveKeyBtn">키 저장</button>
-        <button class="ghost" id="clearKeyBtn">키 삭제</button>
-      </div>
-
-      <label>팀</label>
-      <select id="team">
-        <option value="closeyoureyes">CLOSE YOUR EYES</option>
-        <option value="flareu">FLARE U</option>
-        <option value="idntt">idntt</option>
-        <option value="ahof">AHOF</option>
-      </select>
-
-      <label>항목</label>
-      <select id="category">
-        <option value="share">공유하기 점수</option>
-        <option value="meme">짤 장기자랑 점수</option>
-        <option value="worldcup">명장면 월드컵 점수</option>
-        <option value="bonus">보정 점수</option>
-        <option value="penalty">차감 점수</option>
-      </select>
-
-      <div class="row">
-        <div>
-          <label>검수 완료 수</label>
-          <input id="count" type="number" value="1" min="0" step="1">
-        </div>
-        <div>
-          <label>직접 점수 입력 <span class="muted">(비우면 자동계산)</span></label>
-          <input id="pointDelta" type="number" placeholder="예: 100">
-        </div>
-      </div>
-
-      <label>메모</label>
-      <textarea id="memo" placeholder="예: 7/10 인스타그램 공유 링크 검수 완료분"></textarea>
-
-      <div class="actions">
-        <button class="primary" id="addBtn">점수 반영</button>
-        <button class="ghost" id="refreshBtn">새로고침</button>
-      </div>
-      <div class="notice">
-        점수 규칙: 다짐 1개=10점, 좋아요 1개=1점, 공유하기 1회=50점입니다.<br>일반 페이지 점수판은 1분마다 자동 업데이트됩니다.<br>공유하기 점수는 매일 오전 9시 59분(한국시간)에 업데이트하는 운영 기준입니다.<br>수기 입력은 즉시 스냅샷, 자동 집계 점수는 30분 단위로 스냅샷 저장됩니다.<br>공유하기 공식 점수는 버튼 클릭 수가 아니라 <b>관리자 검수 완료 수</b> 기준으로 넣는 걸 권장합니다.
-      </div>
+      <div class="row"><label>팀<select id="team"><option value="closeyoureyes">CLOSE YOUR EYES</option><option value="flareu">FLARE U</option><option value="idntt">idntt</option><option value="ahof">AHOF</option></select></label><label>항목<select id="category"><option value="share">공유하기 점수</option><option value="meme">짤 장기자랑 보정</option><option value="worldcup">명장면 월드컵</option><option value="bonus">보정 점수</option><option value="penalty">차감 점수</option></select></label></div>
+      <div class="row"><label>검수 완료 수<input id="count" type="number" value="1" min="0" step="1"></label><label>직접 점수 <span class="muted">(비우면 자동)</span><input id="pointDelta" type="number" placeholder="예: 100"></label></div>
+      <label>메모<textarea id="memo" placeholder="예: 7/15 공유 링크 검수 완료분"></textarea></label>
+      <div class="actions"><button class="primary" id="addBtn">점수 반영</button></div>
+      <div class="notice">다짐 1개=10점 · 좋아요 1개=1점 · 공유하기 1회=50점. 장기자랑은 등록 즉시 자동 합산되며, 계정 검수 반려 시 작품 점수도 자동 회수됩니다.</div>
     </section>
-
-    <section class="card">
-      <h2>현재 스코어</h2>
-      <div id="scoreList" class="score-list"></div>
-    </section>
+    <section class="card"><h2>현재 합산 스코어</h2><div id="scoreList" class="score-list"></div></section>
   </div>
 
-
-  <section class="card" style="margin-top:16px">
-    <h2>데이터 안전장치</h2>
-    <div class="notice"><b>스냅샷은 어디서 보나요?</b><br>이 관리자 페이지의 <b>최근 스냅샷</b> 표에서 확인합니다. 점수가 이상하면 먼저 <b>점수 검증</b>을 누르고, 불일치가 나오면 <b>원본 기준 재집계</b>로 복구하세요.</div>
-    <div class="notice">
-      수기 점수 입력/취소는 즉시 스냅샷으로 저장됩니다.<br>
-      다짐·좋아요처럼 자동 집계되는 점수도 변경 발생 시 30분 단위로 자동 스냅샷이 저장됩니다.
-    </div>
-    <div class="actions">
-      <button class="primary" id="snapshotBtn">현재 점수 저장</button>
-      <button class="ghost" id="verifyBtn">점수 검증</button>
-      <button class="danger" id="recalcBtn">원본 기준 재집계</button>
-    </div>
-    <div id="verifyResult" class="notice" style="display:none"></div>
-    <h2 style="margin-top:18px">최근 스냅샷</h2>
-    <div style="overflow:auto;margin-top:10px">
-      <table>
-        <thead>
-          <tr><th>ID</th><th>종류</th><th>생성</th><th>메모</th><th>해시</th></tr>
-        </thead>
-        <tbody id="snapshotBody"></tbody>
-      </table>
-    </div>
+  <section class="card" id="talentAdmin">
+    <div class="toolbar"><div style="flex:1"><h2 style="margin:0">🎭 짤 장기자랑 운영</h2><div class="muted">작품은 등록 즉시 순위·점수에 반영되며, 계정 검수는 사후 진행합니다. 계정 검수 완료 작품은 이후 신고 대상에서 제외됩니다.</div></div><button class="ghost" id="syncXBtn">X 좋아요 동기화</button><button class="warn" id="freezeBtn">예선 동결·TOP 10 확정</button></div>
+    <div class="summary" id="memeSummary" style="margin-top:14px"></div>
+    <div class="notice">예선 등록 마감은 8/7 23:59, 좋아요 집계 마감은 8/10 11:59입니다. 최종 X 동기화 후 TOP 10을 확정하세요.</div>
   </section>
 
-  <section class="card" style="margin-top:16px">
-    <h2>수기 입력 이력</h2>
-    <div class="muted">취소 버튼은 해당 입력분을 비활성화하고 점수를 되돌립니다.</div>
-    <div style="overflow:auto;margin-top:10px">
-      <table>
-        <thead>
-          <tr><th>ID</th><th>팀</th><th>항목</th><th>수</th><th>점수</th><th>메모</th><th>상태</th><th></th></tr>
-        </thead>
-        <tbody id="logBody"></tbody>
-      </table>
-    </div>
+  <section class="card">
+    <div class="toolbar"><div style="flex:1"><h2 style="margin:0">1. 뮤니버스 계정–X 계정 검수</h2><div class="muted">승인 시 뮤니버스 가입·X 계정 일치·공식 X 팔로우 확인으로 기록됩니다. 해당 작품의 기존 신고는 초기화되고 이후 신고 버튼이 비활성화됩니다.</div></div><label>상태<select id="identityStatus"><option value="pending">검수 대기</option><option value="verified">승인</option><option value="rejected">반려</option><option value="">전체</option></select></label><button class="ghost" id="copyIdentityBtn">검수 목록 복사</button></div>
+    <div class="table-wrap"><table><thead><tr><th><input type="checkbox" id="identAll" title="전체 선택"></th><th>ID</th><th>뮤니버스 계정</th><th>X 계정</th><th>출처</th><th>작품 수</th><th>팔로우 주장</th><th>상태</th><th>등록</th><th>처리</th></tr></thead><tbody id="identityBody"></tbody></table></div>
+    <div class="actions" style="margin-top:10px"><button id="pickVerifyBtn">선택 항목 일괄 승인</button><button class="danger" id="pickRejectBtn">선택 항목 일괄 반려</button><span class="muted" style="align-self:center">표에서 확인이 끝난 행을 체크한 뒤 처리하세요.</span></div>
+    <h3>이메일 붙여넣기 승인</h3>
+    <div class="muted">뮤니버스 관리자에서 확인을 마친 <b>뮤니버스 이메일만</b> 한 줄에 하나씩 붙여넣으세요. X 계정은 검수 대기 목록과 자동 대조되며, <b>이메일,@X계정</b> 형식으로 붙여넣으면 불일치까지 검사합니다. 대조 결과는 승인 전에 미리 보여줍니다.</div>
+    <textarea id="bulkIdentity" placeholder="user1@example.com&#10;user2@example.com,@x_account"></textarea>
+    <div class="actions"><button id="bulkVerifyBtn">붙여넣은 목록 대조 후 승인</button></div>
   </section>
-</div>
-<div class="toast" id="toast"></div>
+
+  <section class="card">
+    <div class="toolbar"><div style="flex:1"><h2 style="margin:0">2. 작품 관리</h2></div><label>작품 상태<select id="entryStatus"><option value="">전체</option><option value="approved" selected>승인</option><option value="hidden">숨김</option><option value="rejected">반려</option><option value="unavailable">삭제·비공개</option><option value="removed">운영 삭제</option></select></label><button class="ghost" id="loadEntriesBtn">조회</button><button class="ghost" id="exportCsvBtn">CSV 다운로드</button></div>
+    <div class="table-wrap"><table><thead><tr><th>ID</th><th>팀</th><th>제목</th><th>뮤니버스</th><th>X 계정</th><th>계정 검수</th><th>좋아요</th><th>작품 상태</th><th>작품</th><th>처리</th></tr></thead><tbody id="entryBody"></tbody></table></div>
+  </section>
+
+  <section class="card">
+    <div class="toolbar"><div style="flex:1"><h2 style="margin:0">3. 신고·자동 숨김</h2><div class="muted">작품 등록 계정과 신고자 계정은 별도로 관리됩니다. 신고 계정은 첫 신고 때 신고용으로 1:1 연결되며, 두 계정 모두 하루 3회 제한입니다. 작품 검수 완료 후에는 다시 신고할 수 없습니다.</div></div><button class="ghost" id="loadReportsBtn">조회</button></div>
+    <div class="table-wrap"><table><thead><tr><th>ID</th><th>팀</th><th>제목</th><th>X 계정</th><th>좋아요</th><th>신고</th><th>상태</th><th>작품</th><th>처리</th></tr></thead><tbody id="reportBody"></tbody></table></div>
+  </section>
+
+  <section class="card">
+    <h2>4. 결선 우승작 확정</h2>
+    <div class="toolbar"><label style="flex:1">결선 작품<select id="winner"></select></label><button class="warn" id="winnerBtn">1위 확정·응원 팀 1,000만점 지급</button></div>
+    <div class="notice">결선: 8/11 10:00~8/17 17:00 KST. 우승작을 바꾸면 기존 팀 보너스는 회수되고 새 팀에 1,000만점이 반영됩니다.</div>
+  </section>
+
+  <section class="card">
+    <h2>데이터 안전장치</h2><div class="actions"><button class="primary" id="snapshotBtn">현재 점수 저장</button><button class="ghost" id="verifyBtn">점수 검증</button><button class="danger" id="recalcBtn">원본 기준 재집계</button></div><div id="verifyResult" class="notice" style="display:none"></div>
+    <h3>최근 스냅샷</h3><div class="table-wrap" style="max-height:260px"><table><thead><tr><th>ID</th><th>종류</th><th>생성</th><th>메모</th><th>해시</th></tr></thead><tbody id="snapshotBody"></tbody></table></div>
+  </section>
+  <section class="card"><h2>수기 입력 이력</h2><div class="table-wrap" style="max-height:330px"><table><thead><tr><th>ID</th><th>팀</th><th>항목</th><th>수</th><th>점수</th><th>메모</th><th>상태</th><th></th></tr></thead><tbody id="logBody"></tbody></table></div></section>
+</div><div class="toast" id="toast"></div>
 
 <script>
-const CONFIG = window.MUNIVERSE_CONFIG || {};
-const S = {
-  url: CONFIG.supabaseUrl || "",
-  anonKey: CONFIG.supabaseAnonKey || ""
-};
-const TEAMS = {
-  closeyoureyes:"CLOSE YOUR EYES",
-  flareu:"FLARE U",
-  idntt:"idntt",
-  ahof:"AHOF"
-};
-const CAT = {
-  share:"공유하기",
-  meme:"짤 장기자랑",
-  worldcup:"명장면 월드컵",
-  bonus:"보정",
-  penalty:"차감"
-};
-function $(s){return document.querySelector(s)}
-function toast(msg){const el=$("#toast"); el.textContent=msg; el.classList.add("show"); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove("show"),1800)}
-function adminKey(){return $("#adminKey").value.trim()}
-function headers(){return {"Content-Type":"application/json","apikey":S.anonKey,"Authorization":"Bearer "+S.anonKey}}
-async function rpc(name, body){
-  if(!S.url || !S.anonKey) throw new Error("config.js에 Supabase URL / anon key가 없습니다.");
-  const r=await fetch(`${S.url}/rest/v1/rpc/${name}`,{method:"POST",headers:headers(),body:JSON.stringify(body)});
-  const txt=await r.text();
-  let data=null; try{data=txt?JSON.parse(txt):null}catch(e){data=txt}
-  if(!r.ok) throw new Error((data&&data.message)||txt||"요청 실패");
-  return data;
-}
-async function loadScores(){
-  const r=await fetch(`${S.url}/rest/v1/scoreboard_public?select=*&order=rank.asc`,{headers:headers()});
-  const rows=await r.json();
-  $("#scoreList").innerHTML=(rows||[]).map(row=>`<div class="score-row">
-    <div class="rank">${row.rank}</div>
-    <div><div class="team">${TEAMS[row.team_id]||row.team_id}</div>
-      <div class="meta">다짐 ${row.pledge_score} · 좋아요 ${row.like_score} · 공유 ${row.share_score}</div>
-    </div>
-    <div class="total">${Number(row.total_score||0).toLocaleString("ko-KR")}</div>
-  </div>`).join("") || `<div class="muted">아직 점수가 없습니다.</div>`;
-}
-async function loadLogs(){
-  const rows=await rpc("scoreboard_admin_list",{p_admin_key:adminKey(),p_limit:100});
-  $("#logBody").innerHTML=(rows||[]).map(r=>`<tr>
-    <td>${r.id}</td>
-    <td>${TEAMS[r.team_id]||r.team_id}</td>
-    <td>${CAT[r.category]||r.category}</td>
-    <td>${r.count}</td>
-    <td><b>${r.point_delta}</b></td>
-    <td>${r.memo||""}</td>
-    <td>${r.is_active?"반영":"취소"}</td>
-    <td>${r.is_active?`<button class="danger" data-void="${r.id}">취소</button>`:""}</td>
-  </tr>`).join("");
-  document.querySelectorAll("[data-void]").forEach(btn=>{
-    btn.onclick=async()=>{
-      if(!confirm("이 입력분을 취소하고 점수를 되돌릴까요?")) return;
-      try{
-        await rpc("scoreboard_admin_void",{p_admin_key:adminKey(),p_entry_id:Number(btn.dataset.void),p_voided_by:"admin"});
-        toast("취소 완료");
-        await refreshAll();
-      }catch(e){alert(e.message)}
-    };
-  });
-}
-
-async function loadSnapshots(){
-  if(!adminKey()) return;
-  const rows=await rpc("scoreboard_admin_snapshot_list",{p_admin_key:adminKey(),p_limit:20});
-  const body=$("#snapshotBody");
-  if(!body) return;
-  body.innerHTML=(rows||[]).map(r=>`<tr>
-    <td>${r.id}</td>
-    <td>${r.snapshot_type}</td>
-    <td>${new Date(r.created_at).toLocaleString("ko-KR")}</td>
-    <td>${r.memo||""}</td>
-    <td class="muted">${String(r.total_hash||"").slice(0,12)}…</td>
-  </tr>`).join("") || `<tr><td colspan="5" class="muted">아직 스냅샷이 없습니다.</td></tr>`;
-}
-function renderVerifyResult(result){
-  const el=$("#verifyResult");
-  if(!el) return;
-  const rows=(result&&result.rows)||[];
-  const bad=rows.filter(r=>!r.matches);
-  if(result && result.ok){
-    el.style.display="block";
-    el.innerHTML=`정상입니다. 현재 캐시 점수와 원본 재계산 점수가 일치합니다.<br>검증 스냅샷 ID: <b>${result.snapshot_id||"-"}</b>`;
-  }else{
-    el.style.display="block";
-    el.innerHTML=`불일치가 발견되었습니다.<br>` + bad.map(r=>
-      `<b>${r.team_name}</b> · 현재 ${r.cache_total_score}점 / 원본 기준 ${r.expected_total_score}점`
-    ).join("<br>");
+const CONFIG=window.MUNIVERSE_CONFIG||{},S={url:CONFIG.supabaseUrl||"",key:CONFIG.supabaseAnonKey||""};
+const TEAMS={closeyoureyes:"CLOSE YOUR EYES",flareu:"FLARE U",idntt:"idntt",ahof:"AHOF"};
+const CAT={share:"공유하기",meme:"짤 장기자랑",worldcup:"명장면 월드컵",bonus:"보정",penalty:"차감"};
+const $=s=>document.querySelector(s);const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function toast(msg){const el=$("#toast");el.textContent=msg;el.classList.add("show");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("show"),1900)}
+function adminKey(){return $("#adminKey").value.trim()}function headers(){return{"Content-Type":"application/json",apikey:S.key,Authorization:`Bearer ${S.key}`}}
+async function rpc(name,body){if(!S.url||!S.key)throw new Error("config.js의 Supabase 연결값을 확인하세요.");const r=await fetch(`${S.url}/rest/v1/rpc/${name}`,{method:"POST",headers:headers(),body:JSON.stringify(body)}),t=await r.text();let d;try{d=t?JSON.parse(t):null}catch{d=t}if(!r.ok)throw new Error(d?.message||t||"요청 실패");return d}
+async function loadScores(){const r=await fetch(`${S.url}/rest/v1/scoreboard_public?select=*&order=rank.asc`,{headers:headers()}),rows=await r.json();$("#scoreList").innerHTML=(rows||[]).map(x=>`<div class="score-row"><div class="rank">${x.rank}</div><div><div class="team">${TEAMS[x.team_id]||x.team_id}</div><div class="meta">다짐 ${Number(x.pledge_score||0).toLocaleString()} · 좋아요 ${Number(x.like_score||0).toLocaleString()} · 공유 ${Number(x.share_score||0).toLocaleString()} · 장기자랑 ${Number(x.meme_score||0).toLocaleString()}</div></div><div class="total">${Number(x.total_score||0).toLocaleString()}</div></div>`).join("")||`<div class="muted">점수가 없습니다.</div>`}
+async function loadLogs(){const rows=await rpc("scoreboard_admin_list",{p_admin_key:adminKey(),p_limit:100});$("#logBody").innerHTML=(rows||[]).map(r=>`<tr><td>${r.id}</td><td>${TEAMS[r.team_id]||r.team_id}</td><td>${CAT[r.category]||r.category}</td><td>${r.count}</td><td><b>${Number(r.point_delta||0).toLocaleString()}</b></td><td>${esc(r.memo||"")}</td><td>${r.is_active?"반영":"취소"}</td><td>${r.is_active?`<button class="danger" data-void="${r.id}">취소</button>`:""}</td></tr>`).join("");document.querySelectorAll("[data-void]").forEach(b=>b.onclick=async()=>{if(!confirm("이 입력분을 취소할까요?"))return;await rpc("scoreboard_admin_void",{p_admin_key:adminKey(),p_entry_id:Number(b.dataset.void),p_voided_by:"admin"});toast("취소 완료");refreshAll()})}
+async function loadSnapshots(){const rows=await rpc("scoreboard_admin_snapshot_list",{p_admin_key:adminKey(),p_limit:20});$("#snapshotBody").innerHTML=(rows||[]).map(r=>`<tr><td>${r.id}</td><td>${esc(r.snapshot_type)}</td><td>${new Date(r.created_at).toLocaleString("ko-KR")}</td><td>${esc(r.memo||"")}</td><td class="muted">${esc(String(r.total_hash||"").slice(0,12))}…</td></tr>`).join("")||`<tr><td colspan="5">스냅샷이 없습니다.</td></tr>`}
+async function loadMemeSummary(){const d=await rpc("meme_admin_summary",{p_admin_key:adminKey()}),items=[["계정 검수 대기",d.identity_pending],["승인 작품",d.approved],["반려",d.rejected],["숨김",d.hidden],["비공개",d.unavailable],["결선",d.finalists]];$("#memeSummary").innerHTML=items.map(i=>`<div class="stat"><span>${i[0]}</span><b>${Number(i[1]||0).toLocaleString()}</b></div>`).join("")}
+let identityRows=[];
+async function loadIdentities(){identityRows=await rpc("meme_admin_identity_list",{p_admin_key:adminKey(),p_status:$("#identityStatus").value||null,p_limit:500})||[];$("#identityBody").innerHTML=identityRows.map(r=>`<tr><td>${r.status==="pending"?`<input type="checkbox" class="identPick" value="${r.id}">`:""}</td><td>${r.id}</td><td><b>${esc(r.muniverse_account)}</b></td><td><a href="https://x.com/${esc(String(r.x_username).replace(/^@/,""))}" target="_blank" rel="noopener">@${esc(String(r.x_username).replace(/^@/,""))}</a></td><td>${esc(r.source)}</td><td>${r.entry_count}</td><td>${r.follows_claimed?"예":"아니오"}</td><td><span class="pill ${esc(r.status)}">${esc(r.status)}</span></td><td>${new Date(r.created_at).toLocaleString("ko-KR")}</td><td><div class="table-actions">${r.status==="pending"?`<button data-ident="verify" data-id="${r.id}">승인</button><button class="danger" data-ident="reject" data-id="${r.id}">반려</button>`:""}</div></td></tr>`).join("")||`<tr><td colspan="10" class="muted">대상이 없습니다.</td></tr>`;document.querySelectorAll("[data-ident]").forEach(b=>b.onclick=()=>setIdentity(Number(b.dataset.id),b.dataset.ident));const ia=$("#identAll");if(ia){ia.checked=false;ia.onclick=()=>document.querySelectorAll(".identPick").forEach(c=>c.checked=ia.checked)}}
+async function setIdentity(id,action){let note="";if(action==="verify"){if(!confirm("뮤니버스 계정 존재와 공식 X 팔로우를 모두 확인했습니까?"))return}else{note=prompt("반려 사유")||"";if(!note)return}await rpc("meme_admin_identity_set",{p_admin_key:adminKey(),p_binding_id:id,p_action:action,p_follow_verified:action==="verify",p_note:note,p_admin_name:"admin"});toast(action==="verify"?"계정 승인 완료":"계정 반려 완료");await refreshTalent()}
+async function loadEntries(){const rows=await rpc("meme_admin_list",{p_admin_key:adminKey(),p_status:$("#entryStatus").value||null,p_limit:500});$("#entryBody").innerHTML=(rows||[]).map(r=>`<tr class="${r.is_finalist?"finalist":""}"><td>${r.id}${r.finalist_rank?`<br>결선 ${r.finalist_rank}위`:""}</td><td><span class="pill">${TEAMS[r.team_id]||r.team_id}</span></td><td><b>${esc(r.title)}</b></td><td>${esc(r.muniverse_account||"-")}</td><td><a href="${esc(r.x_profile_url)}" target="_blank" rel="noopener">@${esc(r.x_username)}</a></td><td><span class="pill ${esc(r.identity_status)}">${esc(r.identity_status)}</span></td><td>${Number(r.like_count||0).toLocaleString()}</td><td><span class="pill ${esc(r.status)}">${esc(r.status)}</span></td><td><a href="${esc(r.post_url)}" target="_blank" rel="noopener">X에서 보기</a></td><td><div class="table-actions">${r.status!=="approved"?`<button data-entry="approve" data-id="${r.id}">열기</button>`:""}<button class="ghost" data-entry="reject" data-id="${r.id}">반려</button><button class="danger" data-entry="remove" data-id="${r.id}">삭제</button></div></td></tr>`).join("")||`<tr><td colspan="10" class="muted">작품이 없습니다.</td></tr>`;document.querySelectorAll("[data-entry]").forEach(b=>b.onclick=()=>moderateEntry(Number(b.dataset.id),b.dataset.entry));await loadFinalists(rows||[])}
+async function moderateEntry(id,action){const note=action==="approve"?"":prompt(action==="reject"?"반려 사유":"삭제 사유")||"";if(action!=="approve"&&!note)return;if(!confirm(`${id}번 작품을 처리할까요?`))return;await rpc("meme_admin_moderate",{p_admin_key:adminKey(),p_entry_id:id,p_action:action,p_note:note,p_admin_name:"admin"});toast("작품 처리 완료");refreshTalent()}
+async function loadReports(){const rows=await rpc("meme_admin_reports",{p_admin_key:adminKey(),p_limit:500});$("#reportBody").innerHTML=(rows||[]).map(r=>`<tr class="${r.status==="hidden"?"finalist":""}"><td>${r.id}</td><td>${TEAMS[r.team_id]||r.team_id}</td><td><b>${esc(r.title)}</b></td><td>@${esc(r.x_username)}</td><td>${Number(r.like_count||0).toLocaleString()}</td><td><b>${r.report_count}</b></td><td><span class="pill ${esc(r.status)}">${esc(r.status)}</span></td><td><a href="${esc(r.post_url)}" target="_blank" rel="noopener">X에서 보기</a></td><td><div class="table-actions"><button data-report="restore" data-id="${r.id}">복구</button><button class="danger" data-report="remove" data-id="${r.id}">삭제</button></div></td></tr>`).join("")||`<tr><td colspan="9" class="muted">신고 작품이 없습니다.</td></tr>`;document.querySelectorAll("[data-report]").forEach(b=>b.onclick=()=>reportAction(Number(b.dataset.id),b.dataset.report))}
+async function reportAction(id,action){if(action==="restore"){if(!confirm("신고를 초기화하고 다시 열까요?"))return;await rpc("meme_admin_restore",{p_admin_key:adminKey(),p_entry_id:id,p_clear:true})}else{const note=prompt("삭제 사유")||"";if(!note)return;await rpc("meme_admin_moderate",{p_admin_key:adminKey(),p_entry_id:id,p_action:"remove",p_note:note,p_admin_name:"admin"})}toast("처리 완료");refreshTalent()}
+async function loadFinalists(rows){let source=rows;if(!source||!source.some(r=>r.is_finalist))source=await rpc("meme_admin_list",{p_admin_key:adminKey(),p_status:"approved",p_limit:500});const f=(source||[]).filter(r=>r.is_finalist).sort((a,b)=>a.finalist_rank-b.finalist_rank);$("#winner").innerHTML=f.map(r=>`<option value="${r.id}">${r.finalist_rank}위 · ${TEAMS[r.team_id]} · ${esc(r.title)}</option>`).join("")||`<option value="">TOP 10 확정 후 표시</option>`}
+async function refreshTalent(){await Promise.all([loadMemeSummary(),loadIdentities(),loadEntries(),loadReports()]);await loadScores()}
+async function refreshAll(){await loadScores();if(adminKey()){await Promise.all([loadLogs(),loadSnapshots(),refreshTalent()])}}
+$("#saveKeyBtn").onclick=()=>{localStorage.setItem("idolcamp_score_admin_key",adminKey());toast("관리자 키 저장 완료")};$("#clearKeyBtn").onclick=()=>{localStorage.removeItem("idolcamp_score_admin_key");$("#adminKey").value="";toast("키 삭제 완료")};$("#refreshBtn").onclick=()=>refreshAll().catch(e=>alert(e.message));
+$("#addBtn").onclick=async()=>{const raw=$("#pointDelta").value.trim();await rpc("scoreboard_admin_add",{p_admin_key:adminKey(),p_team_id:$("#team").value,p_category:$("#category").value,p_count:Number($("#count").value||0),p_point_delta:raw===""?null:Number(raw),p_memo:$("#memo").value.trim(),p_created_by:"admin"});$("#memo").value="";$("#pointDelta").value="";toast("점수 반영 완료");refreshAll()};
+$("#identityStatus").onchange=()=>loadIdentities().catch(e=>alert(e.message));$("#entryStatus").onchange=()=>loadEntries().catch(e=>alert(e.message));$("#loadEntriesBtn").onclick=()=>loadEntries().catch(e=>alert(e.message));$("#loadReportsBtn").onclick=()=>loadReports().catch(e=>alert(e.message));
+$("#copyIdentityBtn").onclick=async()=>{const text=identityRows.map(r=>`${r.muniverse_account},@${String(r.x_username).replace(/^@/,"")}`).join("\n");if(!text)return toast("복사할 목록이 없습니다.");await navigator.clipboard.writeText(text);toast("검수 목록 복사 완료")};
+$("#bulkVerifyBtn").onclick=async()=>{try{
+  const lines=$("#bulkIdentity").value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+  if(!lines.length)return alert("승인할 이메일 목록을 붙여넣으세요.");
+  if(!identityRows.length)await loadIdentities();
+  const pendingByEmail=new Map(identityRows.filter(r=>r.status==="pending").map(r=>[String(r.muniverse_account).trim().toLowerCase(),r]));
+  const pairs=[],skipped=[];
+  for(const line of lines){
+    const parts=line.split(/[\t,|;]+/).map(x=>x.trim()).filter(Boolean);
+    const row=pendingByEmail.get((parts[0]||"").toLowerCase());
+    if(!row){skipped.push(line+"  ← 검수 대기 목록에 없음");continue;}
+    const rowX=String(row.x_username).replace(/^@/,"").toLowerCase();
+    const givenX=(parts[1]||"").replace(/^@/,"").toLowerCase();
+    if(givenX&&givenX!==rowX){skipped.push(line+"  ← X 계정 불일치(등록값 @"+rowX+")");continue;}
+    pairs.push({muniverse_account:row.muniverse_account,x_username:String(row.x_username).replace(/^@/,"")});
   }
-}
-
-async function refreshAll(){
-  await loadScores();
-  if(adminKey()){ await loadLogs(); await loadSnapshots(); }
-}
-$("#saveKeyBtn").onclick=()=>{localStorage.setItem("idolcamp_score_admin_key",adminKey());toast("관리자 키 저장 완료")};
-$("#clearKeyBtn").onclick=()=>{localStorage.removeItem("idolcamp_score_admin_key");$("#adminKey").value="";toast("삭제 완료")};
-$("#refreshBtn").onclick=()=>refreshAll().catch(e=>alert(e.message));
-$("#addBtn").onclick=async()=>{
-  try{
-    const pointRaw=$("#pointDelta").value.trim();
-    await rpc("scoreboard_admin_add",{
-      p_admin_key:adminKey(),
-      p_team_id:$("#team").value,
-      p_category:$("#category").value,
-      p_count:Number($("#count").value||0),
-      p_point_delta:pointRaw===""?null:Number(pointRaw),
-      p_memo:$("#memo").value.trim(),
-      p_created_by:"admin"
-    });
-    $("#memo").value="";
-    $("#pointDelta").value="";
-    toast("점수 반영 완료");
-    await refreshAll();
-  }catch(e){alert(e.message)}
-};
-
-const snapshotBtn=$("#snapshotBtn");
-if(snapshotBtn) snapshotBtn.onclick=async()=>{
-  try{
-    await rpc("scoreboard_admin_snapshot",{p_admin_key:adminKey(),p_memo:"관리자 수동 저장",p_created_by:"admin"});
-    toast("스냅샷 저장 완료");
-    await refreshAll();
-  }catch(e){alert(e.message)}
-};
-const verifyBtn=$("#verifyBtn");
-if(verifyBtn) verifyBtn.onclick=async()=>{
-  try{
-    const res=await rpc("scoreboard_admin_verify",{p_admin_key:adminKey(),p_created_by:"admin"});
-    renderVerifyResult(res);
-    await refreshAll();
-  }catch(e){alert(e.message)}
-};
-const recalcBtn=$("#recalcBtn");
-if(recalcBtn) recalcBtn.onclick=async()=>{
-  if(!confirm("원본 데이터 기준으로 점수판을 재집계할까요? 재집계 전/후 스냅샷이 저장됩니다.")) return;
-  try{
-    await rpc("scoreboard_admin_recalculate",{p_admin_key:adminKey(),p_created_by:"admin",p_memo:"관리자 원본 기준 재집계"});
-    toast("재집계 완료");
-    await refreshAll();
-  }catch(e){alert(e.message)}
-};
-
-$("#adminKey").value=localStorage.getItem("idolcamp_score_admin_key")||"";
-refreshAll().catch(e=>console.warn(e));
-</script>
-</body>
-</html>
+  if(!pairs.length)return alert("승인 가능한 항목이 없습니다.\n\n"+skipped.slice(0,10).join("\n"));
+  let msg=`대조 완료: ${pairs.length}건 승인 대상.\n뮤니버스 가입과 공식 X 팔로우를 모두 확인했습니까?`;
+  if(skipped.length)msg+=`\n\n제외 ${skipped.length}건:\n`+skipped.slice(0,10).join("\n")+(skipped.length>10?"\n…":"");
+  if(!confirm(msg))return;
+  const d=await rpc("meme_admin_bulk_verify_identities",{p_admin_key:adminKey(),p_pairs:pairs,p_admin_name:"admin"});
+  toast(`${d.verified||0}개 승인 완료`);$("#bulkIdentity").value="";refreshTalent();
+}catch(e){alert(e.message)}};
+function pickedIdentityRows(){const ids=[...document.querySelectorAll(".identPick:checked")].map(c=>Number(c.value));return identityRows.filter(r=>ids.includes(r.id))}
+$("#pickVerifyBtn").onclick=async()=>{try{
+  const rows=pickedIdentityRows();if(!rows.length)return alert("체크된 항목이 없습니다.");
+  if(!confirm(`선택한 ${rows.length}개 조합의 뮤니버스 가입과 공식 X 팔로우를 모두 확인했습니까?`))return;
+  const pairs=rows.map(r=>({muniverse_account:r.muniverse_account,x_username:String(r.x_username).replace(/^@/,"")}));
+  const d=await rpc("meme_admin_bulk_verify_identities",{p_admin_key:adminKey(),p_pairs:pairs,p_admin_name:"admin"});
+  toast(`${d.verified||0}개 승인 완료`);refreshTalent();
+}catch(e){alert(e.message)}};
+$("#pickRejectBtn").onclick=async()=>{try{
+  const rows=pickedIdentityRows();if(!rows.length)return alert("체크된 항목이 없습니다.");
+  const note=prompt(`선택한 ${rows.length}개 항목의 일괄 반려 사유`)||"";if(!note)return;
+  for(const r of rows){await rpc("meme_admin_identity_set",{p_admin_key:adminKey(),p_binding_id:r.id,p_action:"reject",p_follow_verified:false,p_note:note,p_admin_name:"admin"})}
+  toast(`${rows.length}개 반려 완료`);refreshTalent();
+}catch(e){alert(e.message)}};
+$("#exportCsvBtn").onclick=async()=>{try{
+  const rows=await rpc("meme_admin_export",{p_admin_key:adminKey()});
+  if(!rows||!rows.length)return alert("내려받을 작품이 없습니다.");
+  const kst=v=>v?new Date(v).toLocaleString("sv-SE",{timeZone:"Asia/Seoul"}):"";
+  const q=v=>{const x=String(v??"");return /[",\n\r]/.test(x)?'"'+x.replace(/"/g,'""')+'"':x};
+  const head=["ID","팀","작품 제목","뮤니버스 계정","X 계정","X 프로필 주소","게시물 주소","게시물 업로드(KST)","등록 시간(KST)","계정 검수","작품 상태","좋아요","리포스트","신고 수","결선 진출","결선 순위"];
+  const lines=[head.join(",")].concat(rows.map(r=>[
+    r.id, TEAMS[r.team_id]||r.team_id||"", r.title,
+    r.muniverse_account, "@"+String(r.x_username||"").replace(/^@/,""),
+    r.x_profile_url, r.post_url,
+    kst(r.post_created_at), kst(r.submitted_at),
+    r.identity_status, r.status,
+    r.like_count||0, r.repost_count||0, r.report_count||0,
+    r.is_finalist?"Y":"", r.finalist_rank||""
+  ].map(q).join(",")));
+  const blob=new Blob(["\uFEFF"+lines.join("\r\n")],{type:"text/csv;charset=utf-8"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+  const d=new Date(),p2=n=>String(n).padStart(2,"0");
+  a.download=`idolcamp_meme_entries_${d.getFullYear()}${p2(d.getMonth()+1)}${p2(d.getDate())}_${p2(d.getHours())}${p2(d.getMinutes())}.csv`;
+  document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(a.href);
+  toast(`${rows.length}건 CSV 다운로드 완료`);
+}catch(e){alert(e.message)}};
+$("#syncXBtn").onclick=async()=>{const r=await fetch(`${S.url}/functions/v1/sync-x-likes`,{method:"POST",headers:{...headers(),"x-admin-key":adminKey()},body:"{}"}),d=await r.json();if(!r.ok)throw new Error(d.message||d.code||"동기화 실패");toast(d.skipped?(d.reason==="too_soon"?"최근 동기화 후 10분이 지나지 않았습니다.":"예선 동결 상태"):`X 좋아요 ${Number(d.updated||0).toLocaleString()}건 동기화 완료`);refreshTalent()};
+$("#freezeBtn").onclick=async()=>{try{
+  let msg="최종 X 좋아요를 동결하고 TOP 10을 확정할까요?\n\n동결 시점에 [계정 검수 완료 + 작품 승인]을 모두 충족하지 못한 작품은 최종 산정에서 자동 제외되며 점수가 회수됩니다.";
+  try{const sum=await rpc("meme_admin_summary",{p_admin_key:adminKey()});
+    if(Number(sum?.identity_pending||0)>0)msg+=`\n\n⚠ 검수 대기 계정 ${sum.identity_pending}건이 남아 있습니다. 해당 작품들은 전부 제외됩니다. 계속하려면 먼저 검수를 끝내는 것을 권장합니다.`;
+  }catch(_){}
+  if(!confirm(msg))return;
+  const d=await rpc("meme_admin_freeze",{p_admin_key:adminKey(),p_admin_name:"admin"});
+  toast(`TOP 10 확정 완료 · 결선 ${d.finalists||0}작 · 미검수 제외 ${d.excluded_unverified||0}건`);
+  refreshTalent();
+}catch(e){alert(e.message)}};
+$("#winnerBtn").onclick=async()=>{const id=Number($("#winner").value);if(!id)return alert("결선 작품을 선택하세요.");if(!confirm("이 작품을 1위로 확정하고 응원 팀에 1,000만점을 반영할까요?"))return;const d=await rpc("meme_admin_set_winner",{p_admin_key:adminKey(),p_entry_id:id,p_admin_name:"admin"});toast(`${TEAMS[d.team_id]} 1,000만점 반영 완료`);refreshAll()};
+$("#snapshotBtn").onclick=async()=>{await rpc("scoreboard_admin_snapshot",{p_admin_key:adminKey(),p_memo:"관리자 수동 저장",p_created_by:"admin"});toast("스냅샷 저장 완료");loadSnapshots()};
+$("#verifyBtn").onclick=async()=>{const d=await rpc("scoreboard_admin_verify",{p_admin_key:adminKey(),p_created_by:"admin"}),bad=(d.rows||[]).filter(r=>!r.matches),el=$("#verifyResult");el.style.display="block";el.innerHTML=d.ok?`정상입니다. 캐시와 원본 점수가 일치합니다.`:`불일치: `+bad.map(r=>`${esc(r.team_name)} 현재 ${r.cache_total_score} / 원본 ${r.expected_total_score}`).join("<br>");loadSnapshots()};
+$("#recalcBtn").onclick=async()=>{if(!confirm("원본 데이터 기준으로 재집계할까요?"))return;await rpc("scoreboard_admin_recalculate",{p_admin_key:adminKey(),p_created_by:"admin",p_memo:"관리자 원본 기준 재집계"});toast("재집계 완료");refreshAll()};
+$("#adminKey").value=localStorage.getItem("idolcamp_score_admin_key")||"";refreshAll().catch(e=>console.warn(e));window.addEventListener("unhandledrejection",e=>alert(e.reason?.message||"요청 실패"));
+</script></body></html>
