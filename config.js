@@ -34,6 +34,6 @@ window.MUNIVERSE_CONFIG = {
     finalEnd:         "2026-08-17T17:00:00+09:00",
     submitFunction: "submit-meme",
     leaderboardRpc: "meme_leaderboard_public",
-    requiredHashtags: ["#아이돌수련회", "#짤장기자랑"]
+    requiredHashtags: ["#IDOLSCHOOLCAMP", "#Muniverse", "#아이돌수련회"]
   }
 };
