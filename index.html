@@ -3086,9 +3086,9 @@
   .talent-pager{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:15px;color:#557064;font-size:12px;font-weight:850}
   .talent-pager button{border:1.5px solid rgba(15,59,58,.18);background:#F2F7EA;color:#0f3b3a;border-radius:10px;padding:8px 12px;font-family:inherit;font-weight:850;cursor:pointer}
   .talent-pager button[disabled]{opacity:.35;cursor:default}
-  .talent-modal{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(5,26,21,.72);backdrop-filter:blur(5px)}
+  .talent-modal{position:fixed;inset:0;z-index:120;display:none;padding:16px;background:rgba(5,26,21,.72);backdrop-filter:blur(5px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
   .talent-modal.open{display:flex}
-  .talent-dialog{width:min(620px,100%);max-height:92vh;overflow:auto;background:#fff;border:2px solid #0f3b3a;border-radius:22px;padding:21px;box-shadow:0 20px 60px rgba(0,0,0,.32)}
+  .talent-dialog{width:min(620px,100%);margin:auto;background:#fff;border:2px solid #0f3b3a;border-radius:22px;padding:21px;box-shadow:0 20px 60px rgba(0,0,0,.32)}
   .talent-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
   .talent-dialog h2{margin:0;font-size:21px;color:#123a2e}
   .talent-close{width:36px;height:36px;border-radius:999px;border:0;background:#EAF3DE;color:#123a2e;font-size:22px;cursor:pointer}
@@ -5334,11 +5334,16 @@ function talentRow(it){
   const reportButton=talentReportBtn(it);
   return `<article class="talent-row"><div class="talent-rank">${Number(it.rank||0)}</div><div class="talent-title">${esc(it.title)}</div><div class="talent-account">@${esc(it.username)}</div><div>${talentTeamBadge(it.team_id)}</div><div class="talent-like">♥ ${Number(it.like_count||0).toLocaleString()}</div><div class="talent-item-actions"><a class="talent-xlink" href="${esc(it.post_url)}" target="_blank" rel="noopener noreferrer">${esc(talentText().view)}</a>${reportButton}</div></article>`;
 }
+async function reloadTalentKeepPos(){
+  const a=$("#talentList"); const t=a?a.getBoundingClientRect().top:null;
+  await loadTalent(true);
+  if(a&&t!=null) window.scrollBy(0, a.getBoundingClientRect().top - t);
+}
 function renderTalentFilters(){
   const box=$("#talentFilters"); if(!box) return; const T=talentText();
   const opts=[{id:"",name:T.all},...CONFIG.teams];
   box.innerHTML=opts.map(o=>`<button type="button" class="talent-filter ${talentTeam===o.id?"active":""}" data-team="${esc(o.id)}">${esc(o.name)}</button>`).join("");
-  box.querySelectorAll("[data-team]").forEach(b=>b.onclick=()=>{talentTeam=b.dataset.team;talentPage=1;renderTalentFilters();loadTalent();});
+  box.querySelectorAll("[data-team]").forEach(b=>b.onclick=()=>{talentTeam=b.dataset.team;talentPage=1;renderTalentFilters();reloadTalentKeepPos();});
 }
 async function loadTalent(silent){
   const T=talentText(), podium=$("#talentPodium"), list=$("#talentList"), pager=$("#talentPager");
@@ -5359,7 +5364,7 @@ async function loadTalent(silent){
     $("#talentCount").textContent=T.countLabel?T.countLabel.replace("{n}",total.toLocaleString()):`${total.toLocaleString()} ${T.count}`;
     $("#talentUpdated").textContent=talentData.last_updated?`${T.updated} ${talentFormatDate(talentData.last_updated)}`:"";
     pager.innerHTML=pages>1?`<button type="button" data-move="prev" ${talentPage<=1?"disabled":""}>${esc(T.prev)}</button><span>${talentPage} / ${pages}</span><button type="button" data-move="next" ${talentPage>=pages?"disabled":""}>${esc(T.next)}</button>`:"";
-    pager.querySelectorAll("[data-move]").forEach(b=>b.onclick=()=>{talentPage+=b.dataset.move==="next"?1:-1;loadTalent();$("#talentList").scrollIntoView({behavior:"smooth",block:"start"});});
+    pager.querySelectorAll("[data-move]").forEach(b=>b.onclick=()=>{talentPage+=b.dataset.move==="next"?1:-1;reloadTalentKeepPos();});
   }catch(e){
     console.warn("Talent leaderboard failed",e);
     if(!silent){
