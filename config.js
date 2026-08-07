@@ -87,12 +87,14 @@ window.addEventListener("DOMContentLoaded", function(){
     if (duplicateNotice) duplicateNotice.remove();
 
     // 승인된 모바일 UI: 안내 카드 간격 균형 + 팝업은 좌측 정렬하되 문장 블록은 중앙 쪽으로 이동.
+    // 중앙 팝업은 위치 속성을 애니메이션하지 않고 opacity만 전환해, 우측/하단에서 중앙으로 이동하는 현상을 제거합니다.
     var style = document.createElement("style");
     style.id = "post-deadline-ui-fix";
     style.textContent = [
       "#scoreClosedNoticeBoard{margin:20px 0!important;padding:16px 18px!important;line-height:1.52!important;}",
       "#scoreClosedNoticeBoard + #board{margin-top:0!important;}",
-      "#toast.toast-center.toast-alert{text-align:left!important;width:min(92vw,380px)!important;max-width:min(92vw,380px)!important;padding:22px 30px!important;line-height:1.55!important;}",
+      "#toast.toast-center.toast-alert{position:fixed!important;left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;transform:translate(-50%,-50%)!important;text-align:left!important;width:min(92vw,380px)!important;max-width:min(92vw,380px)!important;padding:22px 30px!important;line-height:1.55!important;transition:opacity .18s ease!important;will-change:opacity!important;}",
+      "#toast.toast-center.toast-alert.show{left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;transform:translate(-50%,-50%)!important;}",
       "#toast.toast-center.toast-alert:before{text-align:center!important;width:100%!important;margin:0 0 13px!important;}",
       "@media (max-width:390px){#scoreClosedNoticeBoard{padding:15px 16px!important;}#toast.toast-center.toast-alert{width:min(92vw,360px)!important;max-width:min(92vw,360px)!important;padding:21px 26px!important;}}",
       "@media (max-width:360px){#toast.toast-center.toast-alert{width:92vw!important;max-width:92vw!important;padding:20px 22px!important;font-size:13.5px!important;}}"
