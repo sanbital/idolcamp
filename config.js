@@ -41,3 +41,50 @@ window.MUNIVERSE_CONFIG = {
     requiredHashtags: ["#IDOLSCHOOLCAMP", "#Muniverse", "#아이돌수련회"]
   }
 };
+
+// 8/7 예선 등록·입소 신고 점수 마감 이후 안내 문구.
+// index.html의 i18n 객체가 생성된 뒤 덮어써서 운영 문구를 한곳에서 관리합니다.
+window.addEventListener("DOMContentLoaded", function(){
+  try {
+    if (typeof I18N !== "undefined") {
+      Object.assign(I18N.ko, {
+        scoreClosedNotice:"입소 신고 이벤트가 종료되어|신고증 발급과 좋아요는|더 이상 점수에 반영되지 않습니다.|8/11 오전 10시부터|Muniverse 앱에서 진행되는|결선 투표에 참여해 주세요!"
+      });
+      Object.assign(I18N.en, {
+        scoreClosedNotice:"The check-in event has ended.|Enrollment pass issuance and likes|no longer count toward team scores.|From Aug 11 at 10:00 AM KST,|join the final vote in the Muniverse app!"
+      });
+      Object.assign(I18N.ja, {
+        scoreClosedNotice:"入所申告イベントは終了しました。|入所証の発行といいねは|今後チーム点数に反映されません。|8/11 午前10時から|Muniverseアプリで行われる|決選投票にご参加ください！"
+      });
+      Object.assign(I18N["zh-CN"], {
+        scoreClosedNotice:"入营申报活动已结束。|入营证领取和点赞|将不再计入应援队分数。|8月11日上午10点起，|请在Muniverse应用参与决赛投票！"
+      });
+      Object.assign(I18N["zh-TW"], {
+        scoreClosedNotice:"入營申報活動已結束。|領取入營證與按讚|將不再計入應援隊分數。|8月11日上午10點起，|請在Muniverse應用程式參與決賽投票！"
+      });
+    }
+
+    if (typeof TALENT_I18N !== "undefined") {
+      Object.assign(TALENT_I18N.ko, {
+        closedFinalNotice:"짤기자랑 예선 등록이 마감되었습니다.|X 좋아요는|8/10 오전 11시 59분까지 집계됩니다.|8/11 오전 10시부터|Muniverse 앱에서 진행되는|결선 투표에 참여해 주세요!"
+      });
+      Object.assign(TALENT_I18N.en, {
+        closedFinalNotice:"Meme Talent Show preliminary submissions are closed.|X likes will be counted|through Aug 10 at 11:59 AM KST.|From Aug 11 at 10:00 AM KST,|join the final vote in the Muniverse app!"
+      });
+      Object.assign(TALENT_I18N.ja, {
+        closedFinalNotice:"ミーム芸能大会の予選登録は締め切りました。|Xのいいねは|8/10 午前11時59分まで集計されます。|8/11 午前10時から|Muniverseアプリで行われる|決選投票にご参加ください！"
+      });
+      Object.assign(TALENT_I18N["zh-CN"], {
+        closedFinalNotice:"表情包才艺大赛预赛登记已截止。|X点赞将统计至|8月10日上午11点59分。|8月11日上午10点起，|请在Muniverse应用参与决赛投票！"
+      });
+      Object.assign(TALENT_I18N["zh-TW"], {
+        closedFinalNotice:"迷因才藝大賽預賽登記已截止。|X按讚將統計至|8月10日上午11點59分。|8月11日上午10點起，|請在Muniverse應用程式參與決賽投票！"
+      });
+    }
+
+    if (typeof applyI18n === "function") applyI18n();
+    if (typeof applyTalentI18n === "function" && typeof talentInited !== "undefined" && talentInited) applyTalentI18n();
+  } catch (e) {
+    console.warn("Post-deadline copy override failed", e);
+  }
+});
