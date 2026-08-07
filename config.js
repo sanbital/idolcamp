@@ -15,6 +15,10 @@ window.MUNIVERSE_CONFIG = {
 
   turnstileSiteKey: "0x4AAAAAAD0Ey7nrVqGnKma-",
 
+  // 다짐(입소 신고)·좋아요 점수 마감. 서버 응답 실패 시에만 쓰는 폴백값이며,
+  // 실제 판정은 항상 서버(meme_event_status.board_score_deadline)를 따릅니다.
+  scoreDeadline: "2026-08-07T23:59:59+09:00",
+
   // ── 짤 장기자랑 (운영 모드) ─────────────────────────────
   talent: {
     enabled: true,
