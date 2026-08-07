@@ -42,49 +42,66 @@ window.MUNIVERSE_CONFIG = {
   }
 };
 
-// 8/7 예선 등록·입소 신고 점수 마감 이후 안내 문구.
+// 8/7 예선 등록·입소 신고 점수 마감 이후 안내 문구 및 UI 보정.
 // index.html의 i18n 객체가 생성된 뒤 덮어써서 운영 문구를 한곳에서 관리합니다.
 window.addEventListener("DOMContentLoaded", function(){
   try {
     if (typeof I18N !== "undefined") {
       Object.assign(I18N.ko, {
-        scoreClosedNotice:"아이돌 수련회 입소 신고 이벤트가 종료되어|신고증 발급과 좋아요는 더 이상|점수에 반영되지 않습니다.|입소 신고는 자유롭게 신청하고|응원 메시지도 남길 수 있습니다.|8/11 오전 10시부터 Muniverse 앱에서|진행되는 결선 투표에 참여해 주세요!"
+        scoreClosedNotice:"아이돌 수련회 입소 신고 이벤트가 종료되어|신고증 발급과 좋아요는 더 이상|점수에 반영되지 않습니다.||입소 신고는 자유롭게 신청하고|응원 메시지도 남길 수 있습니다.||8/11 오전 10시부터 Muniverse 앱에서|진행되는 결선 투표에 참여해 주세요!"
       });
       Object.assign(I18N.en, {
-        scoreClosedNotice:"The Idol Training Camp check-in event has ended.|Enrollment pass issuance and likes no longer|count toward team scores.|You can still submit a check-in form|and leave a cheer message.|From Aug 11 at 10:00 AM KST, join the final vote|in the Muniverse app!"
+        scoreClosedNotice:"The Idol Training Camp check-in event has ended.|Enrollment pass issuance and likes no longer|count toward team scores.||You can still submit a check-in form|and leave a cheer message.||From Aug 11 at 10:00 AM KST, join the final vote|in the Muniverse app!"
       });
       Object.assign(I18N.ja, {
-        scoreClosedNotice:"アイドル修練会の入所申告イベントは終了しました。|入所証の発行といいねは今後|チーム点数に反映されません。|入所申告は引き続き自由に申請でき、|応援メッセージも残せます。|8/11 午前10時からMuniverseアプリで|行われる決選投票にご参加ください！"
+        scoreClosedNotice:"アイドル修練会の入所申告イベントは終了しました。|入所証の発行といいねは今後|チーム点数に反映されません。||入所申告は引き続き自由に申請でき、|応援メッセージも残せます。||8/11 午前10時からMuniverseアプリで|行われる決選投票にご参加ください！"
       });
       Object.assign(I18N["zh-CN"], {
-        scoreClosedNotice:"偶像修炼会入营申报活动已结束。|入营证领取和点赞将不再|计入应援队分数。|入营申报仍可自由提交，|也可以继续留下应援留言。|8月11日上午10点起，请在Muniverse应用|参与决赛投票！"
+        scoreClosedNotice:"偶像修炼会入营申报活动已结束。|入营证领取和点赞将不再|计入应援队分数。||入营申报仍可自由提交，|也可以继续留下应援留言。||8月11日上午10点起，请在Muniverse应用|参与决赛投票！"
       });
       Object.assign(I18N["zh-TW"], {
-        scoreClosedNotice:"偶像修煉會入營申報活動已結束。|領取入營證與按讚將不再|計入應援隊分數。|入營申報仍可自由提交，|也可以繼續留下應援留言。|8月11日上午10點起，請在Muniverse應用程式|參與決賽投票！"
+        scoreClosedNotice:"偶像修煉會入營申報活動已結束。|領取入營證與按讚將不再|計入應援隊分數。||入營申報仍可自由提交，|也可以繼續留下應援留言。||8月11日上午10點起，請在Muniverse應用程式|參與決賽投票！"
       });
     }
 
     if (typeof TALENT_I18N !== "undefined") {
       Object.assign(TALENT_I18N.ko, {
-        closedFinalNotice:"짤기자랑 예선 등록이 마감되었습니다.|X 좋아요는 8/10 오전 11시 59분까지|집계됩니다.|8/11 오전 10시부터 Muniverse 앱에서|진행되는 결선 투표에 참여해 주세요!"
+        closedFinalNotice:"짤기자랑 예선 등록이 마감되었습니다.|X 좋아요는 8/10 오전 11시 59분까지|집계됩니다.||8/11 오전 10시부터 Muniverse 앱에서|진행되는 결선 투표에 참여해 주세요!"
       });
       Object.assign(TALENT_I18N.en, {
-        closedFinalNotice:"Meme Talent Show preliminary submissions are closed.|X likes will be counted through Aug 10|at 11:59 AM KST.|From Aug 11 at 10:00 AM KST, join the final vote|in the Muniverse app!"
+        closedFinalNotice:"Meme Talent Show preliminary submissions are closed.|X likes will be counted through Aug 10|at 11:59 AM KST.||From Aug 11 at 10:00 AM KST, join the final vote|in the Muniverse app!"
       });
       Object.assign(TALENT_I18N.ja, {
-        closedFinalNotice:"ミーム芸能大会の予選登録は締め切りました。|Xのいいねは8/10 午前11時59分まで|集計されます。|8/11 午前10時からMuniverseアプリで|行われる決選投票にご参加ください！"
+        closedFinalNotice:"ミーム芸能大会の予選登録は締め切りました。|Xのいいねは8/10 午前11時59分まで|集計されます。||8/11 午前10時からMuniverseアプリで|行われる決選投票にご参加ください！"
       });
       Object.assign(TALENT_I18N["zh-CN"], {
-        closedFinalNotice:"表情包才艺大赛预赛登记已截止。|X点赞将统计至8月10日上午11点59分。|8月11日上午10点起，请在Muniverse应用|参与决赛投票！"
+        closedFinalNotice:"表情包才艺大赛预赛登记已截止。|X点赞将统计至8月10日上午11点59分。||8月11日上午10点起，请在Muniverse应用|参与决赛投票！"
       });
       Object.assign(TALENT_I18N["zh-TW"], {
-        closedFinalNotice:"迷因才藝大賽預賽登記已截止。|X按讚將統計至8月10日上午11點59分。|8月11日上午10點起，請在Muniverse應用程式|參與決賽投票！"
+        closedFinalNotice:"迷因才藝大賽預賽登記已截止。|X按讚將統計至8月10日上午11點59分。||8月11日上午10點起，請在Muniverse應用程式|參與決賽投票！"
       });
     }
+
+    // 입소 신고 마감 안내는 페이지당 1개만 유지합니다.
+    var duplicateNotice = document.getElementById("scoreClosedNoticeForm");
+    if (duplicateNotice) duplicateNotice.remove();
+
+    // 승인된 모바일 UI: 안내 카드 간격 균형 + 팝업은 좌측 정렬하되 문장 블록은 중앙 쪽으로 이동.
+    var style = document.createElement("style");
+    style.id = "post-deadline-ui-fix";
+    style.textContent = [
+      "#scoreClosedNoticeBoard{margin:20px 0!important;padding:16px 18px!important;line-height:1.52!important;}",
+      "#scoreClosedNoticeBoard + #board{margin-top:0!important;}",
+      "#toast.toast-center.toast-alert{text-align:left!important;width:min(92vw,380px)!important;max-width:min(92vw,380px)!important;padding:22px 30px!important;line-height:1.55!important;}",
+      "#toast.toast-center.toast-alert:before{text-align:center!important;width:100%!important;margin:0 0 13px!important;}",
+      "@media (max-width:390px){#scoreClosedNoticeBoard{padding:15px 16px!important;}#toast.toast-center.toast-alert{width:min(92vw,360px)!important;max-width:min(92vw,360px)!important;padding:21px 26px!important;}}",
+      "@media (max-width:360px){#toast.toast-center.toast-alert{width:92vw!important;max-width:92vw!important;padding:20px 22px!important;font-size:13.5px!important;}}"
+    ].join("\n");
+    document.head.appendChild(style);
 
     if (typeof applyI18n === "function") applyI18n();
     if (typeof applyTalentI18n === "function" && typeof talentInited !== "undefined" && talentInited) applyTalentI18n();
   } catch (e) {
-    console.warn("Post-deadline copy override failed", e);
+    console.warn("Post-deadline copy/UI override failed", e);
   }
 });
