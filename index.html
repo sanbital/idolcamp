@@ -3192,12 +3192,12 @@
     text-wrap:pretty;
   }
   .deadline-notice[hidden]{display:none}
-  /* 문구의 "|" 줄바꿈은 PC에서도 살린다. 넓은 박스에서 한 줄이
-     과도하게 길어지는 것을 막고 작성된 문장 단위를 유지한다. */
-  .deadline-notice .desktop-space{display:none}
-  .deadline-notice .mo-br{display:block}
-  /* "||" 로 만든 빈 줄은 문단 간격으로 쓴다 */
-  .deadline-notice .i18n-line:empty{display:block;height:.55em}
+  /* PC: 모바일용 "|" 줄바꿈을 풀어 문장이 폭을 채우도록 흐르게 한다.
+     그대로 두면 넓은 박스에서 우측이 크게 비어 보인다.
+     "||" 가 만든 빈 줄만 문단 구분으로 살린다. */
+  .deadline-notice .desktop-space{display:inline}
+  .deadline-notice .mo-br{display:none}
+  .deadline-notice .i18n-line:empty{display:block;height:.6em}
   html[lang="en"] .deadline-notice{letter-spacing:0}
 
   /* 마감된 등록 버튼: disabled 를 쓰지 않는다(클릭이 살아야 안내가 뜸) */
@@ -3207,6 +3207,11 @@
     filter:grayscale(.5);
   }
 
+  /* PC 는 폭이 넓으니 본문을 조금 키워 안내판의 존재감을 맞춘다 */
+  @media (min-width:641px){
+    .deadline-notice{font-size:16.5px;line-height:1.62}
+  }
+
   @media (max-width:640px){
     .deadline-notice{
       padding:16px 15px;
@@ -3214,6 +3219,15 @@
       padding-right:max(15px, env(safe-area-inset-right));
       line-height:1.55;
     }
+  }
+
+  /* 작성된 "|" 줄바꿈은 아이폰 폭(≤430px, Pro Max 포함)에서만 살린다.
+     문구가 ~340px 안쪽 기준으로 끊겨 있어 그보다 넓은 박스에 적용하면
+     우측이 절반 가까이 비어 보인다. 431px 이상은 흐르게 둔다. */
+  @media (max-width:430px){
+    .deadline-notice .desktop-space{display:none}
+    .deadline-notice .mo-br{display:block}
+    .deadline-notice .i18n-line:empty{height:.5em}
   }
   @media (max-width:390px){ .deadline-notice{font-size:14.5px;padding:14px 13px} }
   @media (max-width:360px){ .deadline-notice{font-size:13.5px;padding:13px 12px;line-height:1.5} }
