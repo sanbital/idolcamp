@@ -3205,6 +3205,421 @@
   }
   @media (max-width:390px){ .deadline-notice{font-size:14.5px;padding:11px 12px} }
   @media (max-width:360px){ .deadline-notice{font-size:13.5px;padding:10px 11px;line-height:1.5} }
+
+  /* =========================================================
+     시안 반영: 유튜브 정주행 배너 + 수련회 점수판 (v2)
+     이전 .playlist-banner / .score-* 규칙과 클래스가 완전히 분리되어
+     있으므로 이 블록만 보면 됩니다.
+     ========================================================= */
+  .ytbar{
+    --ytbar-radius:30px;
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr) auto;
+    align-items:center;
+    gap:clamp(12px,2.4vw,28px);
+    margin:10px 0 14px;
+    padding:clamp(12px,1.8vw,20px) clamp(14px,2.2vw,26px);
+    border-radius:var(--ytbar-radius);
+    background:linear-gradient(180deg,#FDF9EE 0%,#F6F0DF 100%);
+    border:1px solid rgba(15,59,58,.10);
+    box-shadow:0 12px 26px rgba(15,59,58,.20), inset 0 1px 0 rgba(255,255,255,.8);
+    text-decoration:none;
+    color:#16211C;
+    transition:transform .16s ease, box-shadow .16s ease;
+  }
+  .ytbar:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(15,59,58,.26), inset 0 1px 0 rgba(255,255,255,.85)}
+  .ytbar:active{transform:translateY(0)}
+  .ytbar-logo{
+    width:clamp(74px,13vw,152px);
+    height:auto;
+    display:block;
+    object-fit:contain;
+    flex:0 0 auto;
+  }
+  .ytbar-copy{display:block;min-width:0}
+  .ytbar-title{
+    display:block;
+    font-size:clamp(17px,3.2vw,36px);
+    font-weight:900;
+    line-height:1.12;
+    letter-spacing:-.035em;
+    color:#16211C;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+    text-wrap:balance;
+  }
+  .ytbar-sub{
+    display:block;
+    margin-top:clamp(3px,.6vw,8px);
+    font-size:clamp(11px,1.65vw,19px);
+    font-weight:700;
+    line-height:1.3;
+    letter-spacing:-.02em;
+    color:#3A4A42;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+    text-wrap:balance;
+  }
+  .ytbar-play{
+    flex:0 0 auto;
+    display:grid;
+    place-items:center;
+    width:clamp(46px,7.4vw,84px);
+    height:clamp(36px,5.8vw,66px);
+    border-radius:clamp(12px,2vw,24px);
+    background:linear-gradient(180deg,#FF4B47 0%,#EE2C25 100%);
+    box-shadow:0 8px 16px rgba(226,42,36,.34);
+  }
+  .ytbar-play svg{width:46%;height:auto;display:block;transform:translateX(4%)}
+  @media (max-width:640px){
+    .ytbar{--ytbar-radius:20px;gap:10px;padding:11px 12px}
+    .ytbar-play svg{width:44%}
+  }
+  @media (max-width:380px){
+    .ytbar{gap:8px;padding:10px}
+    .ytbar-logo{width:62px}
+    .ytbar-title{font-size:15.5px}
+    .ytbar-sub{font-size:10.2px;margin-top:2px}
+    .ytbar-play{width:40px;height:32px;border-radius:11px}
+  }
+
+  /* ---------- scoreboard panel ---------- */
+  .sb{
+    position:relative;
+    margin:0 0 18px;
+    padding:clamp(14px,2.1vw,26px) clamp(13px,2vw,26px) clamp(14px,2vw,24px);
+    border-radius:clamp(20px,2.6vw,32px);
+    background:linear-gradient(180deg,#FCF8EC 0%,#F5F0DF 100%);
+    border:1px solid rgba(15,59,58,.10);
+    box-shadow:0 16px 34px rgba(15,59,58,.20), inset 0 1px 0 rgba(255,255,255,.75);
+  }
+  .sb-top{
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr);
+    gap:clamp(10px,1.7vw,22px);
+    align-items:start;
+  }
+  .sb-logo{
+    width:clamp(64px,12.5vw,148px);
+    height:auto;
+    display:block;
+    object-fit:contain;
+    margin-top:2px;
+  }
+  .sb-topmain{min-width:0}
+  .sb-titlerow{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin:clamp(2px,.6vw,8px) 0 clamp(8px,1.2vw,14px);
+  }
+  .sb-title{
+    margin:0;
+    font-size:clamp(19px,3.6vw,40px);
+    font-weight:900;
+    line-height:1.05;
+    letter-spacing:-.045em;
+    color:#123B2C;
+    white-space:nowrap;
+  }
+  .sb-reload{
+    flex:0 0 auto;
+    display:inline-flex;
+    align-items:center;
+    gap:clamp(3px,.5vw,7px);
+    padding:clamp(4px,.65vw,9px) clamp(8px,1.1vw,16px);
+    border-radius:999px;
+    background:#E3F0D3;
+    color:#2E5C40;
+    font-size:clamp(10px,1.35vw,16px);
+    font-weight:900;
+    letter-spacing:-.02em;
+    white-space:nowrap;
+  }
+  .sb-reload-ico{width:1.05em;height:1.05em;display:block;flex:0 0 auto}
+
+  .sb-notice{
+    display:grid;
+    gap:clamp(6px,.95vw,12px);
+    padding:clamp(10px,1.4vw,18px) clamp(11px,1.5vw,20px);
+    border-radius:clamp(12px,1.5vw,20px);
+    background:#FFFDF5;
+    border:1.5px solid #E9E2CC;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+  }
+  .sb-nrow{
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr);
+    gap:clamp(8px,1.1vw,16px);
+    align-items:start;
+  }
+  .sb-nico{
+    flex:0 0 auto;
+    display:block;
+    width:clamp(15px,1.9vw,25px);
+    color:#2C7A4C;
+    margin-top:.12em;
+  }
+  .sb-nrow:nth-child(3) .sb-nico{color:#1D5A34}
+  .sb-nico svg{width:100%;height:auto;display:block}
+  .sb-nrow p{
+    margin:0;
+    font-size:clamp(10.5px,1.5vw,17.5px);
+    font-weight:800;
+    line-height:1.42;
+    letter-spacing:-.03em;
+    color:#254A3B;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+
+  /* ---------- score cards ---------- */
+  .sb-list{
+    display:grid;
+    gap:clamp(6px,.85vw,12px);
+    margin-top:clamp(10px,1.5vw,20px);
+  }
+  .sb-empty{
+    padding:clamp(14px,2vw,24px);
+    border-radius:16px;
+    background:#FFFDF5;
+    border:1.5px solid #E9E2CC;
+    text-align:center;
+    font-weight:800;
+    font-size:clamp(11.5px,1.5vw,16px);
+    color:#4E6B5B;
+  }
+  .sb-card{
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr) auto;
+    align-items:center;
+    gap:clamp(9px,1.4vw,20px);
+    padding:clamp(7px,1.05vw,14px) clamp(10px,1.5vw,20px);
+    border-radius:clamp(13px,1.7vw,22px);
+    background:#FEFCF4;
+    border:1.5px solid #EDE6D2;
+    box-shadow:0 2px 0 rgba(15,59,58,.05);
+  }
+  .sb-card.is-first{
+    background:#FFFDF6;
+    border:3px solid #F2C63A;
+    box-shadow:0 4px 0 rgba(210,158,26,.20);
+  }
+  .sb-rank{
+    flex:0 0 auto;
+    display:grid;
+    place-items:center;
+    min-width:clamp(38px,5.6vw,74px);
+    padding:clamp(4px,.6vw,9px) clamp(5px,.7vw,10px);
+    border-radius:clamp(9px,1.2vw,16px);
+    background:#F5CE3C;
+    border:2px solid #123A2E;
+    color:#123A2E;
+    font-size:clamp(11px,1.55vw,20px);
+    font-weight:900;
+    line-height:1;
+    letter-spacing:-.03em;
+    white-space:nowrap;
+  }
+  .sb-info{min-width:0}
+  .sb-name{
+    font-size:clamp(14px,2.55vw,32px);
+    font-weight:900;
+    line-height:1.08;
+    letter-spacing:-.04em;
+    color:#122E23;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .sb-sub{
+    margin-top:clamp(1px,.3vw,5px);
+    font-size:clamp(9.2px,1.28vw,15px);
+    font-weight:800;
+    line-height:1.25;
+    letter-spacing:-.03em;
+    color:#5F7B67;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .sb-score{
+    flex:0 0 auto;
+    text-align:right;
+    font-size:clamp(15px,2.7vw,34px);
+    font-weight:900;
+    line-height:1;
+    letter-spacing:-.04em;
+    color:#14512C;
+    white-space:nowrap;
+  }
+  .sb-updated{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:clamp(3px,.5vw,7px);
+    margin-top:clamp(6px,.9vw,12px);
+    font-size:clamp(9px,1.15vw,14px);
+    font-weight:800;
+    letter-spacing:-.02em;
+    color:#4C6A57;
+    text-align:right;
+  }
+  .sb-updated:empty{display:none}
+  .sb-updated-ico{width:1.2em;height:1.2em;flex:0 0 auto;color:#2C7A4C}
+
+  /* ---------- CTA ---------- */
+  .sb-cta{
+    position:relative;
+    overflow:hidden;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    align-items:center;
+    gap:clamp(8px,1.4vw,20px);
+    margin-top:clamp(9px,1.3vw,18px);
+    padding:clamp(11px,1.7vw,22px) clamp(10px,1.5vw,20px);
+    border-radius:clamp(13px,1.7vw,22px);
+    background:
+      radial-gradient(58% 130% at 82% 50%, rgba(150,225,150,.42) 0%, rgba(24,92,50,0) 62%),
+      linear-gradient(180deg,#1F6537 0%,#164A28 100%);
+    border:2px solid #0E3A21;
+    box-shadow:0 6px 0 rgba(15,59,58,.16);
+  }
+  .sb-cta-copy{
+    position:relative;
+    z-index:2;
+    display:grid;
+    gap:clamp(3px,.55vw,8px);
+    justify-items:center;
+    text-align:center;
+  }
+  .sb-cta-title{
+    font-size:clamp(14px,2.7vw,34px);
+    font-weight:900;
+    line-height:1.12;
+    letter-spacing:-.045em;
+    color:#FFD84D;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+    text-wrap:balance;
+  }
+  .sb-cta-body{
+    font-size:clamp(11px,2vw,25px);
+    font-weight:900;
+    line-height:1.28;
+    letter-spacing:-.04em;
+    color:#FFFFFF;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+  .sb-cta-body .hl{font-style:normal;color:#FFD84D}
+  .sb-cta-foot{
+    display:inline-flex;
+    align-items:center;
+    gap:clamp(4px,.6vw,9px);
+    margin-top:clamp(2px,.35vw,5px);
+    font-size:clamp(8.8px,1.32vw,16px);
+    font-weight:800;
+    line-height:1.3;
+    letter-spacing:-.03em;
+    color:#CDE8AB;
+    word-break:keep-all;
+    flex-wrap:nowrap;
+  }
+  .sb-cta-foot span{text-wrap:balance}
+  .sb-cta-foot i{font-style:normal;color:#FFE07A;flex:0 0 auto}
+
+  /* 왕메달 */
+  .sb-medal{
+    position:relative;
+    z-index:2;
+    flex:0 0 auto;
+    width:clamp(60px,10.6vw,136px);
+    aspect-ratio:1/1;
+    display:grid;
+    place-items:center;
+  }
+  .sb-medal-rib{
+    position:absolute;
+    top:-14%;
+    width:26%;
+    height:52%;
+    border-radius:3px;
+  }
+  .sb-medal-rib.r1{left:14%;background:linear-gradient(180deg,#E14A3C,#B62A22);transform:rotate(20deg)}
+  .sb-medal-rib.r2{right:14%;background:linear-gradient(180deg,#3B63C4,#22409A);transform:rotate(-20deg)}
+  .sb-medal-disc{
+    position:relative;
+    width:86%;
+    height:86%;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    align-content:center;
+    gap:2%;
+    background:radial-gradient(circle at 34% 28%, #FFF3B8 0%, #F9D558 42%, #E2A81E 78%, #C6870F 100%);
+    box-shadow:
+      0 0 0 3px #E7B32C,
+      0 0 0 6px #C48A12,
+      0 6px 14px rgba(0,0,0,.3),
+      inset 0 2px 6px rgba(255,255,255,.6);
+  }
+  .sb-medal-crown{
+    font-size:clamp(9px,1.5vw,19px);
+    line-height:1;
+    color:#A96A0E;
+  }
+  .sb-medal-text{
+    font-size:clamp(9px,1.62vw,21px);
+    font-weight:900;
+    line-height:1;
+    letter-spacing:-.05em;
+    color:#7A3B0A;
+    white-space:nowrap;
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:1120px){
+    .sb-title,.sb-name,.sb-score,.sb-cta-title,.sb-cta-body,.sb-nrow p,.sb-sub,.ytbar-title,.ytbar-sub{letter-spacing:-.035em}
+  }
+  @media (max-width:700px){
+    .sb-top{
+      grid-template-columns:auto minmax(0,1fr);
+      grid-template-areas:"logo title" "notice notice";
+      gap:8px 10px;
+      align-items:center;
+    }
+    .sb-topmain{display:contents}
+    .sb-logo{grid-area:logo;width:clamp(56px,15vw,86px);margin-top:0}
+    .sb-titlerow{grid-area:title;margin:0}
+    .sb-notice{grid-area:notice;margin-top:9px}
+    .sb-title{font-size:clamp(16px,4.6vw,22px)}
+    .sb-reload{font-size:clamp(9px,2.5vw,12px)}
+    .sb-nrow p{font-size:clamp(10px,2.85vw,13.5px);line-height:1.34}
+    .sb-name{font-size:clamp(13px,4.1vw,19px)}
+    .sb-sub{font-size:clamp(8.6px,2.35vw,11px)}
+    .sb-score{font-size:clamp(14px,4.2vw,20px)}
+    .sb-cta-title{font-size:clamp(13px,4.2vw,20px)}
+    .sb-cta-body{font-size:clamp(10.5px,3.2vw,15px)}
+    .sb-cta-foot{font-size:clamp(8.4px,2.3vw,11px)}
+    .sb-medal{width:clamp(52px,15.5vw,78px)}
+    .sb-medal-crown{font-size:clamp(8px,2.2vw,11px)}
+    .sb-medal-text{font-size:clamp(8px,2.5vw,12px)}
+    .ytbar-title{font-size:clamp(14.5px,4.3vw,21px)}
+    .ytbar-sub{font-size:clamp(9.6px,2.55vw,12.5px)}
+    .ytbar-logo{width:clamp(56px,15.5vw,88px)}
+    .ytbar-play{width:clamp(40px,10.4vw,54px);height:clamp(31px,8.1vw,43px);border-radius:clamp(11px,2.9vw,15px)}
+  }
+  @media (max-width:420px){
+    .sb{padding:12px 11px 12px}
+    .sb-notice{padding:9px 10px;gap:6px}
+    .sb-nrow{gap:7px}
+    .sb-nico{width:14px}
+    .sb-card{gap:8px;padding:7px 9px}
+    .sb-rank{min-width:34px;padding:4px;font-size:10.5px;border-radius:9px}
+    .sb-cta{padding:10px 9px;gap:8px}
+  }
 </style>
 <style id="tabgate">.tab-panel{display:none!important}</style>
 </head>
@@ -3216,41 +3631,61 @@
     <div class="langs" id="langs" role="group" aria-label="Language"></div>
   </div>
   <!-- YOUTUBE PLAYLIST BANNER -->
-  <a class="playlist-banner" id="playlistBanner" href="https://www.youtube.com/playlist?list=PLBoB3JxHEl3SaaZXFh_Yg8zVQhU4GTWsw" target="_blank" rel="noopener noreferrer" aria-label="Idol School Camp YouTube Playlist">
-    <div class="playlist-banner-inner">
-      <img class="playlist-banner-logo" id="playlistBannerLogo" alt="아이돌 수련회 로고">
-      <div class="playlist-banner-copy">
-        <h2 class="playlist-banner-title" data-i18n="playlistTitle">아이돌 수련회 지금 바로 보러 가기!</h2>
-        <p class="playlist-banner-subtitle" data-i18n="playlistSubtitle">뮤니버스 유튜브 채널에서 매주 금요일 6시 공개</p>
-      </div>
-      <span class="playlist-banner-play" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.2 6.6 L9.2 17.4 L17.8 12 Z" fill="#fff"/></svg></span>
-    </div>
+  <a class="ytbar" id="playlistBanner" href="https://www.youtube.com/playlist?list=PLBoB3JxHEl3SaaZXFh_Yg8zVQhU4GTWsw" target="_blank" rel="noopener noreferrer" aria-label="Idol School Camp YouTube Playlist">
+    <img class="ytbar-logo" id="playlistBannerLogo" alt="아이돌 수련회 로고">
+    <span class="ytbar-copy">
+      <strong class="ytbar-title" data-i18n="playlistTitle">아이돌 수련회, 지금 정주행!</strong>
+      <span class="ytbar-sub" data-i18n="playlistSubtitle">전 편 공개 완료 · Muniverse 유튜브에서 몰아보기</span>
+    </span>
+    <span class="ytbar-play" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 6.2 L9 17.8 L18.2 12 Z" fill="#fff"/></svg></span>
   </a>
 
   <!-- SCOREBOARD -->
-  <section class="panel scoreboard is-top" id="scoreboard">
-    <div class="score-head">
-      <img class="score-logo" id="scoreLogo" alt="아이돌 수련회 로고">
-      <div class="score-headtext">
-        <div class="score-titlerow">
-          <h2><span data-i18n="scoreTitle"></span></h2>
-          <span class="score-reload" aria-hidden="true">↻ <span data-i18n="scoreReload">10분</span></span>
+  <section class="sb" id="scoreboard">
+    <div class="sb-top">
+      <img class="sb-logo" id="scoreLogo" alt="아이돌 수련회 로고">
+      <div class="sb-topmain">
+        <div class="sb-titlerow">
+          <h2 class="sb-title" data-i18n="scoreTitle">수련회 점수판</h2>
+          <span class="sb-reload" aria-hidden="true"><svg class="sb-reload-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1"/><path d="M20.5 4.2V10h-5.8"/></svg><span data-i18n="scoreReload">10분</span></span>
         </div>
-        <p class="score-desc"><span data-i18n="scoreDesc">입소생들의 다짐(10점)·좋아요(획득 1개당 1점)·공유하기(50점) 점수를 합산합니다. 점수판은 10분마다 새로고침됩니다. 공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.</span></p>
+        <div class="sb-notice">
+          <div class="sb-nrow">
+            <span class="sb-nico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.8" width="18" height="16" rx="3.4"/><path d="M3 9.6h18M8 2.8v4M16 2.8v4"/></svg></span>
+            <p data-i18n-rich="sbNotice1">기준 다짐·좋아요·공유 점수는|8/7 23:59 기준으로 집계가 마감되었습니다.</p>
+          </div>
+          <div class="sb-nrow">
+            <span class="sb-nico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.2"/><path d="M12 6.6V12l3.6 2.2"/></svg></span>
+            <p data-i18n-rich="sbNotice2">8/11 오전 10시부터는|장기자랑 결선 투표 점수가 합산됩니다.</p>
+          </div>
+          <div class="sb-nrow">
+            <span class="sb-nico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.44 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95z"/></svg></span>
+            <p data-i18n-rich="sbNotice3">장기자랑 X 좋아요는 8/10 오전 11시 59분까지 반영됩니다.</p>
+          </div>
+          <div class="sb-nrow">
+            <span class="sb-nico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 11.2a8.4 8.4 0 0 0-14.3-4.6L3.4 9.2"/><path d="M3.6 12.8a8.4 8.4 0 0 0 14.3 4.6l2.7-2.6"/><path d="M3.2 4.6v4.6h4.6M20.8 19.4v-4.6h-4.6"/></svg></span>
+            <p data-i18n-rich="sbNotice4">점수판은 10분마다 업데이트됩니다.</p>
+          </div>
+        </div>
       </div>
     </div>
-    <div id="scoreList" class="score-list">
-      <div class="score-loading" data-i18n="scoreLoading">스코어보드를 불러오는 중입니다.</div>
+    <div id="scoreList" class="sb-list">
+      <div class="sb-empty" data-i18n="scoreLoading">스코어보드를 불러오는 중입니다.</div>
     </div>
-    <div id="scoreUpdated" class="score-updated"></div>
-    <div class="score-cta" id="scoreCta">
-      <div class="score-cta-copy">
-        <strong data-i18n="scoreCtaTitle">아티스트에게 왕메달 선물하고, 뮤니버스 배너 광고 걸자!</strong>
-        <span data-i18n="scoreCtaBody">우리 팀이 우승하면 왕메달을 걸고, 뮤니버스 배너 광고의 주인공이 될 수 있어요!</span>
+    <div id="scoreUpdated" class="sb-updated"></div>
+    <div class="sb-cta" id="scoreCta">
+      <div class="sb-cta-copy">
+        <strong class="sb-cta-title" data-i18n-rich="sbCtaTitle">8/11 오전 10시 짤기자랑 결선투표 시작</strong>
+        <span class="sb-cta-body" data-i18n-rich="sbCtaBody">투표 점수로 순위 역전하고|내 *최애팀*에 *왕메달 선물*하세요</span>
+        <span class="sb-cta-foot"><i aria-hidden="true">✦</i><span data-i18n-rich="sbCtaFoot">8/14 퇴소식 이벤트 시작 · 마지막 이야기까지 기대해 주세요</span><i aria-hidden="true">✦</i></span>
       </div>
-      <div class="score-cta-medal" aria-hidden="true">
-        <span class="medal-ribbon"></span>
-        <span class="medal-face"><span class="medal-kor">아이돌<br>수련회</span></span>
+      <div class="sb-medal" aria-hidden="true">
+        <span class="sb-medal-rib r1"></span>
+        <span class="sb-medal-rib r2"></span>
+        <span class="sb-medal-disc">
+          <span class="sb-medal-crown">♛</span>
+          <span class="sb-medal-text" data-i18n="scoreMedal">왕메달</span>
+        </span>
       </div>
     </div>
   </section>
@@ -3605,7 +4040,9 @@ const I18N = {
     memberLabel:"멤버 선택", memberAll:"팀 전체",
     boardTitle:"입소생 다짐 게시판", boardSub:"입소생들의 다짐 한마디입니다.|마음에 드는 다짐엔 좋아요를 눌러주세요.", boardEmpty:"아직 다짐이 없어요. 첫 입소생이 되어보세요!", boardError:"게시판을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.",
     topBoardTitle:"🔥 인기 다짐 TOP 3", topBoardSub:"좋아요 많은 순", sortLatest:"최신 순", sortLikes:"좋아요 순", boardExpand:"펼치기", boardCollapse:"접기",
-    playlistTitle:"아이돌 수련회 지금 바로 보러 가기!", playlistSubtitle:"뮤니버스 유튜브 채널에서 매주 금요일 6시 공개",
+    playlistTitle:"아이돌 수련회, 지금 정주행!", playlistSubtitle:"전 편 공개 완료 · Muniverse 유튜브에서 몰아보기",
+    sbNotice1:"기준 다짐·좋아요·공유 점수는|8/7 23:59 기준으로 집계가 마감되었습니다.", sbNotice2:"8/11 오전 10시부터는|장기자랑 결선 투표 점수가 합산됩니다.", sbNotice3:"장기자랑 X 좋아요는 8/10 오전 11시 59분까지 반영됩니다.", sbNotice4:"점수판은 10분마다 업데이트됩니다.",
+    sbCtaTitle:"8/11 오전 10시 짤기자랑 결선투표 시작", sbCtaBody:"투표 점수로 순위 역전하고|내 *최애팀*에 *왕메달 선물*하세요", sbCtaFoot:"8/14 퇴소식 이벤트 시작 · 마지막 이야기까지 기대해 주세요", scoreMedal:"왕메달",
     scoreTitle:"수련회 점수판", scoreSub:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 10분마다 새로고침됩니다.", scoreTotal:"누적 점수", scorePledge:"다짐", scoreLike:"좋아요", scoreShare:"공유하기", scoreShareShort:"공유", scoreMeme:"짤 장기자랑", scoreWorldcup:"명장면 월드컵", scoreSoon:"예정", scoreLoading:"스코어보드를 불러오는 중입니다.", scoreEmpty:"아직 집계된 점수가 없습니다.", scoreUpdated:"마지막 업데이트", scoreReload:"10분", scoreAutoRefresh:"10분마다 새로고침", scoreShareNote:"공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreDesc:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 10분마다 새로고침됩니다.|공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreCtaTitle:"아티스트에게 왕메달 선물하고, 뮤니버스 배너 광고 걸자!", scoreCtaBody:"우리 팀이 우승하면 왕메달을 걸고, 뮤니버스 배너 광고의 주인공이 될 수 있어요!", pledgeRestricted:"다른 닉네임으로 다짐을 남겨주세요.\n점수 부정 적립 방지를 위해 숫자·철자·이모지만 바꾼 닉네임은 다짐 등록이 제한돼요.",
     nickLabel:"닉네임",
     nickPh:"닉네임을 입력하세요",
@@ -3655,7 +4092,9 @@ const I18N = {
     memberLabel:"Pick a member", memberAll:"Whole team",
     boardTitle:"Enrollment Message Board", boardSub:"Enrollees' one-line pledges.|Tap the heart on the ones you like.", boardEmpty:"No pledges yet. Be the first enrollee!", boardError:"The board is temporarily unavailable. Please try again shortly.",
     topBoardTitle:"🔥 Top 3 Pledges", topBoardSub:"Most liked", sortLatest:"Latest", sortLikes:"Most liked", boardExpand:"Show more", boardCollapse:"Collapse",
-    playlistTitle:"Watch Idol School Camp Now!", playlistSubtitle:"New episodes every Friday at 6 PM on the Muniverse YouTube channel.",
+    playlistTitle:"Idol School Camp — Binge It Now!", playlistSubtitle:"All episodes out now · Watch on the Muniverse YouTube channel",
+    sbNotice1:"Pledge, like and share scores|were finalized as of 8/7 23:59 KST.", sbNotice2:"From 8/11 10:00 AM KST,|talent show final vote scores are added.", sbNotice3:"Talent Show X Likes count until 8/10 11:59 AM KST.", sbNotice4:"The scoreboard updates every 10 minutes.",
+    sbCtaTitle:"Talent Show Final Vote opens 8/11, 10 AM KST", sbCtaBody:"Flip the rankings with your votes|Give your *favorite team* the *Crown Medal*", sbCtaFoot:"Farewell event starts 8/14 · Stay tuned for the final story", scoreMedal:"CROWN",
     scoreTitle:"Camp Scoreboard", scoreSub:"Team scores add up pledges (10 pts), likes (1 pt each), and verified shares (50 pts). The scoreboard reloads every 10 minutes.", scoreTotal:"Total Score", scorePledge:"Pledge", scoreLike:"Likes", scoreShare:"Shares", scoreShareShort:"Shares", scoreMeme:"Meme Talent Show", scoreWorldcup:"Best Scene World Cup", scoreSoon:"Soon", scoreLoading:"Loading scoreboard.", scoreEmpty:"No scores yet.", scoreUpdated:"Last updated", scoreReload:"10 min", scoreAutoRefresh:"refreshes every 10 minutes", scoreShareNote:"Share scores are updated once a day at 9:59 AM KST.", scoreDesc:"Team scores add up pledges (10 pts), likes (1 pt each), and verified shares (50 pts).|The scoreboard reloads every 10 minutes.|Share scores are updated once a day at 9:59 AM KST.", scoreCtaTitle:"Win the crown medal and banner ad!", scoreCtaBody:"Win camp, claim the crown medal, and star in a Muniverse banner ad!", pledgeRestricted:"Please join with a different nickname.\nTo prevent unfair scoring, nicknames changed only by numbers, small spelling edits, or emoji are restricted.",
     nickLabel:"Nickname",
     nickPh:"Enter your nickname",
@@ -3704,7 +4143,9 @@ const I18N = {
     memberLabel:"メンバーを選択", memberAll:"チーム全体",
     boardTitle:"入所生 決意ボード", boardSub:"入所生たちの意気込み一言。|気に入った投稿にはいいねを押してね。", boardEmpty:"まだ投稿がありません。最初の入所生になろう！", boardError:"掲示板を読み込めませんでした。しばらくしてからもう一度お試しください。",
     topBoardTitle:"🔥 人気決意 TOP 3", topBoardSub:"いいね順", sortLatest:"最新順", sortLikes:"いいね順", boardExpand:"もっと見る", boardCollapse:"閉じる",
-    playlistTitle:"『IDOL SCHOOL CAMP』を今すぐ見る！", playlistSubtitle:"ムニバース公式YouTubeチャンネルで毎週金曜よる6時公開",
+    playlistTitle:"『IDOL SCHOOL CAMP』、今すぐ一気見！", playlistSubtitle:"全話公開中 · MuniverseのYouTubeでまとめて視聴",
+    sbNotice1:"誓い・いいね・共有のスコアは|8/7 23:59（KST）で集計を締め切りました。", sbNotice2:"8/11 午前10時（KST）からは|かくし芸大会 決勝投票のスコアが合算されます。", sbNotice3:"かくし芸 X いいねは 8/10 午前11時59分（KST）まで反映されます。", sbNotice4:"点数表は10分ごとに更新されます。",
+    sbCtaTitle:"8/11 午前10時 かくし芸大会 決勝投票スタート", sbCtaBody:"投票スコアで順位を大逆転|推しチームに*王メダル*をプレゼント", sbCtaFoot:"8/14 退所式イベント開始 · 最後の物語までお楽しみに", scoreMedal:"王メダル",
     scoreTitle:"キャンプ点数表", scoreSub:"誓い（10点）・いいね（1個1点）・共有（50点）のスコアをチーム別に合算します。点数表は10分ごとに更新されます。", scoreTotal:"累計スコア", scorePledge:"誓い", scoreLike:"いいね", scoreShare:"共有", scoreShareShort:"共有", scoreMeme:"画像芸大会", scoreWorldcup:"名場面W杯", scoreSoon:"予定", scoreLoading:"スコアボードを読み込み中です。", scoreEmpty:"まだ集計されたスコアがありません。", scoreUpdated:"最終更新", scoreReload:"10分", scoreAutoRefresh:"10分ごとに更新", scoreShareNote:"共有スコアは1日1回、午前9時59分（KST）に更新されます。", scoreDesc:"誓い（10点）・いいね（1個1点）・共有（50点）のスコアをチーム別に合算します。|点数表は10分ごとに更新されます。|共有スコアは1日1回、午前9時59分（KST）に更新されます。", scoreCtaTitle:"王メダルとバナー広告をつかもう！", scoreCtaBody:"優勝して王メダルを掲げ、Muniverseバナー広告の主役になりましょう！", pledgeRestricted:"ニックネームの繰り返しパターンが検出されたため制限されました。\n不正な点数加算を防ぐため、数字・一部の文字・絵文字だけを変えたニックネームは制限されます。",
     nickLabel:"ニックネーム",
     nickPh:"ニックネームを入力",
@@ -3753,7 +4194,9 @@ const I18N = {
     memberLabel:"选择成员", memberAll:"全队",
     boardTitle:"入所生宣言墙", boardSub:"入所生们的一句宣言。|喜欢的宣言点个赞吧。", boardEmpty:"还没有宣言，来当第一位入所生吧！", boardError:"暂时无法加载留言板，请稍后重试。",
     topBoardTitle:"🔥 人气宣言 TOP 3", topBoardSub:"按点赞数", sortLatest:"最新", sortLikes:"点赞数", boardExpand:"展开", boardCollapse:"收起",
-    playlistTitle:"立即观看《IDOL SCHOOL CAMP》！", playlistSubtitle:"每周五晚6点于 Muniverse YouTube 频道公开",
+    playlistTitle:"《IDOL SCHOOL CAMP》，现在一口气刷完！", playlistSubtitle:"全集已公开 · 在 Muniverse YouTube 频道连看",
+    sbNotice1:"誓言·点赞·分享得分|已于 8/7 23:59（KST）截止统计。", sbNotice2:"自 8/11 上午10点（KST）起|才艺秀决赛投票得分将计入总分。", sbNotice3:"才艺秀 X 点赞统计至 8/10 上午11点59分（KST）。", sbNotice4:"积分榜每10分钟更新一次。",
+    sbCtaTitle:"8/11 上午10点 才艺秀决赛投票开启", sbCtaBody:"用投票分数逆转排名|为我的*最爱队伍*送上*王者奖牌*", sbCtaFoot:"8/14 结营活动开启 · 敬请期待最后的故事", scoreMedal:"王者奖牌",
     scoreTitle:"营地积分榜", scoreSub:"按团队汇总誓言（10分）、点赞（每个1分）与分享（50分）得分。积分榜每10分钟更新一次。", scoreTotal:"累计分数", scorePledge:"誓言", scoreLike:"点赞", scoreShare:"分享", scoreShareShort:"分享", scoreMeme:"表情包才艺秀", scoreWorldcup:"名场面世界杯", scoreSoon:"待公开", scoreLoading:"正在加载积分榜。", scoreEmpty:"暂无积分。", scoreUpdated:"最后更新", scoreReload:"10分钟", scoreAutoRefresh:"每10分钟刷新", scoreShareNote:"分享得分每天上午9点59分（KST）更新一次。", scoreDesc:"按团队汇总誓言（10分）、点赞（每个1分）与分享（50分）得分。|积分榜每10分钟更新一次。|分享得分每天上午9点59分（KST）更新一次。", scoreCtaTitle:"赢下王者奖牌和横幅广告！", scoreCtaBody:"夺冠后挂上王者奖牌，并成为Muniverse横幅广告主角！", pledgeRestricted:"检测到重复昵称模式，已限制登记。\n为防止不正当加分，仅更改数字、少量字母或表情符号的昵称将被限制。",
     nickLabel:"昵称",
     nickPh:"请输入昵称",
@@ -3802,7 +4245,9 @@ const I18N = {
     memberLabel:"選擇成員", memberAll:"全隊",
     boardTitle:"入所生宣言牆", boardSub:"入所生們的一句宣言。|喜歡的宣言按個讚吧。", boardEmpty:"還沒有宣言，來當第一位入所生吧！", boardError:"暫時無法載入留言板，請稍後再試。",
     topBoardTitle:"🔥 人氣宣言 TOP 3", topBoardSub:"按讚數", sortLatest:"最新", sortLikes:"按讚數", boardExpand:"展開", boardCollapse:"收合",
-    playlistTitle:"立即觀看《IDOL SCHOOL CAMP》！", playlistSubtitle:"每週五晚間6點於 Muniverse YouTube 頻道公開",
+    playlistTitle:"《IDOL SCHOOL CAMP》，現在一次追完！", playlistSubtitle:"全集已公開 · 在 Muniverse YouTube 頻道一次看",
+    sbNotice1:"誓言·按讚·分享得分|已於 8/7 23:59（KST）截止統計。", sbNotice2:"自 8/11 上午10點（KST）起|才藝秀決賽投票得分將計入總分。", sbNotice3:"才藝秀 X 按讚統計至 8/10 上午11點59分（KST）。", sbNotice4:"積分榜每10分鐘更新一次。",
+    sbCtaTitle:"8/11 上午10點 才藝秀決賽投票開始", sbCtaBody:"用投票分數逆轉排名|為我的*最愛隊伍*獻上*王者獎牌*", sbCtaFoot:"8/14 結營活動開始 · 敬請期待最後的故事", scoreMedal:"王者獎牌",
     scoreTitle:"營地積分榜", scoreSub:"按團隊彙總誓言（10分）、按讚（每個1分）與分享（50分）得分。積分榜每10分鐘更新一次。", scoreTotal:"累計分數", scorePledge:"誓言", scoreLike:"按讚", scoreShare:"分享", scoreShareShort:"分享", scoreMeme:"迷因才藝秀", scoreWorldcup:"名場面世界盃", scoreSoon:"待公開", scoreLoading:"正在載入積分榜。", scoreEmpty:"暫無積分。", scoreUpdated:"最後更新", scoreReload:"10分鐘", scoreAutoRefresh:"每10分鐘更新", scoreShareNote:"分享得分每天上午9點59分（KST）更新一次。", scoreDesc:"按團隊彙總誓言（10分）、按讚（每個1分）與分享（50分）得分。|積分榜每10分鐘更新一次。|分享得分每天上午9點59分（KST）更新一次。", scoreCtaTitle:"贏下王者獎牌和橫幅廣告！", scoreCtaBody:"奪冠後掛上王者獎牌，並成為Muniverse橫幅廣告主角！", pledgeRestricted:"偵測到重複暱稱模式，已限制登記。\n為防止不正當加分，僅更改數字、少量字母或表情符號的暱稱將被限制。",
     nickLabel:"暱稱",
     nickPh:"請輸入暱稱",
@@ -4009,9 +4454,18 @@ function scheduleBoardRender(){
   },{rootMargin:"500px 0px"});
   boardObserver.observe(board);
 }
+/* "|" 는 줄바꿈, "*강조*" 는 노란색 강조로 변환합니다 (시안 카피 배열 유지용). */
+function richI18n(value){
+  return String(value==null?"":value).split("|").map(line=>
+    line.split("*").map((chunk,i)=> i%2 ? `<em class="hl">${esc(chunk)}</em>` : esc(chunk)).join("")
+  ).join("<br>");
+}
 function applyI18n(){
   document.querySelectorAll("[data-i18n]").forEach(el=>{
     const k=el.getAttribute("data-i18n"); if(t()[k]!=null) setI18nValue(el,t()[k]);
+  });
+  document.querySelectorAll("[data-i18n-rich]").forEach(el=>{
+    const k=el.getAttribute("data-i18n-rich"); if(t()[k]!=null) el.innerHTML=richI18n(t()[k]);
   });
   $("#nick").placeholder=t().nickPh;
   $("#msg").placeholder=t().msgPh;
@@ -4110,6 +4564,17 @@ function scoreUnit(){
   }[lang] || "점");
 }
 function scoreValue(n){ return `${scoreNum(n)}${scoreUnit()}`; }
+function scoreRankLabel(n){
+  return ({
+    ko:`${n}위`,
+    en:`#${n}`,
+    ja:`${n}位`,
+    "zh-CN":`第${n}名`,
+    "zh-TW":`第${n}名`,
+    zh:`第${n}名`,
+    tw:`第${n}名`
+  }[lang] || `${n}위`);
+}
 function scoreShareLabelShort(){
   return ({
     ko:"공유",
@@ -4173,7 +4638,7 @@ async function renderScoreboard(){
   try{
     const rows=await fetchScoreboard();
     if(!rows || !rows.length){
-      el.innerHTML=`<div class="score-empty">${esc(T.scoreEmpty||"아직 집계된 점수가 없습니다.")}</div>`;
+      el.innerHTML=`<div class="sb-empty">${esc(T.scoreEmpty||"아직 집계된 점수가 없습니다.")}</div>`;
       if(upd) upd.textContent="";
       return;
     }
@@ -4183,22 +4648,19 @@ async function renderScoreboard(){
       const worldcup = Number(r.worldcup_score||0)>0 ? `${scoreNum(r.worldcup_score)}` : (T.scoreSoon||"예정");
       const rankN = Number(r.rank||idx+1);
       const isFirst = rankN===1 && Number(r.total_score||0)>0;
-      return `<article class="score-card score-card-line${isFirst?" score-card--first":""}" style="${teamScoreStyle(r.team_id)}">
-        ${isFirst?'<span class="score-medal" aria-hidden="true">🥇</span>':""}
-        <div class="score-top">
-          <div class="score-rank">${rankN}위</div>
-          <div class="score-team">
-            <div class="name">${esc(tm.name||r.team_name||r.team_id)}</div>
-            <div class="sub">${esc(T.scorePledge||"다짐")} ${scoreValue(r.pledge_score)} · ${esc(T.scoreLike||"좋아요")} ${scoreValue(r.like_score)} · ${esc(T.scoreShareShort||scoreShareLabelShort())} ${scoreValue(r.share_score)} · ${esc(T.scoreMeme||"짤 장기자랑")} ${scoreValue(r.meme_score||0)}</div>
-          </div>
-          <div class="score-total"><b>${scoreValue(r.total_score)}</b></div>
+      return `<article class="sb-card${isFirst?" is-first":""}" style="${teamScoreStyle(r.team_id)}">
+        <span class="sb-rank">${scoreRankLabel(rankN)}</span>
+        <div class="sb-info">
+          <div class="sb-name">${esc(tm.name||r.team_name||r.team_id)}</div>
+          <div class="sb-sub">${esc(T.scorePledge||"다짐")} ${scoreValue(r.pledge_score)} · ${esc(T.scoreLike||"좋아요")} ${scoreValue(r.like_score)} · ${esc(T.scoreShareShort||scoreShareLabelShort())} ${scoreValue(r.share_score)} · ${esc(T.scoreMeme||"짤 장기자랑")} ${scoreValue(r.meme_score||0)}</div>
         </div>
+        <div class="sb-score">${scoreValue(r.total_score)}</div>
       </article>`;
     }).join("");
     const last=rows.map(r=>r.updated_at).sort().pop();
-    if(upd) upd.textContent = `${T.scoreUpdated||"마지막 업데이트"} ${scoreDateLabel(last)} · ${T.scoreAutoRefresh||scoreAutoRefreshLabel()}`;
+    if(upd) upd.innerHTML = `<svg class="sb-updated-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 11.2a8.4 8.4 0 0 0-14.3-4.6L3.4 9.2"/><path d="M3.6 12.8a8.4 8.4 0 0 0 14.3 4.6l2.7-2.6"/><path d="M3.2 4.6v4.6h4.6M20.8 19.4v-4.6h-4.6"/></svg><span>${esc(`${T.scoreUpdated||"마지막 업데이트"} ${scoreDateLabel(last)} · ${T.scoreAutoRefresh||scoreAutoRefreshLabel()}`)}</span>`;
   }catch(e){
-    el.innerHTML=`<div class="score-empty">${esc(T.scoreLoading||"점수판을 불러오는 중입니다.")}</div>`;
+    el.innerHTML=`<div class="sb-empty">${esc(T.scoreLoading||"점수판을 불러오는 중입니다.")}</div>`;
     if(upd) upd.textContent="";
   }
 }
