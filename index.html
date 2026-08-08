@@ -2619,6 +2619,12 @@
     box-shadow:0 20px 54px rgba(15,59,58,.32), 0 0 0 9999px rgba(15,59,58,.22)!important;
     border:2px solid rgba(255,255,255,.24)!important;
   }
+  /* 문단은 왼쪽 정렬을 유지하되, 텍스트 블록 자체는 팝업 가운데에 오도록 */
+  #toast.toast-center .toast-msg{
+    display:inline-block;
+    text-align:left;
+    max-width:100%;
+  }
   #toast.toast-center.toast-alert:before{
     content:"⚠️";
     display:block;
@@ -4622,7 +4628,7 @@ function toast(msg){ const el=$("#toast"); el.classList.remove("toast-center","t
 function centerAlert(msg){
   const el=$("#toast");
   el.classList.add("toast-center","toast-alert");
-  el.innerHTML=String(msg||"").replace(/\n/g,"<br>");
+  el.innerHTML=`<span class="toast-msg">${String(msg||"").replace(/\n/g,"<br>")}</span>`;
   el.classList.add("show");
   clearTimeout(el._t);
   el._t=setTimeout(()=>{ el.classList.remove("show","toast-center","toast-alert"); },3200);
