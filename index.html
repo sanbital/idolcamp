@@ -3391,6 +3391,133 @@
     .exbar-gift{width:40px}
   }
 
+  /* ---------- 짤기자랑 결선투표 배너 (8/11 10:00 KST 오픈) ----------
+     유튜브(크림) · 확장판(딥그린) 다음에 놓이는 세 번째 배너라
+     골드 계열로 잡아 셋이 서로 구분되게 한다. 오픈 전에는
+     hidden 속성으로 완전히 숨긴다. */
+  .votebar{
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr) auto;
+    align-items:center;
+    gap:clamp(12px,2.4vw,28px);
+    margin:0 0 14px;
+    padding:clamp(11px,1.7vw,19px) clamp(14px,2.2vw,26px);
+    border-radius:30px;
+    background:
+      radial-gradient(62% 140% at 88% 50%, rgba(255,255,255,.40) 0%, rgba(255,255,255,0) 62%),
+      linear-gradient(180deg,#FFD34F 0%,#F2A81C 100%);
+    border:2px solid #123A2E;
+    box-shadow:0 14px 32px rgba(146,94,6,.32), inset 0 1px 0 rgba(255,255,255,.55);
+    color:#123A2E;
+    text-decoration:none;
+    transition:transform .16s ease, box-shadow .16s ease;
+  }
+  .votebar[hidden]{display:none!important}
+  .votebar:hover{transform:translateY(-2px);box-shadow:0 18px 38px rgba(146,94,6,.38), inset 0 1px 0 rgba(255,255,255,.6)}
+  .votebar:active{transform:translateY(0)}
+  .votebar:focus-visible{outline:3px solid #0F3B3A;outline-offset:3px}
+  .votebar-logo{
+    width:clamp(74px,13vw,152px);
+    height:auto;
+    display:block;
+    object-fit:contain;
+  }
+  .votebar-copy{display:block;min-width:0}
+  .votebar-lead{
+    display:flex;
+    align-items:center;
+    gap:.45em;
+    font-size:clamp(10.5px,1.58vw,18px);
+    font-weight:900;
+    line-height:1.3;
+    letter-spacing:-.03em;
+    color:#1B4B36;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+  .votebar-lead > span{min-width:0}
+  .votebar-live{
+    flex:0 0 auto;
+    width:.62em;
+    height:.62em;
+    border-radius:50%;
+    background:#C62828;
+    box-shadow:0 0 0 0 rgba(198,40,40,.55);
+    animation:votebarPulse 1.9s ease-out infinite;
+  }
+  @keyframes votebarPulse{
+    0%{box-shadow:0 0 0 0 rgba(198,40,40,.55)}
+    70%{box-shadow:0 0 0 .55em rgba(198,40,40,0)}
+    100%{box-shadow:0 0 0 0 rgba(198,40,40,0)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .votebar-live{animation:none}
+    .votebar,.votebar-go,.sb-vote-go,.sb-cta.is-live{transition:none}
+    .votebar:hover,.sb-vote-go:hover,.sb-cta.is-live:hover{transform:none}
+  }
+  .votebar-title{
+    display:block;
+    margin-top:clamp(2px,.5vw,7px);
+    font-size:clamp(15.5px,2.72vw,31px);
+    font-weight:900;
+    line-height:1.14;
+    letter-spacing:-.045em;
+    color:#0F3B2C;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+    text-wrap:balance;
+  }
+  /* "*최애팀*" 강조 → 골드 위에서 확실히 튀는 딥레드 + 손글씨 밑줄 */
+  .votebar-title .hl{
+    font-style:normal;
+    color:#A02A16;
+    position:relative;
+    display:inline-block;
+    padding-bottom:.1em;
+  }
+  .votebar-title .hl:after{
+    content:"";
+    position:absolute;
+    left:-3%;
+    right:-3%;
+    bottom:-.04em;
+    height:.2em;
+    background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 12' preserveAspectRatio='none'><path d='M3 8.4 Q 26 2.2, 52 6 T 97 3.6' stroke='%23A02A16' stroke-width='4.2' fill='none' stroke-linecap='round'/></svg>") no-repeat center/100% 100%;
+  }
+  .votebar-go{
+    flex:0 0 auto;
+    display:inline-flex;
+    align-items:center;
+    gap:clamp(4px,.6vw,9px);
+    padding:clamp(8px,1.15vw,15px) clamp(12px,1.7vw,24px);
+    border-radius:999px;
+    background:linear-gradient(180deg,#1F6537 0%,#123A2E 100%);
+    border:2px solid #0C2B21;
+    box-shadow:0 5px 0 rgba(12,43,33,.26);
+    color:#FFE47A;
+    font-size:clamp(11px,1.5vw,18px);
+    font-weight:900;
+    letter-spacing:-.03em;
+    white-space:nowrap;
+    transition:box-shadow .16s ease;
+  }
+  .votebar-go svg{width:1em;height:1em;display:block;flex:0 0 auto}
+  .votebar:hover .votebar-go{box-shadow:0 7px 0 rgba(12,43,33,.3)}
+  @media (max-width:700px){
+    .votebar{gap:10px;padding:11px 12px;border-radius:20px;margin-bottom:12px}
+    .votebar-logo{width:clamp(56px,15.5vw,88px)}
+    .votebar-lead{font-size:clamp(9.4px,2.5vw,12.5px)}
+    .votebar-title{font-size:clamp(14px,4.1vw,21px);margin-top:2px}
+    .votebar-go{padding:8px 12px;font-size:clamp(10.5px,2.8vw,13px);gap:5px;box-shadow:0 4px 0 rgba(12,43,33,.26)}
+  }
+  @media (max-width:380px){
+    .votebar{gap:8px;padding:10px}
+    .votebar-logo{width:62px}
+    .votebar-lead{font-size:9px}
+    .votebar-title{font-size:13.5px}
+    .votebar-go{padding:7px 10px;font-size:10px}
+  }
+
   /* ---------- scoreboard panel ---------- */
   .sb{
     position:relative;
@@ -3594,6 +3721,39 @@
     border:2px solid #0E3A21;
     box-shadow:0 6px 0 rgba(15,59,58,.16);
   }
+  /* 결선투표가 열리면 CTA 자체가 링크가 된다(is-live).
+     CTA 내부 마크업은 config.js 가 한국어에서 통째로 교체하므로,
+     안내 버튼은 CTA 바깥 형제 요소(.sb-vote-go)로 둔다. */
+  .sb-cta.is-live{cursor:pointer}
+  .sb-cta.is-live{transition:transform .16s ease, box-shadow .16s ease}
+  .sb-cta.is-live:hover{transform:translateY(-2px);box-shadow:0 8px 0 rgba(15,59,58,.18)}
+  .sb-cta.is-live:active{transform:translateY(0);box-shadow:0 4px 0 rgba(15,59,58,.16)}
+  .sb-cta.is-live:focus-visible{outline:3px solid #FFD84D;outline-offset:3px}
+  .sb-vote-go{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:clamp(5px,.7vw,10px);
+    margin-top:clamp(8px,1.1vw,14px);
+    padding:clamp(11px,1.5vw,19px) clamp(14px,2vw,26px);
+    border-radius:999px;
+    background:linear-gradient(180deg,#FFD34F 0%,#F2A81C 100%);
+    border:2px solid #123A2E;
+    box-shadow:0 5px 0 rgba(15,59,58,.22);
+    color:#123A2E;
+    font-size:clamp(12px,1.75vw,21px);
+    font-weight:900;
+    letter-spacing:-.035em;
+    text-align:center;
+    text-decoration:none;
+    word-break:keep-all;
+    transition:transform .16s ease, box-shadow .16s ease;
+  }
+  .sb-vote-go[hidden]{display:none!important}
+  .sb-vote-go svg{width:1em;height:1em;display:block;flex:0 0 auto}
+  .sb-vote-go:hover{transform:translateY(-2px);box-shadow:0 7px 0 rgba(15,59,58,.24)}
+  .sb-vote-go:active{transform:translateY(0);box-shadow:0 3px 0 rgba(15,59,58,.22)}
+  .sb-vote-go:focus-visible{outline:3px solid #0F3B3A;outline-offset:3px}
   .sb-cta-copy{
     position:relative;
     z-index:2;
@@ -3711,6 +3871,7 @@
     .sb-cta-title{font-size:clamp(13px,4.2vw,20px)}
     .sb-cta-body{font-size:clamp(10.5px,3.2vw,15px)}
     .sb-cta-foot{font-size:clamp(8.4px,2.3vw,11px)}
+    .sb-vote-go{font-size:clamp(11.5px,3.3vw,15px);padding:11px 14px;margin-top:8px;box-shadow:0 4px 0 rgba(15,59,58,.22)}
     .sb-medal{width:clamp(52px,15.5vw,78px)}
     .sb-medal-crown{font-size:clamp(8px,2.2vw,11px)}
     .sb-medal-text{font-size:clamp(8px,2.5vw,12px)}
@@ -3780,6 +3941,22 @@
     </svg></span>
   </div>
 
+  <!-- FINAL VOTE BANNER (8/11 10:00 KST 부터 노출 · JS 에서 hidden 해제) -->
+  <a class="votebar" id="voteBanner" href="https://www.muniverse.io/votes" target="_blank" rel="noopener noreferrer" hidden>
+    <img class="votebar-logo" id="voteBannerLogo" alt="아이돌 수련회 로고">
+    <span class="votebar-copy">
+      <span class="votebar-lead">
+        <i class="votebar-live" aria-hidden="true"></i>
+        <span data-i18n="voteBannerLead">뮤니버스 짤기자랑 결선투표 진행 중!</span>
+      </span>
+      <strong class="votebar-title" data-i18n-rich="voteBannerTitle">내 *최애팀*에 왕메달 선물하러 가기</strong>
+    </span>
+    <span class="votebar-go">
+      <span data-i18n="voteBannerCta">투표하기</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h13.5M12.2 5.2 19 12l-6.8 6.8"/></svg>
+    </span>
+  </a>
+
   <!-- SCOREBOARD -->
   <section class="sb" id="scoreboard">
     <div class="sb-top">
@@ -3828,6 +4005,11 @@
         </span>
       </div>
     </div>
+    <!-- 결선투표 바로가기 (8/11 10:00 KST 부터 노출 · JS 에서 hidden 해제) -->
+    <a class="sb-vote-go" id="scoreVoteGo" href="https://www.muniverse.io/votes" target="_blank" rel="noopener noreferrer" hidden>
+      <span data-i18n="sbVoteGo">짤기자랑 결선투표 하러 가기</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h13.5M12.2 5.2 19 12l-6.8 6.8"/></svg>
+    </a>
   </section>
 
 
@@ -4158,6 +4340,7 @@ const I18N = {
     extendedLead:"더 길고 더 재밌게, 숨겨진 장면과 구매자 한정 특전까지!", extendedTitle:"*8/14* 〈아이돌 수련회〉 ~확장판 대공개~",
     sbNotice1:"기준 다짐·좋아요·공유 점수는|8/7 23:59 기준으로 집계가 마감되었습니다.", sbNotice2:"8/11 오전 10시부터는|장기자랑 결선 투표 점수가 합산됩니다.", sbNotice3:"장기자랑 X 좋아요는 8/10 오전 11시 59분까지 반영됩니다.", sbNotice4:"점수판은 10분마다 업데이트됩니다.",
     sbCtaTitle:"8/11 오전 10시 짤기자랑 결선투표 시작", sbCtaBody:"투표 점수로 순위 역전하고|내 *최애팀*에 *왕메달 선물*하세요", sbCtaFoot:"8/14 퇴소식 이벤트 시작 · 마지막 이야기까지 기대해 주세요", scoreMedal:"왕메달",
+    voteBannerLead:"뮤니버스 짤기자랑 결선투표 진행 중!", voteBannerTitle:"내 *최애팀*에 왕메달 선물하러 가기", voteBannerCta:"투표하기", sbVoteGo:"짤기자랑 결선투표 하러 가기",
     scoreTitle:"수련회 점수판", scoreSub:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 10분마다 새로고침됩니다.", scoreTotal:"누적 점수", scorePledge:"다짐", scoreLike:"좋아요", scoreShare:"공유하기", scoreShareShort:"공유", scoreMeme:"짤 장기자랑", scoreWorldcup:"명장면 월드컵", scoreSoon:"예정", scoreLoading:"스코어보드를 불러오는 중입니다.", scoreEmpty:"아직 집계된 점수가 없습니다.", scoreUpdated:"마지막 업데이트", scoreReload:"10분", scoreAutoRefresh:"10분마다 새로고침", scoreShareNote:"공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreDesc:"입소생들의 다짐·좋아요·공유하기 점수를 합산합니다.|* 다짐 10점 · 좋아요 획득 1회 1점 · 공유 50점|점수판은 10분마다 새로고침됩니다.|공유하기 점수는 하루 1회 오전 9시 59분(한국시간)에 업데이트됩니다.", scoreCtaTitle:"아티스트에게 왕메달 선물하고, 뮤니버스 배너 광고 걸자!", scoreCtaBody:"우리 팀이 우승하면 왕메달을 걸고, 뮤니버스 배너 광고의 주인공이 될 수 있어요!", pledgeRestricted:"다른 닉네임으로 다짐을 남겨주세요.\n점수 부정 적립 방지를 위해 숫자·철자·이모지만 바꾼 닉네임은 다짐 등록이 제한돼요.",
     nickLabel:"닉네임",
     nickPh:"닉네임을 입력하세요",
@@ -4211,6 +4394,7 @@ const I18N = {
     extendedLead:"Longer and funnier — hidden scenes and buyer-only extras!", extendedTitle:"*8/14 KST* 〈IDOL SCHOOL CAMP〉 ~Extended Edition~",
     sbNotice1:"Pledge, like and share scores|were finalized as of 8/7 23:59 KST.", sbNotice2:"From 8/11 10:00 AM KST,|talent show final vote scores are added.", sbNotice3:"Talent Show X Likes count until 8/10 11:59 AM KST.", sbNotice4:"The scoreboard updates every 10 minutes.",
     sbCtaTitle:"Talent Show Final Vote opens 8/11, 10 AM KST", sbCtaBody:"Flip the rankings with your votes|Give your *favorite team* the *Crown Medal*", sbCtaFoot:"Farewell event starts 8/14 KST · Stay tuned for the final story", scoreMedal:"CROWN",
+    voteBannerLead:"Final Vote is live on Muniverse!", voteBannerTitle:"Give your *favorite team* the Crown Medal", voteBannerCta:"Vote now", sbVoteGo:"Go vote in the Talent Show Final",
     scoreTitle:"Camp Scoreboard", scoreSub:"Team scores add up pledges (10 pts), likes (1 pt each), and verified shares (50 pts). The scoreboard reloads every 10 minutes.", scoreTotal:"Total Score", scorePledge:"Pledge", scoreLike:"Likes", scoreShare:"Shares", scoreShareShort:"Shares", scoreMeme:"Meme Talent Show", scoreWorldcup:"Best Scene World Cup", scoreSoon:"Soon", scoreLoading:"Loading scoreboard.", scoreEmpty:"No scores yet.", scoreUpdated:"Last updated", scoreReload:"10 min", scoreAutoRefresh:"refreshes every 10 minutes", scoreShareNote:"Share scores are updated once a day at 9:59 AM KST.", scoreDesc:"Team scores add up pledges (10 pts), likes (1 pt each), and verified shares (50 pts).|The scoreboard reloads every 10 minutes.|Share scores are updated once a day at 9:59 AM KST.", scoreCtaTitle:"Win the crown medal and banner ad!", scoreCtaBody:"Win camp, claim the crown medal, and star in a Muniverse banner ad!", pledgeRestricted:"Please join with a different nickname.\nTo prevent unfair scoring, nicknames changed only by numbers, small spelling edits, or emoji are restricted.",
     nickLabel:"Nickname",
     nickPh:"Enter your nickname",
@@ -4263,6 +4447,7 @@ const I18N = {
     extendedLead:"もっと長く、もっと面白く。未公開シーンと購入者限定特典まで！", extendedTitle:"*8/14 KST*『IDOL SCHOOL CAMP』~拡張版 大公開~",
     sbNotice1:"誓い・いいね・共有のスコアは|8/7 23:59（KST）で集計を締め切りました。", sbNotice2:"8/11 午前10時（KST）からは|かくし芸大会 決勝投票のスコアが合算されます。", sbNotice3:"かくし芸 X いいねは 8/10 午前11時59分（KST）まで反映されます。", sbNotice4:"点数表は10分ごとに更新されます。",
     sbCtaTitle:"8/11 午前10時 KST かくし芸大会 決勝投票スタート", sbCtaBody:"投票スコアで順位を大逆転|推しチームに*王メダル*をプレゼント", sbCtaFoot:"8/14 KST 退所式イベント開始 · 最後の物語までお楽しみに", scoreMedal:"王メダル",
+    voteBannerLead:"Muniverse で決勝投票が進行中！", voteBannerTitle:"推しチームに*王メダル*をプレゼントしよう", voteBannerCta:"投票する", sbVoteGo:"かくし芸大会 決勝投票へ行く",
     scoreTitle:"キャンプ点数表", scoreSub:"誓い（10点）・いいね（1個1点）・共有（50点）のスコアをチーム別に合算します。点数表は10分ごとに更新されます。", scoreTotal:"累計スコア", scorePledge:"誓い", scoreLike:"いいね", scoreShare:"共有", scoreShareShort:"共有", scoreMeme:"画像芸大会", scoreWorldcup:"名場面W杯", scoreSoon:"予定", scoreLoading:"スコアボードを読み込み中です。", scoreEmpty:"まだ集計されたスコアがありません。", scoreUpdated:"最終更新", scoreReload:"10分", scoreAutoRefresh:"10分ごとに更新", scoreShareNote:"共有スコアは1日1回、午前9時59分（KST）に更新されます。", scoreDesc:"誓い（10点）・いいね（1個1点）・共有（50点）のスコアをチーム別に合算します。|点数表は10分ごとに更新されます。|共有スコアは1日1回、午前9時59分（KST）に更新されます。", scoreCtaTitle:"王メダルとバナー広告をつかもう！", scoreCtaBody:"優勝して王メダルを掲げ、Muniverseバナー広告の主役になりましょう！", pledgeRestricted:"ニックネームの繰り返しパターンが検出されたため制限されました。\n不正な点数加算を防ぐため、数字・一部の文字・絵文字だけを変えたニックネームは制限されます。",
     nickLabel:"ニックネーム",
     nickPh:"ニックネームを入力",
@@ -4315,6 +4500,7 @@ const I18N = {
     extendedLead:"更长更有趣，未公开画面与购买者限定特典！", extendedTitle:"*8/14 KST*《IDOL SCHOOL CAMP》~扩展版大公开~",
     sbNotice1:"誓言·点赞·分享得分|已于 8/7 23:59（KST）截止统计。", sbNotice2:"自 8/11 上午10点（KST）起|才艺秀决赛投票得分将计入总分。", sbNotice3:"才艺秀 X 点赞统计至 8/10 上午11点59分（KST）。", sbNotice4:"积分榜每10分钟更新一次。",
     sbCtaTitle:"8/11 上午10点 KST 才艺秀决赛投票开启", sbCtaBody:"用投票分数逆转排名|为我的*最爱队伍*送上*王者奖牌*", sbCtaFoot:"8/14 KST 结营活动开启 · 敬请期待最后的故事", scoreMedal:"王者奖牌",
+    voteBannerLead:"Muniverse 决赛投票进行中！", voteBannerTitle:"为我的*最爱队伍*送上王者奖牌", voteBannerCta:"去投票", sbVoteGo:"前往才艺秀决赛投票",
     scoreTitle:"营地积分榜", scoreSub:"按团队汇总誓言（10分）、点赞（每个1分）与分享（50分）得分。积分榜每10分钟更新一次。", scoreTotal:"累计分数", scorePledge:"誓言", scoreLike:"点赞", scoreShare:"分享", scoreShareShort:"分享", scoreMeme:"表情包才艺秀", scoreWorldcup:"名场面世界杯", scoreSoon:"待公开", scoreLoading:"正在加载积分榜。", scoreEmpty:"暂无积分。", scoreUpdated:"最后更新", scoreReload:"10分钟", scoreAutoRefresh:"每10分钟刷新", scoreShareNote:"分享得分每天上午9点59分（KST）更新一次。", scoreDesc:"按团队汇总誓言（10分）、点赞（每个1分）与分享（50分）得分。|积分榜每10分钟更新一次。|分享得分每天上午9点59分（KST）更新一次。", scoreCtaTitle:"赢下王者奖牌和横幅广告！", scoreCtaBody:"夺冠后挂上王者奖牌，并成为Muniverse横幅广告主角！", pledgeRestricted:"检测到重复昵称模式，已限制登记。\n为防止不正当加分，仅更改数字、少量字母或表情符号的昵称将被限制。",
     nickLabel:"昵称",
     nickPh:"请输入昵称",
@@ -4367,6 +4553,7 @@ const I18N = {
     extendedLead:"更長更有趣，未公開畫面與購買者限定特典！", extendedTitle:"*8/14 KST*《IDOL SCHOOL CAMP》~擴充版大公開~",
     sbNotice1:"誓言·按讚·分享得分|已於 8/7 23:59（KST）截止統計。", sbNotice2:"自 8/11 上午10點（KST）起|才藝秀決賽投票得分將計入總分。", sbNotice3:"才藝秀 X 按讚統計至 8/10 上午11點59分（KST）。", sbNotice4:"積分榜每10分鐘更新一次。",
     sbCtaTitle:"8/11 上午10點 KST 才藝秀決賽投票開始", sbCtaBody:"用投票分數逆轉排名|為我的*最愛隊伍*獻上*王者獎牌*", sbCtaFoot:"8/14 KST 結營活動開始 · 敬請期待最後的故事", scoreMedal:"王者獎牌",
+    voteBannerLead:"Muniverse 決賽投票進行中！", voteBannerTitle:"為我的*最愛隊伍*獻上王者獎牌", voteBannerCta:"去投票", sbVoteGo:"前往才藝秀決賽投票",
     scoreTitle:"營地積分榜", scoreSub:"按團隊彙總誓言（10分）、按讚（每個1分）與分享（50分）得分。積分榜每10分鐘更新一次。", scoreTotal:"累計分數", scorePledge:"誓言", scoreLike:"按讚", scoreShare:"分享", scoreShareShort:"分享", scoreMeme:"迷因才藝秀", scoreWorldcup:"名場面世界盃", scoreSoon:"待公開", scoreLoading:"正在載入積分榜。", scoreEmpty:"暫無積分。", scoreUpdated:"最後更新", scoreReload:"10分鐘", scoreAutoRefresh:"每10分鐘更新", scoreShareNote:"分享得分每天上午9點59分（KST）更新一次。", scoreDesc:"按團隊彙總誓言（10分）、按讚（每個1分）與分享（50分）得分。|積分榜每10分鐘更新一次。|分享得分每天上午9點59分（KST）更新一次。", scoreCtaTitle:"贏下王者獎牌和橫幅廣告！", scoreCtaBody:"奪冠後掛上王者獎牌，並成為Muniverse橫幅廣告主角！", pledgeRestricted:"偵測到重複暱稱模式，已限制登記。\n為防止不正當加分，僅更改數字、少量字母或表情符號的暱稱將被限制。",
     nickLabel:"暱稱",
     nickPh:"請輸入暱稱",
@@ -4594,6 +4781,7 @@ function applyI18n(){
   $("#hashText").textContent = tags().join(" ");
   buildLangs(); buildChips(); buildSchedule(); bindScheduleLinks(); buildMembers(); scheduleBoardRender(); renderScoreboard();
   updateScoreClosedUI();
+  updateVoteUI();
   // re-render certificate if visible
   if($("#result").classList.contains("show")) renderCert();
 }
@@ -4671,6 +4859,40 @@ function updateScoreClosedUI(){
   });
 }
 
+
+/* -------- 짤기자랑 결선투표 노출 게이트 (8/11 10:00 KST) --------
+   배너와 점수판 CTA 링크는 미리 심어두고 오픈 시각 전까지 hidden 으로 감춘다.
+   유저 기기 시계를 신뢰하지 않도록 서버 시각 오프셋(serverNowMs)을 사용하며,
+   오픈 시각은 CONFIG.talent.finalStart 를 그대로 따른다.
+   운영 확인용으로 ?votePreview=1 을 붙이면 오픈 전에도 미리 볼 수 있다. */
+const VOTE_URL = "https://www.muniverse.io/votes";
+const VOTE_OPEN_FALLBACK = "2026-08-11T10:00:00+09:00";
+const VOTE_PREVIEW = new URLSearchParams(location.search).get("votePreview")==="1";
+function voteOpenMs(){
+  const ms = new Date((CONFIG.talent && CONFIG.talent.finalStart) || VOTE_OPEN_FALLBACK).getTime();
+  return Number.isFinite(ms) ? ms : new Date(VOTE_OPEN_FALLBACK).getTime();
+}
+function isVoteOpen(){ return VOTE_PREVIEW || serverNowMs() >= voteOpenMs(); }
+function openVotePage(){ window.open(VOTE_URL, "_blank", "noopener"); }
+function updateVoteUI(){
+  const open = isVoteOpen();
+  const banner = $("#voteBanner"); if(banner) banner.hidden = !open;
+  const go = $("#scoreVoteGo"); if(go) go.hidden = !open;
+  const cta = $("#scoreCta");
+  if(cta){
+    cta.classList.toggle("is-live", open);
+    if(open){
+      cta.setAttribute("role","link");
+      cta.setAttribute("tabindex","0");
+      const label = (t() && t().sbVoteGo) || "";
+      if(label) cta.setAttribute("aria-label", label);
+    } else {
+      cta.removeAttribute("role");
+      cta.removeAttribute("tabindex");
+      cta.removeAttribute("aria-label");
+    }
+  }
+}
 
 /* -------- scoreboard -------- */
 function scoreNum(n){ return Number(n||0).toLocaleString(lang==="ko"?"ko-KR":"en-US"); }
@@ -6209,7 +6431,7 @@ initMainTabs();
   async function boot(){
     const st=await fetchStatus(1800);
     window.__memeStatus=st;
-    noteServerTime(st); updateScoreClosedUI();
+    noteServerTime(st); updateScoreClosedUI(); updateVoteUI();
     const visible=!!(st&&st.visible&&!st.kill)||(!st&&(CONFIG.talent.enabled&&talentPhase()!=='before'));
     setTalentLock(!visible);
     const tab=pickTab(visible);
@@ -6223,7 +6445,7 @@ initMainTabs();
       if(document.hidden) return;
       const s=await fetchStatus(3000); if(!s) return;
       window.__memeStatus=s;
-      noteServerTime(s); updateScoreClosedUI();
+      noteServerTime(s); updateScoreClosedUI(); updateVoteUI();
       const v=!!(s.visible&&!s.kill);
       setTalentLock(!v);
       const tp=document.querySelector('.tab-panel[data-tab-panel="talent"]');
@@ -6243,6 +6465,23 @@ const topCampLogo=$("#topCampLogo"); if(topCampLogo) topCampLogo.src=LOGO_SRC;
 const playlistBannerLogo=$("#playlistBannerLogo"); if(playlistBannerLogo) playlistBannerLogo.src=LOGO_SRC;
 const extendedBannerLogo=$("#extendedBannerLogo"); if(extendedBannerLogo) extendedBannerLogo.src=LOGO_SRC;
 const augAppLogo=$("#augAppLogo"); if(augAppLogo) augAppLogo.src=MUNIVERSE_APP_LOGO;
+const voteBannerLogo=$("#voteBannerLogo"); if(voteBannerLogo) voteBannerLogo.src=LOGO_SRC;
+
+/* 점수판 결선투표 CTA 클릭(모바일 탭 포함) → 결선투표 페이지.
+   CTA 내부 마크업은 config.js 가 한국어에서 교체하므로 핸들러는 요소 자체에 건다. */
+const scoreCtaEl = $("#scoreCta");
+if(scoreCtaEl){
+  scoreCtaEl.addEventListener("click", ()=>{ if(isVoteOpen()) openVotePage(); });
+  scoreCtaEl.addEventListener("keydown", (e)=>{
+    if((e.key==="Enter" || e.key===" ") && isVoteOpen()){
+      e.preventDefault();
+      openVotePage();
+    }
+  });
+}
+// 오픈 시각이 지나면 새로고침 없이도 배너가 나타나도록 주기적으로 다시 판정한다.
+updateVoteUI();
+setInterval(updateVoteUI, 20000);
 
 const augBanner = $("#augExtendedBanner");
 if(augBanner){
