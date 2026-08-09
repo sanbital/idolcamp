@@ -3561,7 +3561,9 @@
     .votebar-title{font-size:clamp(14px,4.1vw,21px);margin-top:2px}
     .votebar-go{padding:8px 12px;font-size:clamp(10.5px,2.8vw,13px);gap:5px;box-shadow:0 4px 0 rgba(12,43,33,.26)}
     .votebar .vote-rewards{justify-content:center}
-    .vote-reward{font-size:clamp(9.4px,2.6vw,13px);padding:6px 10px;gap:5px;box-shadow:0 2px 0 rgba(18,58,46,.20)}
+    /* 390px 안팎에서 칩 두 개가 한 줄에 들어가도록 여백을 조인다. */
+    .vote-rewards{gap:4px}
+    .vote-reward{font-size:clamp(9.4px,2.6vw,13px);padding:6px 8px;gap:5px;box-shadow:0 2px 0 rgba(18,58,46,.20)}
   }
   @media (max-width:380px){
     .votebar{column-gap:8px;padding:10px}
@@ -3784,31 +3786,35 @@
   .sb-cta.is-live:hover{transform:translateY(-2px);box-shadow:0 8px 0 rgba(15,59,58,.18)}
   .sb-cta.is-live:active{transform:translateY(0);box-shadow:0 4px 0 rgba(15,59,58,.16)}
   .sb-cta.is-live:focus-visible{outline:3px solid #FFD84D;outline-offset:3px}
-  .sb-vote-block{margin-top:clamp(8px,1.1vw,14px)}
-  .sb-vote-block[hidden]{display:none!important}
-  .sb-vote-block .vote-rewards{justify-content:center}
+  /* 리워드 칩과 바로가기 문구를 노란 버튼 하나로 합친다. */
   .sb-vote-go{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:clamp(5px,.7vw,10px);
-    margin-top:clamp(7px,1vw,12px);
-    padding:clamp(11px,1.5vw,19px) clamp(14px,2vw,26px);
-    border-radius:999px;
+    display:grid;
+    justify-items:center;
+    gap:clamp(7px,1vw,13px);
+    margin-top:clamp(8px,1.1vw,14px);
+    padding:clamp(11px,1.5vw,19px) clamp(12px,1.8vw,24px);
+    border-radius:clamp(15px,1.9vw,26px);
     background:linear-gradient(180deg,#FFD34F 0%,#F2A81C 100%);
     border:2px solid #123A2E;
     box-shadow:0 5px 0 rgba(15,59,58,.22);
     color:#123A2E;
-    font-size:clamp(12px,1.75vw,21px);
-    font-weight:900;
-    letter-spacing:-.035em;
-    text-align:center;
     text-decoration:none;
-    word-break:keep-all;
     transition:transform .16s ease, box-shadow .16s ease;
   }
   .sb-vote-go[hidden]{display:none!important}
-  .sb-vote-go svg{width:1em;height:1em;display:block;flex:0 0 auto}
+  .sb-vote-go .vote-rewards{justify-content:center}
+  .sb-vote-go-cta{
+    display:inline-flex;
+    align-items:center;
+    gap:clamp(5px,.7vw,10px);
+    font-size:clamp(12px,1.75vw,21px);
+    font-weight:900;
+    letter-spacing:-.035em;
+    line-height:1.2;
+    text-align:center;
+    word-break:keep-all;
+  }
+  .sb-vote-go-cta svg{width:1em;height:1em;display:block;flex:0 0 auto}
   .sb-vote-go:hover{transform:translateY(-2px);box-shadow:0 7px 0 rgba(15,59,58,.24)}
   .sb-vote-go:active{transform:translateY(0);box-shadow:0 3px 0 rgba(15,59,58,.22)}
   .sb-vote-go:focus-visible{outline:3px solid #0F3B3A;outline-offset:3px}
@@ -3929,7 +3935,8 @@
     .sb-cta-title{font-size:clamp(13px,4.2vw,20px)}
     .sb-cta-body{font-size:clamp(10.5px,3.2vw,15px)}
     .sb-cta-foot{font-size:clamp(8.4px,2.3vw,11px)}
-    .sb-vote-go{font-size:clamp(11.5px,3.3vw,15px);padding:11px 14px;margin-top:8px;box-shadow:0 4px 0 rgba(15,59,58,.22)}
+    .sb-vote-go{padding:10px;gap:8px;margin-top:8px;border-radius:15px;box-shadow:0 4px 0 rgba(15,59,58,.22)}
+    .sb-vote-go-cta{font-size:clamp(11.5px,3.3vw,15px)}
     .sb-medal{width:clamp(52px,15.5vw,78px)}
     .sb-medal-crown{font-size:clamp(8px,2.2vw,11px)}
     .sb-medal-text{font-size:clamp(8px,2.5vw,12px)}
@@ -4074,8 +4081,8 @@
       </div>
     </div>
     <!-- 결선투표 리워드 + 바로가기 (8/11 10:00 KST 부터 노출 · JS 에서 hidden 해제) -->
-    <div class="sb-vote-block" id="scoreVoteBlock" hidden>
-      <div class="vote-rewards">
+    <a class="sb-vote-go" id="scoreVoteGo" href="https://www.muniverse.io/votes" target="_blank" rel="noopener noreferrer" hidden>
+      <span class="vote-rewards">
         <span class="vote-reward">
           <svg class="vote-reward-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.58 1.11 6.47L12 17.44 6.19 20.5 7.3 14.03 2.6 9.45l6.5-.95z"/></svg>
           <span data-i18n-rich="voteRewardWin">우리 팀 1위 시 *+1,000만점*</span>
@@ -4084,12 +4091,12 @@
           <svg class="vote-reward-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 11.5V19a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9.2"/><path d="M8.4 11.6 12 15.2 21.2 5.6"/></svg>
           <span data-i18n-rich="voteRewardVote">투표 1회당 *+100점*</span>
         </span>
-      </div>
-      <a class="sb-vote-go" id="scoreVoteGo" href="https://www.muniverse.io/votes" target="_blank" rel="noopener noreferrer">
+      </span>
+      <span class="sb-vote-go-cta">
         <span data-i18n="sbVoteGo">짤기자랑 결선투표 하러 가기</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h13.5M12.2 5.2 19 12l-6.8 6.8"/></svg>
-      </a>
-    </div>
+      </span>
+    </a>
   </section>
 
 
@@ -4957,7 +4964,7 @@ function openVotePage(){ window.open(VOTE_URL, "_blank", "noopener"); }
 function updateVoteUI(){
   const open = isVoteOpen();
   const banner = $("#voteBanner"); if(banner) banner.hidden = !open;
-  const go = $("#scoreVoteBlock"); if(go) go.hidden = !open;
+  const go = $("#scoreVoteGo"); if(go) go.hidden = !open;
   const cta = $("#scoreCta");
   if(cta){
     cta.classList.toggle("is-live", open);
