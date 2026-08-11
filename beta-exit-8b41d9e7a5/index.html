@@ -11,23 +11,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@700&display=swap" rel="stylesheet">
 <script src="../config.js"></script>
 <style>
-/* The exit ceremony is entered from the main idolcamp site's 퇴소 tab, so it
-   reuses that site's shell verbatim: 1080 wrap, centred camp logo, language
-   pills, tab bar, then the ceremony as the active tab panel below.
-   Type is unified with the main page (Pretendard, Jua for display numerals).
-   Campfire is the section's motif. */
+/* The exit ceremony is the third tab of the main idolcamp site, so the shell
+   (green field, camp logo, language pills, tab bar) is the main site's own.
+   Only the ceremony's own cards turn to the night-camp chapter. */
 :root{
-  --green:#8FB35A;--green-deep:#6E9440;
-  --forest:#123A2E;--navy:#0F3B3A;--ink-soft:#3C5245;--ink-faint:#6E8271;
-  --card:#F6FAEF;--paper:#FBF6E9;--paper-2:#F3EAD2;
-  --yellow:#F2C230;--yellow-lite:#FFD956;--blue:#49AAC4;--orange:#E8792B;
-  --red:#D6534A;--purple:#7F6FE3;--mint:#34D399;
-  --line:rgba(15,59,58,.12);
+  --green:#8FB35A;--forest:#123A2E;--navy:#0F3B3A;--ink-soft:#3C5245;--ink-faint:#6E8271;
+  --card:#F6FAEF;--line:rgba(15,59,58,.12);
+  /* night chapter */
+  --night:#08172C;--night-2:#0E2945;--night-3:#123A2E;
+  --gold:#F2C230;--gold-l:#FFD96A;--cream:#FFF8E7;--paper:#FBF6E9;
+  --red:#C4564C;--camp-green:#2F7D4F;
   --sans:"Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",system-ui,-apple-system,sans-serif;
-  --display:"Jua","Gaegu","Pretendard","Noto Sans KR",sans-serif;
+  --display:"Jua","Gaegu","Pretendard",sans-serif;
   --radius:22px;
   --shadow:0 18px 40px rgba(15,59,58,.22);
-  --pop:0 5px 0 rgba(15,59,58,.12);
   font-synthesis-weight:none;
 }
 *{box-sizing:border-box}
@@ -43,11 +40,9 @@ body{
 }
 button{font-family:inherit}
 :focus-visible{outline:3px solid var(--navy);outline-offset:2px}
-.artDefs{position:absolute;width:0;height:0;overflow:hidden}
 .wrap{max-width:1080px;margin:0 auto;padding:22px 20px calc(64px + env(safe-area-inset-bottom))}
-.narrow{max-width:760px;margin-left:auto;margin-right:auto}
 
-/* ---------- site shell ---------- */
+/* ---------- site shell (inherited from the main page) ---------- */
 .camp-topbar{display:flex;flex-direction:column;align-items:center;gap:9px;margin:0 0 9px;width:100%}
 .top-camp-logo{display:block;width:196px;max-width:68vw;height:auto;object-fit:contain;margin:0 auto;filter:drop-shadow(0 3px 5px rgba(15,59,58,.16))}
 .langs{display:flex;gap:5px;width:100%;padding:4px;border-radius:16px;background:rgba(15,59,58,.10);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
@@ -55,7 +50,6 @@ button{font-family:inherit}
 .langs button{position:relative;flex:1 1 0;min-width:max-content;border:0;background:transparent;color:#12402f;font-weight:700;font-size:12.5px;padding:9px 11px;border-radius:12px;cursor:pointer;white-space:nowrap;transition:.15s}
 .langs button:after{content:"";position:absolute;left:0;right:0;top:-6px;bottom:-6px}
 .langs button[aria-pressed="true"]{background:var(--navy);color:#eafff4;box-shadow:0 4px 12px rgba(15,59,58,.3)}
-
 .tabs{display:flex;gap:6px;margin:14px 0 0;padding:6px;background:rgba(15,59,58,.10);border-radius:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
 .tab{flex:1 1 0;min-width:max-content;white-space:nowrap;border:0;background:transparent;color:#1c4636;font-family:inherit;font-weight:800;font-size:14px;padding:11px 13px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;transition:.15s}
@@ -67,226 +61,198 @@ button{font-family:inherit}
 .page{display:none}
 .page.on{display:block;animation:pageIn .2s ease both}
 @keyframes pageIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.card{background:var(--card);border:2px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
-.sectionLabel{display:block;font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--ink-faint)}
-h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.4px;word-break:keep-all}
+h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-break:keep-all}
+.eyebrow{display:block;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--gold)}
 
-/* ---------- home: campfire night ---------- */
-.hero{position:relative;margin-top:16px;border-radius:26px;overflow:hidden;border:2px solid rgba(15,59,58,.15);box-shadow:var(--shadow)}
-.nightart{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* ---------- HOME hero: the last night ---------- */
+.hero{position:relative;margin-top:16px;border-radius:26px;overflow:hidden;background:var(--night);box-shadow:0 20px 44px rgba(8,23,44,.34)}
+.heroArt{position:absolute;inset:0;width:100%;height:100%;display:block}
 .artWide{display:none}
-.heroInner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:22px;min-height:470px;padding:22px 18px;text-align:center}
-.signBoard{position:relative;display:inline-block;padding:15px 26px 17px;border-radius:14px;border:3px solid #4A2C16;color:#FFEFB8;
-  background:linear-gradient(#95653A,#77492A 55%,#6A3F23),repeating-linear-gradient(90deg,rgba(0,0,0,.10) 0 3px,transparent 3px 9px);
-  box-shadow:0 9px 0 rgba(0,0,0,.30),inset 0 2px 0 rgba(255,255,255,.16)}
-.signBoard:before,.signBoard:after{content:"";position:absolute;top:9px;width:7px;height:7px;border-radius:50%;background:#E8D9A8;box-shadow:inset 0 -1px 0 rgba(0,0,0,.35)}
-.signBoard:before{left:10px}
-.signBoard:after{right:10px}
-.signBoard h1{font-family:var(--display);font-size:clamp(30px,8vw,40px);line-height:1.12;font-weight:400;letter-spacing:-.01em;color:#FFEFB8;text-shadow:0 3px 0 rgba(38,20,8,.55)}
-.signBoard .en{display:block;margin-top:5px;font-size:11px;font-weight:800;letter-spacing:.28em;color:rgba(255,232,170,.78)}
-.heroLead{margin:14px 0 0;color:#fff;font-size:14px;line-height:1.65;font-weight:600;text-shadow:0 2px 6px rgba(0,0,0,.8);word-break:keep-all}
-.heroCta{width:100%;max-width:420px}
-.primary{width:100%;min-height:56px;border:2px solid var(--navy);border-radius:16px;padding:14px;background:linear-gradient(var(--yellow-lite),var(--yellow));color:var(--navy);font-size:18px;font-weight:900;letter-spacing:-.02em;box-shadow:0 6px 0 #B8862A,0 12px 20px rgba(0,0,0,.26);cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
-.primary:active{transform:translateY(3px);box-shadow:0 3px 0 #B8862A}
-.primary:disabled{opacity:.65;transform:none}
-.heroNote{display:block;margin-top:10px;font-size:11.5px;font-weight:700;color:rgba(255,247,220,.8);text-shadow:0 1px 4px rgba(0,0,0,.6)}
-@keyframes flicker{0%,100%{transform:scaleY(1) translateY(0)}50%{transform:scaleY(1.07) translateY(-2px)}}
-.flame{transform-origin:50% 100%;animation:flicker 2.1s ease-in-out infinite}
-.glow{animation:flicker 2.6s ease-in-out infinite;transform-origin:50% 70%}
+/* keeps the copy readable over the camp scene */
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,23,44,.96) 4%,rgba(8,23,44,.72) 34%,rgba(8,23,44,.12) 68%,transparent 100%);pointer-events:none}
+.heroInner{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;min-height:512px;padding:26px 22px 26px;text-align:left}
+.heroInner .eyebrow{margin-bottom:10px}
+.heroTitle{font-size:clamp(36px,10.4vw,42px);line-height:1.04;font-weight:900;letter-spacing:-.04em;color:var(--cream)}
+.heroDesc{margin:14px 0 0;max-width:32em;font-size:14px;line-height:1.7;font-weight:500;color:rgba(255,248,231,.9);word-break:keep-all}
+.heroCta{margin-top:20px}
+.primary{width:100%;min-height:58px;border:0;border-radius:15px;padding:15px 22px;background:linear-gradient(180deg,var(--gold-l),var(--gold));color:#3A2A06;font-size:17px;font-weight:900;letter-spacing:-.02em;cursor:pointer;box-shadow:0 3px 0 rgba(150,104,12,.85),0 10px 24px rgba(8,23,44,.32);transition:transform .16s ease,box-shadow .16s ease}
+.primary:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(150,104,12,.85)}
+.primary:disabled{opacity:.62;transform:none}
+.heroNote{display:block;margin-top:11px;font-size:12px;font-weight:600;color:rgba(255,248,231,.62)}
+@keyframes flicker{0%,100%{transform:scaleY(1) translateY(0);opacity:1}50%{transform:scaleY(1.06) translateY(-2px);opacity:.94}}
+.flame{transform-box:fill-box;transform-origin:50% 100%;animation:flicker 2.4s ease-in-out infinite}
+.emberGlow{transform-box:fill-box;transform-origin:50% 70%;animation:flicker 3.1s ease-in-out infinite}
 
-.homeGrid{display:grid;gap:14px;margin-top:14px}
-.how{padding:18px 17px}
-.how h3{margin:6px 0 13px;font-size:20px}
-.steps{list-style:none;display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:stretch;gap:6px;margin:0;padding:0}
-.step{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:13px 6px 11px;background:var(--paper);border:2px solid var(--line);border-radius:15px;text-align:center;font-size:11px;line-height:1.32;letter-spacing:-.03em;font-weight:700;color:var(--ink-soft);word-break:keep-all;box-shadow:var(--pop)}
-.stepArt{display:block;width:46px;height:42px}
-.stepArt svg{width:100%;height:100%;display:block}
-.step b{position:absolute;top:-9px;left:-7px;width:23px;height:23px;border-radius:50%;background:var(--yellow);border:2px solid var(--navy);color:var(--navy);font-family:var(--display);font-size:13px;font-weight:400;line-height:20px}
-.stepGo{display:flex;align-items:center;justify-content:center;color:rgba(15,59,58,.34)}
-.stepGo svg{width:14px;height:14px}
-.hint-line{margin:13px 2px 2px;font-size:12px;line-height:1.6;color:var(--ink-faint);font-weight:600;word-break:keep-all}
+/* ---------- steps ---------- */
+.guide{margin-top:22px}
+.guideHead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 2px 12px}
+.guideHead h2{font-size:19px}
+.guideHead .sub{font-size:12px;font-weight:600;color:rgba(18,58,46,.62)}
+.steps{list-style:none;display:grid;grid-template-columns:1fr;gap:10px;margin:0;padding:0}
+.step{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:14px;padding:16px 16px;background:linear-gradient(180deg,#12304C,#0C2038);border:1px solid rgba(242,194,48,.20);border-radius:18px}
+.stepIcon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:rgba(242,194,48,.10);border:1px solid rgba(242,194,48,.26);color:var(--gold-l)}
+.stepIcon svg{width:22px;height:22px}
+.stepNo{display:block;font-size:11px;font-weight:800;letter-spacing:.16em;color:var(--gold)}
+.step h3{margin:4px 0 4px;font-size:15.5px;font-weight:800;color:var(--cream);letter-spacing:-.02em}
+.step p{margin:0;font-size:12.5px;line-height:1.6;font-weight:500;color:rgba(255,248,231,.66);word-break:keep-all}
+.previewNote{margin:12px 4px 0;text-align:center;font-size:12.5px;line-height:1.7;font-weight:600;color:rgba(18,58,46,.68);word-break:keep-all}
 
-.vodCard{display:grid;grid-template-columns:minmax(0,1fr);align-items:center;gap:14px;padding:18px 17px;border-radius:var(--radius);background:linear-gradient(180deg,#1C5C46 0%,#0F3B3A 100%);border:2px solid rgba(110,231,168,.34);color:var(--paper);box-shadow:0 14px 32px rgba(15,59,58,.34)}
-.vodCard .sectionLabel{color:rgba(255,240,205,.6)}
-.vodCard strong{display:block;margin:6px 0 4px;font-size:20px;font-weight:900;letter-spacing:-.4px;word-break:keep-all}
-.vodCard p{margin:0;font-size:13px;line-height:1.6;color:rgba(255,248,232,.82);font-weight:600;word-break:keep-all}
-.vod{width:100%;min-height:52px;margin-top:13px;border:2px solid var(--navy);border-radius:15px;padding:12px 18px;background:var(--yellow);color:var(--navy);font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 4px 0 rgba(15,59,58,.45);transition:transform .15s ease}
-.vod:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(15,59,58,.45)}
+/* ---------- secondary VOD ---------- */
+.vodCard{display:grid;gap:14px;align-items:center;margin-top:16px;padding:18px 18px;border-radius:20px;background:var(--card);border:1px solid var(--line);box-shadow:0 10px 26px rgba(15,59,58,.14)}
+.vodCard .eyebrow{color:#9C7A16}
+.vodCard strong{display:block;margin:7px 0 5px;font-size:17px;font-weight:900;letter-spacing:-.03em;color:var(--navy);word-break:keep-all}
+.vodCard p{margin:0;font-size:12.5px;line-height:1.6;font-weight:500;color:var(--ink-soft);word-break:keep-all}
+.vod{width:100%;min-height:50px;border:1.5px solid var(--navy);border-radius:13px;padding:12px 20px;background:transparent;color:var(--navy);font-size:14.5px;font-weight:800;cursor:pointer;transition:background .16s ease,color .16s ease}
+.vod:active{background:var(--navy);color:var(--cream)}
 
 /* ---------- question ---------- */
-.qhead{margin:14px 2px 10px}
-.qhrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-.qcount{font-family:var(--display);font-size:16px;color:rgba(15,59,58,.55)}
-.qcount b{font-size:32px;font-weight:400;color:var(--navy);margin-right:2px}
-.randChip{flex:none;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.55);border:1.5px solid rgba(15,59,58,.3);color:var(--navy);font-size:11px;font-weight:800}
-.stamps{display:flex;gap:2px;align-items:flex-end;height:16px}
-.stamps i{flex:1;min-width:3px;height:13px;background:rgba(15,59,58,.22);clip-path:polygon(50% 0,100% 100%,0 100%);transition:background .2s ease,height .2s ease}
-.stamps i.done{background:var(--forest)}
-.stamps i.now{background:var(--orange);height:16px}
+.qhead{margin:16px 2px 12px}
+.qhrow{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:9px}
+.qcount{font-size:15px;font-weight:800;color:rgba(18,58,46,.55)}
+.qcount b{font-size:26px;font-weight:900;color:var(--navy);margin-right:1px;letter-spacing:-.03em}
+.randChip{flex:none;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.5);border:1px solid rgba(15,59,58,.2);color:var(--navy);font-size:11px;font-weight:700}
+.track{height:7px;border-radius:999px;background:rgba(15,59,58,.16);overflow:hidden}
+.track i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--camp-green),var(--gold));transition:width .28s cubic-bezier(.22,.7,.3,1)}
 
-.status{padding:16px 12px;border-radius:16px;background:var(--card);border:2px dashed rgba(15,59,58,.25);font-size:13px;font-weight:700;text-align:center;color:var(--ink-soft);margin-bottom:10px}
+.status{padding:16px 12px;border-radius:16px;background:var(--card);border:1px dashed rgba(15,59,58,.25);font-size:13px;font-weight:700;text-align:center;color:var(--ink-soft);margin-bottom:10px}
 .status.hide{display:none}
 .status .dots:after{content:"";animation:dots 1.2s steps(4,end) infinite}
 @keyframes dots{0%{content:""}25%{content:"·"}50%{content:"··"}75%{content:"···"}}
 
-.qcard{padding:13px}
-.qcard.swap{animation:swapIn .2s ease both}
+.qcard{padding:14px;background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 30px rgba(15,59,58,.16)}
+.qcard.swap{animation:swapIn .19s ease both}
 @keyframes swapIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
-.qbody{display:grid;gap:12px}
-.picFrame{position:relative;background:#fff;border:2px solid var(--line);border-radius:12px;padding:7px 7px 8px;box-shadow:var(--pop)}
-.picFrame:before{content:"";position:absolute;z-index:3;top:-9px;left:18px;width:56px;height:17px;background:rgba(242,194,48,.42);border:1px solid rgba(15,59,58,.10);transform:rotate(-6deg)}
-.pic{position:relative;aspect-ratio:16/9;background:#20241f;border-radius:7px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.pic:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,rgba(255,255,255,.05),rgba(255,255,255,.13),rgba(255,255,255,.05));background-size:220% 100%;animation:sheen 1.4s linear infinite;opacity:1;transition:opacity .2s ease}
+.qbody{display:grid;gap:15px}
+.pic{position:relative;aspect-ratio:16/9;background:#151C22;border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pic:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,rgba(255,255,255,.04),rgba(255,255,255,.11),rgba(255,255,255,.04));background-size:220% 100%;animation:sheen 1.4s linear infinite;opacity:1;transition:opacity .2s ease}
 .pic.loaded:before,.pic.failed:before{opacity:0;animation:none}
 @keyframes sheen{from{background-position:120% 0}to{background-position:-120% 0}}
 .pic img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .22s ease}
 .pic.loaded img{opacity:1}
-.pic .missing{position:relative;z-index:1;display:none;padding:20px;text-align:center;font-size:12px;font-weight:700;color:#cbbfa8}
+.pic .missing{position:relative;z-index:1;display:none;padding:20px;text-align:center;font-size:12px;font-weight:600;color:#9FAFA5}
 .pic.failed .missing{display:block}
-.filmTag{position:absolute;z-index:2;top:-9px;right:10px;padding:5px 12px;border-radius:999px;background:var(--forest);border:2px solid var(--navy);color:#FFE9A8;font-size:11.5px;font-weight:800;transform:rotate(2deg)}
+.filmTag{position:absolute;z-index:2;top:10px;left:10px;padding:5px 11px;border-radius:8px;background:rgba(8,23,44,.72);color:var(--gold-l);font-size:11px;font-weight:700;letter-spacing:.04em;backdrop-filter:blur(3px)}
 
-.qside{display:flex;flex-direction:column;justify-content:center;padding:2px 2px 0;text-align:center}
-.hint{margin:0;font-size:12px;font-weight:800;color:var(--purple)}
-.question{margin:9px 0 0;font-size:19px;line-height:1.55;font-weight:800;letter-spacing:-.03em;color:var(--forest);word-break:keep-all;overflow-wrap:break-word;display:flex;align-items:center;justify-content:center}
-.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.ans{min-height:68px;border:2px solid var(--navy);border-radius:17px;padding:12px 8px;font-family:var(--display);font-size:25px;font-weight:400;letter-spacing:.04em;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s ease,box-shadow .15s ease,opacity .15s ease}
-.ans .glyph{font-size:19px;opacity:.85}
-.yes{background:#2F7D4F;box-shadow:0 5px 0 #1C5233}
-.no{background:var(--red);box-shadow:0 5px 0 #9E3830}
-.ans:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(15,59,58,.5)}
+.qside{display:flex;flex-direction:column;justify-content:center;padding:2px}
+.hint{margin:0;font-size:12px;font-weight:700;color:#7A6AC0}
+.question{margin:9px 0 0;font-size:19px;line-height:1.55;font-weight:800;letter-spacing:-.03em;color:var(--forest);word-break:keep-all;overflow-wrap:break-word}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.ans{min-height:62px;border:0;border-radius:15px;padding:12px 8px;font-size:19px;font-weight:900;letter-spacing:.06em;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:transform .16s ease,box-shadow .16s ease,opacity .16s ease}
+.ans .glyph{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;border:2.4px solid currentColor;font-size:0}
+.ans .glyph.x{border:0;position:relative}
+.ans .glyph.x:before,.ans .glyph.x:after{content:"";position:absolute;left:1px;right:1px;top:9px;height:2.4px;background:currentColor;border-radius:2px}
+.ans .glyph.x:before{transform:rotate(45deg)}
+.ans .glyph.x:after{transform:rotate(-45deg)}
+.yes{background:var(--camp-green);box-shadow:0 3px 0 #1F5836}
+.no{background:var(--red);box-shadow:0 3px 0 #8E3A32}
+.ans:active{transform:translateY(2px);box-shadow:none}
 .ans:disabled{opacity:.5;transform:none}
-.tip{display:flex;align-items:center;justify-content:center;gap:7px;margin:10px 0 0;padding:9px 11px;border:2px dashed rgba(15,59,58,.25);border-radius:14px;background:var(--paper);text-align:center;font-size:12px;line-height:1.55;font-weight:700;color:var(--ink-soft);word-break:keep-all}
-.tip svg{width:15px;height:15px;flex:none;color:#C79A1E}
+.tip{margin:13px 2px 0;text-align:center;font-size:11.5px;line-height:1.6;font-weight:600;color:rgba(18,58,46,.55);word-break:keep-all}
 
 /* ---------- result ---------- */
-.ribbon{position:relative;margin:16px auto -12px;width:min(100%,380px);padding:13px 16px;border-radius:12px;border:2px solid var(--navy);background:linear-gradient(var(--yellow-lite),var(--yellow));color:var(--navy);font-size:16px;font-weight:900;text-align:center;box-shadow:0 5px 0 rgba(15,59,58,.35);z-index:2}
-.ribbon:before,.ribbon:after{content:"";position:absolute;bottom:-9px;width:0;height:0;border-top:10px solid #C79A1E}
-.ribbon:before{left:-2px;border-left:11px solid transparent}
-.ribbon:after{right:-2px;border-right:11px solid transparent}
-.certOuter{padding:16px 14px 14px;border-radius:var(--radius);background:linear-gradient(150deg,#EADFC0,#DCCB9E);border:2px solid rgba(15,59,58,.18);box-shadow:var(--shadow)}
-.cert{position:relative;padding:26px 20px 20px;background:var(--paper);border:2px solid #C9B489;text-align:center}
-.cert:before{content:"";position:absolute;inset:6px;border:1px solid #E2D2AD;pointer-events:none}
-.certEyebrow{display:block;font-size:10.5px;font-weight:800;letter-spacing:.2em;color:#9B8B6B}
-.certName{margin:8px 0 0;font-size:clamp(22px,4vw,30px);font-weight:900;letter-spacing:-.4px;color:#1F5E44}
-.certRule{display:flex;align-items:center;gap:9px;margin:12px 4px 16px;color:#A89771}
-.certRule:before,.certRule:after{content:"";flex:1;height:1px;background:currentColor;opacity:.5}
-.certRule span{font-size:10px;font-weight:800;letter-spacing:.14em}
-.certVisual{margin:0 0 18px;display:flex;align-items:center;justify-content:center;min-height:150px;padding:12px 10px;border-radius:14px;background:radial-gradient(circle at 50% 38%,#FFF8E2,#F2E6C6)}
-.certVisual img{display:block;width:100%;height:auto;max-height:300px;object-fit:contain;border-radius:6px}
-#campLogo{max-width:70%;max-height:140px}
-.seal{width:132px;color:#1F5E44}
-.seal svg{display:block;width:100%;height:auto}
+.resultTop{text-align:center;margin:18px 0 14px}
+.resultTop .eyebrow{color:#8C6B10}
+.resultTop h2{margin-top:7px;font-size:clamp(21px,5vw,26px)}
+.certOuter{position:relative;padding:14px;border-radius:20px;background:linear-gradient(160deg,#1B4A36,#0F2E24);box-shadow:0 18px 40px rgba(8,23,44,.28)}
+.cert{position:relative;padding:30px 22px 24px;background:var(--paper);border:1.5px solid #2E6A4E;border-radius:8px;text-align:center;overflow:hidden}
+.cert:before{content:"";position:absolute;inset:7px;border:1px solid rgba(46,106,78,.28);border-radius:4px;pointer-events:none}
+/* gold corner marks */
+.cert .corner{position:absolute;width:22px;height:22px;border:2px solid var(--gold);opacity:.75}
+.cert .corner.tl{top:13px;left:13px;border-right:0;border-bottom:0}
+.cert .corner.tr{top:13px;right:13px;border-left:0;border-bottom:0}
+.cert .corner.bl{bottom:13px;left:13px;border-right:0;border-top:0}
+.cert .corner.br{bottom:13px;right:13px;border-left:0;border-top:0}
+.certEyebrow{display:block;font-size:10px;font-weight:800;letter-spacing:.22em;color:#9C8A62}
+.certName{margin:8px 0 0;font-size:clamp(20px,4.4vw,26px);font-weight:900;letter-spacing:-.02em;color:#1F5E44}
+.certRule{display:flex;align-items:center;gap:10px;margin:12px 10px 18px;color:#C3AE7C}
+.certRule:before,.certRule:after{content:"";flex:1;height:1px;background:currentColor}
+.certRule span{font-size:9.5px;font-weight:800;letter-spacing:.16em;color:#9C8A62}
+.certVisual{margin:0 auto 20px;display:flex;align-items:center;justify-content:center;min-height:132px;max-width:440px}
+.certVisual img{display:block;width:100%;height:auto;max-height:280px;object-fit:contain;border-radius:6px}
+#campLogo{max-width:66%;max-height:124px}
+.perfectBadge{display:inline-block;margin:0 0 14px;padding:6px 16px;border-radius:999px;background:linear-gradient(135deg,#F7E3A8,#D9A93F);color:#3C2A06;font-size:10.5px;font-weight:900;letter-spacing:.18em}
 
-.perfectBadge{display:inline-block;margin:0 0 12px;padding:7px 15px;border-radius:999px;background:linear-gradient(135deg,#F6DC9A,#D9A93F);border:2px solid #7A5A14;color:#3C2A06;font-size:11px;font-weight:900;letter-spacing:.16em;box-shadow:0 3px 8px rgba(0,0,0,.3)}
-.certOuter.perfect{background:linear-gradient(150deg,#123528,#0A241B);border-color:rgba(202,166,79,.5)}
-.cert.perfect{background:#102E23;border-color:#CAA64F;color:#F6EFDC}
-.cert.perfect:before{border-color:rgba(214,176,94,.42)}
-.cert.perfect .certEyebrow{color:#D8BD7C}
-.cert.perfect .certName{color:#F7E7B6}
-.cert.perfect .certRule{color:#B99A52}
-.cert.perfect .certVisual{background:linear-gradient(160deg,rgba(230,197,120,.16),rgba(230,197,120,.05));box-shadow:inset 0 0 0 1px rgba(214,176,94,.35)}
-.cert.perfect .rtype .lead{color:#CBBF9D}
-.cert.perfect .titleBox:before,.cert.perfect .titleBox:after{background:linear-gradient(90deg,transparent,#B99A52,transparent)}
-.cert.perfect .titleBox strong{color:#F4D98A}
-.cert.perfect .titleBox .brk{color:#9C8248}
-.cert.perfect .countLabel{color:#BCAE8A}
-.cert.perfect .countVal{color:#F7E7B6}
-.cert.perfect .countVal em{color:#A6997A}
-.cert.perfect .countBar{background:rgba(255,246,220,.14)}
-.cert.perfect .countBar i{background:linear-gradient(90deg,#D9A93F,#F6DC9A)}
-.cert.perfect .friendNames{border-top-color:rgba(214,176,94,.32)}
-.cert.perfect .friendNames .label{color:#BDA877}
-.cert.perfect .plate{background:rgba(255,247,225,.06);border-color:rgba(214,176,94,.32)}
-.cert.perfect .plate em{color:#B0A382}
-.cert.perfect .desc{color:#CDC3A7}
-.cert.perfect .certFoot{border-top-color:rgba(214,176,94,.28);color:#B09C6D}
-
-.rtype{margin:0 0 4px}
-.rtype .lead{display:block;font-size:13px;font-weight:700;color:var(--ink-soft)}
-.titleBox{position:relative;display:block;margin:10px auto;padding:16px 10px;max-width:620px}
-.titleBox:before,.titleBox:after{content:"";position:absolute;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,#D3BD93,transparent)}
+.rtype .lead{display:block;font-size:13px;font-weight:600;color:#6C7A6E}
+.titleBox{position:relative;display:block;margin:10px auto;padding:15px 8px;max-width:620px}
+.titleBox:before,.titleBox:after{content:"";position:absolute;left:12%;right:12%;height:1px;background:linear-gradient(90deg,transparent,#D9C48E,transparent)}
 .titleBox:before{top:0}
 .titleBox:after{bottom:0}
-.titleBox strong{display:block;font-size:clamp(25px,5.4vw,40px);line-height:1.3;font-weight:900;letter-spacing:-.045em;color:#5B3E96;word-break:keep-all}
-.titleBox .brk{color:#C3AD86;font-weight:700;margin:0 3px}
+.titleBox strong{display:block;font-size:clamp(24px,5.2vw,38px);line-height:1.3;font-weight:900;letter-spacing:-.045em;color:#1F5E44;word-break:keep-all}
+.titleBox .brk{color:#C9B47F;font-weight:700;margin:0 3px}
 
-.countBlock{margin:18px auto 0;max-width:330px}
-.countRow{display:flex;align-items:center;justify-content:center;gap:9px}
-.countLabel{font-size:12px;font-weight:800;color:var(--ink-faint)}
-.countVal{font-family:var(--display);font-size:27px;color:#1F5E44}
-.countVal em{font-style:normal;font-size:14px;color:var(--ink-faint)}
-.countBar{height:6px;margin-top:9px;border-radius:999px;background:#E7DBC0;overflow:hidden}
-.countBar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#1F5E44,var(--yellow));width:0;transition:width .5s cubic-bezier(.22,.7,.3,1)}
+.countBlock{margin:18px auto 0;max-width:320px}
+.countRow{display:flex;align-items:baseline;justify-content:center;gap:9px}
+.countLabel{font-size:12px;font-weight:700;color:#6C7A6E}
+.countVal{font-size:26px;font-weight:900;letter-spacing:-.03em;color:#1F5E44}
+.countVal em{font-style:normal;font-size:14px;font-weight:700;color:#9C8A62}
+.countBar{height:5px;margin-top:10px;border-radius:999px;background:#E7DCC2;overflow:hidden}
+.countBar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#2F7D4F,var(--gold));width:0;transition:width .55s cubic-bezier(.22,.7,.3,1)}
 
-.friendNames{margin:20px 0 0;padding-top:16px;border-top:1px dashed #DCCFB2}
-.friendNames .label{display:block;margin-bottom:10px;font-size:10px;font-weight:800;letter-spacing:.16em;color:#9B8B6B}
-.friendList{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:7px}
-.plate{padding:8px 4px 7px;border:1px solid #E0D2B4;border-radius:8px;background:#FFFAEE;text-align:center;line-height:1.25}
-.plate b{display:block;font-size:12.5px;font-weight:800;letter-spacing:-.02em;word-break:keep-all}
-.plate em{display:block;margin-top:2px;font-style:normal;font-size:8.5px;font-weight:700;letter-spacing:.06em;color:#A08E73;text-transform:uppercase;word-break:break-word}
+.desc{margin:18px auto 0;max-width:430px;font-size:13px;line-height:1.8;font-weight:500;color:#5A6A5E;word-break:keep-all}
+.certFoot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px;padding-top:14px;border-top:1px solid #E7DCC2;font-size:10.5px;font-weight:700;letter-spacing:.06em;color:#9C8A62;text-align:left}
+.certFoot .seal{flex:none;width:56px;height:56px;display:grid;place-items:center;border-radius:50%;border:1.5px dashed #C0533F;color:#C0533F;transform:rotate(-9deg);line-height:1.1;font-size:9.5px;font-weight:900;letter-spacing:.02em;text-align:center;opacity:.9}
 
-.desc{margin:16px auto 0;max-width:420px;font-size:13px;line-height:1.75;font-weight:600;color:var(--ink-soft);word-break:keep-all}
-.certFoot{margin-top:18px;padding-top:13px;border-top:1px solid #EADFC4;font-size:10.5px;font-weight:800;letter-spacing:.12em;color:#A08E73}
+/* ---------- friends / album / share ---------- */
+.panel{margin-top:16px;padding:18px 16px;background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:0 10px 26px rgba(15,59,58,.14)}
+.panel h2{font-size:18px}
+.panel .eyebrow{color:#9C7A16}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;margin-top:14px}
+.pol{margin:0;background:#fff;border:1px solid rgba(15,59,58,.14);border-radius:4px;padding:5px 5px 7px;box-shadow:0 4px 12px rgba(15,59,58,.12)}
+.pol:nth-child(4n+1){transform:rotate(-.8deg)}
+.pol:nth-child(4n+3){transform:rotate(.8deg)}
+.pol img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:#E9E2D2;border-radius:2px}
+.pol figcaption{margin-top:6px;text-align:center;line-height:1.25}
+.pol figcaption b{display:block;font-size:11px;font-weight:800;letter-spacing:-.02em;color:var(--forest);word-break:keep-all}
+.pol figcaption em{display:block;margin-top:1px;font-style:normal;font-size:8px;font-weight:700;letter-spacing:.05em;color:#9C8A62;text-transform:uppercase;word-break:break-word}
+.empty{text-align:center;padding:26px 10px;font-size:12.5px;line-height:1.7;font-weight:600;color:var(--ink-faint)}
 
-.shareCard{margin-top:14px;padding:18px 16px}
-.shareCard h2{margin:6px 0 13px;font-size:20px}
-.shareRow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
-.shareBtn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:70px;padding:10px 4px;border:2px solid var(--navy);border-radius:15px;background:var(--paper);color:var(--navy);font-size:12px;font-weight:800;letter-spacing:-.02em;cursor:pointer;box-shadow:var(--pop);transition:transform .15s ease,box-shadow .15s ease,opacity .15s ease}
-.shareBtn svg{width:22px;height:22px;flex:none}
-.shareBtn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(15,59,58,.12)}
+.friendNames{margin:20px 0 0;padding-top:16px;border-top:1px solid #E7DCC2}
+.friendNames .label{display:block;margin-bottom:11px;font-size:9.5px;font-weight:800;letter-spacing:.18em;color:#9C8A62}
+.friendList{display:grid;grid-template-columns:repeat(auto-fill,minmax(94px,1fr));gap:7px}
+.plate{padding:8px 4px 7px;border:1px solid #E4D9BC;border-radius:6px;background:#FFFCF3;text-align:center;line-height:1.25}
+.plate b{display:block;font-size:12px;font-weight:800;letter-spacing:-.02em;color:var(--forest);word-break:keep-all}
+.plate em{display:block;margin-top:2px;font-style:normal;font-size:8px;font-weight:700;letter-spacing:.06em;color:#A08E73;text-transform:uppercase;word-break:break-word}
+
+.shareRow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}
+.shareBtn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:66px;padding:10px 4px;border:1px solid rgba(15,59,58,.2);border-radius:14px;background:#FFFDF6;color:var(--navy);font-size:11.5px;font-weight:700;letter-spacing:-.02em;cursor:pointer;transition:background .15s ease,transform .15s ease}
+.shareBtn svg{width:20px;height:20px;flex:none;color:var(--navy)}
+.shareBtn:active{transform:translateY(2px);background:#F2EEE0}
 .shareBtn:disabled{opacity:.5;cursor:default;transform:none}
-.shareBtn.x{background:#16181C;color:#fff}
-.shareBtn.ig{background:#FFF2F6;color:#98305D}
-.shareNote{margin:12px 2px 0;text-align:center;font-size:11.5px;line-height:1.65;font-weight:700;color:var(--ink-faint);word-break:keep-all;min-height:2.2em}
-.shareNote.warn{color:var(--red)}
-
-.album{margin-top:14px;padding:18px 16px}
-.album h2{margin:6px 0 0;font-size:20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:10px;margin-top:14px}
-.pol{margin:0;background:#fff;border:2px solid var(--line);padding:5px 5px 6px;box-shadow:var(--pop)}
-.pol:nth-child(3n+1){transform:rotate(-1.4deg)}
-.pol:nth-child(3n){transform:rotate(1.4deg)}
-.pol img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:#EFE7D7}
-.pol figcaption{margin-top:5px;text-align:center;line-height:1.2}
-.pol figcaption b{display:block;font-size:10.5px;font-weight:800;letter-spacing:-.02em;word-break:keep-all}
-.pol figcaption em{display:block;margin-top:1px;font-style:normal;font-size:8px;font-weight:700;letter-spacing:.05em;color:#A08E73;text-transform:uppercase;word-break:break-word}
-.empty{text-align:center;padding:24px 10px;font-size:12.5px;line-height:1.7;font-weight:700;color:var(--ink-faint)}
+.shareNote{margin:12px 2px 0;text-align:center;font-size:11.5px;line-height:1.65;font-weight:600;color:var(--ink-faint);word-break:keep-all;min-height:2.2em}
+.shareNote.warn{color:#B4483E}
 
 .actions{margin-top:14px}
-.ghost{width:100%;min-height:52px;border:2px solid var(--navy);border-radius:15px;padding:13px;background:var(--card);color:var(--navy);font-size:15px;font-weight:900;cursor:pointer;box-shadow:var(--pop);transition:transform .15s ease,box-shadow .15s ease}
-.ghost:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(15,59,58,.12)}
-
+.ghost{width:100%;min-height:50px;border:1.5px solid rgba(15,59,58,.28);border-radius:13px;padding:13px;background:transparent;color:var(--navy);font-size:14.5px;font-weight:800;cursor:pointer;transition:background .15s ease}
+.ghost:active{background:rgba(255,255,255,.4)}
 .denied{min-height:100vh;display:flex;align-items:center;justify-content:center;font-weight:800;color:#2b4437}
 
 /* ---------- desktop ---------- */
 @media(min-width:760px){
   .artMobile{display:none}
   .artWide{display:block}
-  /* copy and CTA hold the left column, the campfire scene owns the right */
-  .heroInner{align-items:flex-start;justify-content:center;text-align:left;min-height:400px;padding:34px 40px;max-width:56%;gap:0}
-  .heroCopy{max-width:100%}
-  .heroLead{font-size:15.5px}
-  .heroCta{max-width:340px;margin-top:24px}
-  .homeGrid{grid-template-columns:1.15fr .85fr;align-items:start}
-  .vodCard{align-self:stretch}
-  /* the home column is narrow, so only the full-width result card goes side by side */
-  .result-narrow .vodCard{grid-template-columns:minmax(0,1fr) auto}
-  .result-narrow .vod{width:auto;min-width:210px;margin-top:0}
-  .qbody{grid-template-columns:minmax(0,7fr) minmax(0,5fr);align-items:center}
-  .qside{text-align:left;padding:6px 8px}
-  .question{justify-content:flex-start;text-align:left;font-size:20px;min-height:96px;margin-top:12px}
+  /* cinematic hero: copy left, camp right */
+  .hero:after{background:linear-gradient(90deg,rgba(8,23,44,.96) 0%,rgba(8,23,44,.9) 34%,rgba(8,23,44,.58) 56%,rgba(8,23,44,.06) 82%,transparent 100%)}
+  .heroInner{justify-content:center;min-height:412px;padding:44px 48px;max-width:56%}
+  .heroTitle{font-size:clamp(44px,4.8vw,56px)}
+  .heroDesc{font-size:15px;margin-top:16px}
+  .heroCta{margin-top:26px}
+  .primary{width:auto;min-width:316px;font-size:17.5px}
+  .steps{grid-template-columns:repeat(3,1fr);gap:14px}
+  .step{grid-template-columns:1fr;gap:12px;padding:22px 20px}
+  .stepIcon{width:46px;height:46px}
+  .vodCard{grid-template-columns:minmax(0,1fr) auto;padding:20px 22px}
+  .vod{width:auto;min-width:212px}
+  .qbody{grid-template-columns:minmax(0,60fr) minmax(0,40fr);align-items:center;gap:18px}
+  .qside{padding:6px 10px}
+  .question{font-size:20px;min-height:92px;display:flex;align-items:center}
   .qcard{padding:16px}
-  .result-narrow{max-width:760px;margin:0 auto}
-  .cert{padding:34px 34px 26px}
-  .titleBox strong{font-size:clamp(30px,3.6vw,40px)}
-  .friendList{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
-  .grid{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}
+  .result-narrow{max-width:780px;margin:0 auto}
+  .cert{padding:40px 40px 28px}
+  .certVisual{min-height:150px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(122px,1fr))}
+  .friendList{grid-template-columns:repeat(auto-fill,minmax(108px,1fr))}
   .tab{font-size:15px;padding:13px 16px}
-  .stamps{max-width:680px}
-  .qhead{margin-top:18px}
 }
-/* the site shell (logo + languages + tabs) costs vertical room, so mobile
-   runs tighter to keep the photo, question and YES/NO on one screen */
 @media(max-width:759px){
   .wrap{padding:14px 12px calc(48px + env(safe-area-inset-bottom))}
   .top-camp-logo{width:150px}
@@ -297,19 +263,15 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.4px;word-br
   .tab{font-size:13px;padding:10px 8px;gap:4px}
   .tab .soon{display:none}
   .hero{margin-top:11px}
-  .qhead{margin:11px 2px 9px}
-  .qcount b{font-size:28px}
+  .qhead{margin:12px 2px 10px}
 }
 @media(max-width:359px){
-  .heroInner{min-height:430px;padding:18px 14px}
-  .signBoard{padding:13px 16px 15px}
-  .steps{gap:4px}
-  .step{font-size:10px;padding:11px 3px 9px}
-  .stepArt{width:38px;height:35px}
-  .question{font-size:17.5px;min-height:80px}
-  .ans{min-height:60px;font-size:21px}
-  .grid,.friendList{grid-template-columns:repeat(3,1fr)}
-  .friendList{grid-template-columns:repeat(2,1fr)}
+  .heroInner{min-height:462px;padding:20px 16px 22px}
+  .heroTitle{font-size:33px}
+  .question{font-size:17.5px}
+  .ans{min-height:56px;font-size:17px}
+  .grid,.friendList{grid-template-columns:repeat(2,1fr)}
+  .cert{padding:24px 15px 20px}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
@@ -319,59 +281,6 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.4px;word-br
 <body>
 <div id="denied" class="denied" style="display:none">404</div>
 <div id="app" style="display:none">
-<svg class="artDefs" aria-hidden="true" focusable="false"><defs>
-  <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#08172C"/><stop offset=".44" stop-color="#12304C"/><stop offset="1" stop-color="#1B4A36"/></linearGradient>
-  <radialGradient id="glowG"><stop offset="0" stop-color="#FFD066" stop-opacity=".72"/><stop offset=".5" stop-color="#E8792B" stop-opacity=".26"/><stop offset="1" stop-color="#E8792B" stop-opacity="0"/></radialGradient>
-  <radialGradient id="moonG"><stop offset="0" stop-color="#FFF3C4" stop-opacity=".40"/><stop offset="1" stop-color="#FFF3C4" stop-opacity="0"/></radialGradient>
-
-  <symbol id="pine" viewBox="0 0 64 108">
-    <g stroke="#102E22" stroke-width="3.6" stroke-linejoin="round">
-      <rect x="27.5" y="76" width="9" height="28" rx="3.5" fill="#7A4A22"/>
-      <path d="M32 46 L4 88 q7 6 14 0 q7 6 14 0 q7 6 14 0 q7 6 14 0 Z" fill="#1E6B45"/>
-      <path d="M32 26 L10 64 q5.5 5 11 0 q5.5 5 11 0 q5.5 5 11 0 q5.5 5 11 0 Z" fill="#24784E"/>
-      <path d="M32 7 L16 42 q4 4.5 8 0 q4 4.5 8 0 q4 4.5 8 0 q4 4.5 8 0 Z" fill="#2C8558"/>
-    </g>
-  </symbol>
-
-  <symbol id="bush" viewBox="0 0 80 44">
-    <path d="M8 40 q-6-16 10-18 q2-16 18-14 q12-8 20 4 q16-2 16 14 q0 10-8 14 Z" fill="#1B6040" stroke="#102E22" stroke-width="3.4" stroke-linejoin="round"/>
-  </symbol>
-
-  <symbol id="tentO" viewBox="0 0 128 102">
-    <ellipse cx="64" cy="93" rx="56" ry="5.5" fill="#000" opacity=".3"/>
-    <g stroke="#102E22" stroke-width="4" stroke-linejoin="round">
-      <path d="M64 15 C61 15 24 77 18 89 q46 9 92 0 C104 77 67 15 64 15Z" fill="#E8792B"/>
-      <path d="M64 15 C61 15 24 77 18 89 q23 4.5 46 4.5 Z" fill="#F5983F" stroke="none"/>
-      <path d="M64 41 C62 41 48 79 46 89 q18 3 36 0 C80 79 66 41 64 41Z" fill="#6B3410"/>
-      <path d="M64 15 L64 4" stroke-linecap="round"/>
-      <path d="M64 3 L85 8.5 L64 14 Z" fill="#F2C230"/>
-    </g>
-  </symbol>
-
-  <symbol id="tentG" viewBox="0 0 128 102">
-    <ellipse cx="64" cy="93" rx="56" ry="5.5" fill="#000" opacity=".3"/>
-    <g stroke="#102E22" stroke-width="4" stroke-linejoin="round">
-      <path d="M64 15 C61 15 24 77 18 89 q46 9 92 0 C104 77 67 15 64 15Z" fill="#2C7549"/>
-      <path d="M64 15 C61 15 24 77 18 89 q23 4.5 46 4.5 Z" fill="#379059" stroke="none"/>
-      <path d="M64 41 C62 41 48 79 46 89 q18 3 36 0 C80 79 66 41 64 41Z" fill="#123A2E"/>
-      <path d="M64 15 L64 4" stroke-linecap="round"/>
-      <path d="M64 3 L85 8.5 L64 14 Z" fill="#6EE7A8"/>
-    </g>
-  </symbol>
-
-  <symbol id="lantern" viewBox="0 0 26 38">
-    <g stroke="#102E22" stroke-width="2.6" stroke-linejoin="round">
-      <path d="M13 2 L13 8" stroke-linecap="round"/>
-      <path d="M6 10 H20 L22 26 Q13 33 4 26 Z" fill="#F2C230"/>
-      <path d="M5 9 H21" stroke-linecap="round"/>
-    </g>
-    <ellipse cx="13" cy="19" rx="3.6" ry="5.4" fill="#FFF6D8"/>
-  </symbol>
-
-  <symbol id="spark" viewBox="0 0 20 20">
-    <path d="M10 0 C11.2 6.2 13.8 8.8 20 10 C13.8 11.2 11.2 13.8 10 20 C8.8 13.8 6.2 11.2 0 10 C6.2 8.8 8.8 6.2 10 0Z" fill="#FFF6D8"/>
-  </symbol>
-</defs></svg>
 <div class="wrap">
 
   <div class="camp-topbar">
@@ -379,188 +288,136 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.4px;word-br
     <div class="langs" id="langs" role="group" aria-label="Language"></div>
   </div>
 
-  <nav class="tabs" id="tabbar" role="tablist" aria-label="sections">
+  <nav class="tabs" id="tabbar" aria-label="sections">
     <a class="tab" href="../" data-i18n="tabEnroll">입소</a>
     <a class="tab" href="../?tab=talent" data-i18n="tabTalent">장기자랑</a>
-    <button class="tab active" type="button" aria-current="page" data-i18n="tabFarewell">퇴소</button>
+    <button class="tab active" type="button" aria-current="page" data-i18n="tabFarewell">퇴소식</button>
     <button class="tab locked" type="button" aria-disabled="true"><span class="lock">🛍️</span><span data-i18n="tabKit">수료 키트</span><em class="soon" data-i18n="soon">준비중</em></button>
   </nav>
 
   <!-- ================= HOME ================= -->
   <section id="home" class="page on">
     <div class="hero">
-      <svg class="nightart artMobile" viewBox="0 0 500 474" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <rect width="500" height="474" fill="url(#skyG)"/>
-        <circle cx="388" cy="70" r="74" fill="url(#moonG)"/>
-        <g stroke="#102E22" stroke-width="3.4"><circle cx="388" cy="70" r="25" fill="#FFF3C4"/></g>
-        <circle cx="398" cy="61" r="25" fill="#12304C"/>
-        <use href="#spark" x="86" y="44" width="17" height="17" opacity=".9"/>
-        <use href="#spark" x="176" y="96" width="12" height="12" opacity=".7"/>
-        <use href="#spark" x="292" y="36" width="14" height="14" opacity=".8"/>
-        <g fill="#FFF7D5"><circle cx="44" cy="86" r="2" opacity=".8"/><circle cx="130" cy="34" r="1.5" opacity=".65"/><circle cx="232" cy="128" r="1.6" opacity=".6"/><circle cx="330" cy="118" r="1.4" opacity=".6"/><circle cx="466" cy="150" r="1.7" opacity=".7"/><circle cx="70" cy="150" r="1.3" opacity=".55"/></g>
-        <path d="M0 250 C46 206 84 168 132 168 C182 168 214 208 262 250 Z" fill="#16354A" opacity=".9"/>
-        <path d="M236 252 C286 208 322 176 366 176 C414 176 448 212 500 252 Z" fill="#16354A" opacity=".78"/>
-        <path d="M-6 66 Q250 124 506 66" fill="none" stroke="#EDE2C4" stroke-width="2.6" opacity=".85"/>
-        <g stroke="#102E22" stroke-width="2.2" stroke-linejoin="round">
-          <path d="M32 76 L52 81 L39 98 Z" fill="#E8792B"/><path d="M80 89 L100 94 L87 111 Z" fill="#F2C230"/>
-          <path d="M130 99 L150 103 L138 121 Z" fill="#49AAC4"/><path d="M180 106 L200 109 L188 127 Z" fill="#D6534A"/>
-          <path d="M230 110 L250 112 L239 130 Z" fill="#F6F1E3"/><path d="M282 110 L302 107 L292 126 Z" fill="#F2C230"/>
-          <path d="M332 104 L352 99 L341 119 Z" fill="#49AAC4"/><path d="M382 94 L402 87 L393 107 Z" fill="#E8792B"/>
+      <!-- tonal night camp; illustration is atmosphere, the copy leads -->
+      <svg class="heroArt artMobile" viewBox="0 0 500 540" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="skyM" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#061224"/><stop offset=".42" stop-color="#0B2340"/><stop offset="1" stop-color="#0A2A22"/></linearGradient>
+          <radialGradient id="fireM"><stop offset="0" stop-color="#FFC85C" stop-opacity=".6"/><stop offset=".45" stop-color="#E8792B" stop-opacity=".2"/><stop offset="1" stop-color="#E8792B" stop-opacity="0"/></radialGradient>
+          <radialGradient id="moonM"><stop offset="0" stop-color="#FFF3C4" stop-opacity=".3"/><stop offset="1" stop-color="#FFF3C4" stop-opacity="0"/></radialGradient>
+        </defs>
+        <rect width="500" height="540" fill="url(#skyM)"/>
+        <circle cx="384" cy="62" r="74" fill="url(#moonM)"/>
+        <circle cx="384" cy="62" r="20" fill="#FFF6DC"/><circle cx="392" cy="55" r="20" fill="#0A1F39"/>
+        <g fill="#FFF6DC"><circle cx="96" cy="46" r="1.6" opacity=".7"/><circle cx="158" cy="90" r="1.2" opacity=".5"/><circle cx="232" cy="38" r="1.4" opacity=".6"/><circle cx="292" cy="104" r="1.1" opacity=".45"/><circle cx="440" cy="128" r="1.3" opacity=".5"/><circle cx="70" cy="118" r="1.1" opacity=".45"/></g>
+        <path d="M40 214 C96 166 132 130 180 130 C232 130 274 172 330 214 Z" fill="#0C2439"/>
+        <path d="M250 216 C300 174 334 146 376 146 C424 146 462 180 500 216 Z" fill="#0A1E32"/>
+        <g fill="#0B2A22"><path d="M76 218 L98 176 L120 218 Z"/><path d="M398 218 L422 172 L446 218 Z"/><path d="M430 216 L452 182 L474 216 Z"/></g>
+        <!-- ground: everything below this line stays clear for the copy -->
+        <rect y="210" width="500" height="330" fill="#0E3226"/>
+        <path d="M0 210 Q250 192 500 210 L500 540 L0 540 Z" fill="#123A2E"/>
+        <path d="M-8 96 Q250 150 508 96" fill="none" stroke="#F7E6B8" stroke-width="1.4" opacity=".45"/>
+        <g fill="#FFD96A"><circle cx="64" cy="118" r="3.2" opacity=".9"/><circle cx="140" cy="133" r="3.2" opacity=".9"/><circle cx="216" cy="142" r="3.2" opacity=".9"/><circle cx="292" cy="143" r="3.2" opacity=".9"/><circle cx="366" cy="135" r="3.2" opacity=".9"/><circle cx="436" cy="119" r="3.2" opacity=".9"/></g>
+        <g fill="#FFD96A" opacity=".15"><circle cx="64" cy="118" r="10"/><circle cx="140" cy="133" r="10"/><circle cx="216" cy="142" r="10"/><circle cx="292" cy="143" r="10"/><circle cx="366" cy="135" r="10"/><circle cx="436" cy="119" r="10"/></g>
+        <g>
+          <path d="M138 244 L186 168 L234 244 Z" fill="#1D4A38"/>
+          <path d="M186 168 L234 244 L186 244 Z" fill="#163B2D"/>
+          <path d="M186 184 L208 244 L164 244 Z" fill="#0B2118"/>
+          <path d="M186 168 L186 158" stroke="#2A6349" stroke-width="2.2" stroke-linecap="round"/>
         </g>
-        <use href="#lantern" x="104" y="90" width="23" height="34"/>
-        <use href="#lantern" x="368" y="86" width="23" height="34"/>
-        <use href="#pine" x="58" y="192" width="74" height="124"/>
-        <use href="#pine" x="14" y="214" width="58" height="98"/>
-        <use href="#pine" x="378" y="186" width="78" height="132"/>
-        <use href="#pine" x="440" y="212" width="58" height="98"/>
-        <rect y="298" width="500" height="176" fill="#15422E"/>
-        <path d="M0 298 Q250 266 500 298 L500 474 L0 474 Z" fill="#1A5236"/>
-        <use href="#bush" x="-4" y="292" width="84" height="46"/>
-        <use href="#bush" x="428" y="296" width="80" height="44"/>
-        <use href="#tentO" x="82" y="236" width="134" height="107"/>
-        <use href="#tentG" x="296" y="248" width="124" height="99"/>
-        <g transform="translate(250 334)">
-          <ellipse class="glow" cx="0" cy="18" rx="152" ry="88" fill="url(#glowG)"/>
-          <g stroke="#102E22" stroke-width="3.4" stroke-linejoin="round">
-            <ellipse cx="-50" cy="32" rx="14" ry="9" fill="#6E7D71"/><ellipse cx="-23" cy="40" rx="13" ry="8" fill="#7C8A7F"/>
-            <ellipse cx="4" cy="42" rx="14" ry="8" fill="#6E7D71"/><ellipse cx="31" cy="39" rx="13" ry="8" fill="#7C8A7F"/><ellipse cx="54" cy="31" rx="13" ry="9" fill="#6E7D71"/>
-            <rect x="-50" y="18" width="100" height="15" rx="7.5" fill="#8A5A2E" transform="rotate(12)"/>
-            <rect x="-50" y="18" width="100" height="15" rx="7.5" fill="#A06B36" transform="rotate(-12)"/>
-          </g>
-          <g class="flame">
-            <path d="M0 24 C-42 2 -27 -26 -8 -50 C-10 -19 6 -12 10 -36 C36 -8 40 10 0 24Z" fill="#E8792B" stroke="#102E22" stroke-width="3.6" stroke-linejoin="round"/>
-            <path d="M0 20 C-21 9 -15 -8 -2 -23 C1 -3 10 1 12 -10 C25 6 18 15 0 20Z" fill="#F2C230"/>
-            <path d="M0 17 C-8 11 -6 1 -1 -9 C1 3 6 5 6 -2 C11 6 8 13 0 17Z" fill="#FFF6D8"/>
-          </g>
-          <use href="#spark" x="-38" y="-66" width="13" height="13" opacity=".85"/>
-          <use href="#spark" x="24" y="-80" width="10" height="10" opacity=".7"/>
-          <use href="#spark" x="-6" y="-98" width="8" height="8" opacity=".55"/>
-        </g>
-        <g stroke="#2C8558" stroke-width="2.6" opacity=".85" stroke-linecap="round" fill="none"><path d="M30 452 q-2 -9 -5 -12"/><path d="M30 452 q2 -10 6 -13"/><path d="M30 452 q0 -8 0 -11"/><path d="M150 466 q-2 -9 -5 -12"/><path d="M150 466 q2 -10 6 -13"/><path d="M150 466 q0 -8 0 -11"/><path d="M356 464 q-2 -9 -5 -12"/><path d="M356 464 q2 -10 6 -13"/><path d="M356 464 q0 -8 0 -11"/><path d="M474 448 q-2 -9 -5 -12"/><path d="M474 448 q2 -10 6 -13"/><path d="M474 448 q0 -8 0 -11"/><path d="M214 470 q-2 -9 -5 -12"/><path d="M214 470 q2 -10 6 -13"/><path d="M214 470 q0 -8 0 -11"/></g>
+        <ellipse class="emberGlow" cx="318" cy="246" rx="112" ry="56" fill="url(#fireM)"/>
+        <g fill="#2A2118" opacity=".85"><rect x="282" y="246" width="72" height="8" rx="4" transform="rotate(11 318 250)"/><rect x="282" y="246" width="72" height="8" rx="4" transform="rotate(-11 318 250)"/></g>
+        <g transform="translate(318 246)"><g class="flame">
+          <path d="M0 4 C-22 -9 -14 -26 -4 -42 C-5 -22 3 -16 6 -30 C21 -14 22 -3 0 4Z" fill="#E8792B" opacity=".95"/>
+          <path d="M0 1 C-11 -6 -8 -16 -1 -25 C1 -12 6 -9 7 -16 C14 -6 10 -2 0 1Z" fill="#FFC85C"/>
+        </g></g>
+        <g fill="#FFD08A" opacity=".45"><circle cx="298" cy="204" r="1.5"/><circle cx="338" cy="188" r="1.2"/><circle cx="316" cy="172" r="1"/></g>
       </svg>
 
-      <svg class="nightart artWide" viewBox="0 0 1040 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <rect width="1040" height="420" fill="url(#skyG)"/>
-        <circle cx="906" cy="62" r="72" fill="url(#moonG)"/>
-        <g stroke="#102E22" stroke-width="3.2"><circle cx="906" cy="62" r="24" fill="#FFF3C4"/></g>
-        <circle cx="915" cy="54" r="24" fill="#12304C"/>
-        <use href="#spark" x="150" y="36" width="17" height="17" opacity=".9"/>
-        <use href="#spark" x="360" y="96" width="12" height="12" opacity=".65"/>
-        <use href="#spark" x="628" y="30" width="14" height="14" opacity=".8"/>
-        <use href="#spark" x="812" y="112" width="11" height="11" opacity=".6"/>
-        <g fill="#FFF7D5"><circle cx="70" cy="120" r="2" opacity=".8"/><circle cx="246" cy="60" r="1.5" opacity=".65"/><circle cx="470" cy="42" r="1.6" opacity=".7"/><circle cx="556" cy="120" r="1.4" opacity=".55"/><circle cx="742" cy="52" r="1.7" opacity=".7"/><circle cx="988" cy="136" r="1.5" opacity=".6"/></g>
-        <path d="M0 262 C70 210 120 168 186 168 C252 168 300 212 372 262 Z" fill="#16354A" opacity=".9"/>
-        <path d="M560 264 C640 212 690 172 752 172 C820 172 876 214 950 264 Z" fill="#16354A" opacity=".78"/>
-        <path d="M-10 38 Q520 102 1050 38" fill="none" stroke="#EDE2C4" stroke-width="2.4" opacity=".8"/>
-        <g stroke="#102E22" stroke-width="2.2" stroke-linejoin="round">
-          <path d="M58 50 L78 54 L65 72 Z" fill="#E8792B"/><path d="M154 65 L174 70 L161 88 Z" fill="#F2C230"/>
-          <path d="M254 78 L274 83 L261 101 Z" fill="#49AAC4"/><path d="M354 88 L374 92 L362 110 Z" fill="#D6534A"/>
-          <path d="M456 94 L476 97 L464 115 Z" fill="#F6F1E3"/><path d="M558 96 L578 95 L567 114 Z" fill="#F2C230"/>
-          <path d="M658 92 L678 88 L668 107 Z" fill="#49AAC4"/><path d="M758 82 L778 76 L769 96 Z" fill="#E8792B"/>
-          <path d="M856 68 L876 60 L868 81 Z" fill="#D6534A"/><path d="M950 50 L970 41 L963 62 Z" fill="#F2C230"/>
+      <svg class="heroArt artWide" viewBox="0 0 1120 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="skyW" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#061224"/><stop offset=".5" stop-color="#0B2340"/><stop offset="1" stop-color="#123A2E"/></linearGradient>
+          <radialGradient id="fireW"><stop offset="0" stop-color="#FFC85C" stop-opacity=".6"/><stop offset=".45" stop-color="#E8792B" stop-opacity=".2"/><stop offset="1" stop-color="#E8792B" stop-opacity="0"/></radialGradient>
+          <radialGradient id="moonW"><stop offset="0" stop-color="#FFF3C4" stop-opacity=".28"/><stop offset="1" stop-color="#FFF3C4" stop-opacity="0"/></radialGradient>
+        </defs>
+        <rect width="1120" height="420" fill="url(#skyW)"/>
+        <circle cx="946" cy="74" r="76" fill="url(#moonW)"/>
+        <circle cx="946" cy="74" r="20" fill="#FFF6DC"/><circle cx="954" cy="67" r="20" fill="#0A1F39"/>
+        <g fill="#FFF6DC"><circle cx="618" cy="46" r="1.6" opacity=".7"/><circle cx="712" cy="104" r="1.2" opacity=".5"/><circle cx="806" cy="38" r="1.5" opacity=".65"/><circle cx="880" cy="132" r="1.2" opacity=".5"/><circle cx="1042" cy="52" r="1.4" opacity=".6"/><circle cx="1078" cy="146" r="1.2" opacity=".5"/><circle cx="540" cy="120" r="1.1" opacity=".45"/></g>
+        <path d="M470 268 C556 208 618 162 692 162 C770 162 830 214 906 268 Z" fill="#0C2439"/>
+        <path d="M840 272 C910 218 956 180 1014 180 C1076 180 1120 220 1120 272 Z" fill="#0A1E32"/>
+        <g fill="#0B2A22"><path d="M486 300 L512 246 L538 300 Z"/><path d="M1042 302 L1072 244 L1102 302 Z"/><path d="M1078 300 L1106 254 L1120 300 Z"/></g>
+        <rect y="292" width="1120" height="128" fill="#0E3226"/>
+        <path d="M0 292 Q560 266 1120 292 L1120 420 L0 420 Z" fill="#123A2E"/>
+        <path d="M470 96 Q800 148 1130 92" fill="none" stroke="#F7E6B8" stroke-width="1.4" opacity=".45"/>
+        <g fill="#FFD96A"><circle cx="546" cy="112" r="3.2" opacity=".9"/><circle cx="632" cy="126" r="3.2" opacity=".9"/><circle cx="722" cy="136" r="3.2" opacity=".9"/><circle cx="814" cy="140" r="3.2" opacity=".9"/><circle cx="906" cy="134" r="3.2" opacity=".9"/><circle cx="1000" cy="120" r="3.2" opacity=".9"/></g>
+        <g fill="#FFD96A" opacity=".15"><circle cx="546" cy="112" r="10"/><circle cx="632" cy="126" r="10"/><circle cx="722" cy="136" r="10"/><circle cx="814" cy="140" r="10"/><circle cx="906" cy="134" r="10"/><circle cx="1000" cy="120" r="10"/></g>
+        <g>
+          <path d="M598 356 L660 262 L722 356 Z" fill="#1D4A38"/>
+          <path d="M660 262 L722 356 L660 356 Z" fill="#163B2D"/>
+          <path d="M660 282 L689 356 L631 356 Z" fill="#0B2118"/>
+          <path d="M660 262 L660 250" stroke="#2A6349" stroke-width="2.4" stroke-linecap="round"/>
         </g>
-        <use href="#lantern" x="404" y="96" width="22" height="33"/>
-        <use href="#lantern" x="700" y="86" width="22" height="33"/>
-        <use href="#pine" x="-16" y="192" width="78" height="130"/>
-        <use href="#pine" x="54" y="214" width="62" height="104"/>
-        <use href="#pine" x="130" y="228" width="50" height="84"/>
-        <use href="#pine" x="940" y="182" width="84" height="140"/>
-        <use href="#pine" x="1002" y="212" width="62" height="104"/>
-        <rect y="302" width="1040" height="118" fill="#15422E"/>
-        <path d="M0 302 Q520 272 1040 302 L1040 420 L0 420 Z" fill="#1A5236"/>
-        <use href="#bush" x="176" y="296" width="86" height="47"/>
-        <use href="#bush" x="962" y="300" width="82" height="45"/>
-        <use href="#tentO" x="482" y="248" width="140" height="112"/>
-        <use href="#tentG" x="854" y="260" width="128" height="102"/>
-        <g transform="translate(728 354)">
-          <ellipse class="glow" cx="0" cy="18" rx="178" ry="98" fill="url(#glowG)"/>
-          <g stroke="#102E22" stroke-width="3.4" stroke-linejoin="round">
-            <ellipse cx="-50" cy="32" rx="14" ry="9" fill="#6E7D71"/><ellipse cx="-23" cy="40" rx="13" ry="8" fill="#7C8A7F"/>
-            <ellipse cx="4" cy="42" rx="14" ry="8" fill="#6E7D71"/><ellipse cx="31" cy="39" rx="13" ry="8" fill="#7C8A7F"/><ellipse cx="54" cy="31" rx="13" ry="9" fill="#6E7D71"/>
-            <rect x="-50" y="18" width="100" height="15" rx="7.5" fill="#8A5A2E" transform="rotate(12)"/>
-            <rect x="-50" y="18" width="100" height="15" rx="7.5" fill="#A06B36" transform="rotate(-12)"/>
-          </g>
-          <g class="flame">
-            <path d="M0 24 C-42 2 -27 -26 -8 -50 C-10 -19 6 -12 10 -36 C36 -8 40 10 0 24Z" fill="#E8792B" stroke="#102E22" stroke-width="3.6" stroke-linejoin="round"/>
-            <path d="M0 20 C-21 9 -15 -8 -2 -23 C1 -3 10 1 12 -10 C25 6 18 15 0 20Z" fill="#F2C230"/>
-            <path d="M0 17 C-8 11 -6 1 -1 -9 C1 3 6 5 6 -2 C11 6 8 13 0 17Z" fill="#FFF6D8"/>
-          </g>
-          <use href="#spark" x="-38" y="-66" width="13" height="13" opacity=".85"/>
-          <use href="#spark" x="24" y="-80" width="10" height="10" opacity=".7"/>
-          <use href="#spark" x="-6" y="-98" width="8" height="8" opacity=".55"/>
-        </g>
-        <g stroke="#2C8558" stroke-width="2.6" opacity=".85" stroke-linecap="round" fill="none"><path d="M646 404 q-2 -9 -5 -12"/><path d="M646 404 q2 -10 6 -13"/><path d="M646 404 q0 -8 0 -11"/><path d="M832 408 q-2 -9 -5 -12"/><path d="M832 408 q2 -10 6 -13"/><path d="M832 408 q0 -8 0 -11"/><path d="M462 412 q-2 -9 -5 -12"/><path d="M462 412 q2 -10 6 -13"/><path d="M462 412 q0 -8 0 -11"/><path d="M292 404 q-2 -9 -5 -12"/><path d="M292 404 q2 -10 6 -13"/><path d="M292 404 q0 -8 0 -11"/><path d="M978 406 q-2 -9 -5 -12"/><path d="M978 406 q2 -10 6 -13"/><path d="M978 406 q0 -8 0 -11"/></g>
+        <ellipse class="emberGlow" cx="852" cy="356" rx="146" ry="70" fill="url(#fireW)"/>
+        <g fill="#2A2118" opacity=".85"><rect x="808" y="356" width="88" height="9" rx="4.5" transform="rotate(11 852 360)"/><rect x="808" y="356" width="88" height="9" rx="4.5" transform="rotate(-11 852 360)"/></g>
+        <g transform="translate(852 356)"><g class="flame">
+          <path d="M0 4 C-28 -11 -18 -32 -5 -52 C-6 -27 4 -20 8 -38 C26 -17 28 -4 0 4Z" fill="#E8792B" opacity=".95"/>
+          <path d="M0 1 C-14 -8 -10 -20 -1 -31 C1 -15 8 -12 9 -20 C17 -8 13 -3 0 1Z" fill="#FFC85C"/>
+        </g></g>
+        <g fill="#FFD08A" opacity=".45"><circle cx="826" cy="300" r="1.6"/><circle cx="876" cy="282" r="1.3"/><circle cx="850" cy="262" r="1"/></g>
       </svg>
 
       <div class="heroInner">
-        <div class="heroCopy">
-          <div class="signBoard">
-            <h1 data-i18n="heroTitle">온라인 퇴소식</h1>
-            <span class="en">EXIT CEREMONY</span>
-          </div>
-          <p class="heroLead" data-i18n="heroLead">수련회의 마지막 밤, 캠프파이어 앞에서|26개의 추억을 떠올리고|친구들과 명예롭게 퇴소해 보세요.</p>
-        </div>
+        <span class="eyebrow" data-i18n="heroEyebrow">아이돌 수련회의 마지막 밤</span>
+        <h1 class="heroTitle" data-i18n="heroTitle">온라인 퇴소식</h1>
+        <p class="heroDesc" data-i18n="heroDesc">수련회가 끝나도, 우리의 추억은 계속됩니다.|26개의 순간을 떠올리며 친구들과 함께|마지막 퇴소식을 완성해 보세요.</p>
         <div class="heroCta">
-          <button class="primary" id="start" data-i18n="startBtn">퇴소식 시작하기</button>
-          <span class="heroNote" data-i18n="heroNote">26개의 장면 · 정답은 마지막에 한 번에 공개</span>
+          <button class="primary" id="start" data-i18n="startBtn">퇴소식 시작하기 →</button>
+          <span class="heroNote" data-i18n="heroNote">수련회의 장면 26개</span>
         </div>
       </div>
     </div>
 
-    <div class="homeGrid">
-      <section class="card how">
-        <span class="sectionLabel" data-i18n="howLabel">HOW TO JOIN</span>
-        <h3 data-i18n="howTitle">참여 방법</h3>
-        <ol class="steps">
+    <section class="guide">
+      <div class="guideHead">
+        <h2 data-i18n="howTitle">퇴소식 진행 안내</h2>
+        <span class="sub" data-i18n="howSub">약 3분이면 끝나요</span>
+      </div>
+      <ol class="steps">
         <li class="step">
-          <span class="stepArt">
-            <svg viewBox="0 0 48 44" aria-hidden="true">
-              <rect x="4" y="5" width="34" height="27" rx="4" fill="#FFF7E4" stroke="#0F3B3A" stroke-width="2.4"/>
-              <path d="M7 26 L16 17 L23 24 L29 19 L35 26 Z" fill="#49AAC4"/>
-              <circle cx="30" cy="13" r="3" fill="#F2C230"/>
-              <circle cx="31" cy="29" r="10.5" fill="#FFF7E4" fill-opacity=".9" stroke="#0F3B3A" stroke-width="2.4"/>
-              <path d="M38.5 36.5 L44 42" stroke="#0F3B3A" stroke-width="3.2" stroke-linecap="round"/>
-            </svg>
-          </span>
-          <b>1</b><span class="stepTxt" data-i18n="step1">기억 속 장면 확인</span>
+          <span class="stepIcon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="14" rx="2.4"/><path d="M3 15l4.5-4.2 3.4 3.2 3-2.7L21 15.4"/><circle cx="15.6" cy="9" r="1.5"/></svg></span>
+          <div>
+            <span class="stepNo">01</span>
+            <h3 data-i18n="step1Head">추억의 장면</h3>
+            <p data-i18n="step1Body">26개의 장면을 하나씩 확인합니다.</p>
+          </div>
         </li>
-        <li class="stepGo" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 2 L11 8 L4 14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
         <li class="step">
-          <span class="stepArt">
-            <svg viewBox="0 0 48 44" aria-hidden="true">
-              <circle cx="16" cy="22" r="12.5" fill="#2F7D4F" stroke="#0F3B3A" stroke-width="2.4"/>
-              <path d="M10.5 22.5 L14.5 26.5 L21.5 17.5" fill="none" stroke="#FFF7E4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="34" cy="22" r="12.5" fill="#D6534A" stroke="#0F3B3A" stroke-width="2.4"/>
-              <path d="M29.5 17.5 L38.5 26.5 M38.5 17.5 L29.5 26.5" stroke="#FFF7E4" stroke-width="3" stroke-linecap="round"/>
-            </svg>
-          </span>
-          <b>2</b><span class="stepTxt" data-i18n="step2">YES / NO 선택</span>
+          <span class="stepIcon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="12" r="4.6"/><path d="M16.4 9.2l5 5.6M21.4 9.2l-5 5.6"/></svg></span>
+          <div>
+            <span class="stepNo">02</span>
+            <h3 data-i18n="step2Head">YES or NO</h3>
+            <p data-i18n="step2Body">장면과 관련된 질문에 답합니다.</p>
+          </div>
         </li>
-        <li class="stepGo" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 2 L11 8 L4 14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
         <li class="step">
-          <span class="stepArt">
-            <svg viewBox="0 0 48 44" aria-hidden="true">
-              <rect x="7" y="6" width="30" height="32" rx="4" fill="#1F5E44" stroke="#0F3B3A" stroke-width="2.4"/>
-              <rect x="12" y="11" width="20" height="15" rx="2" fill="#FFF7E4"/>
-              <path d="M14 24 L19 18 L23 22 L27 17 L30 24 Z" fill="#49AAC4"/>
-              <rect x="12" y="29" width="13" height="3" rx="1.5" fill="#FFF7E4" opacity=".7"/>
-              <path d="M38 12 c2.6-3 7-1.4 7 1.8 0 3.4-4.4 6-7 7.7-2.6-1.7-7-4.3-7-7.7 0-3.2 4.4-4.8 7-1.8Z" fill="#D6534A" stroke="#0F3B3A" stroke-width="1.8"/>
-            </svg>
-          </span>
-          <b>3</b><span class="stepTxt" data-i18n="step3">맞힌 친구만 사진첩에!</span>
+          <span class="stepIcon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.6h14v16.8l-7-3.4-7 3.4Z"/><path d="M9 9.4h6M9 12.6h4"/></svg></span>
+          <div>
+            <span class="stepNo">03</span>
+            <h3 data-i18n="step3Head">퇴소증 완성</h3>
+            <p data-i18n="step3Body">맞힌 친구가 사진첩에 추가됩니다.</p>
+          </div>
         </li>
       </ol>
-        <p class="hint-line" data-i18n="howNote">문제 순서는 도전할 때마다 무작위로 섞이고, 정답 여부는 26개를 모두 마친 뒤에 한 번에 공개됩니다.</p>
-      </section>
+      <p class="previewNote" data-i18n="previewNote">26명의 친구와 추억을 완성하고 나만의 온라인 퇴소증을 받아보세요.</p>
+    </section>
 
-      <div class="vodCard">
-        <div>
-          <span class="sectionLabel" data-i18n="nextLabel">NEXT STORY</span>
-          <strong data-i18n="vodTitle">〈아이돌 수련회〉 확장판</strong>
-          <p data-i18n="vodDescHome">숨겨진 장면과 함께 수련회의 추억을 다시 확인해 보세요.</p>
-        </div>
-        <button class="vod" data-i18n="vodBtn">확장판 보러 가기</button>
+    <div class="vodCard">
+      <div>
+        <span class="eyebrow" data-i18n="nextLabel">NEXT STORY</span>
+        <strong data-i18n="vodTitle">〈아이돌 수련회〉 확장판</strong>
+        <p data-i18n="vodDescHome">미공개 비하인드까지, 수련회의 추억을 더 길게 만나보세요.</p>
       </div>
+      <button class="vod" data-i18n="vodBtn">확장판 보러 가기 →</button>
     </div>
   </section>
 
@@ -571,62 +428,50 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.4px;word-br
         <span class="qcount"><b id="qIndexNum">1</b> / 26</span>
         <span class="randChip" data-i18n="randChip">무작위 순서</span>
       </div>
-      <div class="stamps" id="stamps" role="progressbar" aria-valuemin="0" aria-valuemax="26" aria-valuenow="0" aria-label="progress"></div>
+      <div class="track" id="track" role="progressbar" aria-valuemin="0" aria-valuemax="26" aria-valuenow="0" aria-label="progress"><i id="trackFill"></i></div>
     </div>
 
     <div id="quizStatus" class="status" data-i18n="loadingQ">문항을 불러오는 중입니다.</div>
 
-    <article class="card qcard" id="qCard" style="display:none">
+    <article class="qcard" id="qCard" style="display:none">
       <div class="qbody">
-        <div class="picFrame">
-          <div class="pic" id="picBox">
-            <img id="qImg" alt="scene">
-            <div class="missing" id="missingImg" data-i18n="imgFail">문제 사진을 불러오지 못했습니다.</div>
-          </div>
+        <div class="pic" id="picBox">
+          <img id="qImg" alt="scene">
+          <div class="missing" id="missingImg" data-i18n="imgFail">문제 사진을 불러오지 못했습니다.</div>
           <span class="filmTag" id="qTag">No.01</span>
         </div>
         <div class="qside">
           <p class="hint" data-i18n="hintQ">이 순간을 기억하시나요?</p>
           <p class="question" id="questionText" aria-live="polite"></p>
           <div class="answers" id="answers" style="display:none">
-            <button class="ans yes" id="yesBtn"><span class="glyph" aria-hidden="true">○</span>YES</button>
-            <button class="ans no" id="noBtn"><span class="glyph" aria-hidden="true">✕</span>NO</button>
+            <button class="ans yes" id="yesBtn"><span class="glyph" aria-hidden="true"></span>YES</button>
+            <button class="ans no" id="noBtn"><span class="glyph x" aria-hidden="true"></span>NO</button>
           </div>
-          <p class="tip" id="qTip" style="display:none">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.5.4.8 1 .9 1.6h5.4c.1-.6.4-1.2.9-1.6A6 6 0 0 0 12 3Z"/></svg>
-            <span data-i18n="tipQ">선택하면 바로 다음 장면으로 · 정답은 마지막에 한 번에</span>
-          </p>
         </div>
       </div>
     </article>
+    <p class="tip" id="qTip" style="display:none" data-i18n="tipQ">선택하면 바로 다음 장면으로 넘어갑니다.</p>
   </section>
 
   <!-- ================= RESULT ================= -->
   <section id="result" class="page">
    <div class="result-narrow">
-    <div class="ribbon" data-i18n="ribbon">명예로운 퇴소에 성공했어요!</div>
+    <div class="resultTop">
+      <span class="eyebrow" data-i18n="resultEyebrow">EXIT COMPLETE</span>
+      <h2 data-i18n="ribbon">명예로운 퇴소에 성공했어요!</h2>
+    </div>
+
     <div class="certOuter" id="certOuter">
       <div class="cert" id="cert">
+        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
         <div class="perfectBadge" id="perfectBadge" style="display:none">PERFECT · 26 / 26</div>
         <span class="certEyebrow">ONLINE EXIT CERTIFICATE</span>
         <h2 class="certName" data-i18n="certName">온라인 퇴소증</h2>
-        <div class="certRule"><span>IDOL SCHOOL CAMP</span></div>
+        <div class="certRule"><span>IDOL SCHOOL CAMP · 1st</span></div>
 
         <div class="certVisual" id="certVisual">
           <img id="groupPhoto" alt="group photo" style="display:none">
           <img id="campLogo" src="../assets/camp-logo.png" alt="아이돌 수련회">
-          <div class="seal" id="campSeal" style="display:none">
-            <svg viewBox="0 0 130 130" role="img" aria-label="아이돌 수련회">
-              <circle cx="65" cy="65" r="61" fill="none" stroke="currentColor" stroke-width="2"/>
-              <circle cx="65" cy="65" r="54.5" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 4" opacity=".65"/>
-              <path d="M65 30 L79 57 H51 Z" fill="currentColor"/>
-              <path d="M65 43 L85 73 H45 Z" fill="currentColor" opacity=".88"/>
-              <rect x="62.5" y="73" width="5" height="8" rx="1" fill="#7e4926"/>
-              <path d="M38 82.5 H92" stroke="currentColor" stroke-width="1.4" opacity=".5"/>
-              <text x="65" y="101" text-anchor="middle" font-size="13" font-weight="900" fill="currentColor">아이돌 수련회</text>
-              <text x="65" y="113" text-anchor="middle" font-size="5.6" font-weight="700" letter-spacing="1" fill="currentColor" opacity=".75">ONLINE EXIT · 2026</text>
-            </svg>
-          </div>
         </div>
 
         <div class="rtype" id="resultTitle"></div>
@@ -641,44 +486,48 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.4px;word-br
 
         <div id="friendNames"></div>
         <p class="desc" id="resultDesc"></p>
-        <div class="certFoot">2026 · Muniverse</div>
+
+        <div class="certFoot">
+          <span><span data-i18n="certIssued">발급일</span> <span id="certDate">—</span><br>2026 · Muniverse</span>
+          <span class="seal" aria-hidden="true"><span data-i18n="certSeal">수련회<br>수료</span></span>
+        </div>
       </div>
     </div>
 
-    <section class="card shareCard">
-      <span class="sectionLabel" data-i18n="shareLabel">SHARE MY CERTIFICATE</span>
+    <section class="panel">
+      <span class="eyebrow" data-i18n="shareLabel">SHARE</span>
       <h2 data-i18n="shareTitle">퇴소증 자랑하기</h2>
       <div class="shareRow">
-        <button class="shareBtn x" id="shareX">
+        <button class="shareBtn" id="shareX">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-7 8 8.2 12h-6.4l-5-7.3L6 22H3l7.5-8.6L2.6 2H9l4.5 6.6L18.9 2Z" fill="currentColor"/></svg>
           <span data-i18n="shareX">X에 올리기</span>
         </button>
-        <button class="shareBtn ig" id="shareIg">
-          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5.4"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none"/></svg>
+        <button class="shareBtn" id="shareIg">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5.4"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none"/></svg>
           <span data-i18n="shareIg">인스타그램</span>
         </button>
-        <button class="shareBtn save" id="saveImg">
-          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v10.5m0 0 4.2-4.2M12 14l-4.2-4.2M4.5 19h15"/></svg>
+        <button class="shareBtn" id="saveImg">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v10.5m0 0 4.2-4.2M12 14l-4.2-4.2M4.5 19h15"/></svg>
           <span data-i18n="shareSave">이미지 저장</span>
         </button>
       </div>
       <p class="shareNote" id="shareNote" role="status"></p>
     </section>
 
-    <section class="card album">
-      <span class="sectionLabel" data-i18n="albumLabel">MY CAMP MEMORIES</span>
+    <section class="panel">
+      <span class="eyebrow" data-i18n="albumLabel">MY CAMP MEMORIES</span>
       <h2 data-i18n="albumTitle">추억의 사진첩</h2>
       <div class="grid" id="albumGrid"></div>
       <div class="empty" id="albumEmpty" style="display:none" data-i18n="albumEmpty">이번엔 사진첩이 비어 있어요.</div>
     </section>
 
-    <div class="vodCard" style="margin-top:14px">
+    <div class="vodCard">
       <div>
-        <span class="sectionLabel" data-i18n="nextLabel">NEXT STORY</span>
+        <span class="eyebrow" data-i18n="nextLabel">NEXT STORY</span>
         <strong data-i18n="vodTitle">〈아이돌 수련회〉 확장판</strong>
-        <p data-i18n="vodDescResult">퀴즈에서 만난 장면들, 확장판에서 더 길게 다시 만나 보세요.</p>
+        <p data-i18n="vodDescResult">이 추억을 더 길게 보고 싶다면, 미공개 비하인드까지 확장판에서.</p>
       </div>
-      <button class="vod" data-i18n="vodBtn">확장판 보러 가기</button>
+      <button class="vod" data-i18n="vodBtn">확장판 보러 가기 →</button>
     </div>
 
     <div class="actions"><button class="ghost" id="retryBtn" data-i18n="retryBtn">처음부터 다시 도전하기</button></div>
@@ -713,20 +562,19 @@ const LANGS=[
 ];
 const I18N={
  'ko':{
-  tabEnroll:'입소',tabTalent:'장기자랑',tabFarewell:'퇴소',tabKit:'수료 키트',soon:'준비중',
+  tabEnroll:'입소',tabTalent:'장기자랑',tabFarewell:'퇴소식',tabKit:'수료 키트',soon:'준비중',
   heroTitle:'온라인 퇴소식',
   heroLead:'수련회의 마지막 밤, 캠프파이어 앞에서|26개의 추억을 떠올리고|친구들과 명예롭게 퇴소해 보세요.',
-  startBtn:'퇴소식 시작하기',heroNote:'26개의 장면 · 정답은 마지막에 한 번에 공개',
-  howLabel:'HOW TO JOIN',howTitle:'참여 방법',
-  step1:'기억 속 장면 확인',step2:'YES / NO 선택',step3:'맞힌 친구만 사진첩에!',
-  howNote:'문제 순서는 도전할 때마다 무작위로 섞이고, 정답 여부는 26개를 모두 마친 뒤에 한 번에 공개됩니다.',
+  startBtn:'퇴소식 시작하기 →',heroNote:'수련회의 장면 26개',
+  howLabel:'HOW TO JOIN',howTitle:'퇴소식 진행 안내',howSub:'약 3분이면 끝나요',heroEyebrow:'아이돌 수련회의 마지막 밤',heroDesc:'수련회가 끝나도, 우리의 추억은 계속됩니다.|26개의 순간을 떠올리며 친구들과 함께|마지막 퇴소식을 완성해 보세요.',resultEyebrow:'EXIT COMPLETE',certIssued:'발급일',certSeal:'수련회<br>수료',previewNote:'26명의 친구와 추억을 완성하고 나만의 온라인 퇴소증을 받아보세요.',step1Head:'추억의 장면',step1Body:'26개의 장면을 하나씩 확인합니다.',step2Head:'YES or NO',step2Body:'장면과 관련된 질문에 답합니다.',step3Head:'퇴소증 완성',step3Body:'맞힌 친구가 사진첩에 추가됩니다.',
+    howNote:'문제 순서는 도전할 때마다 무작위로 섞입니다.',
   nextLabel:'NEXT STORY',vodTitle:'〈아이돌 수련회〉 확장판',
-  vodDescHome:'숨겨진 장면과 함께 수련회의 추억을 다시 확인해 보세요.',
-  vodDescResult:'퀴즈에서 만난 장면들, 확장판에서 더 길게 다시 만나 보세요.',
-  vodBtn:'확장판 보러 가기',vodPending:'확장판 링크 준비 중입니다.',
+  vodDescHome:'미공개 비하인드까지, 수련회의 추억을 더 길게 만나보세요.',
+  vodDescResult:'이 추억을 더 길게 보고 싶다면, 미공개 비하인드까지 확장판에서.',
+  vodBtn:'확장판 보러 가기 →',vodPending:'확장판 링크 준비 중입니다.',
   randChip:'무작위 순서',loadingQ:'문항을 불러오는 중입니다.',imgFail:'문제 사진을 불러오지 못했습니다.',
   memoryNo:'추억 No.',hintQ:'이 순간을 기억하시나요?',
-  tipQ:'선택하면 바로 다음 장면으로 · 정답은 마지막에 한 번에',
+  tipQ:'선택하면 바로 다음 장면으로 넘어갑니다',
   grading:'추억을 정리하는 중입니다',gradeFail:'결과 집계에 실패했습니다. 다시 시도해 주세요.',
   loadFail:'퇴소식 데이터를 불러오지 못했습니다.',preparing:'준비 중…',
   ribbon:'명예로운 퇴소에 성공했어요!',certName:'온라인 퇴소증',
@@ -748,20 +596,19 @@ const I18N={
   retryBtn:'처음부터 다시 도전하기'
  },
  'en':{
-  tabEnroll:'Enrollment',tabTalent:'Talent Show',tabFarewell:'Farewell',tabKit:'Completion Kit',soon:'Preparing',
+  tabEnroll:'Enrollment',tabTalent:'Talent Show',tabFarewell:'Exit Ceremony',tabKit:'Completion Kit',soon:'Preparing',
   heroTitle:'Exit Ceremony',
   heroLead:'On the last night of camp, by the campfire,|recall 26 memories and|graduate with your friends in honour.',
-  startBtn:'Start Exit Ceremony',heroNote:'26 scenes · results revealed all at once at the end',
-  howLabel:'HOW TO JOIN',howTitle:'How to join',
-  step1:'Check the scene',step2:'Pick YES / NO',step3:'Only friends you got right join the album!',
-  howNote:'The order is shuffled on every attempt, and whether you were right is revealed only after all 26 scenes.',
+  startBtn:'Start Exit Ceremony →',heroNote:'26 scenes from the camp',
+  howLabel:'HOW TO JOIN',howTitle:'How it works',howSub:'About 3 minutes',heroEyebrow:'THE LAST NIGHT OF CAMP',heroDesc:'Camp is over, but the memories are not.|Recall 26 moments and complete|the exit ceremony with your friends.',resultEyebrow:'EXIT COMPLETE',certIssued:'Issued',certSeal:'CAMP<br>PASSED',previewNote:'Complete your memories with 26 friends and receive your own online exit certificate.',step1Head:'A camp scene',step1Body:'Look back on 26 scenes, one at a time.',step2Head:'YES or NO',step2Body:'Answer the question about the scene.',step3Head:'Your certificate',step3Body:'Friends you get right join your album.',
+    howNote:'The order is shuffled on every attempt.',
   nextLabel:'NEXT STORY',vodTitle:'Idol School Camp — Extended Edition',
-  vodDescHome:'Revisit the camp with the scenes that never aired.',
-  vodDescResult:'The scenes from this quiz, longer and unseen, in the extended edition.',
-  vodBtn:'Go watch Idol School Camp',vodPending:'The extended edition link is not ready yet.',
+  vodDescHome:'Unseen behind-the-scenes, and more of the camp you loved.',
+  vodDescResult:'Want more of these memories? The extended edition has the unseen cuts.',
+  vodBtn:'Go watch Idol School Camp →',vodPending:'The extended edition link is not ready yet.',
   randChip:'Random order',loadingQ:'Loading the scenes…',imgFail:'This photo could not be loaded.',
   memoryNo:'Memory No.',hintQ:'Do you remember this moment?',
-  tipQ:'Your pick moves straight to the next scene · answers come at the end',
+  tipQ:'Your pick moves straight to the next scene',
   grading:'Gathering your memories',gradeFail:'Scoring failed. Please try again.',
   loadFail:'Could not load the exit ceremony data.',preparing:'Loading…',
   ribbon:'Congratulations on your honourable exit!',certName:'Exit Certificate',
@@ -784,20 +631,19 @@ const I18N={
   retryBtn:'Try again from the start'
  },
  'ja':{
-  tabEnroll:'入所',tabTalent:'隠し芸',tabFarewell:'退所',tabKit:'修了キット',soon:'準備中',
+  tabEnroll:'入所',tabTalent:'隠し芸',tabFarewell:'退所式',tabKit:'修了キット',soon:'準備中',
   heroTitle:'オンライン退所式',
   heroLead:'修練会の最後の夜、キャンプファイアの前で|26の思い出を振り返り|仲間と名誉ある退所をしましょう。',
-  startBtn:'退所式を始める',heroNote:'26のシーン · 正解は最後にまとめて公開',
-  howLabel:'HOW TO JOIN',howTitle:'参加方法',
-  step1:'記憶のシーンを確認',step2:'YES / NO を選ぶ',step3:'正解した仲間だけアルバムに！',
-  howNote:'出題順は挑戦するたびにシャッフルされ、正解かどうかは26問すべてを終えたあとにまとめて公開されます。',
+  startBtn:'退所式を始める →',heroNote:'修練会のシーン26個',
+  howLabel:'HOW TO JOIN',howTitle:'退所式の流れ',howSub:'約3分で終わります',heroEyebrow:'アイドル修練会、最後の夜',heroDesc:'修練会が終わっても、思い出は続きます。|26の瞬間を思い出しながら、仲間と一緒に|最後の退所式を完成させましょう。',resultEyebrow:'EXIT COMPLETE',certIssued:'発行日',certSeal:'修練会<br>修了',previewNote:'26人の仲間との思い出を完成させて、自分だけのオンライン退所証を受け取りましょう。',step1Head:'思い出のシーン',step1Body:'26のシーンをひとつずつ確認します。',step2Head:'YES or NO',step2Body:'シーンに関する質問に答えます。',step3Head:'退所証の完成',step3Body:'正解した仲間がアルバムに追加されます。',
+    howNote:'出題順は挑戦するたびにシャッフルされます。',
   nextLabel:'NEXT STORY',vodTitle:'『アイドル修練会』拡張版',
-  vodDescHome:'未公開シーンと一緒に、修練会の思い出をもう一度。',
-  vodDescResult:'クイズで出会ったシーンを、拡張版でもっと長く。',
-  vodBtn:'『アイドル・キャンプ』を見る',vodPending:'拡張版のリンクは準備中です。',
+  vodDescHome:'未公開のビハインドまで、修練会の思い出をもっと長く。',
+  vodDescResult:'この思い出をもっと長く見たいなら、拡張版で未公開シーンまで。',
+  vodBtn:'『アイドル・キャンプ』を見る →',vodPending:'拡張版のリンクは準備中です。',
   randChip:'ランダム出題',loadingQ:'問題を読み込んでいます。',imgFail:'写真を読み込めませんでした。',
   memoryNo:'思い出 No.',hintQ:'この瞬間を覚えていますか？',
-  tipQ:'選ぶとすぐ次のシーンへ · 正解は最後にまとめて',
+  tipQ:'選ぶとすぐ次のシーンへ進みます',
   grading:'思い出を整理しています',gradeFail:'集計に失敗しました。もう一度お試しください。',
   loadFail:'退所式のデータを読み込めませんでした。',preparing:'準備中…',
   ribbon:'名誉ある退所に成功しました！',certName:'オンライン退所証',
@@ -819,20 +665,19 @@ const I18N={
   retryBtn:'最初からやり直す'
  },
  'zh-CN':{
-  tabEnroll:'入所',tabTalent:'才艺表演',tabFarewell:'退所',tabKit:'结业礼包',soon:'准备中',
+  tabEnroll:'入所',tabTalent:'才艺表演',tabFarewell:'退所式',tabKit:'结业礼包',soon:'准备中',
   heroTitle:'线上退所式',
   heroLead:'修炼会的最后一夜，在营火前|回想 26 个回忆|和朋友们光荣退所吧。',
-  startBtn:'开始退所式',heroNote:'26 个场景 · 答案在最后一次公开',
-  howLabel:'HOW TO JOIN',howTitle:'参与方式',
-  step1:'确认回忆场景',step2:'选择 YES / NO',step3:'只有答对的朋友进相册！',
-  howNote:'题目顺序每次挑战都会打乱，是否答对将在完成全部 26 题后一次公开。',
+  startBtn:'开始退所式 →',heroNote:'修炼会的 26 个场景',
+  howLabel:'HOW TO JOIN',howTitle:'退所式流程',howSub:'大约 3 分钟',heroEyebrow:'偶像修炼会的最后一夜',heroDesc:'修炼会结束了，但回忆还在继续。|回想 26 个瞬间，和朋友们一起|完成最后的退所式吧。',resultEyebrow:'EXIT COMPLETE',certIssued:'发放日',certSeal:'修炼会<br>结业',previewNote:'与 26 位朋友一起完成回忆，领取属于你的线上退所证书。',step1Head:'回忆的场景',step1Body:'逐一确认 26 个场景。',step2Head:'YES or NO',step2Body:'回答与场景相关的问题。',step3Head:'完成退所证',step3Body:'答对的朋友会加入相册。',
+    howNote:'题目顺序每次挑战都会打乱。',
   nextLabel:'NEXT STORY',vodTitle:'《偶像修炼会》扩展版',
-  vodDescHome:'和未公开场景一起，重温修炼会的回忆。',
-  vodDescResult:'测验中出现的场景，在扩展版里看得更久更完整。',
-  vodBtn:'去看《偶像修炼会》',vodPending:'扩展版链接正在准备中。',
+  vodDescHome:'连未公开花絮都有，把修炼会的回忆看得更久。',
+  vodDescResult:'想把这些回忆看得更久？扩展版有未公开片段。',
+  vodBtn:'去看《偶像修炼会》 →',vodPending:'扩展版链接正在准备中。',
   randChip:'随机出题',loadingQ:'正在载入题目。',imgFail:'无法载入照片。',
   memoryNo:'回忆 No.',hintQ:'你记得这个瞬间吗？',
-  tipQ:'选择后立即进入下一个场景 · 答案在最后一次公开',
+  tipQ:'选择后立即进入下一个场景',
   grading:'正在整理回忆',gradeFail:'统计失败，请再试一次。',
   loadFail:'无法载入退所式数据。',preparing:'准备中…',
   ribbon:'恭喜成功完成退所！',certName:'线上退所证书',
@@ -854,20 +699,19 @@ const I18N={
   retryBtn:'从头再挑战'
  },
  'zh-TW':{
-  tabEnroll:'入所',tabTalent:'才藝表演',tabFarewell:'退所',tabKit:'結業禮包',soon:'準備中',
+  tabEnroll:'入所',tabTalent:'才藝表演',tabFarewell:'退所式',tabKit:'結業禮包',soon:'準備中',
   heroTitle:'線上退所式',
   heroLead:'修煉會的最後一夜，在營火前|回想 26 個回憶|和朋友們光榮退所吧。',
-  startBtn:'開始退所式',heroNote:'26 個場景 · 答案在最後一次公開',
-  howLabel:'HOW TO JOIN',howTitle:'參與方式',
-  step1:'確認回憶場景',step2:'選擇 YES / NO',step3:'只有答對的朋友進相冊！',
-  howNote:'題目順序每次挑戰都會打亂，是否答對將在完成全部 26 題後一次公開。',
+  startBtn:'開始退所式 →',heroNote:'修煉會的 26 個場景',
+  howLabel:'HOW TO JOIN',howTitle:'退所式流程',howSub:'大約 3 分鐘',heroEyebrow:'偶像修煉會的最後一夜',heroDesc:'修煉會結束了，但回憶還在繼續。|回想 26 個瞬間，和朋友們一起|完成最後的退所式吧。',resultEyebrow:'EXIT COMPLETE',certIssued:'發放日',certSeal:'修煉會<br>結業',previewNote:'與 26 位朋友一起完成回憶，領取屬於你的線上退所證書。',step1Head:'回憶的場景',step1Body:'逐一確認 26 個場景。',step2Head:'YES or NO',step2Body:'回答與場景相關的問題。',step3Head:'完成退所證',step3Body:'答對的朋友會加入相冊。',
+    howNote:'題目順序每次挑戰都會打亂。',
   nextLabel:'NEXT STORY',vodTitle:'《偶像修煉會》擴充版',
-  vodDescHome:'和未公開場景一起，重溫修煉會的回憶。',
-  vodDescResult:'測驗中出現的場景，在擴充版裡看得更久更完整。',
-  vodBtn:'前往觀看《偶像修煉會》',vodPending:'擴充版連結準備中。',
+  vodDescHome:'連未公開花絮都有，把修煉會的回憶看得更久。',
+  vodDescResult:'想把這些回憶看得更久？擴充版有未公開片段。',
+  vodBtn:'前往觀看《偶像修煉會》 →',vodPending:'擴充版連結準備中。',
   randChip:'隨機出題',loadingQ:'正在載入題目。',imgFail:'無法載入照片。',
   memoryNo:'回憶 No.',hintQ:'你記得這個瞬間嗎？',
-  tipQ:'選擇後立即進入下一個場景 · 答案在最後一次公開',
+  tipQ:'選擇後立即進入下一個場景',
   grading:'正在整理回憶',gradeFail:'統計失敗，請再試一次。',
   loadFail:'無法載入退所式資料。',preparing:'準備中…',
   ribbon:'恭喜成功完成退所！',certName:'線上退所證書',
@@ -928,6 +772,7 @@ function memberSecondary(m){return lang==='ko'?(m.member_en||''):(m.member_ko||'
 function setI18nValue(el,value){
   const s=String(value==null?'':value);
   if(s.includes('|'))el.innerHTML=s.split('|').map(p=>esc(p)).join('<br>');
+  else if(s.includes('<br>'))el.innerHTML=s.split('<br>').map(p=>esc(p)).join('<br>');
   else el.textContent=s;
 }
 function buildLangs(){
@@ -971,17 +816,10 @@ async function loadData(){
   settings=Array.isArray(st)&&st[0]?st[0]:null;
 }
 
-/* ---- progress: one tent per memory ---- */
-function buildStamps(){
-  const box=$('#stamps');
-  if(box.childElementCount===TOTAL)return;
-  box.innerHTML='';
-  for(let i=0;i<TOTAL;i++)box.appendChild(document.createElement('i'));
-}
-function paintStamps(current){
-  const box=$('#stamps');
-  Array.prototype.forEach.call(box.children,(el,i)=>{el.className=i<current?'done':(i===current?'now':'');});
-  box.setAttribute('aria-valuenow',String(current));
+/* ---- progress ---- */
+function setProgress(current){
+  $('#trackFill').style.width=`${(current/TOTAL)*100}%`;
+  $('#track').setAttribute('aria-valuenow',String(current));
 }
 function setStatus(html,visible){
   const el=$('#quizStatus');
@@ -991,7 +829,6 @@ function setStatus(html,visible){
 
 function startQuiz(){
   order=shuffle(questions);idx=0;answers=[];
-  buildStamps();
   showPage('question');
   renderQuestion();
 }
@@ -1003,7 +840,7 @@ function renderQuestion(){
   $('#qTip').style.display='flex';
   $('#qIndexNum').textContent=String(idx+1);
   $('#qTag').textContent=t().memoryNo+String(idx+1).padStart(2,'0');
-  paintStamps(idx);
+  setProgress(idx);
   $('#questionText').textContent=questionText(q);
 
   const box=$('#picBox'),img=$('#qImg');
@@ -1030,7 +867,7 @@ function choose(choice){
 async function grade(){
   setStatus(esc(t().grading)+'<span class="dots"></span>',true);
   $('#qCard').style.display='none';
-  paintStamps(TOTAL);
+  setProgress(TOTAL);
   try{
     const data=await api('/rest/v1/rpc/grade_camp_exit_quiz',{method:'POST',headers:headers({'Content-Type':'application/json'}),body:JSON.stringify({p_answers:answers})});
     const result=(Array.isArray(data)?data[0]:data)||{};
@@ -1074,16 +911,17 @@ function renderResultView(){
   });
 
   /* 26/26 only: group photo on top. Otherwise the camp logo. */
-  const photo=$('#groupPhoto'),logo=$('#campLogo'),seal=$('#campSeal'),perfect=count===TOTAL;
-  logo.onerror=()=>{logo.style.display='none';if(photo.style.display==='none')seal.style.display='block';};
+  const photo=$('#groupPhoto'),logo=$('#campLogo'),perfect=count===TOTAL;
+  logo.onerror=()=>{logo.style.display='none';};
   if(perfect&&settings&&settings.group_photo_path){
     photo.onerror=()=>{photo.style.display='none';logo.style.display='block';};
     photo.src=publicUrl(EXIT_BUCKET,settings.group_photo_path);
-    photo.style.display='block';logo.style.display='none';seal.style.display='none';
+    photo.style.display='block';logo.style.display='none';
   }else{
     photo.removeAttribute('src');
-    photo.style.display='none';logo.style.display='block';seal.style.display='none';
+    photo.style.display='none';logo.style.display='block';
   }
+  $('#certDate').textContent=new Intl.DateTimeFormat(lang==='ko'?'ko-KR':lang,{year:'numeric',month:'long',day:'numeric'}).format(new Date());
   $('#cert').classList.toggle('perfect',perfect);
   $('#certOuter').classList.toggle('perfect',perfect);
   $('#perfectBadge').style.display=perfect?'inline-block':'none';
