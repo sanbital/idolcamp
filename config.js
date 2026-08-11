@@ -243,7 +243,7 @@ window.addEventListener("DOMContentLoaded", function () {
     opened = true;
     tab.classList.remove("locked");
     tab.removeAttribute("aria-disabled");
-    tab.innerHTML = '<span data-i18n="tabFarewell">퇴소</span>';
+    tab.innerHTML = '<span data-i18n="tabFarewell">퇴소식</span>';
     if (typeof applyI18n === "function") { try { applyI18n(); } catch (_) {} }
     tab.addEventListener("click", function (e) {
       e.preventDefault();

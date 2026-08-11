@@ -3,74 +3,1286 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
 <title>아이돌 수련회 · 온라인 퇴소식</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@700&display=swap" rel="stylesheet">
 <script src="../config.js"></script>
 <style>
-:root{--ink:#173b2e;--paper:#fffaf0;--line:#d9c6a4;--green:#2d6543;--yellow:#e9b84f;--red:#cf5d3e;--purple:#70488d}
-*{box-sizing:border-box}html,body{margin:0;padding:0}body{background:#f6ecd9;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",Arial,sans-serif}.wrap{width:min(calc(100% - 24px),500px);margin:auto;padding:16px 0 40px}.head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.brand{font-weight:950;font-size:17px}.pill{font-size:10px;font-weight:900;background:#ffe39b;border:1px solid #d7a73e;padding:5px 9px;border-radius:999px}.page{display:none}.page.on{display:block}.card{background:var(--paper);border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:0 10px 28px rgba(76,49,20,.10)}
-.gate{min-height:100dvh;display:grid;place-items:center;padding:20px}.gatecard{width:min(100%,460px);background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:28px 22px;text-align:center;box-shadow:0 14px 40px rgba(76,49,20,.14)}.gatecard .lock{font-size:42px}.gatecard h1{margin:8px 0 10px;font-size:27px}.gatecard p{margin:0;color:#665f54;line-height:1.65;font-weight:750}.gatecard .when{margin:15px auto 0;padding:12px;border:1px dashed var(--line);border-radius:13px;background:#fff3dc;font-weight:900}.gatecard .countdown{margin-top:8px;font-size:12px;color:#766f64}
-.hero{position:relative;min-height:510px;padding:24px 18px;display:flex;flex-direction:column;justify-content:flex-end;text-align:center;background:linear-gradient(#07162b,#0c2940 55%,#143b34);overflow:hidden}.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(6,28,22,.15) 64%,rgba(6,28,22,.72));pointer-events:none}.nightart{position:absolute;inset:0;width:100%;height:100%;display:block}.heroCopy{position:relative;z-index:2}.hero h1{margin:0;color:#fff0bd;font-size:38px;letter-spacing:-1.5px;text-shadow:0 2px 0 #4b2e17}.hero p{color:#fff;line-height:1.55;font-weight:800;text-shadow:0 1px 4px #000}.primary{width:100%;border:0;border-radius:15px;padding:15px;background:var(--yellow);color:#3a280f;font-size:17px;font-weight:950;box-shadow:0 7px 18px rgba(0,0,0,.22);cursor:pointer}.primary:disabled{opacity:.5}.how{margin-top:12px;padding:16px}.how h3{margin:0 0 10px}.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.step{padding:10px 4px;background:#fff3dc;border:1px dashed var(--line);border-radius:13px;text-align:center;font-size:10px;line-height:1.35}.step b{font-size:19px;display:block}.kit{margin-top:12px;padding:16px;border-radius:20px;background:linear-gradient(135deg,#173b2e,#37694e);color:#fff}.kit strong{display:block;font-size:17px}.kit small{opacity:.8}.kit button{width:100%;margin-top:10px;border:0;border-radius:13px;padding:12px;background:#efbd55;color:#38270e;font-weight:950;cursor:pointer}
-.qtop{display:flex;justify-content:space-between;gap:10px;font-weight:900;margin:2px 2px 8px;font-size:12px}.track{height:8px;background:#ded0b8;border-radius:999px;overflow:hidden;margin-bottom:10px}.fill{height:100%;background:linear-gradient(90deg,#2e6b4a,#e6b44c);transition:width .2s}.pic{position:relative;aspect-ratio:16/9;background:#e7dcc8;display:flex;align-items:center;justify-content:center}.pic img{width:100%;height:100%;object-fit:contain}.pic .missing{display:none;padding:20px;text-align:center;font-size:12px;color:#766f64}.tag{position:absolute;top:12px;left:12px;padding:7px 10px;border-radius:8px;background:var(--green);color:#fff;font-size:11px;font-weight:950;transform:rotate(-3deg)}.qb{text-align:center;padding:20px 16px}.hint{color:var(--purple);font-size:12px;font-weight:900}.question{font-size:21px;line-height:1.5;font-weight:950;margin-top:8px;min-height:90px;display:flex;align-items:center;justify-content:center;word-break:keep-all}.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.ans{border:0;border-radius:16px;padding:18px;font-size:23px;font-weight:950;color:#fff;cursor:pointer}.yes{background:#3b7846}.no{background:var(--red)}.ans:disabled{opacity:.55}.tip{margin-top:13px;padding:10px;border:1px dashed #d8c095;background:#fff2d4;border-radius:11px;font-size:11px}.status{padding:12px;border-radius:13px;background:#fff3dc;border:1px solid var(--line);font-size:12px;font-weight:800;text-align:center;margin-bottom:10px}
-.certTitleBar{display:flex;align-items:center;justify-content:space-between;margin:1px 2px 9px}.certTitleBar h2{margin:0;font-size:21px}.certwrap{padding:17px;background:#ead9b3}.cert{padding:21px 14px;text-align:center;background:#fffdf5;border:1px solid #cdb688}.logoarea{min-height:170px;border:1px solid var(--line);border-radius:16px;background:radial-gradient(circle at 50% 40%,#fff6da,#efe1bc);display:flex;align-items:center;justify-content:center;margin-bottom:16px;overflow:hidden}.logoarea img{display:block;width:100%;height:auto;max-height:300px;object-fit:contain}.logoMark{padding:12px 16px;border:2px solid #194835;border-radius:13px;color:#194835;font-weight:950;letter-spacing:.08em}.cert h1{margin:5px 0;font-size:28px}.score{font-size:50px;font-weight:950;color:#174b37}.rtype{margin:15px 0 2px;text-align:center}.rtype .lead{display:block;font-size:11px;line-height:1.35;color:#7a7368;font-weight:850}.rtype strong{display:inline-block;margin:5px 0 3px;padding:7px 13px;border-radius:999px;background:#f3e7ff;color:#70488d;font-family:"Nanum Myeongjo","AppleMyungjo","Noto Serif KR",serif;font-size:25px;line-height:1.25;font-weight:900;letter-spacing:-.045em}.desc{font-size:13px;line-height:1.7}.friendNames{margin:11px 0 16px;padding-top:10px;border-top:1px dashed #d7c7a8}.friendNames .label{display:block;margin-bottom:7px;color:#776c5d;font-size:10px;font-weight:900;letter-spacing:.08em}.friendList{display:flex;flex-wrap:wrap;justify-content:center;gap:5px}.friendChip{display:inline-flex;align-items:baseline;gap:3px;padding:5px 7px;border:1px solid #ddcfb5;border-radius:999px;background:#fff8e8;color:var(--ink);font-size:10px;font-weight:900}.friendChip em{font-style:normal;color:#8a7966;font-size:8px;font-weight:800}.album{margin-top:12px;padding:15px}.album h2{margin:2px 0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.pol{margin:0;background:#fff;border:1px solid #ddcfb5;padding:5px 5px 7px;box-shadow:0 3px 7px #0002}.pol:nth-child(odd){transform:rotate(-1deg)}.pol:nth-child(even){transform:rotate(1deg)}.pol img{width:100%;aspect-ratio:4/5;object-fit:cover;background:#eee}.pol figcaption{text-align:center;font-size:9px;font-weight:900;margin-top:3px;word-break:keep-all}.empty{text-align:center;padding:24px 10px;color:#766f64;font-size:12px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.actions button{border:1px solid var(--line);border-radius:13px;padding:13px;background:#fffaf0;font-weight:900;color:var(--ink);cursor:pointer}.actions .dark{background:var(--ink);color:#fff}
-@media(max-width:380px){.steps{grid-template-columns:repeat(2,1fr)}.hero{min-height:475px}.hero h1{font-size:34px}.question{font-size:19px}.rtype strong{font-size:22px}}
+/* The exit ceremony is the third tab of the main idolcamp site, so the shell
+   (green field, camp logo, language pills, tab bar) is the main site's own.
+   Only the ceremony's own cards turn to the night-camp chapter. */
+:root{
+  --green:#8FB35A;--forest:#123A2E;--navy:#0F3B3A;--ink-soft:#3C5245;--ink-faint:#6E8271;
+  --card:#F6FAEF;--line:rgba(15,59,58,.12);
+  /* night chapter */
+  --night:#08172C;--night-2:#0E2945;--night-3:#123A2E;
+  --gold:#F2C230;--gold-l:#FFD96A;--cream:#FFF8E7;--paper:#FBF6E9;
+  --red:#C4564C;--camp-green:#2F7D4F;
+  --sans:"Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",system-ui,-apple-system,sans-serif;
+  --display:"Jua","Gaegu","Pretendard",sans-serif;
+  --radius:22px;
+  --shadow:0 18px 40px rgba(15,59,58,.22);
+  font-synthesis-weight:none;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden}
+body{
+  font-family:var(--sans);color:var(--forest);line-height:1.5;
+  -webkit-font-smoothing:antialiased;min-height:100dvh;
+  background:
+    radial-gradient(120% 90% at 12% -10%,#A6C878 0%,transparent 55%),
+    radial-gradient(120% 120% at 100% 0%,#7EA34E 0%,transparent 45%),
+    var(--green);
+  background-attachment:fixed;
+}
+button{font-family:inherit}
+:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+.artDefs{position:absolute;width:0;height:0;overflow:hidden}
+.wrap{max-width:1080px;margin:0 auto;padding:22px 20px calc(64px + env(safe-area-inset-bottom))}
+
+/* ---------- site shell (inherited from the main page) ---------- */
+.camp-topbar{display:flex;flex-direction:column;align-items:center;gap:9px;margin:0 0 9px;width:100%}
+.top-camp-logo{display:block;width:196px;max-width:68vw;height:auto;object-fit:contain;margin:0 auto;filter:drop-shadow(0 3px 5px rgba(15,59,58,.16))}
+.langs{display:flex;gap:5px;width:100%;padding:4px;border-radius:16px;background:rgba(15,59,58,.10);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.langs::-webkit-scrollbar{display:none}
+.langs button{position:relative;flex:1 1 0;min-width:max-content;border:0;background:transparent;color:#12402f;font-weight:700;font-size:12.5px;padding:9px 11px;border-radius:12px;cursor:pointer;white-space:nowrap;transition:.15s}
+.langs button:after{content:"";position:absolute;left:0;right:0;top:-6px;bottom:-6px}
+.langs button[aria-pressed="true"]{background:var(--navy);color:#eafff4;box-shadow:0 4px 12px rgba(15,59,58,.3)}
+.tabs{display:flex;gap:6px;margin:14px 0 0;padding:6px;background:rgba(15,59,58,.10);border-radius:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1 1 0;min-width:max-content;white-space:nowrap;border:0;background:transparent;color:#1c4636;font-family:inherit;font-weight:800;font-size:14px;padding:11px 13px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;transition:.15s}
+.tab.active{background:var(--navy);color:#eafff4;box-shadow:0 4px 12px rgba(15,59,58,.3)}
+.tab.locked{color:#71857a;cursor:not-allowed}
+.tab .lock{font-size:12px;opacity:.75}
+.tab .soon{font-style:normal;font-size:10px;font-weight:800;color:#8a9d90;background:rgba(15,59,58,.12);border-radius:999px;padding:2px 6px}
+
+.page{display:none}
+.page.on{display:block;animation:pageIn .2s ease both}
+@keyframes pageIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-break:keep-all}
+.eyebrow{display:block;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--gold)}
+
+/* ---------- HOME hero: the last night ---------- */
+.hero{position:relative;margin-top:16px;border-radius:26px;overflow:hidden;background:var(--night);box-shadow:0 20px 44px rgba(8,23,44,.34)}
+.heroArt{position:absolute;inset:0;width:100%;height:100%;display:block}
+.artWide{display:none}
+/* keeps the copy readable over the camp scene */
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,23,44,.96) 4%,rgba(8,23,44,.72) 34%,rgba(8,23,44,.12) 68%,transparent 100%);pointer-events:none}
+.heroInner{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;min-height:512px;padding:26px 22px 26px;text-align:left}
+.heroInner .eyebrow{margin-bottom:10px}
+.heroTitle{font-size:clamp(36px,10.4vw,42px);line-height:1.04;font-weight:900;letter-spacing:-.04em;color:var(--cream)}
+.heroDesc{margin:14px 0 0;max-width:32em;font-size:14px;line-height:1.7;font-weight:500;color:rgba(255,248,231,.9);word-break:keep-all}
+.heroCta{margin-top:20px}
+.primary{width:100%;min-height:58px;border:0;border-radius:15px;padding:15px 22px;background:linear-gradient(180deg,var(--gold-l),var(--gold));color:#3A2A06;font-size:17px;font-weight:900;letter-spacing:-.02em;cursor:pointer;box-shadow:0 3px 0 rgba(150,104,12,.85),0 10px 24px rgba(8,23,44,.32);transition:transform .16s ease,box-shadow .16s ease}
+.primary:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(150,104,12,.85)}
+.primary:disabled{opacity:.62;transform:none}
+.heroNote{display:block;margin-top:11px;font-size:12px;font-weight:600;color:rgba(255,248,231,.62)}
+@keyframes flicker{0%,100%{transform:scaleY(1) translateY(0);opacity:1}50%{transform:scaleY(1.06) translateY(-2px);opacity:.94}}
+.flame{transform-box:fill-box;transform-origin:50% 100%;animation:flicker 2.4s ease-in-out infinite}
+.emberGlow{transform-box:fill-box;transform-origin:50% 70%;animation:flicker 3.1s ease-in-out infinite}
+
+/* ---------- steps ---------- */
+.guide{margin-top:22px}
+.guideHead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 2px 12px}
+.guideHead h2{font-size:20px}
+.guideHead .sub{font-size:12px;font-weight:600;color:rgba(18,58,46,.62)}
+.steps{list-style:none;display:grid;grid-template-columns:1fr;gap:10px;margin:0;padding:0}
+.step{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:14px;padding:16px 16px;background:var(--card);border:2px solid rgba(15,59,58,.16);border-radius:18px;box-shadow:0 5px 0 rgba(15,59,58,.12)}
+.stepIcon{width:52px;height:52px;display:grid;place-items:center;border-radius:14px;border:2px solid rgba(15,59,58,.18)}
+/* the logo's palette, one tint per step */
+.step:nth-child(1) .stepIcon{background:#E6F1DA}
+.step:nth-child(2) .stepIcon{background:#FFF1D6}
+.step:nth-child(3) .stepIcon{background:#DDEDF4}
+.stepIcon svg{width:32px;height:32px;display:block}
+.stepNo{display:inline-block;padding:2px 8px;border-radius:999px;background:var(--gold);border:1.6px solid var(--navy);color:var(--navy);font-size:10.5px;font-weight:900;letter-spacing:.1em}
+.step h3{margin:6px 0 4px;font-size:16px;font-weight:900;color:var(--navy);letter-spacing:-.03em}
+.step p{margin:0;font-size:12.5px;line-height:1.6;font-weight:600;color:var(--ink-soft);word-break:keep-all}
+.previewNote{margin:12px 4px 0;text-align:center;font-size:12.5px;line-height:1.7;font-weight:600;color:rgba(18,58,46,.68);word-break:keep-all}
+
+/* ---------- secondary VOD ---------- */
+.vodCard{display:grid;gap:14px;align-items:center;margin-top:16px;padding:18px 18px;border-radius:20px;background:var(--card);border:1px solid var(--line);box-shadow:0 10px 26px rgba(15,59,58,.14)}
+.vodCard .eyebrow{color:#9C7A16}
+.vodCard strong{display:block;margin:7px 0 5px;font-size:17px;font-weight:900;letter-spacing:-.03em;color:var(--navy);word-break:keep-all}
+.vodCard p{margin:0;font-size:12.5px;line-height:1.6;font-weight:500;color:var(--ink-soft);word-break:keep-all}
+.vod{width:100%;min-height:50px;border:1.5px solid var(--navy);border-radius:13px;padding:12px 20px;background:transparent;color:var(--navy);font-size:14.5px;font-weight:800;cursor:pointer;transition:background .16s ease,color .16s ease}
+.vod:active{background:var(--navy);color:var(--cream)}
+
+/* ---------- question ---------- */
+.qhead{margin:16px 2px 12px}
+.qhrow{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:9px}
+.qcount{font-size:15px;font-weight:800;color:rgba(18,58,46,.55)}
+.qcount b{font-size:26px;font-weight:900;color:var(--navy);margin-right:1px;letter-spacing:-.03em}
+.randChip{flex:none;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.5);border:1px solid rgba(15,59,58,.2);color:var(--navy);font-size:11px;font-weight:700}
+.track{height:7px;border-radius:999px;background:rgba(15,59,58,.16);overflow:hidden}
+.track i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--camp-green),var(--gold));transition:width .28s cubic-bezier(.22,.7,.3,1)}
+
+.status{padding:16px 12px;border-radius:16px;background:var(--card);border:1px dashed rgba(15,59,58,.25);font-size:13px;font-weight:700;text-align:center;color:var(--ink-soft);margin-bottom:10px}
+.status.hide{display:none}
+.status .dots:after{content:"";animation:dots 1.2s steps(4,end) infinite}
+@keyframes dots{0%{content:""}25%{content:"·"}50%{content:"··"}75%{content:"···"}}
+
+.qcard{padding:14px;background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 30px rgba(15,59,58,.16)}
+.qcard.swap{animation:swapIn .19s ease both}
+@keyframes swapIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.qbody{display:grid;gap:15px}
+.pic{position:relative;aspect-ratio:16/9;background:#151C22;border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pic:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,rgba(255,255,255,.04),rgba(255,255,255,.11),rgba(255,255,255,.04));background-size:220% 100%;animation:sheen 1.4s linear infinite;opacity:1;transition:opacity .2s ease}
+.pic.loaded:before,.pic.failed:before{opacity:0;animation:none}
+@keyframes sheen{from{background-position:120% 0}to{background-position:-120% 0}}
+.pic img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .22s ease}
+.pic.loaded img{opacity:1}
+.pic .missing{position:relative;z-index:1;display:none;padding:20px;text-align:center;font-size:12px;font-weight:600;color:#9FAFA5}
+.pic.failed .missing{display:block}
+.filmTag{position:absolute;z-index:2;top:10px;left:10px;padding:5px 11px;border-radius:8px;background:rgba(8,23,44,.72);color:var(--gold-l);font-size:11px;font-weight:700;letter-spacing:.04em;backdrop-filter:blur(3px)}
+
+.qside{display:flex;flex-direction:column;justify-content:center;padding:2px}
+.hint{margin:0;font-size:12px;font-weight:700;color:#7A6AC0}
+.question{margin:9px 0 0;font-size:19px;line-height:1.55;font-weight:800;letter-spacing:-.03em;color:var(--forest);word-break:keep-all;overflow-wrap:break-word}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.ans{min-height:62px;border:0;border-radius:15px;padding:12px 8px;font-size:19px;font-weight:900;letter-spacing:.06em;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:transform .16s ease,box-shadow .16s ease,opacity .16s ease}
+.ans .glyph{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;border:2.4px solid currentColor;font-size:0}
+.ans .glyph.x{border:0;position:relative}
+.ans .glyph.x:before,.ans .glyph.x:after{content:"";position:absolute;left:1px;right:1px;top:9px;height:2.4px;background:currentColor;border-radius:2px}
+.ans .glyph.x:before{transform:rotate(45deg)}
+.ans .glyph.x:after{transform:rotate(-45deg)}
+.yes{background:var(--camp-green);box-shadow:0 3px 0 #1F5836}
+.no{background:var(--red);box-shadow:0 3px 0 #8E3A32}
+.ans:active{transform:translateY(2px);box-shadow:none}
+.ans:disabled{opacity:.5;transform:none}
+.tip{margin:13px 2px 0;text-align:center;font-size:11.5px;line-height:1.6;font-weight:600;color:rgba(18,58,46,.55);word-break:keep-all}
+
+/* ---------- result ---------- */
+.resultTop{text-align:center;margin:18px 0 14px}
+.resultTop .eyebrow{color:#8C6B10}
+.resultTop h2{margin-top:7px;font-size:clamp(21px,5vw,26px)}
+.certOuter{position:relative;padding:14px;border-radius:20px;background:linear-gradient(160deg,#1B4A36,#0F2E24);box-shadow:0 18px 40px rgba(8,23,44,.28)}
+.cert{position:relative;padding:30px 22px 24px;background:var(--paper);border:1.5px solid #2E6A4E;border-radius:8px;text-align:center;overflow:hidden}
+.cert:before{content:"";position:absolute;inset:7px;border:1px solid rgba(46,106,78,.28);border-radius:4px;pointer-events:none}
+/* gold corner marks */
+.cert .corner{position:absolute;width:22px;height:22px;border:2px solid var(--gold);opacity:.75}
+.cert .corner.tl{top:13px;left:13px;border-right:0;border-bottom:0}
+.cert .corner.tr{top:13px;right:13px;border-left:0;border-bottom:0}
+.cert .corner.bl{bottom:13px;left:13px;border-right:0;border-top:0}
+.cert .corner.br{bottom:13px;right:13px;border-left:0;border-top:0}
+.certEyebrow{display:block;font-size:10px;font-weight:800;letter-spacing:.22em;color:#9C8A62}
+.certName{margin:8px 0 0;font-size:clamp(20px,4.4vw,26px);font-weight:900;letter-spacing:-.02em;color:#1F5E44}
+.certRule{display:flex;align-items:center;gap:10px;margin:12px 10px 18px;color:#C3AE7C}
+.certRule:before,.certRule:after{content:"";flex:1;height:1px;background:currentColor}
+.certRule span{font-size:9.5px;font-weight:800;letter-spacing:.16em;color:#9C8A62}
+.certVisual{margin:0 auto 20px;display:flex;align-items:center;justify-content:center;min-height:132px;max-width:440px}
+.certVisual img{display:block;width:100%;height:auto;max-height:280px;object-fit:contain;border-radius:6px}
+#campLogo{max-width:66%;max-height:124px}
+.perfectBadge{display:inline-block;margin:0 0 14px;padding:6px 16px;border-radius:999px;background:linear-gradient(135deg,#F7E3A8,#D9A93F);color:#3C2A06;font-size:10.5px;font-weight:900;letter-spacing:.18em}
+
+.rtype .lead{display:block;font-size:13px;font-weight:600;color:#6C7A6E}
+.titleBox{position:relative;display:block;margin:10px auto;padding:15px 8px;max-width:620px}
+.titleBox:before,.titleBox:after{content:"";position:absolute;left:12%;right:12%;height:1px;background:linear-gradient(90deg,transparent,#D9C48E,transparent)}
+.titleBox:before{top:0}
+.titleBox:after{bottom:0}
+.titleBox strong{display:block;font-size:clamp(24px,5.2vw,38px);line-height:1.3;font-weight:900;letter-spacing:-.045em;color:#1F5E44;word-break:keep-all}
+.titleBox .brk{color:#C9B47F;font-weight:700;margin:0 3px}
+
+.countBlock{margin:18px auto 0;max-width:320px}
+.countRow{display:flex;align-items:baseline;justify-content:center;gap:9px}
+.countLabel{font-size:12px;font-weight:700;color:#6C7A6E}
+.countVal{font-size:26px;font-weight:900;letter-spacing:-.03em;color:#1F5E44}
+.countVal em{font-style:normal;font-size:14px;font-weight:700;color:#9C8A62}
+.countBar{height:5px;margin-top:10px;border-radius:999px;background:#E7DCC2;overflow:hidden}
+.countBar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#2F7D4F,var(--gold));width:0;transition:width .55s cubic-bezier(.22,.7,.3,1)}
+
+.desc{margin:18px auto 0;max-width:430px;font-size:13px;line-height:1.8;font-weight:500;color:#5A6A5E;word-break:keep-all}
+.certFoot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px;padding-top:14px;border-top:1px solid #E7DCC2;font-size:10.5px;font-weight:700;letter-spacing:.06em;color:#9C8A62;text-align:left}
+.certFoot .seal{flex:none;width:56px;height:56px;display:grid;place-items:center;border-radius:50%;border:1.5px dashed #C0533F;color:#C0533F;transform:rotate(-9deg);line-height:1.1;font-size:9.5px;font-weight:900;letter-spacing:.02em;text-align:center;opacity:.9}
+
+/* ---------- friends / album / share ---------- */
+.panel{margin-top:16px;padding:18px 16px;background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:0 10px 26px rgba(15,59,58,.14)}
+.panel h2{font-size:18px}
+.panel .eyebrow{color:#9C7A16}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;margin-top:14px}
+.pol{margin:0;background:#fff;border:1px solid rgba(15,59,58,.14);border-radius:4px;padding:5px 5px 7px;box-shadow:0 4px 12px rgba(15,59,58,.12)}
+.pol:nth-child(4n+1){transform:rotate(-.8deg)}
+.pol:nth-child(4n+3){transform:rotate(.8deg)}
+.pol img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:#E9E2D2;border-radius:2px}
+.pol figcaption{margin-top:6px;text-align:center;line-height:1.25}
+.pol figcaption b{display:block;font-size:11px;font-weight:800;letter-spacing:-.02em;color:var(--forest);word-break:keep-all}
+.pol figcaption em{display:block;margin-top:1px;font-style:normal;font-size:8px;font-weight:700;letter-spacing:.05em;color:#9C8A62;text-transform:uppercase;word-break:break-word}
+.empty{text-align:center;padding:26px 10px;font-size:12.5px;line-height:1.7;font-weight:600;color:var(--ink-faint)}
+
+.friendNames{margin:20px 0 0;padding-top:16px;border-top:1px solid #E7DCC2}
+.friendNames .label{display:block;margin-bottom:11px;font-size:9.5px;font-weight:800;letter-spacing:.18em;color:#9C8A62}
+.friendList{display:grid;grid-template-columns:repeat(auto-fill,minmax(94px,1fr));gap:7px}
+.plate{padding:8px 4px 7px;border:1px solid #E4D9BC;border-radius:6px;background:#FFFCF3;text-align:center;line-height:1.25}
+.plate b{display:block;font-size:12px;font-weight:800;letter-spacing:-.02em;color:var(--forest);word-break:keep-all}
+.plate em{display:block;margin-top:2px;font-style:normal;font-size:8px;font-weight:700;letter-spacing:.06em;color:#A08E73;text-transform:uppercase;word-break:break-word}
+
+.shareRow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}
+.shareBtn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:66px;padding:10px 4px;border:1px solid rgba(15,59,58,.2);border-radius:14px;background:#FFFDF6;color:var(--navy);font-size:11.5px;font-weight:700;letter-spacing:-.02em;cursor:pointer;transition:background .15s ease,transform .15s ease}
+.shareBtn svg{width:20px;height:20px;flex:none;color:var(--navy)}
+.shareBtn:active{transform:translateY(2px);background:#F2EEE0}
+.shareBtn:disabled{opacity:.5;cursor:default;transform:none}
+.shareNote{margin:12px 2px 0;text-align:center;font-size:11.5px;line-height:1.65;font-weight:600;color:var(--ink-faint);word-break:keep-all;min-height:2.2em}
+.shareNote.warn{color:#B4483E}
+
+.actions{margin-top:14px}
+.ghost{width:100%;min-height:50px;border:1.5px solid rgba(15,59,58,.28);border-radius:13px;padding:13px;background:transparent;color:var(--navy);font-size:14.5px;font-weight:800;cursor:pointer;transition:background .15s ease}
+.ghost:active{background:rgba(255,255,255,.4)}
+.gate{min-height:100dvh;display:grid;place-items:center;padding:24px}
+.gatecard{width:min(100%,460px);padding:34px 26px 30px;border-radius:24px;text-align:center;background:linear-gradient(180deg,#0E2945,#08172C);border:1px solid rgba(242,194,48,.24);box-shadow:0 22px 48px rgba(8,23,44,.34);color:var(--cream)}
+.gateEyebrow{display:block;font-size:10.5px;font-weight:800;letter-spacing:.2em;color:var(--gold)}
+.gatecard h1{margin:12px 0 12px;font-size:clamp(23px,5.4vw,28px);font-weight:900;letter-spacing:-.03em;color:var(--cream)}
+.gatecard p{margin:0;font-size:13.5px;line-height:1.75;font-weight:500;color:rgba(255,248,231,.76);word-break:keep-all}
+.gatecard .when{margin:20px auto 0;padding:13px;border-radius:13px;border:1px dashed rgba(242,194,48,.4);background:rgba(242,194,48,.08);font-size:15px;font-weight:900;letter-spacing:-.01em;color:var(--gold-l)}
+.gatecard .countdown{margin-top:10px;font-size:12.5px;font-weight:700;color:rgba(255,248,231,.6);font-variant-numeric:tabular-nums}
+.gateBack{display:inline-block;margin-top:22px;font-size:12.5px;font-weight:700;color:rgba(255,248,231,.62);text-decoration:none}
+.gateBack:hover{color:var(--cream)}
+
+/* ---------- desktop ---------- */
+@media(min-width:760px){
+  .artMobile{display:none}
+  .artWide{display:block}
+  /* cinematic hero: copy left, camp right */
+  .hero:after{background:linear-gradient(90deg,rgba(8,23,44,.96) 0%,rgba(8,23,44,.9) 34%,rgba(8,23,44,.58) 56%,rgba(8,23,44,.06) 82%,transparent 100%)}
+  .heroInner{justify-content:center;min-height:412px;padding:44px 48px;max-width:56%}
+  .heroTitle{font-size:clamp(44px,4.8vw,56px)}
+  .heroDesc{font-size:15px;margin-top:16px}
+  .heroCta{margin-top:26px}
+  .primary{width:auto;min-width:316px;font-size:17.5px}
+  .steps{grid-template-columns:repeat(3,1fr);gap:14px}
+  .step{grid-template-columns:1fr;align-items:start;gap:12px;padding:22px 20px}
+  .stepIcon{width:46px;height:46px}
+  .vodCard{grid-template-columns:minmax(0,1fr) auto;padding:20px 22px}
+  .vod{width:auto;min-width:212px}
+  .qbody{grid-template-columns:minmax(0,60fr) minmax(0,40fr);align-items:center;gap:18px}
+  .qside{padding:6px 10px}
+  .question{font-size:20px;min-height:92px;display:flex;align-items:center}
+  .qcard{padding:16px}
+  .result-narrow{max-width:780px;margin:0 auto}
+  .cert{padding:40px 40px 28px}
+  .certVisual{min-height:150px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(122px,1fr))}
+  .friendList{grid-template-columns:repeat(auto-fill,minmax(108px,1fr))}
+  .tab{font-size:15px;padding:13px 16px}
+}
+@media(max-width:759px){
+  .wrap{padding:14px 12px calc(48px + env(safe-area-inset-bottom))}
+  .top-camp-logo{width:150px}
+  .camp-topbar{gap:7px;margin-bottom:7px}
+  .langs{padding:3px}
+  .langs button{padding:8px 8px;font-size:11.5px}
+  .tabs{margin-top:9px;padding:4px;gap:4px}
+  .tab{font-size:13px;padding:10px 8px;gap:4px}
+  .tab .soon{display:none}
+  .hero{margin-top:11px}
+  .qhead{margin:12px 2px 10px}
+}
+@media(max-width:359px){
+  .heroInner{min-height:462px;padding:20px 16px 22px}
+  .heroTitle{font-size:33px}
+  .question{font-size:17.5px}
+  .ans{min-height:56px;font-size:17px}
+  .grid,.friendList{grid-template-columns:repeat(2,1fr)}
+  .cert{padding:24px 15px 20px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
 </style>
 </head>
 <body>
-<div id="gate" class="gate"><div class="gatecard"><div class="lock">🔒</div><h1>온라인 퇴소식 준비 중</h1><p>수련회의 마지막 추억을 정리하고 있습니다.<br>공개 시간부터 자동으로 입장할 수 있습니다.</p><div class="when">2026. 8. 14. 18:00 KST</div><div class="countdown" id="countdown">공개 시간을 확인하는 중입니다.</div></div></div>
+<div id="gate" class="gate">
+  <div class="gatecard">
+    <span class="gateEyebrow">ONLINE EXIT CEREMONY</span>
+    <h1>온라인 퇴소식 준비 중</h1>
+    <p>수련회의 마지막 추억을 정리하고 있습니다.<br>공개 시간이 되면 자동으로 입장할 수 있습니다.</p>
+    <div class="when">2026. 8. 14. 18:00 KST</div>
+    <div class="countdown" id="countdown">공개 시간을 확인하는 중입니다.</div>
+    <a class="gateBack" href="../">← 아이돌 수련회로 돌아가기</a>
+  </div>
+</div>
 <div id="app" style="display:none">
-<main class="wrap">
-  <div class="head"><div class="brand">아이돌 수련회 · 온라인 퇴소식</div><span class="pill">1기</span></div>
+<svg class="artDefs" aria-hidden="true" focusable="false"><defs>
+  <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#08172C"/><stop offset=".46" stop-color="#0E2945"/><stop offset="1" stop-color="#123A2E"/></linearGradient>
+  <radialGradient id="fireGlow"><stop offset="0" stop-color="#FFD96A" stop-opacity=".55"/><stop offset=".5" stop-color="#E8792B" stop-opacity=".2"/><stop offset="1" stop-color="#E8792B" stop-opacity="0"/></radialGradient>
+  <radialGradient id="moonGlow"><stop offset="0" stop-color="#FFF3C4" stop-opacity=".26"/><stop offset="1" stop-color="#FFF3C4" stop-opacity="0"/></radialGradient>
+  <symbol id="lpine" viewBox="0 0 64 106">
+    <g stroke="#0C2018" stroke-width="3.4" stroke-linejoin="round">
+      <rect x="27.5" y="76" width="9" height="26" rx="3" fill="#5E3A1C"/>
+      <path d="M32 46 L6 88 q6.5 5.5 13 0 q6.5 5.5 13 0 q6.5 5.5 13 0 Z" fill="#1F6B46"/>
+      <path d="M32 25 L11 63 q5.25 5 10.5 0 q5.25 5 10.5 0 q5.25 5 10.5 0 Z" fill="#26794F"/>
+      <path d="M32 6 L17 42 q3.75 4.5 7.5 0 q3.75 4.5 7.5 0 q3.75 4.5 7.5 0 Z" fill="#2E8A5A"/>
+    </g>
+  </symbol>
+  <symbol id="ltent" viewBox="0 0 128 100">
+    <g stroke="#0C2018" stroke-width="3.6" stroke-linejoin="round">
+      <path d="M64 16 C61 16 26 78 20 90 q44 8 88 0 C102 78 67 16 64 16Z" fill="#E8792B"/>
+      <path d="M64 16 C61 16 26 78 20 90 q22 4 44 4 Z" fill="#F5983F" stroke="none"/>
+      <path d="M64 42 C62 42 50 80 48 90 q16 2.6 32 0 C78 80 66 42 64 42Z" fill="#7A3E14"/>
+      <path d="M64 16 L64 5" stroke-linecap="round"/>
+      <path d="M64 4 L84 9 L64 14 Z" fill="#F2C230"/>
+    </g>
+  </symbol>
+  <symbol id="lbulb" viewBox="0 0 22 30">
+    <g stroke="#0C2018" stroke-width="2.2" stroke-linejoin="round">
+      <path d="M11 2 L11 7" stroke-linecap="round"/>
+      <rect x="6.5" y="6" width="9" height="4.4" rx="1.4" fill="#8A6A2A"/>
+      <circle cx="11" cy="17.5" r="7" fill="#FFD96A"/>
+    </g>
+  </symbol>
+  <symbol id="lstar" viewBox="0 0 22 22">
+    <path d="M11 1 L13.4 8.6 L21 11 L13.4 13.4 L11 21 L8.6 13.4 L1 11 L8.6 8.6 Z" fill="#FFF3C4" stroke="#0C2018" stroke-width="1.8" stroke-linejoin="round"/>
+  </symbol>
+</defs></svg>
+<div class="wrap">
+
+  <div class="camp-topbar">
+    <a href="../"><img class="top-camp-logo" src="../assets/camp-logo.png" alt="아이돌 수련회"></a>
+    <div class="langs" id="langs" role="group" aria-label="Language"></div>
+  </div>
+
+  <nav class="tabs" id="tabbar" aria-label="sections">
+    <a class="tab" href="../" data-i18n="tabEnroll">입소</a>
+    <a class="tab" href="../?tab=talent" data-i18n="tabTalent">장기자랑</a>
+    <button class="tab active" type="button" aria-current="page" data-i18n="tabFarewell">퇴소식</button>
+    <button class="tab locked" type="button" aria-disabled="true"><span class="lock">🛍️</span><span data-i18n="tabKit">수료 키트</span><em class="soon" data-i18n="soon">준비중</em></button>
+  </nav>
+
+  <!-- ================= HOME ================= -->
   <section id="home" class="page on">
-    <div class="card hero">
-      <svg class="nightart" viewBox="0 0 500 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="glow"><stop offset="0" stop-color="#ffd66f" stop-opacity=".55"/><stop offset="1" stop-color="#ff8b32" stop-opacity="0"/></radialGradient></defs><circle cx="404" cy="75" r="32" fill="#ffe9b0" opacity=".92"/><circle cx="415" cy="66" r="32" fill="#0a2137"/><g fill="#fff7d5" opacity=".78"><circle cx="55" cy="72" r="2"/><circle cx="115" cy="42" r="1.5"/><circle cx="175" cy="91" r="1.4"/><circle cx="260" cy="58" r="2"/><circle cx="324" cy="112" r="1.3"/><circle cx="457" cy="134" r="1.7"/></g><path d="M0 310 L70 244 L118 288 L185 215 L258 288 L329 228 L390 289 L450 237 L500 276 L500 520 L0 520Z" fill="#0e302c"/><ellipse cx="250" cy="414" rx="130" ry="88" fill="url(#glow)"/><g transform="translate(250 405)"><rect x="-45" y="42" width="92" height="13" rx="6" fill="#6a3b21" transform="rotate(14)"/><rect x="-47" y="42" width="92" height="13" rx="6" fill="#7e4926" transform="rotate(-14)"/><path d="M0 42C-38 20-24-5-7-25C-8-4 4 3 8-18C30 6 34 25 0 42Z" fill="#ff8b32"/><path d="M0 38C-17 25-12 9-2-4C1 8 9 11 11 2C20 18 14 30 0 38Z" fill="#ffd35d"/></g></svg>
-      <div class="heroCopy"><h1>온라인 퇴소식</h1><p>수련회의 마지막 밤.<br>26개의 추억을 YES / NO로 떠올리고<br>친구들과 명예롭게 퇴소해 보세요!</p><button class="primary" id="start">퇴소식 시작하기 →</button></div>
+    <div class="hero">
+      <!-- tonal night camp; illustration is atmosphere, the copy leads -->
+      <svg class="heroArt artMobile" viewBox="0 0 500 540" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="500" height="540" fill="url(#skyG)"/>
+        <circle cx="384" cy="62" r="76" fill="url(#moonGlow)"/>
+        <g stroke="#0C2018" stroke-width="3"><circle cx="384" cy="62" r="22" fill="#FFF3C4"/></g>
+        <circle cx="393" cy="54" r="22" fill="#0D2340"/>
+        <use href="#lstar" x="92" y="36" width="19" height="19"/>
+        <use href="#lstar" x="230" y="74" width="14" height="14"/>
+        <use href="#lstar" x="150" y="112" width="12" height="12"/>
+        <g fill="#FFF6DC"><circle cx="288" cy="40" r="1.6" opacity=".6"/><circle cx="442" cy="128" r="1.4" opacity=".5"/><circle cx="60" cy="120" r="1.3" opacity=".5"/></g>
+        <path d="M28 198 C90 142 130 122 182 122 C238 104 282 150 340 198 Z" fill="#16354A"/>
+        <path d="M262 200 C312 158 346 130 388 130 C436 130 474 164 508 200 Z" fill="#122C3E"/>
+        <path d="M-8 96 Q250 150 508 96" fill="none" stroke="#C9B98E" stroke-width="2.4"/>
+        <use href="#lbulb" x="54" y="106" width="19" height="26"/>
+        <use href="#lbulb" x="130" y="122" width="19" height="26"/>
+        <use href="#lbulb" x="206" y="131" width="19" height="26"/>
+        <use href="#lbulb" x="282" y="132" width="19" height="26"/>
+        <use href="#lbulb" x="356" y="124" width="19" height="26"/>
+        <use href="#lbulb" x="428" y="108" width="19" height="26"/>
+        <use href="#lpine" x="34" y="132" width="62" height="102"/>
+        <use href="#lpine" x="416" y="128" width="66" height="108"/>
+        <path d="M0 196 Q250 178 500 196 L500 540 L0 540 Z" fill="#1A5236"/>
+        <path d="M0 196 Q250 178 500 196" fill="none" stroke="#0C2018" stroke-width="3" opacity=".55"/>
+        <use href="#ltent" x="120" y="140" width="124" height="97"/>
+        <ellipse class="emberGlow" cx="322" cy="234" rx="104" ry="52" fill="url(#fireGlow)"/>
+        <g transform="translate(322 220) scale(0.82)" stroke="#0C2018" stroke-width="3.4" stroke-linejoin="round">
+          <ellipse cx="-42" cy="30" rx="12" ry="7" fill="#5C6B60"/><ellipse cx="-14" cy="36" rx="12" ry="7" fill="#6C7B70"/>
+          <ellipse cx="16" cy="36" rx="12" ry="7" fill="#5C6B60"/><ellipse cx="43" cy="29" rx="12" ry="7" fill="#6C7B70"/>
+          <rect x="-46" y="18" width="92" height="13" rx="6.5" fill="#8A5A2E" transform="rotate(12)"/>
+          <rect x="-46" y="18" width="92" height="13" rx="6.5" fill="#A06B36" transform="rotate(-12)"/>
+        </g>
+        <g transform="translate(322 220) scale(0.82)"><g class="flame">
+          <path d="M0 22 C-38 2 -25 -24 -7 -46 C-8 -18 5 -11 9 -33 C33 -6 36 8 0 22Z" fill="#E8792B" stroke="#0C2018" stroke-width="3.4" stroke-linejoin="round"/>
+          <path d="M0 18 C-19 8 -13 -7 -2 -21 C1 -3 9 1 11 -9 C23 5 16 13 0 18Z" fill="#F2C230"/>
+          <path d="M0 15 C-7 10 -5 1 -1 -8 C1 2 5 4 5 -1 C10 5 7 11 0 15Z" fill="#FFF3C4"/>
+        </g></g>
+      </svg>
+
+      <svg class="heroArt artWide" viewBox="0 0 1120 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="1120" height="420" fill="url(#skyG)"/>
+        <circle cx="946" cy="70" r="78" fill="url(#moonGlow)"/>
+        <g stroke="#0C2018" stroke-width="3"><circle cx="946" cy="70" r="22" fill="#FFF3C4"/></g>
+        <circle cx="955" cy="62" r="22" fill="#0D2340"/>
+        <use href="#lstar" x="612" y="40" width="18" height="18"/>
+        <use href="#lstar" x="806" y="30" width="14" height="14"/>
+        <use href="#lstar" x="700" y="112" width="12" height="12"/>
+        <g fill="#FFF6DC"><circle cx="880" cy="136" r="1.5" opacity=".55"/><circle cx="1064" cy="52" r="1.4" opacity=".5"/><circle cx="548" cy="118" r="1.2" opacity=".45"/></g>
+        <path d="M470 262 C556 200 618 156 692 156 C770 156 830 208 906 262 Z" fill="#16354A"/>
+        <path d="M846 266 C912 214 956 178 1014 178 C1076 178 1120 216 1120 266 Z" fill="#122C3E"/>
+        <path d="M462 92 Q800 146 1132 88" fill="none" stroke="#C9B98E" stroke-width="2.2"/>
+        <use href="#lbulb" x="536" y="102" width="18" height="25"/>
+        <use href="#lbulb" x="628" y="117" width="18" height="25"/>
+        <use href="#lbulb" x="722" y="127" width="18" height="25"/>
+        <use href="#lbulb" x="816" y="130" width="18" height="25"/>
+        <use href="#lbulb" x="908" y="124" width="18" height="25"/>
+        <use href="#lbulb" x="1002" y="110" width="18" height="25"/>
+        <use href="#lpine" x="478" y="186" width="62" height="102"/>
+        <use href="#lpine" x="1046" y="176" width="68" height="112"/>
+        <path d="M440 292 Q780 268 1120 292 L1120 420 L440 420 Z" fill="#1A5236"/>
+        <path d="M440 292 Q780 268 1120 292" fill="none" stroke="#0C2018" stroke-width="3" opacity=".5"/>
+        <use href="#ltent" x="576" y="222" width="134" height="105"/>
+        <ellipse class="emberGlow" cx="862" cy="340" rx="132" ry="64" fill="url(#fireGlow)"/>
+        <g transform="translate(862 326) scale(0.94)" stroke="#0C2018" stroke-width="3.4" stroke-linejoin="round">
+          <ellipse cx="-42" cy="30" rx="12" ry="7" fill="#5C6B60"/><ellipse cx="-14" cy="36" rx="12" ry="7" fill="#6C7B70"/>
+          <ellipse cx="16" cy="36" rx="12" ry="7" fill="#5C6B60"/><ellipse cx="43" cy="29" rx="12" ry="7" fill="#6C7B70"/>
+          <rect x="-46" y="18" width="92" height="13" rx="6.5" fill="#8A5A2E" transform="rotate(12)"/>
+          <rect x="-46" y="18" width="92" height="13" rx="6.5" fill="#A06B36" transform="rotate(-12)"/>
+        </g>
+        <g transform="translate(862 326) scale(0.94)"><g class="flame">
+          <path d="M0 22 C-38 2 -25 -24 -7 -46 C-8 -18 5 -11 9 -33 C33 -6 36 8 0 22Z" fill="#E8792B" stroke="#0C2018" stroke-width="3.4" stroke-linejoin="round"/>
+          <path d="M0 18 C-19 8 -13 -7 -2 -21 C1 -3 9 1 11 -9 C23 5 16 13 0 18Z" fill="#F2C230"/>
+          <path d="M0 15 C-7 10 -5 1 -1 -8 C1 2 5 4 5 -1 C10 5 7 11 0 15Z" fill="#FFF3C4"/>
+        </g></g>
+      </svg>
+
+      <div class="heroInner">
+        <span class="eyebrow" data-i18n="heroEyebrow">아이돌 수련회의 마지막 밤</span>
+        <h1 class="heroTitle" data-i18n="heroTitle">온라인 퇴소식</h1>
+        <p class="heroDesc" data-i18n="heroDesc">수련회가 끝나도, 우리의 추억은 계속됩니다.|26개의 순간을 떠올리며 친구들과 함께|마지막 퇴소식을 완성해 보세요.</p>
+        <div class="heroCta">
+          <button class="primary" id="start" data-i18n="startBtn">퇴소식 시작하기 →</button>
+          <span class="heroNote" data-i18n="heroNote">수련회의 장면 26개</span>
+        </div>
+      </div>
     </div>
-    <div class="card how"><h3>참여 방법</h3><div class="steps"><div class="step"><b>1</b><span>장면을 보고</span></div><div class="step"><b>2</b><span>YES / NO 선택</span></div><div class="step"><b>3</b><span>26개 모두 완료</span></div><div class="step"><b>4</b><span>친구·퇴소증 확인</span></div></div></div>
-    <div class="kit"><strong>〈아이돌 수련회〉 확장판</strong><small>숨겨진 장면과 함께 추억을 다시 확인해 보세요</small><button class="vod">확장판 보러 가기 →</button></div>
+
+    <section class="guide">
+      <div class="guideHead">
+        <h2 data-i18n="howTitle">퇴소식 진행 안내</h2>
+        <span class="sub" data-i18n="howSub">약 3분이면 끝나요</span>
+      </div>
+      <ol class="steps">
+        <li class="step">
+          <span class="stepIcon"><svg viewBox="0 0 40 40" aria-hidden="true"><g stroke="#0C2018" stroke-width="2.6" stroke-linejoin="round"><rect x="4" y="8" width="30" height="23" rx="4" fill="#FFF3C4"/><path d="M7 27 L15 18.5 L20.5 24 L25 19.5 L31 27 Z" fill="#2E8A5A"/><circle cx="27" cy="14.5" r="3.2" fill="#F2C230"/></g></svg></span>
+          <div>
+            <span class="stepNo">01</span>
+            <h3 data-i18n="step1Head">추억의 장면</h3>
+            <p data-i18n="step1Body">26개의 장면을 하나씩 확인합니다.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="stepIcon"><svg viewBox="0 0 40 40" aria-hidden="true"><g stroke="#0C2018" stroke-width="2.6" stroke-linejoin="round"><circle cx="14" cy="20" r="9.5" fill="#2F7D4F"/><path d="M9.6 20.4 L12.8 23.8 L18.6 16.6" fill="none" stroke="#FFF8E7" stroke-width="3" stroke-linecap="round"/><circle cx="27.5" cy="20" r="9.5" fill="#D6534A"/><path d="M23.8 16.4 L31.2 23.6 M31.2 16.4 L23.8 23.6" stroke="#FFF8E7" stroke-width="3" stroke-linecap="round"/></g></svg></span>
+          <div>
+            <span class="stepNo">02</span>
+            <h3 data-i18n="step2Head">YES or NO</h3>
+            <p data-i18n="step2Body">장면과 관련된 질문에 답합니다.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="stepIcon"><svg viewBox="0 0 40 40" aria-hidden="true"><g stroke="#0C2018" stroke-width="2.6" stroke-linejoin="round"><rect x="7" y="6" width="26" height="28" rx="4" fill="#FFF3C4"/><path d="M12 14 H28 M12 20 H24" stroke-width="2.4" stroke-linecap="round"/><circle cx="27.5" cy="27.5" r="6.5" fill="#F2C230"/><path d="M24.6 27.6 L26.8 29.8 L30.6 25.4" fill="none" stroke="#0C2018" stroke-width="2.4" stroke-linecap="round"/></g></svg></span>
+          <div>
+            <span class="stepNo">03</span>
+            <h3 data-i18n="step3Head">퇴소증 완성</h3>
+            <p data-i18n="step3Body">맞힌 친구가 사진첩에 추가됩니다.</p>
+          </div>
+        </li>
+      </ol>
+      <p class="previewNote" data-i18n="previewNote">26명의 친구와 추억을 완성하고 나만의 온라인 퇴소증을 받아보세요.</p>
+    </section>
+
+    <div class="vodCard">
+      <div>
+        <span class="eyebrow" data-i18n="nextLabel">NEXT STORY</span>
+        <strong data-i18n="vodTitle">〈아이돌 수련회〉 확장판</strong>
+        <p data-i18n="vodDescHome">미공개 비하인드까지, 수련회의 추억을 더 길게 만나보세요.</p>
+      </div>
+      <button class="vod" data-i18n="vodBtn">확장판 보러 가기 →</button>
+    </div>
   </section>
+
+  <!-- ================= QUESTION ================= -->
   <section id="question" class="page">
-    <div id="quizStatus" class="status">문항을 불러오는 중입니다.</div><div class="qtop"><span id="qIndex">0 / 26</span><span>정답은 마지막 결과에서만 반영됩니다</span></div><div class="track"><div class="fill" id="fill" style="width:0%"></div></div>
-    <div class="card" id="qCard" style="display:none"><div class="pic"><img id="qImg" alt="문제 장면"><div class="missing" id="missingImg">문제 사진을 불러오지 못했습니다.</div><span class="tag" id="qTag">MEMORY</span></div><div class="qb"><div class="hint">이 순간을 기억하시나요?</div><div class="question" id="questionText"></div><div class="answers"><button class="ans yes" id="yesBtn">YES</button><button class="ans no" id="noBtn">NO</button></div><div class="tip">선택 후 바로 다음 문제로 이동합니다. 진행 중 정답 여부는 공개되지 않습니다.</div></div></div>
+    <div class="qhead">
+      <div class="qhrow">
+        <span class="qcount"><b id="qIndexNum">1</b> / 26</span>
+        <span class="randChip" data-i18n="randChip">무작위 순서</span>
+      </div>
+      <div class="track" id="track" role="progressbar" aria-valuemin="0" aria-valuemax="26" aria-valuenow="0" aria-label="progress"><i id="trackFill"></i></div>
+    </div>
+
+    <div id="quizStatus" class="status" data-i18n="loadingQ">문항을 불러오는 중입니다.</div>
+
+    <article class="qcard" id="qCard" style="display:none">
+      <div class="qbody">
+        <div class="pic" id="picBox">
+          <img id="qImg" alt="scene">
+          <div class="missing" id="missingImg" data-i18n="imgFail">문제 사진을 불러오지 못했습니다.</div>
+          <span class="filmTag" id="qTag">No.01</span>
+        </div>
+        <div class="qside">
+          <p class="hint" data-i18n="hintQ">이 순간을 기억하시나요?</p>
+          <p class="question" id="questionText" aria-live="polite"></p>
+          <div class="answers" id="answers" style="display:none">
+            <button class="ans yes" id="yesBtn"><span class="glyph" aria-hidden="true"></span>YES</button>
+            <button class="ans no" id="noBtn"><span class="glyph x" aria-hidden="true"></span>NO</button>
+          </div>
+        </div>
+      </div>
+    </article>
+    <p class="tip" id="qTip" style="display:none" data-i18n="tipQ">선택하면 바로 다음 장면으로 넘어갑니다.</p>
   </section>
+
+  <!-- ================= RESULT ================= -->
   <section id="result" class="page">
-    <div class="certTitleBar"><h2>온라인 퇴소증</h2><span class="pill">RESULT</span></div><div class="card certwrap"><div class="cert"><div class="logoarea" id="heroResult"><div class="logoMark">아이돌 수련회</div></div><small>명예로운 퇴소에 성공했습니다!</small><h1>온라인 퇴소증</h1><small>CERTIFICATE</small><div class="score"><span id="friendScore">0</span><span style="font-size:15px">명</span></div><div class="rtype" id="resultTitle"></div><p class="desc" id="resultDesc"></p><div class="friendNames" id="friendNames"></div><small>2026 · Muniverse</small></div></div>
-    <div class="card album"><small>MY CAMP MEMORIES</small><h2>추억의 사진첩</h2><div class="grid" id="albumGrid"></div><div class="empty" id="albumEmpty" style="display:none">이번엔 사진첩이 비어 있어요. 다시 도전해 보세요!</div></div><div class="actions"><button class="dark" id="retryBtn">다시 도전하기</button><button class="vod">확장판 보러 가기</button></div>
+   <div class="result-narrow">
+    <div class="resultTop">
+      <span class="eyebrow" data-i18n="resultEyebrow">EXIT COMPLETE</span>
+      <h2 data-i18n="ribbon">명예로운 퇴소에 성공했어요!</h2>
+    </div>
+
+    <div class="certOuter" id="certOuter">
+      <div class="cert" id="cert">
+        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+        <div class="perfectBadge" id="perfectBadge" style="display:none">PERFECT · 26 / 26</div>
+        <span class="certEyebrow">ONLINE EXIT CERTIFICATE</span>
+        <h2 class="certName" data-i18n="certName">온라인 퇴소증</h2>
+        <div class="certRule"><span>IDOL SCHOOL CAMP · 1st</span></div>
+
+        <div class="certVisual" id="certVisual">
+          <img id="groupPhoto" alt="group photo" style="display:none">
+          <img id="campLogo" src="../assets/camp-logo.png" alt="아이돌 수련회">
+        </div>
+
+        <div class="rtype" id="resultTitle"></div>
+
+        <div class="countBlock">
+          <div class="countRow">
+            <span class="countLabel" data-i18n="countLabel">함께 퇴소한 친구</span>
+            <span class="countVal"><span id="friendScore">0</span><em> / 26</em></span>
+          </div>
+          <div class="countBar"><i id="countFill"></i></div>
+        </div>
+
+        <div id="friendNames"></div>
+        <p class="desc" id="resultDesc"></p>
+
+        <div class="certFoot">
+          <span><span data-i18n="certIssued">발급일</span> <span id="certDate">—</span><br>2026 · Muniverse</span>
+          <span class="seal" aria-hidden="true"><span data-i18n="certSeal">수련회<br>수료</span></span>
+        </div>
+      </div>
+    </div>
+
+    <section class="panel">
+      <span class="eyebrow" data-i18n="shareLabel">SHARE</span>
+      <h2 data-i18n="shareTitle">퇴소증 자랑하기</h2>
+      <div class="shareRow">
+        <button class="shareBtn" id="shareX">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-7 8 8.2 12h-6.4l-5-7.3L6 22H3l7.5-8.6L2.6 2H9l4.5 6.6L18.9 2Z" fill="currentColor"/></svg>
+          <span data-i18n="shareX">X에 올리기</span>
+        </button>
+        <button class="shareBtn" id="shareIg">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5.4"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none"/></svg>
+          <span data-i18n="shareIg">인스타그램</span>
+        </button>
+        <button class="shareBtn" id="saveImg">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v10.5m0 0 4.2-4.2M12 14l-4.2-4.2M4.5 19h15"/></svg>
+          <span data-i18n="shareSave">이미지 저장</span>
+        </button>
+      </div>
+      <p class="shareNote" id="shareNote" role="status"></p>
+    </section>
+
+    <section class="panel">
+      <span class="eyebrow" data-i18n="albumLabel">MY CAMP MEMORIES</span>
+      <h2 data-i18n="albumTitle">추억의 사진첩</h2>
+      <div class="grid" id="albumGrid"></div>
+      <div class="empty" id="albumEmpty" style="display:none" data-i18n="albumEmpty">이번엔 사진첩이 비어 있어요.</div>
+    </section>
+
+    <div class="vodCard">
+      <div>
+        <span class="eyebrow" data-i18n="nextLabel">NEXT STORY</span>
+        <strong data-i18n="vodTitle">〈아이돌 수련회〉 확장판</strong>
+        <p data-i18n="vodDescResult">이 추억을 더 길게 보고 싶다면, 미공개 비하인드까지 확장판에서.</p>
+      </div>
+      <button class="vod" data-i18n="vodBtn">확장판 보러 가기 →</button>
+    </div>
+
+    <div class="actions"><button class="ghost" id="retryBtn" data-i18n="retryBtn">처음부터 다시 도전하기</button></div>
+   </div>
   </section>
-</main>
+
+</div>
 </div>
 <script>
 (function(){
 'use strict';
-const CFG=window.MUNIVERSE_CONFIG||{},SB_URL=CFG.supabaseUrl||'',SB_KEY=CFG.supabaseAnonKey||'',EXIT_BUCKET='idolcamp-exit',MEMBER_BUCKET='idolcamp-members',TOTAL=26;
-let questions=[],order=[],idx=0,answers=[],memberPhotos=new Map(),titles=new Map(),settings=null,serverOffset=0,gateTimer=null;
+
+const CFG=window.MUNIVERSE_CONFIG||{},
+      SB_URL=CFG.supabaseUrl||'',
+      SB_KEY=CFG.supabaseAnonKey||'',
+      EXIT_BUCKET='idolcamp-exit',
+      MEMBER_BUCKET='idolcamp-members',
+      TOTAL=26;
+
+/* -------- I18N (same shape as the main site) -------- */
+const LANGS=[
+  {code:'ko',label:'한국어'},
+  {code:'en',label:'EN'},
+  {code:'ja',label:'日本語'},
+  {code:'zh-CN',label:'简体'},
+  {code:'zh-TW',label:'繁體'}
+];
+const I18N={
+ 'ko':{
+  tabEnroll:'입소',tabTalent:'장기자랑',tabFarewell:'퇴소식',tabKit:'수료 키트',soon:'준비중',
+  heroTitle:'온라인 퇴소식',
+  heroLead:'수련회의 마지막 밤, 캠프파이어 앞에서|26개의 추억을 떠올리고|친구들과 명예롭게 퇴소해 보세요.',
+  startBtn:'퇴소식 시작하기 →',heroNote:'수련회의 장면 26개',
+  howLabel:'HOW TO JOIN',howTitle:'퇴소식 진행 안내',howSub:'약 3분이면 끝나요',heroEyebrow:'아이돌 수련회의 마지막 밤',heroDesc:'수련회가 끝나도, 우리의 추억은 계속됩니다.|26개의 순간을 떠올리며 친구들과 함께|마지막 퇴소식을 완성해 보세요.',resultEyebrow:'EXIT COMPLETE',certIssued:'발급일',certSeal:'수련회<br>수료',previewNote:'26명의 친구와 추억을 완성하고 나만의 온라인 퇴소증을 받아보세요.',step1Head:'추억의 장면',step1Body:'26개의 장면을 하나씩 확인합니다.',step2Head:'YES or NO',step2Body:'장면과 관련된 질문에 답합니다.',step3Head:'퇴소증 완성',step3Body:'맞힌 친구가 사진첩에 추가됩니다.',
+    howNote:'문제 순서는 도전할 때마다 무작위로 섞입니다.',
+  nextLabel:'NEXT STORY',vodTitle:'〈아이돌 수련회〉 확장판',
+  vodDescHome:'미공개 비하인드까지, 수련회의 추억을 더 길게 만나보세요.',
+  vodDescResult:'이 추억을 더 길게 보고 싶다면, 미공개 비하인드까지 확장판에서.',
+  vodBtn:'확장판 보러 가기 →',vodPending:'확장판 링크 준비 중입니다.',
+  randChip:'무작위 순서',loadingQ:'문항을 불러오는 중입니다.',imgFail:'문제 사진을 불러오지 못했습니다.',
+  memoryNo:'추억 No.',hintQ:'이 순간을 기억하시나요?',
+  tipQ:'선택하면 바로 다음 장면으로 넘어갑니다',
+  grading:'추억을 정리하는 중입니다',gradeFail:'결과 집계에 실패했습니다. 다시 시도해 주세요.',
+  loadFail:'퇴소식 데이터를 불러오지 못했습니다.',preparing:'준비 중…',
+  ribbon:'명예로운 퇴소에 성공했어요!',certName:'온라인 퇴소증',
+  lead:'당신은',titleTpl:'{t} 수련생',tail:'입니다.',fallback0:'아직 이름표만 만지작거리는',fallbackN:'{n}명의 친구를 모은',
+  countLabel:'함께 퇴소한 친구',campFriends:'CAMP FRIENDS',
+  descN:'{n}명의 수련회 친구와 추억을 나누며 명예롭게 퇴소에 성공했습니다.',
+  desc0:'이번에는 함께 퇴소한 친구를 만나지 못했어요. 다시 도전하면 새로운 순서로 추억을 확인할 수 있습니다.',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'추억의 사진첩',albumEmpty:'이번엔 사진첩이 비어 있어요.',
+  shareLabel:'SHARE MY CERTIFICATE',shareTitle:'퇴소증 자랑하기',
+  shareX:'X에 올리기',shareIg:'인스타그램',shareSave:'이미지 저장',
+  shareHint:'퇴소증을 이미지로 저장하거나 내 계정에 바로 올릴 수 있어요.',
+  shareSaved:'퇴소증 이미지를 저장했어요.',
+  shareSavedX:'퇴소증 이미지를 저장했어요. X 작성 창에서 이미지를 첨부해 주세요.',
+  shareSavedIg:'퇴소증 이미지를 저장했어요. 인스타그램 앱에서 업로드해 주세요.',
+  shareSheetIg:'인스타그램을 선택하면 내 계정에 바로 올릴 수 있어요.',
+  shareSheetOk:'공유가 완료되면 내 계정에 올라갑니다.',
+  shareFail:'이미지를 만들지 못했습니다. 화면을 캡처해 주세요.',
+  shareBody:'〈아이돌 수련회〉 온라인 퇴소식|저는 「{title}」입니다.|함께 퇴소한 친구 {n} / 26',
+  retryBtn:'처음부터 다시 도전하기'
+ },
+ 'en':{
+  tabEnroll:'Enrollment',tabTalent:'Talent Show',tabFarewell:'Exit Ceremony',tabKit:'Completion Kit',soon:'Preparing',
+  heroTitle:'Exit Ceremony',
+  heroLead:'On the last night of camp, by the campfire,|recall 26 memories and|graduate with your friends in honour.',
+  startBtn:'Start Exit Ceremony →',heroNote:'26 scenes from the camp',
+  howLabel:'HOW TO JOIN',howTitle:'How it works',howSub:'About 3 minutes',heroEyebrow:'THE LAST NIGHT OF CAMP',heroDesc:'Camp is over, but the memories are not.|Recall 26 moments and complete|the exit ceremony with your friends.',resultEyebrow:'EXIT COMPLETE',certIssued:'Issued',certSeal:'CAMP<br>PASSED',previewNote:'Complete your memories with 26 friends and receive your own online exit certificate.',step1Head:'A camp scene',step1Body:'Look back on 26 scenes, one at a time.',step2Head:'YES or NO',step2Body:'Answer the question about the scene.',step3Head:'Your certificate',step3Body:'Friends you get right join your album.',
+    howNote:'The order is shuffled on every attempt.',
+  nextLabel:'NEXT STORY',vodTitle:'Idol School Camp — Extended Edition',
+  vodDescHome:'Unseen behind-the-scenes, and more of the camp you loved.',
+  vodDescResult:'Want more of these memories? The extended edition has the unseen cuts.',
+  vodBtn:'Go watch Idol School Camp →',vodPending:'The extended edition link is not ready yet.',
+  randChip:'Random order',loadingQ:'Loading the scenes…',imgFail:'This photo could not be loaded.',
+  memoryNo:'Memory No.',hintQ:'Do you remember this moment?',
+  tipQ:'Your pick moves straight to the next scene',
+  grading:'Gathering your memories',gradeFail:'Scoring failed. Please try again.',
+  loadFail:'Could not load the exit ceremony data.',preparing:'Loading…',
+  ribbon:'Congratulations on your honourable exit!',certName:'Exit Certificate',
+  lead:'You are',titleTpl:'{t}',tail:'',fallback0:'Still Clutching the Name Tag',fallbackN:'Friend of {n}',
+  countLabel:'Friends who graduated with you',campFriends:'CAMP FRIENDS',
+  descN:'You shared memories with {n} camp friends and graduated with honours.',
+  descN1:'You shared memories with 1 camp friend and graduated with honours.',
+  desc0:'You did not meet a camp friend this time. Try again for a fresh order of memories.',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'Memory Album',albumEmpty:'Your album is empty this time.',
+  shareLabel:'SHARE MY CERTIFICATE',shareTitle:'Share your certificate',
+  shareX:'Post on X',shareIg:'Instagram',shareSave:'Save image',
+  shareHint:'Save the certificate as an image, or post it straight to your own account.',
+  shareSaved:'Certificate image saved.',
+  shareSavedX:'Certificate image saved. Attach it in the X composer.',
+  shareSavedIg:'Certificate image saved. Upload it from the Instagram app.',
+  shareSheetIg:'Pick Instagram to post it straight to your account.',
+  shareSheetOk:'Once shared, it posts to your own account.',
+  shareFail:'Could not build the image. Please take a screenshot.',
+  shareBody:'Idol School Camp — Exit Ceremony|I am "{title}".|Friends who graduated with me: {n} / 26',
+  retryBtn:'Try again from the start'
+ },
+ 'ja':{
+  tabEnroll:'入所',tabTalent:'隠し芸',tabFarewell:'退所式',tabKit:'修了キット',soon:'準備中',
+  heroTitle:'オンライン退所式',
+  heroLead:'修練会の最後の夜、キャンプファイアの前で|26の思い出を振り返り|仲間と名誉ある退所をしましょう。',
+  startBtn:'退所式を始める →',heroNote:'修練会のシーン26個',
+  howLabel:'HOW TO JOIN',howTitle:'退所式の流れ',howSub:'約3分で終わります',heroEyebrow:'アイドル修練会、最後の夜',heroDesc:'修練会が終わっても、思い出は続きます。|26の瞬間を思い出しながら、仲間と一緒に|最後の退所式を完成させましょう。',resultEyebrow:'EXIT COMPLETE',certIssued:'発行日',certSeal:'修練会<br>修了',previewNote:'26人の仲間との思い出を完成させて、自分だけのオンライン退所証を受け取りましょう。',step1Head:'思い出のシーン',step1Body:'26のシーンをひとつずつ確認します。',step2Head:'YES or NO',step2Body:'シーンに関する質問に答えます。',step3Head:'退所証の完成',step3Body:'正解した仲間がアルバムに追加されます。',
+    howNote:'出題順は挑戦するたびにシャッフルされます。',
+  nextLabel:'NEXT STORY',vodTitle:'『アイドル修練会』拡張版',
+  vodDescHome:'未公開のビハインドまで、修練会の思い出をもっと長く。',
+  vodDescResult:'この思い出をもっと長く見たいなら、拡張版で未公開シーンまで。',
+  vodBtn:'『アイドル・キャンプ』を見る →',vodPending:'拡張版のリンクは準備中です。',
+  randChip:'ランダム出題',loadingQ:'問題を読み込んでいます。',imgFail:'写真を読み込めませんでした。',
+  memoryNo:'思い出 No.',hintQ:'この瞬間を覚えていますか？',
+  tipQ:'選ぶとすぐ次のシーンへ進みます',
+  grading:'思い出を整理しています',gradeFail:'集計に失敗しました。もう一度お試しください。',
+  loadFail:'退所式のデータを読み込めませんでした。',preparing:'準備中…',
+  ribbon:'名誉ある退所に成功しました！',certName:'オンライン退所証',
+  lead:'あなたは',titleTpl:'{t}研修生',tail:'です。',fallback0:'まだ名札を握りしめている',fallbackN:'{n}人の友だちを集めた',
+  countLabel:'一緒に退所した仲間',campFriends:'CAMP FRIENDS',
+  descN:'{n}人の修練会の仲間と思い出を分かち合い、名誉ある退所に成功しました。',
+  desc0:'今回は一緒に退所する仲間に出会えませんでした。もう一度挑戦すると新しい順番で思い出を確認できます。',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'思い出アルバム',albumEmpty:'今回はアルバムが空っぽです。',
+  shareLabel:'SHARE MY CERTIFICATE',shareTitle:'退所証をシェアする',
+  shareX:'Xに投稿',shareIg:'Instagram',shareSave:'画像を保存',
+  shareHint:'退所証を画像で保存したり、自分のアカウントにそのまま投稿できます。',
+  shareSaved:'退所証の画像を保存しました。',
+  shareSavedX:'退所証の画像を保存しました。Xの投稿画面で添付してください。',
+  shareSavedIg:'退所証の画像を保存しました。Instagramアプリからアップロードしてください。',
+  shareSheetIg:'Instagramを選ぶと自分のアカウントにそのまま投稿できます。',
+  shareSheetOk:'共有が完了すると自分のアカウントに投稿されます。',
+  shareFail:'画像を作成できませんでした。画面をキャプチャしてください。',
+  shareBody:'『アイドル修練会』オンライン退所式|私は「{title}」です。|一緒に退所した仲間 {n} / 26',
+  retryBtn:'最初からやり直す'
+ },
+ 'zh-CN':{
+  tabEnroll:'入所',tabTalent:'才艺表演',tabFarewell:'退所式',tabKit:'结业礼包',soon:'准备中',
+  heroTitle:'线上退所式',
+  heroLead:'修炼会的最后一夜，在营火前|回想 26 个回忆|和朋友们光荣退所吧。',
+  startBtn:'开始退所式 →',heroNote:'修炼会的 26 个场景',
+  howLabel:'HOW TO JOIN',howTitle:'退所式流程',howSub:'大约 3 分钟',heroEyebrow:'偶像修炼会的最后一夜',heroDesc:'修炼会结束了，但回忆还在继续。|回想 26 个瞬间，和朋友们一起|完成最后的退所式吧。',resultEyebrow:'EXIT COMPLETE',certIssued:'发放日',certSeal:'修炼会<br>结业',previewNote:'与 26 位朋友一起完成回忆，领取属于你的线上退所证书。',step1Head:'回忆的场景',step1Body:'逐一确认 26 个场景。',step2Head:'YES or NO',step2Body:'回答与场景相关的问题。',step3Head:'完成退所证',step3Body:'答对的朋友会加入相册。',
+    howNote:'题目顺序每次挑战都会打乱。',
+  nextLabel:'NEXT STORY',vodTitle:'《偶像修炼会》扩展版',
+  vodDescHome:'连未公开花絮都有，把修炼会的回忆看得更久。',
+  vodDescResult:'想把这些回忆看得更久？扩展版有未公开片段。',
+  vodBtn:'去看《偶像修炼会》 →',vodPending:'扩展版链接正在准备中。',
+  randChip:'随机出题',loadingQ:'正在载入题目。',imgFail:'无法载入照片。',
+  memoryNo:'回忆 No.',hintQ:'你记得这个瞬间吗？',
+  tipQ:'选择后立即进入下一个场景',
+  grading:'正在整理回忆',gradeFail:'统计失败，请再试一次。',
+  loadFail:'无法载入退所式数据。',preparing:'准备中…',
+  ribbon:'恭喜成功完成退所！',certName:'线上退所证书',
+  lead:'你是',titleTpl:'{t}修炼生',tail:'',fallback0:'还没脱离社恐的',fallbackN:'收集了 {n} 位朋友的',
+  countLabel:'一起完成退所的朋友',campFriends:'CAMP FRIENDS',
+  descN:'你与 {n} 位修炼会朋友分享回忆，光荣完成了退所。',
+  desc0:'这次没有遇到一起退所的朋友。再挑战一次，就能以新的顺序确认回忆。',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'回忆相册',albumEmpty:'这次相册是空的。',
+  shareLabel:'SHARE MY CERTIFICATE',shareTitle:'分享退所结果',
+  shareX:'发布到 X',shareIg:'Instagram',shareSave:'保存图片',
+  shareHint:'可以把退所证保存为图片，或直接发布到自己的账号。',
+  shareSaved:'已保存退所证图片。',
+  shareSavedX:'已保存退所证图片。请在 X 的发布窗口中附上图片。',
+  shareSavedIg:'已保存退所证图片。请从 Instagram 应用上传。',
+  shareSheetIg:'选择 Instagram 就能直接发布到自己的账号。',
+  shareSheetOk:'分享完成后会发布到你自己的账号。',
+  shareFail:'无法生成图片，请截屏保存。',
+  shareBody:'《偶像修炼会》线上退所式|我是「{title}」。|一起完成退所的朋友 {n} / 26',
+  retryBtn:'从头再挑战'
+ },
+ 'zh-TW':{
+  tabEnroll:'入所',tabTalent:'才藝表演',tabFarewell:'退所式',tabKit:'結業禮包',soon:'準備中',
+  heroTitle:'線上退所式',
+  heroLead:'修煉會的最後一夜，在營火前|回想 26 個回憶|和朋友們光榮退所吧。',
+  startBtn:'開始退所式 →',heroNote:'修煉會的 26 個場景',
+  howLabel:'HOW TO JOIN',howTitle:'退所式流程',howSub:'大約 3 分鐘',heroEyebrow:'偶像修煉會的最後一夜',heroDesc:'修煉會結束了，但回憶還在繼續。|回想 26 個瞬間，和朋友們一起|完成最後的退所式吧。',resultEyebrow:'EXIT COMPLETE',certIssued:'發放日',certSeal:'修煉會<br>結業',previewNote:'與 26 位朋友一起完成回憶，領取屬於你的線上退所證書。',step1Head:'回憶的場景',step1Body:'逐一確認 26 個場景。',step2Head:'YES or NO',step2Body:'回答與場景相關的問題。',step3Head:'完成退所證',step3Body:'答對的朋友會加入相冊。',
+    howNote:'題目順序每次挑戰都會打亂。',
+  nextLabel:'NEXT STORY',vodTitle:'《偶像修煉會》擴充版',
+  vodDescHome:'連未公開花絮都有，把修煉會的回憶看得更久。',
+  vodDescResult:'想把這些回憶看得更久？擴充版有未公開片段。',
+  vodBtn:'前往觀看《偶像修煉會》 →',vodPending:'擴充版連結準備中。',
+  randChip:'隨機出題',loadingQ:'正在載入題目。',imgFail:'無法載入照片。',
+  memoryNo:'回憶 No.',hintQ:'你記得這個瞬間嗎？',
+  tipQ:'選擇後立即進入下一個場景',
+  grading:'正在整理回憶',gradeFail:'統計失敗，請再試一次。',
+  loadFail:'無法載入退所式資料。',preparing:'準備中…',
+  ribbon:'恭喜成功完成退所！',certName:'線上退所證書',
+  lead:'你是',titleTpl:'{t}修煉生',tail:'',fallback0:'還沒擺脫社恐的',fallbackN:'收集了 {n} 位朋友的',
+  countLabel:'一起完成退所的好友',campFriends:'CAMP FRIENDS',
+  descN:'你與 {n} 位修煉會朋友分享回憶，光榮完成了退所。',
+  desc0:'這次沒有遇到一起退所的朋友。再挑戰一次，就能以新的順序確認回憶。',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'回憶相冊',albumEmpty:'這次相冊是空的。',
+  shareLabel:'SHARE MY CERTIFICATE',shareTitle:'分享退所結果',
+  shareX:'發布到 X',shareIg:'Instagram',shareSave:'儲存圖片',
+  shareHint:'可以把退所證儲存為圖片，或直接發布到自己的帳號。',
+  shareSaved:'已儲存退所證圖片。',
+  shareSavedX:'已儲存退所證圖片。請在 X 的發文視窗附上圖片。',
+  shareSavedIg:'已儲存退所證圖片。請從 Instagram App 上傳。',
+  shareSheetIg:'選擇 Instagram 就能直接發布到自己的帳號。',
+  shareSheetOk:'分享完成後會發布到你自己的帳號。',
+  shareFail:'無法產生圖片，請截圖保存。',
+  shareBody:'《偶像修煉會》線上退所式|我是「{title}」。|一起完成退所的好友 {n} / 26',
+  retryBtn:'從頭再挑戰'
+ }
+};
+let lang=(()=>{
+  const n=(navigator.language||'ko').toLowerCase();
+  if(n.startsWith('ko'))return 'ko';
+  if(n.startsWith('ja'))return 'ja';
+  if(n.startsWith('zh'))return (n.includes('tw')||n.includes('hk')||n.includes('hant'))?'zh-TW':'zh-CN';
+  if(n.startsWith('en'))return 'en';
+  return 'ko';
+})();
+function t(){return I18N[lang]||I18N.ko;}
+function fmt(s,map){return String(s==null?'':s).replace(/\{(\w+)\}/g,(m,k)=>map&&map[k]!=null?map[k]:m);}
+
+let questions=[],order=[],idx=0,answers=[],
+    memberPhotos=new Map(),titles=new Map(),settings=null,
+    lastCount=0,lastMatched=[],hasResult=false;
+
 const $=s=>document.querySelector(s);
 function headers(extra){return Object.assign({apikey:SB_KEY,Authorization:'Bearer '+SB_KEY},extra||{});}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function publicUrl(bucket,path){return `${SB_URL}/storage/v1/object/public/${bucket}/${String(path||'').replace(/^\/+/, '')}`;}
 function showPage(id){document.querySelectorAll('.page').forEach(e=>e.classList.toggle('on',e.id===id));window.scrollTo(0,0);}
 function shuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){let j;if(window.crypto&&crypto.getRandomValues){const r=new Uint32Array(1);crypto.getRandomValues(r);j=r[0]%(i+1);}else j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
-async function api(path,opts){const r=await fetch(`${SB_URL}${path}`,Object.assign({headers:headers()},opts||{}));if(!r.ok)throw new Error(await r.text());const d=r.headers.get('date');if(d){const ms=Date.parse(d);if(Number.isFinite(ms))serverOffset=ms-Date.now();}return r.status===204?null:r.json();}
+
+const Q_COL={ko:'question_ko',en:'question_en',ja:'question_ja','zh-CN':'question_zh_cn','zh-TW':'question_zh_tw'};
+const T_COL={ko:'title_ko',en:'title_en',ja:'title_ja','zh-CN':'title_zh_cn','zh-TW':'title_zh_tw'};
+/* translations may be missing in the data; Korean stays the fallback */
+function questionText(q){return q[Q_COL[lang]]||q.question_ko||'';}
+function titleFor(count){
+  const row=titles.get(count);
+  if(!row)return count===0?t().fallback0:fmt(t().fallbackN,{n:count});
+  return row[T_COL[lang]]||row.title_ko||fmt(t().fallbackN,{n:count});
+}
+/* full result phrase, e.g. 「반은 내 친구인 수련생」 */
+function fullTitle(count){return fmt(t().titleTpl,{t:titleFor(count)});}
+function memberPrimary(m){return lang==='ko'?(m.member_ko||m.member_en||''):(m.member_en||m.member_ko||'');}
+function memberSecondary(m){return lang==='ko'?(m.member_en||''):(m.member_ko||'');}
+
+function setI18nValue(el,value){
+  const s=String(value==null?'':value);
+  if(s.includes('|'))el.innerHTML=s.split('|').map(p=>esc(p)).join('<br>');
+  else if(s.includes('<br>'))el.innerHTML=s.split('<br>').map(p=>esc(p)).join('<br>');
+  else el.textContent=s;
+}
+function buildLangs(){
+  const box=$('#langs');box.innerHTML='';
+  LANGS.forEach(L=>{
+    const b=document.createElement('button');
+    b.type='button';b.textContent=L.label;
+    b.setAttribute('aria-pressed',L.code===lang);
+    b.onclick=()=>{lang=L.code;document.documentElement.lang=L.code;applyI18n();};
+    box.appendChild(b);
+  });
+}
+function applyI18n(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(t()[k]!=null)setI18nValue(el,t()[k]);
+  });
+  buildLangs();
+  if($('#question').classList.contains('on')&&order.length)renderQuestion();
+  if(hasResult)renderResultView();
+  else note(t().shareHint);
+}
+
+let serverOffset=0,gateTimer=null;
 function nowMs(){return Date.now()+serverOffset;}
-function releaseMs(){return settings&&settings.release_at?Date.parse(settings.release_at):Date.parse('2026-08-14T18:00:00+09:00');}
-function updateCountdown(){const left=releaseMs()-nowMs();if(left<=0){clearInterval(gateTimer);openApp();return;}const d=Math.floor(left/86400000),h=Math.floor(left%86400000/3600000),m=Math.floor(left%3600000/60000),s=Math.floor(left%60000/1000);$('#countdown').textContent=`공개까지 ${d?d+'일 ':''}${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;}
-async function loadSettings(){const st=await api('/rest/v1/camp_exit_settings?select=id,release_at,group_photo_path,kit_url,vod_url&id=eq.1&limit=1');settings=Array.isArray(st)&&st[0]?st[0]:null;}
-async function loadQuizData(){const [qs,photos,ts]=await Promise.all([
- api('/rest/v1/camp_exit_quiz_public?select=photo_no,member_id,image_path,question_ko,active&active=eq.true&order=photo_no.asc'),
- api('/rest/v1/camp_member_photos?select=id,member_ko,member_en,photo_path,active&active=eq.true&is_group=eq.false'),
- api('/rest/v1/camp_exit_titles?select=friend_count,title_ko&order=friend_count.asc')
-]);if(!Array.isArray(qs)||qs.length!==TOTAL)throw new Error(`문항 수 확인 필요 (${qs?.length||0}/${TOTAL})`);questions=qs;memberPhotos.clear();photos.forEach(p=>memberPhotos.set(p.id,p));titles.clear();ts.forEach(t=>titles.set(Number(t.friend_count),t));}
-async function openApp(){try{if(!questions.length)await loadQuizData();$('#gate').style.display='none';$('#app').style.display='block';}catch(e){console.error(e);$('#countdown').textContent='퇴소식 데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.';}}
-function startQuiz(){order=shuffle(questions);idx=0;answers=[];showPage('question');renderQuestion();}
-function renderQuestion(){const q=order[idx];if(!q)return;$('#quizStatus').textContent='26개 문제는 도전할 때마다 무작위 순서로 나옵니다.';$('#qCard').style.display='block';$('#qIndex').textContent=`${idx+1} / ${TOTAL}`;$('#fill').style.width=`${(idx/TOTAL)*100}%`;$('#qTag').textContent=`MEMORY ${String(idx+1).padStart(2,'0')}`;$('#questionText').textContent=q.question_ko||'';const img=$('#qImg'),miss=$('#missingImg');img.style.display='block';miss.style.display='none';img.src=publicUrl(EXIT_BUCKET,q.image_path);img.onerror=()=>{img.style.display='none';miss.style.display='block';};$('#yesBtn').disabled=false;$('#noBtn').disabled=false;}
-function choose(choice){const q=order[idx];if(!q)return;answers.push({photo_no:q.photo_no,choice:!!choice});$('#yesBtn').disabled=true;$('#noBtn').disabled=true;idx++;if(idx<TOTAL)renderQuestion();else grade();}
-async function grade(){$('#quizStatus').textContent='추억을 정리하는 중입니다…';$('#qCard').style.display='none';$('#fill').style.width='100%';try{const data=await api('/rest/v1/rpc/grade_camp_exit_quiz',{method:'POST',headers:headers({'Content-Type':'application/json'}),body:JSON.stringify({p_answers:answers})});const result=(Array.isArray(data)?data[0]:data)||{};renderResult(Number(result.friend_count||0),Array.isArray(result.member_ids)?result.member_ids:[]);}catch(e){console.error(e);$('#quizStatus').textContent='결과 집계에 실패했습니다. 다시 도전해 주세요.';setTimeout(startQuiz,1200);}}
-function titleFor(count){const t=titles.get(count);if(!t)return count===0?'아직 낯가리는 수련생':`${count}명의 친구를 모은 수련생`;return t.title_ko||`${count}명의 친구를 모은 수련생`;}
-function renderResult(count,ids){$('#friendScore').textContent=count;$('#resultTitle').innerHTML=`<span class="lead">당신은</span><strong>${esc(titleFor(count))} 수련생</strong><span class="lead">입니다.</span>`;$('#resultDesc').textContent=`${count}명의 수련회 친구와 추억을 나누며 명예롭게 퇴소에 성공했습니다.`;const matched=ids.map(id=>memberPhotos.get(id)).filter(Boolean);const names=$('#friendNames');names.innerHTML=matched.length?`<span class="label">함께 퇴소한 친구</span><div class="friendList">${matched.map(p=>`<span class="friendChip">${esc(p.member_ko||p.member_en||'')}<em>${esc(p.member_en||'')}</em></span>`).join('')}</div>`:'';const grid=$('#albumGrid');grid.innerHTML='';$('#albumEmpty').style.display=matched.length?'none':'block';matched.forEach(p=>{const f=document.createElement('figure');f.className='pol';f.innerHTML=`<img alt="${esc(p.member_ko||p.member_en||'')}" src="${esc(publicUrl(MEMBER_BUCKET,p.photo_path))}"><figcaption>${esc(p.member_ko||p.member_en||'')}</figcaption>`;grid.appendChild(f);});const hero=$('#heroResult');hero.innerHTML='';if(count===TOTAL&&settings&&settings.group_photo_path){const im=document.createElement('img');im.src=publicUrl(EXIT_BUCKET,settings.group_photo_path);im.alt='아이돌 수련회 단체사진';im.onerror=()=>{hero.innerHTML='';};hero.appendChild(im);}else{hero.innerHTML='<div class="logoMark">아이돌 수련회</div>';}showPage('result');}
-function goVod(){if(settings&&settings.vod_url)location.href=settings.vod_url;else alert('확장판 링크 준비 중입니다.');}
-$('#start').onclick=()=>{const b=$('#start');b.disabled=true;try{startQuiz();}finally{b.disabled=false;}};
-$('#yesBtn').onclick=()=>choose(true);$('#noBtn').onclick=()=>choose(false);$('#retryBtn').onclick=startQuiz;document.querySelectorAll('.vod').forEach(b=>b.onclick=goVod);
-(async()=>{try{if(!SB_URL||!SB_KEY)throw new Error('Supabase 설정이 없습니다.');await loadSettings();if(nowMs()>=releaseMs())await openApp();else{updateCountdown();gateTimer=setInterval(updateCountdown,1000);}}catch(e){console.error(e);$('#countdown').textContent='공개 시간을 확인하지 못했습니다. 잠시 후 다시 시도해 주세요.';}})();
+function releaseMs(){
+  const fromDb=settings&&settings.release_at?Date.parse(settings.release_at):NaN;
+  if(Number.isFinite(fromDb))return fromDb;
+  const cfgAt=Date.parse((CFG.exitCeremony&&CFG.exitCeremony.releaseAt)||'');
+  return Number.isFinite(cfgAt)?cfgAt:Date.parse('2026-08-14T18:00:00+09:00');
+}
+async function api(path,opts){
+  const r=await fetch(`${SB_URL}${path}`,Object.assign({headers:headers()},opts||{}));
+  /* trust the server clock, not the device's */
+  const d=r.headers.get('date');
+  if(d){const ms=Date.parse(d);if(Number.isFinite(ms))serverOffset=ms-Date.now();}
+  if(!r.ok)throw new Error(await r.text());
+  return r.status===204?null:r.json();
+}
+async function loadData(){
+  if(!SB_URL||!SB_KEY)throw new Error('Supabase 설정이 없습니다.');
+  const [qs,photos,ts,st]=await Promise.all([
+    api('/rest/v1/camp_exit_quiz_public?select=photo_no,member_id,image_path,question_ko,question_en,question_ja,question_zh_cn,question_zh_tw,active&active=eq.true&order=photo_no.asc'),
+    api('/rest/v1/camp_member_photos?select=id,member_ko,member_en,photo_path,active&active=eq.true&is_group=eq.false'),
+    api('/rest/v1/camp_exit_titles?select=friend_count,title_ko,title_en,title_ja,title_zh_cn,title_zh_tw&order=friend_count.asc'),
+    api('/rest/v1/camp_exit_settings?select=id,release_at,group_photo_path,kit_url,vod_url&id=eq.1&limit=1')
+  ]);
+  if(!Array.isArray(qs)||qs.length!==TOTAL)throw new Error(`문항 수 확인 필요 (${qs?.length||0}/${TOTAL})`);
+  questions=qs;
+  memberPhotos.clear();photos.forEach(p=>memberPhotos.set(p.id,p));
+  titles.clear();ts.forEach(r=>titles.set(Number(r.friend_count),r));
+  settings=Array.isArray(st)&&st[0]?st[0]:null;
+}
+
+/* ---- progress ---- */
+function setProgress(current){
+  $('#trackFill').style.width=`${(current/TOTAL)*100}%`;
+  $('#track').setAttribute('aria-valuenow',String(current));
+}
+function setStatus(html,visible){
+  const el=$('#quizStatus');
+  el.innerHTML=html;
+  el.classList.toggle('hide',!visible);
+}
+
+function startQuiz(){
+  order=shuffle(questions);idx=0;answers=[];
+  showPage('question');
+  renderQuestion();
+}
+function renderQuestion(){
+  const q=order[idx];if(!q)return;
+  setStatus('',false);
+  $('#qCard').style.display='block';
+  $('#answers').style.display='grid';
+  $('#qTip').style.display='flex';
+  $('#qIndexNum').textContent=String(idx+1);
+  $('#qTag').textContent=t().memoryNo+String(idx+1).padStart(2,'0');
+  setProgress(idx);
+  $('#questionText').textContent=questionText(q);
+
+  const box=$('#picBox'),img=$('#qImg');
+  box.classList.remove('loaded','failed');
+  img.onload=()=>box.classList.add('loaded');
+  img.onerror=()=>box.classList.add('failed');
+  img.src=publicUrl(EXIT_BUCKET,q.image_path);
+  if(img.complete&&img.naturalWidth)box.classList.add('loaded');
+
+  const card=$('#qCard');
+  card.classList.remove('swap');void card.offsetWidth;card.classList.add('swap');
+  $('#yesBtn').disabled=false;$('#noBtn').disabled=false;
+
+  const next=order[idx+1];
+  if(next&&next.image_path){const pre=new Image();pre.src=publicUrl(EXIT_BUCKET,next.image_path);}
+}
+function choose(choice){
+  const q=order[idx];if(!q)return;
+  answers.push({photo_no:q.photo_no,choice:!!choice});
+  $('#yesBtn').disabled=true;$('#noBtn').disabled=true;
+  idx++;
+  if(idx<TOTAL)renderQuestion();else grade();
+}
+async function grade(){
+  setStatus(esc(t().grading)+'<span class="dots"></span>',true);
+  $('#qCard').style.display='none';
+  setProgress(TOTAL);
+  try{
+    const data=await api('/rest/v1/rpc/grade_camp_exit_quiz',{method:'POST',headers:headers({'Content-Type':'application/json'}),body:JSON.stringify({p_answers:answers})});
+    const result=(Array.isArray(data)?data[0]:data)||{};
+    renderResult(Number(result.friend_count||0),Array.isArray(result.member_ids)?result.member_ids:[]);
+  }catch(e){
+    console.error(e);
+    setStatus(esc(t().gradeFail),true);
+    setTimeout(()=>{idx=0;answers=[];order=shuffle(questions);renderQuestion();},1200);
+  }
+}
+
+function renderResultView(){
+  const count=lastCount,matched=lastMatched;
+  $('#friendScore').textContent=count;
+  $('#countFill').style.width=`${(count/TOTAL)*100}%`;
+
+  const tail=t().tail?`<span class="lead">${esc(t().tail)}</span>`:'';
+  $('#resultTitle').innerHTML=
+    `<span class="lead">${esc(t().lead)}</span>`+
+    `<span class="titleBox"><strong><span class="brk">「</span>${esc(fullTitle(count))}<span class="brk">」</span></strong></span>`+tail;
+  $('#resultDesc').textContent=count===0?t().desc0:fmt(count===1&&t().descN1?t().descN1:t().descN,{n:count});
+
+  const names=$('#friendNames');
+  names.className=matched.length?'friendNames':'';
+  names.innerHTML=matched.length
+    ?`<span class="label">${esc(t().campFriends)}</span><div class="friendList">${matched.map(p=>
+        `<span class="plate"><b>${esc(memberPrimary(p))}</b><em>${esc(memberSecondary(p))}</em></span>`).join('')}</div>`
+    :'';
+
+  const grid=$('#albumGrid');
+  grid.innerHTML='';
+  $('#albumEmpty').style.display=matched.length?'none':'block';
+  matched.forEach(p=>{
+    const f=document.createElement('figure');
+    f.className='pol';
+    f.innerHTML=`<img alt="${esc(memberPrimary(p))}" src="${esc(publicUrl(MEMBER_BUCKET,p.photo_path))}">`+
+      `<figcaption><b>${esc(memberPrimary(p))}</b><em>${esc(memberSecondary(p))}</em></figcaption>`;
+    const im=f.querySelector('img');
+    im.onerror=()=>{im.style.visibility='hidden';};
+    grid.appendChild(f);
+  });
+
+  /* 26/26 only: group photo on top. Otherwise the camp logo. */
+  const photo=$('#groupPhoto'),logo=$('#campLogo'),perfect=count===TOTAL;
+  logo.onerror=()=>{logo.style.display='none';};
+  if(perfect&&settings&&settings.group_photo_path){
+    photo.onerror=()=>{photo.style.display='none';logo.style.display='block';};
+    photo.src=publicUrl(EXIT_BUCKET,settings.group_photo_path);
+    photo.style.display='block';logo.style.display='none';
+  }else{
+    photo.removeAttribute('src');
+    photo.style.display='none';logo.style.display='block';
+  }
+  $('#certDate').textContent=new Intl.DateTimeFormat(lang==='ko'?'ko-KR':lang,{year:'numeric',month:'long',day:'numeric'}).format(new Date());
+  $('#cert').classList.toggle('perfect',perfect);
+  $('#certOuter').classList.toggle('perfect',perfect);
+  $('#perfectBadge').style.display=perfect?'inline-block':'none';
+
+  prepareCertImage();
+}
+function renderResult(count,ids){
+  lastCount=count;
+  lastMatched=ids.map(id=>memberPhotos.get(id)).filter(Boolean);
+  hasResult=true;
+  renderResultView();
+  showPage('result');
+}
+
+/* ============ certificate image (canvas export) ============ */
+const CERT_W=1080,CERT_H=1350;
+let certBlobPromise=null;
+
+function loadImg(src,cors){
+  return new Promise(resolve=>{
+    const im=new Image();
+    if(cors)im.crossOrigin='anonymous';
+    im.onload=()=>resolve(im);
+    im.onerror=()=>resolve(null);
+    im.src=src;
+  });
+}
+function fitContain(iw,ih,maxW,maxH){const r=Math.min(maxW/iw,maxH/ih);return{w:iw*r,h:ih*r};}
+/* ctx.roundRect is missing on older iOS Safari */
+function rrect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  if(ctx.roundRect){ctx.roundRect(x,y,w,h,r);return;}
+  r=Math.min(r,w/2,h/2);
+  ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();
+}
+function wrapLines(ctx,text,maxW){
+  const words=String(text).split(' ');const lines=[];let line='';
+  const pushChars=w=>{let cur='';for(const ch of w){if(ctx.measureText(cur+ch).width>maxW&&cur){lines.push(cur);cur=ch;}else cur+=ch;}return cur;};
+  for(const w of words){
+    const test=line?line+' '+w:w;
+    if(ctx.measureText(test).width<=maxW){line=test;continue;}
+    if(line){lines.push(line);line='';}
+    line=ctx.measureText(w).width>maxW?pushChars(w):w;
+  }
+  if(line)lines.push(line);
+  return lines;
+}
+function spaced(s){return String(s).split('').join(' ');}
+
+async function drawCertificate(count,matched){
+  const perfect=count===TOTAL;
+  /* webfonts must be resolved or canvas silently falls back */
+  if(document.fonts&&document.fonts.ready){try{await document.fonts.ready;}catch(e){}}
+  const cv=document.createElement('canvas');
+  cv.width=CERT_W;cv.height=CERT_H;
+  const ctx=cv.getContext('2d');
+  const SANS='"Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",-apple-system,sans-serif';
+  const DISP='"Jua","Pretendard","Noto Sans KR",sans-serif';
+  const C=perfect
+    ?{bg:'#102E23',frame:'#CAA64F',frame2:'rgba(214,176,94,.42)',eyebrow:'#D8BD7C',name:'#F7E7B6',rule:'#B99A52',lead:'#CBBF9D',title:'#F4D98A',brk:'#9C8248',label:'#BCAE8A',val:'#F7E7B6',track:'rgba(255,246,220,.14)',bar:'#E2B64C',plate:'rgba(255,247,225,.06)',plateLine:'rgba(214,176,94,.32)',ko:'#F6EFDC',en:'#B0A382',desc:'#CDC3A7',foot:'#B09C6D'}
+    :{bg:'#FBF6E9',frame:'#C9B489',frame2:'#E2D2AD',eyebrow:'#9B8B6B',name:'#1F5E44',rule:'#A89771',lead:'#3C5245',title:'#5B3E96',brk:'#C3AD86',label:'#6E8271',val:'#1F5E44',track:'#E7DBC0',bar:'#1F5E44',plate:'#FFFAEE',plateLine:'#E0D2B4',ko:'#123A2E',en:'#A08E73',desc:'#3C5245',foot:'#A08E73'};
+
+  ctx.fillStyle=perfect?'#0A241B':'#EADFC0';
+  ctx.fillRect(0,0,CERT_W,CERT_H);
+  ctx.fillStyle=C.bg;ctx.fillRect(28,28,CERT_W-56,CERT_H-56);
+  ctx.strokeStyle=C.frame;ctx.lineWidth=3;ctx.strokeRect(28,28,CERT_W-56,CERT_H-56);
+  ctx.strokeStyle=C.frame2;ctx.lineWidth=1.5;ctx.strokeRect(46,46,CERT_W-92,CERT_H-92);
+
+  ctx.textAlign='center';ctx.textBaseline='alphabetic';
+  const mid=CERT_W/2;let y=126;
+
+  if(perfect){
+    const bw=286,bh=46,bx=mid-bw/2;
+    const g=ctx.createLinearGradient(bx,y-34,bx+bw,y+12);
+    g.addColorStop(0,'#F6DC9A');g.addColorStop(1,'#D9A93F');
+    ctx.fillStyle=g;rrect(ctx,bx,y-34,bw,bh,23);ctx.fill();
+    ctx.fillStyle='#3C2A06';ctx.font='900 20px '+SANS;
+    ctx.fillText('PERFECT · 26 / 26',mid,y-3);
+    y+=54;
+  }
+
+  ctx.fillStyle=C.eyebrow;ctx.font='800 19px '+SANS;
+  ctx.fillText(spaced('ONLINE EXIT CERTIFICATE'),mid,y);
+  y+=62;
+  ctx.fillStyle=C.name;ctx.font='900 54px '+SANS;
+  ctx.fillText(t().certName,mid,y);
+  y+=40;
+  ctx.fillStyle=C.rule;ctx.font='800 17px '+SANS;
+  const cap=spaced('IDOL SCHOOL CAMP'),capW=ctx.measureText(cap).width;
+  ctx.fillText(cap,mid,y);
+  ctx.strokeStyle=C.rule;ctx.globalAlpha=.5;ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(120,y-6);ctx.lineTo(mid-capW/2-22,y-6);
+  ctx.moveTo(mid+capW/2+22,y-6);ctx.lineTo(CERT_W-120,y-6);ctx.stroke();
+  ctx.globalAlpha=1;
+  y+=34;
+
+  const visualH=perfect?270:190;
+  let visual=null;
+  if(perfect&&settings&&settings.group_photo_path)visual=await loadImg(publicUrl(EXIT_BUCKET,settings.group_photo_path),true);
+  if(!visual)visual=await loadImg('../assets/camp-logo.png',false);
+  if(visual){
+    const box=fitContain(visual.naturalWidth,visual.naturalHeight,CERT_W-260,visualH);
+    ctx.drawImage(visual,mid-box.w/2,y,box.w,box.h);
+    if(perfect){ctx.strokeStyle=C.frame;ctx.lineWidth=2.5;ctx.strokeRect(mid-box.w/2-7,y-7,box.w+14,box.h+14);}
+    y+=box.h;
+  }else y+=60;
+  y+=54;
+
+  ctx.fillStyle=C.lead;ctx.font='700 24px '+SANS;
+  ctx.fillText(t().lead,mid,y);
+  const titleTop=y+32;
+  y+=80;
+
+  ctx.font='900 54px '+SANS;
+  const titleLines=wrapLines(ctx,`「${fullTitle(count)}」`,CERT_W-220);
+  ctx.fillStyle=C.title;
+  titleLines.forEach(line=>{ctx.fillText(line,mid,y);y+=68;});
+  const titleBottom=y-46;
+  ctx.strokeStyle=C.brk;ctx.lineWidth=1.5;ctx.globalAlpha=.75;
+  ctx.beginPath();
+  ctx.moveTo(mid-190,titleTop);ctx.lineTo(mid+190,titleTop);
+  ctx.moveTo(mid-190,titleBottom);ctx.lineTo(mid+190,titleBottom);
+  ctx.stroke();ctx.globalAlpha=1;
+  y+=8;
+
+  if(t().tail){
+    ctx.fillStyle=C.lead;ctx.font='700 24px '+SANS;
+    ctx.fillText(t().tail,mid,y);
+    y+=64;
+  }else y+=24;
+
+  ctx.font='800 21px '+SANS;
+  const lbl=t().countLabel,lblW=ctx.measureText(lbl).width;
+  ctx.font='400 40px '+DISP;
+  const numTxt=`${count} / ${TOTAL}`,numW=ctx.measureText(numTxt).width;
+  const startX=mid-(lblW+18+numW)/2;
+  ctx.textAlign='left';
+  ctx.fillStyle=C.label;ctx.font='800 21px '+SANS;ctx.fillText(lbl,startX,y);
+  ctx.fillStyle=C.val;ctx.font='400 40px '+DISP;ctx.fillText(numTxt,startX+lblW+18,y);
+  ctx.textAlign='center';
+  y+=22;
+  const barW=420,barX=mid-barW/2;
+  ctx.fillStyle=C.track;rrect(ctx,barX,y,barW,9,5);ctx.fill();
+  if(count>0){ctx.fillStyle=C.bar;rrect(ctx,barX,y,barW*(count/TOTAL),9,5);ctx.fill();}
+  y+=52;
+
+  if(matched.length){
+    ctx.fillStyle=C.label;ctx.font='800 17px '+SANS;
+    ctx.fillText(spaced('CAMP FRIENDS'),mid,y);
+    y+=30;
+    const bottom=CERT_H-152,avail=bottom-y;
+    const n=matched.length,cols=n<=4?2:n<=12?3:4,rows=Math.ceil(n/cols);
+    const gapX=12,gapY=9;
+    const cellH=Math.floor((avail-gapY*(rows-1))/rows);
+    if(cellH>=46){
+      const h=Math.min(cellH,76),gridW=CERT_W-200,cellW=(gridW-gapX*(cols-1))/cols;
+      const f1=cols===4?21:25,f2=cols===4?12:14,gx=mid-gridW/2;
+      matched.forEach((p,i)=>{
+        const cx=gx+(i%cols)*(cellW+gapX),cy=y+Math.floor(i/cols)*(h+gapY);
+        ctx.fillStyle=C.plate;ctx.strokeStyle=C.plateLine;ctx.lineWidth=1.5;
+        rrect(ctx,cx,cy,cellW,h,10);ctx.fill();ctx.stroke();
+        const ccx=cx+cellW/2;
+        ctx.fillStyle=C.ko;ctx.font='800 '+f1+'px '+SANS;
+        ctx.fillText(memberPrimary(p),ccx,cy+h/2+2);
+        ctx.fillStyle=C.en;ctx.font='700 '+f2+'px '+SANS;
+        ctx.fillText(memberSecondary(p),ccx,cy+h-14);
+      });
+    }else{
+      const lh=36;
+      ctx.font='700 25px '+SANS;
+      let lines=wrapLines(ctx,matched.map(memberPrimary).join(' · '),CERT_W-200);
+      const maxLines=Math.max(1,Math.floor(avail/lh));
+      if(lines.length>maxLines)lines=lines.slice(0,maxLines);
+      ctx.fillStyle=C.ko;
+      lines.forEach(line=>{ctx.fillText(line,mid,y+22);y+=lh;});
+    }
+  }else{
+    ctx.fillStyle=C.desc;ctx.font='700 23px '+SANS;
+    wrapLines(ctx,t().desc0,CERT_W-260).slice(0,3).forEach((line,i)=>ctx.fillText(line,mid,y+8+i*34));
+  }
+
+  ctx.fillStyle=C.foot;ctx.font='800 20px '+SANS;
+  ctx.fillText('2026 · Muniverse',mid,CERT_H-92);
+  ctx.strokeStyle=C.frame2;ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(200,CERT_H-124);ctx.lineTo(CERT_W-200,CERT_H-124);ctx.stroke();
+
+  return new Promise(resolve=>{
+    try{cv.toBlob(b=>resolve(b),'image/png');}
+    catch(e){console.error(e);resolve(null);}
+  });
+}
+
+/* pre-render so the share sheet can open inside the click gesture */
+function prepareCertImage(){
+  note(t().shareHint);
+  certBlobPromise=drawCertificate(lastCount,lastMatched).catch(e=>{console.error(e);return null;});
+}
+function certFileName(){return `idolcamp-exit-certificate-${lastCount}of${TOTAL}.png`;}
+function shareText(){return fmt(t().shareBody,{title:fullTitle(lastCount),n:lastCount}).replace(/\|/g,'\n');}
+function note(msg,warn){
+  const el=$('#shareNote');
+  el.textContent=msg;
+  el.classList.toggle('warn',!!warn);
+}
+function downloadBlob(blob){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=certFileName();
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+async function getCertBlob(){
+  if(!certBlobPromise)prepareCertImage();
+  return certBlobPromise;
+}
+async function saveCert(){
+  const blob=await getCertBlob();
+  if(!blob){note(t().shareFail,true);return;}
+  downloadBlob(blob);
+  note(t().shareSaved);
+}
+/* Instagram and X have no web API to post on a user's behalf; the native
+   share sheet is what actually hands the image to their own account. */
+async function shareCert(target){
+  const blob=await getCertBlob();
+  if(!blob){note(t().shareFail,true);return;}
+  const file=new File([blob],certFileName(),{type:'image/png'});
+  const link=CFG.shareUrl||'';
+  if(navigator.canShare&&navigator.canShare({files:[file]})){
+    try{
+      await navigator.share({files:[file],text:target==='x'&&link?`${shareText()}\n${link}`:shareText()});
+      note(target==='ig'?t().shareSheetIg:t().shareSheetOk);
+      return;
+    }catch(e){
+      if(e&&e.name==='AbortError')return;
+      console.error(e);
+    }
+  }
+  downloadBlob(blob);
+  if(target==='x'){
+    window.open('https://x.com/intent/post?text='+encodeURIComponent(shareText())+(link?'&url='+encodeURIComponent(link):''),'_blank','noopener');
+    note(t().shareSavedX);
+  }else note(t().shareSavedIg);
+}
+
+function goVod(){
+  if(settings&&settings.vod_url)location.href=settings.vod_url;
+  else alert(t().vodPending);
+}
+
+$('#start').onclick=async()=>{
+  const b=$('#start');b.disabled=true;b.textContent=t().preparing;
+  try{await loadData();startQuiz();}
+  catch(e){console.error(e);alert(t().loadFail);}
+  finally{b.disabled=false;b.textContent=t().startBtn;}
+};
+$('#yesBtn').onclick=()=>choose(true);
+$('#noBtn').onclick=()=>choose(false);
+$('#retryBtn').onclick=startQuiz;
+$('#saveImg').onclick=()=>saveCert();
+$('#shareX').onclick=()=>shareCert('x');
+$('#shareIg').onclick=()=>shareCert('ig');
+document.querySelectorAll('.vod').forEach(b=>b.onclick=goVod);
+
+function openApp(){
+  if(gateTimer){clearInterval(gateTimer);gateTimer=null;}
+  document.getElementById('gate').style.display='none';
+  document.getElementById('app').style.display='block';
+}
+function updateCountdown(){
+  const left=releaseMs()-nowMs();
+  if(left<=0){openApp();return;}
+  const d=Math.floor(left/86400000),h=Math.floor(left%86400000/3600000),
+        m=Math.floor(left%3600000/60000),sec=Math.floor(left%60000/1000);
+  $('#countdown').textContent=`공개까지 ${d?d+'일 ':''}${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+}
+async function boot(){
+  try{
+    if(!SB_URL||!SB_KEY)throw new Error('Supabase 설정이 없습니다.');
+    const st=await api('/rest/v1/camp_exit_settings?select=id,release_at,group_photo_path,kit_url,vod_url&id=eq.1&limit=1');
+    settings=Array.isArray(st)&&st[0]?st[0]:null;
+  }catch(e){
+    console.error(e);
+    $('#countdown').textContent='공개 시간을 확인하지 못했습니다. 잠시 후 다시 시도해 주세요.';
+  }
+  if(nowMs()>=releaseMs()){openApp();return;}
+  updateCountdown();
+  gateTimer=setInterval(updateCountdown,1000);
+}
+
+document.documentElement.lang=lang;
+applyI18n();
+boot();
 })();
 </script>
 </body>
