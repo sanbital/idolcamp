@@ -1,0 +1,73 @@
+/* Approved hero artwork — private beta only. Korean hero uses the exact approved visual. */
+html.exit-mockup-v2[lang^="ko"] .hero{
+  position:relative;
+  width:100%;
+  aspect-ratio:800/569;
+  min-height:0!important;
+  margin-top:12px;
+  overflow:hidden;
+  border:0!important;
+  border-radius:18px;
+  background:#081523 url('./hero-approved.webp?v=20260812-1') center/cover no-repeat!important;
+  box-shadow:0 8px 0 rgba(62,47,27,.16),0 18px 34px rgba(37,31,22,.16)!important;
+}
+html.exit-mockup-v2[lang^="ko"] .hero:after{display:none!important}
+html.exit-mockup-v2[lang^="ko"] .hero .heroArt{display:none!important}
+html.exit-mockup-v2[lang^="ko"] .hero .heroInner{
+  position:absolute!important;
+  inset:0!important;
+  z-index:2!important;
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  min-height:0!important;
+  padding:0!important;
+  margin:0!important;
+  text-align:initial!important;
+}
+html.exit-mockup-v2[lang^="ko"] .hero .heroInner>.heroCampLogo,
+html.exit-mockup-v2[lang^="ko"] .hero .heroInner>.eyebrow,
+html.exit-mockup-v2[lang^="ko"] .hero .heroInner>.heroTitle,
+html.exit-mockup-v2[lang^="ko"] .hero .heroInner>.heroDesc{display:none!important}
+html.exit-mockup-v2[lang^="ko"] .hero .heroCta{
+  display:block!important;
+  position:absolute!important;
+  left:20.2%!important;
+  right:20.8%!important;
+  top:83.0%!important;
+  height:14.6%!important;
+  width:auto!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:0!important;
+}
+html.exit-mockup-v2[lang^="ko"] .hero .heroCta>.heroNote{display:none!important}
+html.exit-mockup-v2[lang^="ko"] .hero #start{
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:12px!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:transparent!important;
+  font-size:0!important;
+  opacity:.001!important;
+  cursor:pointer!important;
+}
+html.exit-mockup-v2[lang^="ko"] .hero #start:focus-visible{
+  opacity:.16!important;
+  outline:3px solid #fff!important;
+  outline-offset:-4px!important;
+  background:#2f6a4b!important;
+}
+html.exit-mockup-v2[lang^="ko"] .hero #start:disabled{cursor:wait!important}
+@media(max-width:759px){
+  html.exit-mockup-v2[lang^="ko"] .hero{border-radius:18px!important}
+}
