@@ -282,27 +282,56 @@ window.addEventListener("DOMContentLoaded", function () {
   setInterval(function () { if (!document.hidden && !opened) sync(); }, 60000);
 });
 
-/* 짤기자랑 결선투표 CTA: 실제 투표 상세 페이지로 연결 */
-window.addEventListener("DOMContentLoaded", function () {
+/* 짤기자랑 결선투표 CTA: 실제 투표 상세 페이지로 강제 연결.
+   index.html의 기존 /votes 링크/클릭 핸들러보다 캡처 단계에서 먼저 처리한다. */
+(function () {
   var voteUrl = "https://www.muniverse.io/votes/4254d040-384f-404a-a47e-404c713cf366";
-  var banner = document.getElementById("voteBanner");
-  var scoreGo = document.getElementById("scoreVoteGo");
-  var scoreCta = document.getElementById("scoreCta");
+  var selector = "#voteBanner, #scoreVoteGo, #scoreCta";
 
-  if (banner) banner.href = voteUrl;
-  if (scoreGo) scoreGo.href = voteUrl;
-
-  if (scoreCta) {
-    scoreCta.addEventListener("click", function (e) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      window.open(voteUrl, "_blank", "noopener");
-    }, true);
-    scoreCta.addEventListener("keydown", function (e) {
-      if (e.key !== "Enter" && e.key !== " ") return;
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      window.open(voteUrl, "_blank", "noopener");
-    }, true);
+  function applyVoteLinks() {
+    var banner = document.getElementById("voteBanner");
+    var scoreGo = document.getElementById("scoreVoteGo");
+    var scoreCta = document.getElementById("scoreCta");
+    if (banner) {
+      banner.href = voteUrl;
+      banner.target = "_self";
+      banner.removeAttribute("rel");
+    }
+    if (scoreGo) {
+      scoreGo.href = voteUrl;
+      scoreGo.target = "_self";
+      scoreGo.removeAttribute("rel");
+    }
+    if (scoreCta) {
+      scoreCta.setAttribute("role", "link");
+      scoreCta.setAttribute("tabindex", "0");
+    }
   }
-});
+
+  document.addEventListener("click", function (e) {
+    var target = e.target && e.target.closest ? e.target.closest(selector) : null;
+    if (!target) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    window.location.assign(voteUrl);
+  }, true);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    var target = e.target && e.target.closest ? e.target.closest(selector) : null;
+    if (!target) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    window.location.assign(voteUrl);
+  }, true);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
+      applyVoteLinks();
+      new MutationObserver(applyVoteLinks).observe(document.body, { childList: true, subtree: true });
+    });
+  } else {
+    applyVoteLinks();
+    new MutationObserver(applyVoteLinks).observe(document.body, { childList: true, subtree: true });
+  }
+})();
