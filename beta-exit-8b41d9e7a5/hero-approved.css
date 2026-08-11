@@ -8,7 +8,7 @@ html.exit-mockup-v2[lang^="ko"] .hero{
   overflow:hidden;
   border:0!important;
   border-radius:18px;
-  background:#081523 url('./hero-approved.webp?v=20260812-1') center/cover no-repeat!important;
+  background:#081523 url('./hero-approved.webp?v=20260812-2') center/cover no-repeat!important;
   box-shadow:0 8px 0 rgba(62,47,27,.16),0 18px 34px rgba(37,31,22,.16)!important;
 }
 html.exit-mockup-v2[lang^="ko"] .hero:after{display:none!important}
@@ -68,6 +68,4 @@ html.exit-mockup-v2[lang^="ko"] .hero #start:focus-visible{
   background:#2f6a4b!important;
 }
 html.exit-mockup-v2[lang^="ko"] .hero #start:disabled{cursor:wait!important}
-@media(max-width:759px){
-  html.exit-mockup-v2[lang^="ko"] .hero{border-radius:18px!important}
-}
+@media(max-width:759px){html.exit-mockup-v2[lang^="ko"] .hero{border-radius:18px!important}}
