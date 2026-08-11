@@ -904,6 +904,30 @@ const $=s=>document.querySelector(s);
 function headers(extra){return Object.assign({apikey:SB_KEY,Authorization:'Bearer '+SB_KEY},extra||{});}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function publicUrl(bucket,path){return `${SB_URL}/storage/v1/object/public/${bucket}/${String(path||'').replace(/^\/+/, '')}`;}
+/* Storage egress is the whole cost of this event, so images are requested at
+   the size they are displayed. If the project has no image transformations the
+   first render URL fails once, and the session falls back to plain objects. */
+const IMG_SIZES={question:[1000,72],member:[320,75],group:[900,78]};
+let renderOk=(()=>{try{return sessionStorage.getItem('idolcamp.render')!=='0';}catch(e){return true;}})();
+function renderUrl(bucket,path,kind){
+  const box=IMG_SIZES[kind];
+  if(!renderOk||!box)return publicUrl(bucket,path);
+  const clean=String(path||'').replace(/^\/+/, '');
+  return `${SB_URL}/storage/v1/render/image/public/${bucket}/${clean}?width=${box[0]}&quality=${box[1]}`;
+}
+function disableRender(){
+  renderOk=false;
+  try{sessionStorage.setItem('idolcamp.render','0');}catch(e){}
+}
+/* one retry at full size before giving up, so a missing transform never breaks a photo */
+function loadInto(el,bucket,path,kind,onFail){
+  const plain=publicUrl(bucket,path),wanted=renderUrl(bucket,path,kind);
+  el.onerror=()=>{
+    if(el.src!==plain){disableRender();el.onerror=()=>{onFail&&onFail();};el.src=plain;return;}
+    onFail&&onFail();
+  };
+  el.src=wanted;
+}
 function showPage(id){document.querySelectorAll('.page').forEach(e=>e.classList.toggle('on',e.id===id));window.scrollTo(0,0);}
 function shuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){let j;if(window.crypto&&crypto.getRandomValues){const r=new Uint32Array(1);crypto.getRandomValues(r);j=r[0]%(i+1);}else j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
 
@@ -970,13 +994,13 @@ async function loadData(){
     api('/rest/v1/camp_exit_quiz_public?select=photo_no,member_id,image_path,question_ko,question_en,question_ja,question_zh_cn,question_zh_tw,active&active=eq.true&order=photo_no.asc'),
     api('/rest/v1/camp_member_photos?select=id,member_ko,member_en,photo_path,active&active=eq.true&is_group=eq.false'),
     api('/rest/v1/camp_exit_titles?select=friend_count,title_ko,title_en,title_ja,title_zh_cn,title_zh_tw&order=friend_count.asc'),
-    api('/rest/v1/camp_exit_settings?select=id,release_at,group_photo_path,kit_url,vod_url&id=eq.1&limit=1')
+    settings?Promise.resolve(null):api('/rest/v1/camp_exit_settings?select=id,release_at,group_photo_path,kit_url,vod_url&id=eq.1&limit=1')
   ]);
   if(!Array.isArray(qs)||qs.length!==TOTAL)throw new Error(`문항 수 확인 필요 (${qs?.length||0}/${TOTAL})`);
   questions=qs;
   memberPhotos.clear();photos.forEach(p=>memberPhotos.set(p.id,p));
   titles.clear();ts.forEach(r=>titles.set(Number(r.friend_count),r));
-  settings=Array.isArray(st)&&st[0]?st[0]:null;
+  if(Array.isArray(st)&&st[0])settings=st[0];
   if(settings&&settings.kit_url)$('#kitCard').style.display='grid';
 }
 
@@ -1010,8 +1034,7 @@ function renderQuestion(){
   const box=$('#picBox'),img=$('#qImg');
   box.classList.remove('loaded','failed');
   img.onload=()=>box.classList.add('loaded');
-  img.onerror=()=>box.classList.add('failed');
-  img.src=publicUrl(EXIT_BUCKET,q.image_path);
+  loadInto(img,EXIT_BUCKET,q.image_path,'question',()=>box.classList.add('failed'));
   if(img.complete&&img.naturalWidth)box.classList.add('loaded');
 
   const card=$('#qCard');
@@ -1019,7 +1042,7 @@ function renderQuestion(){
   $('#yesBtn').disabled=false;$('#noBtn').disabled=false;
 
   const next=order[idx+1];
-  if(next&&next.image_path){const pre=new Image();pre.src=publicUrl(EXIT_BUCKET,next.image_path);}
+  if(next&&next.image_path){const pre=new Image();pre.src=renderUrl(EXIT_BUCKET,next.image_path,'question');}
 }
 function choose(choice){
   const q=order[idx];if(!q)return;
@@ -1067,10 +1090,10 @@ function renderResultView(){
   matched.forEach(p=>{
     const f=document.createElement('figure');
     f.className='pol';
-    f.innerHTML=`<img alt="${esc(memberPrimary(p))}" src="${esc(publicUrl(MEMBER_BUCKET,p.photo_path))}">`+
+    f.innerHTML=`<img alt="${esc(memberPrimary(p))}">`+
       `<figcaption><b>${esc(memberPrimary(p))}</b><em>${esc(memberSecondary(p))}</em></figcaption>`;
     const im=f.querySelector('img');
-    im.onerror=()=>{im.style.visibility='hidden';};
+    loadInto(im,MEMBER_BUCKET,p.photo_path,'member',()=>{im.style.visibility='hidden';});
     grid.appendChild(f);
   });
 
@@ -1078,8 +1101,7 @@ function renderResultView(){
   const photo=$('#groupPhoto'),logo=$('#campLogo'),perfect=count===TOTAL;
   logo.onerror=()=>{logo.style.display='none';};
   if(perfect&&settings&&settings.group_photo_path){
-    photo.onerror=()=>{photo.style.display='none';logo.style.display='block';};
-    photo.src=publicUrl(EXIT_BUCKET,settings.group_photo_path);
+    loadInto(photo,EXIT_BUCKET,settings.group_photo_path,'group',()=>{photo.style.display='none';logo.style.display='block';});
     photo.style.display='block';logo.style.display='none';
   }else{
     photo.removeAttribute('src');
@@ -1187,7 +1209,10 @@ async function drawCertificate(count,matched){
 
   const visualH=perfect?270:190;
   let visual=null;
-  if(perfect&&settings&&settings.group_photo_path)visual=await loadImg(publicUrl(EXIT_BUCKET,settings.group_photo_path),true);
+  if(perfect&&settings&&settings.group_photo_path){
+    visual=await loadImg(renderUrl(EXIT_BUCKET,settings.group_photo_path,'group'),true);
+    if(!visual)visual=await loadImg(publicUrl(EXIT_BUCKET,settings.group_photo_path),true);
+  }
   if(!visual)visual=await loadImg('../assets/camp-logo.png',false);
   if(visual){
     const box=fitContain(visual.naturalWidth,visual.naturalHeight,CERT_W-260,visualH);
