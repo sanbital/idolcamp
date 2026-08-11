@@ -43,6 +43,7 @@ body{
 }
 button{font-family:inherit}
 :focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+.artDefs{position:absolute;width:0;height:0;overflow:hidden}
 .wrap{max-width:1080px;margin:0 auto;padding:22px 20px calc(64px + env(safe-area-inset-bottom))}
 .narrow{max-width:760px;margin-left:auto;margin-right:auto}
 
@@ -96,16 +97,20 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.4px;word-br
 .homeGrid{display:grid;gap:14px;margin-top:14px}
 .how{padding:18px 17px}
 .how h3{margin:6px 0 13px;font-size:20px}
-.steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0;padding:0}
-.step{padding:12px 5px 11px;background:var(--paper);border:2px solid var(--line);border-radius:15px;text-align:center;font-size:11px;line-height:1.35;letter-spacing:-.03em;font-weight:700;color:var(--ink-soft);word-break:keep-all;box-shadow:var(--pop)}
-.step b{display:block;width:24px;height:24px;margin:0 auto 6px;border-radius:50%;background:var(--yellow);border:2px solid var(--navy);color:var(--navy);font-family:var(--display);font-size:14px;font-weight:400;line-height:21px}
+.steps{list-style:none;display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:stretch;gap:6px;margin:0;padding:0}
+.step{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:13px 6px 11px;background:var(--paper);border:2px solid var(--line);border-radius:15px;text-align:center;font-size:11px;line-height:1.32;letter-spacing:-.03em;font-weight:700;color:var(--ink-soft);word-break:keep-all;box-shadow:var(--pop)}
+.stepArt{display:block;width:46px;height:42px}
+.stepArt svg{width:100%;height:100%;display:block}
+.step b{position:absolute;top:-9px;left:-7px;width:23px;height:23px;border-radius:50%;background:var(--yellow);border:2px solid var(--navy);color:var(--navy);font-family:var(--display);font-size:13px;font-weight:400;line-height:20px}
+.stepGo{display:flex;align-items:center;justify-content:center;color:rgba(15,59,58,.34)}
+.stepGo svg{width:14px;height:14px}
 .hint-line{margin:13px 2px 2px;font-size:12px;line-height:1.6;color:var(--ink-faint);font-weight:600;word-break:keep-all}
 
 .vodCard{display:grid;grid-template-columns:minmax(0,1fr);align-items:center;gap:14px;padding:18px 17px;border-radius:var(--radius);background:linear-gradient(180deg,#1C5C46 0%,#0F3B3A 100%);border:2px solid rgba(110,231,168,.34);color:var(--paper);box-shadow:0 14px 32px rgba(15,59,58,.34)}
 .vodCard .sectionLabel{color:rgba(255,240,205,.6)}
-.vodCard strong{display:block;margin:6px 0 4px;font-size:20px;font-weight:900;letter-spacing:-.4px}
+.vodCard strong{display:block;margin:6px 0 4px;font-size:20px;font-weight:900;letter-spacing:-.4px;word-break:keep-all}
 .vodCard p{margin:0;font-size:13px;line-height:1.6;color:rgba(255,248,232,.82);font-weight:600;word-break:keep-all}
-.vod{width:100%;min-height:52px;border:2px solid var(--navy);border-radius:15px;padding:12px 18px;background:var(--yellow);color:var(--navy);font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 4px 0 rgba(15,59,58,.45);transition:transform .15s ease}
+.vod{width:100%;min-height:52px;margin-top:13px;border:2px solid var(--navy);border-radius:15px;padding:12px 18px;background:var(--yellow);color:var(--navy);font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 4px 0 rgba(15,59,58,.45);transition:transform .15s ease}
 .vod:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(15,59,58,.45)}
 
 /* ---------- question ---------- */
@@ -263,8 +268,10 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.4px;word-br
   .heroLead{font-size:15.5px}
   .heroCta{max-width:340px;margin-top:24px}
   .homeGrid{grid-template-columns:1.15fr .85fr;align-items:start}
-  .vodCard{grid-template-columns:minmax(0,1fr) auto;align-self:stretch}
-  .vod{width:auto;min-width:210px;margin-top:0}
+  .vodCard{align-self:stretch}
+  /* the home column is narrow, so only the full-width result card goes side by side */
+  .result-narrow .vodCard{grid-template-columns:minmax(0,1fr) auto}
+  .result-narrow .vod{width:auto;min-width:210px;margin-top:0}
   .qbody{grid-template-columns:minmax(0,7fr) minmax(0,5fr);align-items:center}
   .qside{text-align:left;padding:6px 8px}
   .question{justify-content:flex-start;text-align:left;font-size:20px;min-height:96px;margin-top:12px}
@@ -296,7 +303,9 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.4px;word-br
 @media(max-width:359px){
   .heroInner{min-height:430px;padding:18px 14px}
   .signBoard{padding:13px 16px 15px}
-  .steps{grid-template-columns:repeat(2,1fr)}
+  .steps{gap:4px}
+  .step{font-size:10px;padding:11px 3px 9px}
+  .stepArt{width:38px;height:35px}
   .question{font-size:17.5px;min-height:80px}
   .ans{min-height:60px;font-size:21px}
   .grid,.friendList{grid-template-columns:repeat(3,1fr)}
@@ -310,6 +319,37 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.4px;word-br
 <body>
 <div id="denied" class="denied" style="display:none">404</div>
 <div id="app" style="display:none">
+<svg class="artDefs" aria-hidden="true" focusable="false"><defs>
+  <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#08172C"/><stop offset=".44" stop-color="#0F2A45"/><stop offset="1" stop-color="#16402F"/></linearGradient>
+  <radialGradient id="glowG"><stop offset="0" stop-color="#FFD066" stop-opacity=".70"/><stop offset=".5" stop-color="#E8792B" stop-opacity=".26"/><stop offset="1" stop-color="#E8792B" stop-opacity="0"/></radialGradient>
+  <radialGradient id="moonG"><stop offset="0" stop-color="#FFF3C4" stop-opacity=".42"/><stop offset="1" stop-color="#FFF3C4" stop-opacity="0"/></radialGradient>
+  <symbol id="pine" viewBox="0 0 60 100">
+    <rect x="25.5" y="72" width="9" height="28" rx="2.5" fill="#4A2E18"/>
+    <path d="M30 46 L58 88 H2 Z" fill="#17553A"/><path d="M30 46 L30 88 H2 Z" fill="#1E6845"/>
+    <path d="M30 24 L52 62 H8 Z" fill="#1A5C3E"/><path d="M30 24 L30 62 H8 Z" fill="#227050"/>
+    <path d="M30 4 L46 37 H14 Z" fill="#1D6543"/><path d="M30 4 L30 37 H14 Z" fill="#26794F"/>
+  </symbol>
+  <symbol id="tentO" viewBox="0 0 120 96">
+    <ellipse cx="60" cy="89" rx="55" ry="5" fill="#000" opacity=".26"/>
+    <path d="M60 14 L112 89 H8 Z" fill="#D96F22"/><path d="M60 14 L60 89 H8 Z" fill="#F0872F"/>
+    <path d="M60 30 L84 89 H36 Z" fill="#6B3410"/><path d="M60 30 L72 89 H60 Z" fill="#8A4A1C"/>
+    <path d="M60 14 L60 3" stroke="#C25F1C" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M60 2 L79 7 L60 12 Z" fill="#F2C230"/>
+  </symbol>
+  <symbol id="tentG" viewBox="0 0 120 96">
+    <ellipse cx="60" cy="89" rx="55" ry="5" fill="#000" opacity=".26"/>
+    <path d="M60 14 L112 89 H8 Z" fill="#2C7549"/><path d="M60 14 L60 89 H8 Z" fill="#379059"/>
+    <path d="M60 30 L84 89 H36 Z" fill="#123A2E"/><path d="M60 30 L72 89 H60 Z" fill="#1A4E3B"/>
+    <path d="M60 14 L60 3" stroke="#22633C" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M60 2 L79 7 L60 12 Z" fill="#6EE7A8"/>
+  </symbol>
+  <symbol id="lantern" viewBox="0 0 24 34">
+    <path d="M12 0 L12 6" stroke="#C9B489" stroke-width="1.6"/>
+    <path d="M6 8 H18 L20 24 Q12 30 4 24 Z" fill="#F2C230" opacity=".92"/>
+    <path d="M6 8 H18" stroke="#8A5A22" stroke-width="2.4"/>
+    <ellipse cx="12" cy="18" rx="3.4" ry="5" fill="#FFF3C4"/>
+  </symbol>
+</defs></svg>
 <div class="wrap">
 
   <div class="camp-topbar">
@@ -328,71 +368,70 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.4px;word-br
   <section id="home" class="page on">
     <div class="hero">
       <svg class="nightart artMobile" viewBox="0 0 500 474" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <defs>
-          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0A1E38"/><stop offset=".55" stop-color="#123049"/><stop offset="1" stop-color="#17402F"/></linearGradient>
-          <radialGradient id="fireGlow"><stop offset="0" stop-color="#FFD066" stop-opacity=".62"/><stop offset=".55" stop-color="#E8792B" stop-opacity=".22"/><stop offset="1" stop-color="#E8792B" stop-opacity="0"/></radialGradient>
-        </defs>
-        <rect width="500" height="474" fill="url(#sky)"/>
-        <circle cx="424" cy="62" r="26" fill="#FFEEB8" opacity=".95"/><circle cx="434" cy="54" r="26" fill="#0F2740"/>
-        <g fill="#FFF7D5" opacity=".8"><circle cx="48" cy="66" r="2"/><circle cx="104" cy="38" r="1.4"/><circle cx="163" cy="80" r="1.6"/><circle cx="243" cy="46" r="2"/><circle cx="311" cy="98" r="1.3"/><circle cx="470" cy="128" r="1.7"/></g>
-        <path d="M-6 74 Q250 128 506 74" fill="none" stroke="#F6E7C0" stroke-width="2.4" opacity=".85"/>
-        <g>
-          <path d="M34 82 L54 87 L41 104 Z" fill="#E8792B"/><path d="M84 94 L104 99 L91 116 Z" fill="#F2C230"/>
-          <path d="M134 103 L154 108 L141 125 Z" fill="#49AAC4"/><path d="M184 110 L204 113 L192 131 Z" fill="#D6534A"/>
-          <path d="M236 113 L256 115 L245 133 Z" fill="#F6F1E3"/><path d="M288 112 L308 108 L298 128 Z" fill="#F2C230"/>
-          <path d="M338 105 L358 100 L347 120 Z" fill="#49AAC4"/><path d="M388 95 L408 88 L399 108 Z" fill="#E8792B"/>
-          <path d="M438 84 L458 76 L450 97 Z" fill="#D6534A"/>
-        </g>
-        <path d="M0 254 L44 186 L88 254 Z M74 260 L120 180 L166 260 Z M330 256 L376 178 L422 256 Z M404 262 L452 192 L500 262 Z" fill="#0E2A24"/>
-        <rect y="250" width="500" height="224" fill="#123528"/>
-        <path d="M0 250 Q250 226 500 250 L500 474 L0 474 Z" fill="#16382A"/>
-        <g><path d="M52 342 L104 260 L156 342 Z" fill="#E8792B"/><path d="M104 260 L128 298 L104 342 L80 298 Z" fill="#C25F1C"/><path d="M104 276 L122 342 L86 342 Z" fill="#7A3B10"/><path d="M104 254 L104 242 L124 246 L104 252" fill="#F2C230"/></g>
-        <g><path d="M348 346 L396 272 L444 346 Z" fill="#2F7D4F"/><path d="M396 272 L418 306 L396 346 L374 306 Z" fill="#22633C"/><path d="M396 286 L412 346 L380 346 Z" fill="#123A2E"/></g>
-        <ellipse class="glow" cx="250" cy="344" rx="150" ry="94" fill="url(#fireGlow)"/>
-        <g transform="translate(250 344)">
-          <rect x="-52" y="30" width="104" height="14" rx="7" fill="#6A3B21" transform="rotate(13)"/>
-          <rect x="-52" y="30" width="104" height="14" rx="7" fill="#8A4E29" transform="rotate(-13)"/>
+        <rect width="500" height="474" fill="url(#skyG)"/>
+        <circle cx="388" cy="70" r="72" fill="url(#moonG)"/>
+        <circle cx="388" cy="70" r="24" fill="#FFF3C4"/><circle cx="397" cy="62" r="24" fill="#0D2440"/>
+        <g fill="#FFF7D5"><circle cx="44" cy="58" r="2.1" opacity=".9"/><circle cx="96" cy="34" r="1.4" opacity=".7"/><circle cx="152" cy="76" r="1.7" opacity=".8"/><circle cx="214" cy="40" r="1.3" opacity=".6"/><circle cx="268" cy="86" r="2" opacity=".85"/><circle cx="330" cy="52" r="1.4" opacity=".65"/><circle cx="470" cy="120" r="1.7" opacity=".75"/><circle cx="70" cy="128" r="1.3" opacity=".6"/><circle cx="190" cy="140" r="1.1" opacity=".5"/></g>
+        <path d="M0 236 L84 168 L150 236 Z M120 240 L214 158 L306 240 Z M270 238 L352 172 L430 238 Z" fill="#102A3D" opacity=".85"/>
+        <path d="M-6 66 Q250 122 506 66" fill="none" stroke="#E8DCBC" stroke-width="2.2" opacity=".8"/>
+        <g><path d="M30 74 L50 79 L37 96 Z" fill="#E8792B"/><path d="M78 87 L98 92 L85 109 Z" fill="#F2C230"/><path d="M128 97 L148 101 L136 119 Z" fill="#49AAC4"/><path d="M178 104 L198 107 L186 125 Z" fill="#D6534A"/><path d="M228 108 L248 110 L237 128 Z" fill="#F6F1E3"/><path d="M280 108 L300 105 L290 124 Z" fill="#F2C230"/><path d="M330 102 L350 97 L339 117 Z" fill="#49AAC4"/><path d="M380 92 L400 85 L391 105 Z" fill="#E8792B"/><path d="M428 79 L448 71 L440 92 Z" fill="#D6534A"/></g>
+        <use href="#lantern" x="104" y="92" width="21" height="30"/>
+        <use href="#lantern" x="372" y="88" width="21" height="30"/>
+        <use href="#pine" x="60" y="196" width="70" height="116"/>
+        <use href="#pine" x="18" y="216" width="56" height="94"/>
+        <use href="#pine" x="380" y="190" width="74" height="124"/>
+        <use href="#pine" x="440" y="214" width="56" height="94"/>
+        <rect y="296" width="500" height="178" fill="#12352A"/>
+        <path d="M0 296 Q250 268 500 296 L500 474 L0 474 Z" fill="#17402F"/>
+        <use href="#tentO" x="86" y="240" width="130" height="105"/>
+        <use href="#tentG" x="298" y="252" width="120" height="97"/>
+        <g transform="translate(250 334)">
+          <ellipse class="glow" cx="0" cy="16" rx="152" ry="88" fill="url(#glowG)"/>
+          <g fill="#3B5044"><ellipse cx="-48" cy="33" rx="13" ry="8"/><ellipse cx="-23" cy="40" rx="12" ry="7"/><ellipse cx="3" cy="42" rx="13" ry="7"/><ellipse cx="29" cy="39" rx="12" ry="7"/><ellipse cx="51" cy="32" rx="12" ry="8"/></g>
+          <rect x="-50" y="20" width="100" height="13" rx="6.5" fill="#6A3B21" transform="rotate(12)"/>
+          <rect x="-50" y="20" width="100" height="13" rx="6.5" fill="#8A4E29" transform="rotate(-12)"/>
           <g class="flame">
-            <path d="M0 30 C-44 6 -28 -22 -8 -46 C-9 -18 6 -10 10 -34 C36 -6 40 14 0 30Z" fill="#E8792B"/>
-            <path d="M0 26 C-20 12 -14 -6 -2 -20 C1 -2 10 2 12 -8 C24 8 17 18 0 26Z" fill="#F2C230"/>
-            <path d="M0 22 C-8 14 -6 4 -1 -6 C1 4 6 6 6 0 C11 8 8 16 0 22Z" fill="#FFF0B0"/>
+            <path d="M0 24 C-42 2 -27 -24 -8 -48 C-9 -19 6 -11 10 -35 C35 -7 39 10 0 24Z" fill="#E8792B"/>
+            <path d="M0 21 C-20 9 -14 -7 -2 -22 C1 -3 10 1 12 -9 C24 6 17 15 0 21Z" fill="#F2C230"/>
+            <path d="M0 18 C-8 11 -6 2 -1 -8 C1 3 6 5 6 -1 C11 6 8 13 0 18Z" fill="#FFF3C4"/>
           </g>
-          <g fill="#FFD066" opacity=".75"><circle cx="-34" cy="-58" r="2"/><circle cx="28" cy="-72" r="1.6"/><circle cx="8" cy="-92" r="1.3"/></g>
+          <g fill="#FFD066"><circle cx="-31" cy="-58" r="2.2" opacity=".8"/><circle cx="27" cy="-70" r="1.7" opacity=".62"/><circle cx="6" cy="-89" r="1.4" opacity=".48"/><circle cx="-15" cy="-79" r="1.2" opacity=".55"/></g>
         </g>
+        <g stroke="#1E5C3E" stroke-width="2.6" stroke-linecap="round" opacity=".9"><path d="M22 452 L18 434 M30 452 L34 436 M26 452 L26 430"/><path d="M470 448 L466 430 M478 448 L482 432 M474 448 L474 426"/><path d="M150 466 L146 450 M158 466 L162 452"/><path d="M356 464 L352 448 M364 464 L368 450"/></g>
       </svg>
 
       <svg class="nightart artWide" viewBox="0 0 1040 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <defs>
-          <linearGradient id="skyW" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0A1E38"/><stop offset=".55" stop-color="#123049"/><stop offset="1" stop-color="#17402F"/></linearGradient>
-          <radialGradient id="fireGlowW"><stop offset="0" stop-color="#FFD066" stop-opacity=".62"/><stop offset=".55" stop-color="#E8792B" stop-opacity=".22"/><stop offset="1" stop-color="#E8792B" stop-opacity="0"/></radialGradient>
-        </defs>
-        <rect width="1040" height="420" fill="url(#skyW)"/>
-        <circle cx="905" cy="66" r="24" fill="#FFEEB8" opacity=".95"/><circle cx="914" cy="59" r="24" fill="#0F2740"/>
-        <g fill="#FFF7D5" opacity=".78"><circle cx="120" cy="52" r="2"/><circle cx="250" cy="96" r="1.4"/><circle cx="392" cy="44" r="1.7"/><circle cx="530" cy="88" r="1.4"/><circle cx="648" cy="40" r="2"/><circle cx="762" cy="104" r="1.4"/><circle cx="990" cy="140" r="1.6"/><circle cx="60" cy="132" r="1.3"/></g>
-        <path d="M-10 42 Q520 104 1050 42" fill="none" stroke="#F6E7C0" stroke-width="2.2" opacity=".8"/>
-        <g>
-          <path d="M60 52 L80 56 L67 74 Z" fill="#E8792B"/><path d="M160 68 L180 73 L167 91 Z" fill="#F2C230"/>
-          <path d="M262 81 L282 86 L269 104 Z" fill="#49AAC4"/><path d="M366 90 L386 94 L374 112 Z" fill="#D6534A"/>
-          <path d="M470 96 L490 99 L478 117 Z" fill="#F6F1E3"/><path d="M574 97 L594 96 L583 115 Z" fill="#F2C230"/>
-          <path d="M676 92 L696 88 L686 107 Z" fill="#49AAC4"/><path d="M778 82 L798 76 L789 96 Z" fill="#E8792B"/>
-          <path d="M878 68 L898 60 L890 81 Z" fill="#D6534A"/><path d="M968 52 L988 43 L981 64 Z" fill="#F2C230"/>
-        </g>
-        <path d="M0 288 L54 208 L108 288 Z M92 292 L150 200 L208 292 Z M842 290 L898 206 L954 290 Z M930 296 L992 216 L1040 296 Z" fill="#0E2A24"/>
-        <rect y="284" width="1040" height="136" fill="#123528"/>
-        <path d="M0 284 Q520 258 1040 284 L1040 420 L0 420 Z" fill="#16382A"/>
-        <g><path d="M512 372 L568 286 L624 372 Z" fill="#E8792B"/><path d="M568 286 L594 326 L568 372 L542 326 Z" fill="#C25F1C"/><path d="M568 302 L588 372 L548 372 Z" fill="#7A3B10"/><path d="M568 280 L568 268 L590 272 L568 278" fill="#F2C230"/></g>
-        <g><path d="M846 376 L898 298 L950 376 Z" fill="#2F7D4F"/><path d="M898 298 L922 334 L898 376 L874 334 Z" fill="#22633C"/><path d="M898 312 L916 376 L880 376 Z" fill="#123A2E"/></g>
-        <ellipse class="glow" cx="730" cy="368" rx="180" ry="106" fill="url(#fireGlowW)"/>
-        <g transform="translate(730 368)">
-          <rect x="-54" y="28" width="108" height="14" rx="7" fill="#6A3B21" transform="rotate(13)"/>
-          <rect x="-54" y="28" width="108" height="14" rx="7" fill="#8A4E29" transform="rotate(-13)"/>
+        <rect width="1040" height="420" fill="url(#skyG)"/>
+        <circle cx="906" cy="62" r="70" fill="url(#moonG)"/>
+        <circle cx="906" cy="62" r="23" fill="#FFF3C4"/><circle cx="915" cy="55" r="23" fill="#0D2440"/>
+        <g fill="#FFF7D5"><circle cx="112" cy="46" r="2.1" opacity=".9"/><circle cx="236" cy="88" r="1.4" opacity=".65"/><circle cx="370" cy="38" r="1.7" opacity=".8"/><circle cx="508" cy="80" r="1.4" opacity=".65"/><circle cx="626" cy="36" r="2" opacity=".85"/><circle cx="742" cy="96" r="1.4" opacity=".6"/><circle cx="988" cy="134" r="1.6" opacity=".7"/><circle cx="58" cy="122" r="1.3" opacity=".6"/><circle cx="440" cy="140" r="1.1" opacity=".5"/><circle cx="812" cy="30" r="1.5" opacity=".7"/></g>
+        <path d="M0 250 L120 176 L214 250 Z M180 254 L318 160 L452 254 Z M600 252 L724 168 L840 252 Z M790 256 L920 182 L1040 256 Z" fill="#102A3D" opacity=".85"/>
+        <path d="M-10 38 Q520 100 1050 38" fill="none" stroke="#E8DCBC" stroke-width="2" opacity=".75"/>
+        <g><path d="M56 48 L76 52 L63 70 Z" fill="#E8792B"/><path d="M152 63 L172 68 L159 86 Z" fill="#F2C230"/><path d="M252 76 L272 81 L259 99 Z" fill="#49AAC4"/><path d="M352 86 L372 90 L360 108 Z" fill="#D6534A"/><path d="M454 92 L474 95 L462 113 Z" fill="#F6F1E3"/><path d="M556 94 L576 93 L565 112 Z" fill="#F2C230"/><path d="M656 90 L676 86 L666 105 Z" fill="#49AAC4"/><path d="M756 80 L776 74 L767 94 Z" fill="#E8792B"/><path d="M854 66 L874 58 L866 79 Z" fill="#D6534A"/><path d="M948 48 L968 39 L961 60 Z" fill="#F2C230"/></g>
+        <use href="#lantern" x="404" y="98" width="20" height="29"/>
+        <use href="#lantern" x="700" y="88" width="20" height="29"/>
+        <use href="#pine" x="-16" y="196" width="76" height="126"/>
+        <use href="#pine" x="52" y="216" width="60" height="100"/>
+        <use href="#pine" x="126" y="228" width="50" height="84"/>
+        <use href="#pine" x="944" y="186" width="82" height="136"/>
+        <use href="#pine" x="1004" y="214" width="60" height="100"/>
+        <rect y="300" width="1040" height="120" fill="#12352A"/>
+        <path d="M0 300 Q520 272 1040 300 L1040 420 L0 420 Z" fill="#17402F"/>
+        <use href="#tentO" x="486" y="252" width="136" height="110"/>
+        <use href="#tentG" x="858" y="264" width="124" height="100"/>
+        <g transform="translate(728 354)">
+          <ellipse class="glow" cx="0" cy="16" rx="176" ry="98" fill="url(#glowG)"/>
+          <g fill="#3B5044"><ellipse cx="-48" cy="33" rx="13" ry="8"/><ellipse cx="-23" cy="40" rx="12" ry="7"/><ellipse cx="3" cy="42" rx="13" ry="7"/><ellipse cx="29" cy="39" rx="12" ry="7"/><ellipse cx="51" cy="32" rx="12" ry="8"/></g>
+          <rect x="-50" y="20" width="100" height="13" rx="6.5" fill="#6A3B21" transform="rotate(12)"/>
+          <rect x="-50" y="20" width="100" height="13" rx="6.5" fill="#8A4E29" transform="rotate(-12)"/>
           <g class="flame">
-            <path d="M0 30 C-46 6 -30 -24 -8 -50 C-9 -20 6 -11 10 -36 C38 -6 42 14 0 30Z" fill="#E8792B"/>
-            <path d="M0 26 C-21 12 -15 -6 -2 -21 C1 -2 10 2 12 -8 C25 8 18 18 0 26Z" fill="#F2C230"/>
-            <path d="M0 22 C-8 14 -6 4 -1 -6 C1 4 6 6 6 0 C11 8 8 16 0 22Z" fill="#FFF0B0"/>
+            <path d="M0 24 C-42 2 -27 -24 -8 -48 C-9 -19 6 -11 10 -35 C35 -7 39 10 0 24Z" fill="#E8792B"/>
+            <path d="M0 21 C-20 9 -14 -7 -2 -22 C1 -3 10 1 12 -9 C24 6 17 15 0 21Z" fill="#F2C230"/>
+            <path d="M0 18 C-8 11 -6 2 -1 -8 C1 3 6 5 6 -1 C11 6 8 13 0 18Z" fill="#FFF3C4"/>
           </g>
-          <g fill="#FFD066" opacity=".75"><circle cx="-36" cy="-62" r="2"/><circle cx="30" cy="-78" r="1.6"/><circle cx="8" cy="-98" r="1.3"/></g>
+          <g fill="#FFD066"><circle cx="-31" cy="-58" r="2.2" opacity=".8"/><circle cx="27" cy="-70" r="1.7" opacity=".62"/><circle cx="6" cy="-89" r="1.4" opacity=".48"/><circle cx="-15" cy="-79" r="1.2" opacity=".55"/></g>
         </g>
+        <g stroke="#1E5C3E" stroke-width="2.6" stroke-linecap="round" opacity=".9"><path d="M642 402 L638 386 M650 402 L654 388 M646 402 L646 382"/><path d="M828 406 L824 390 M836 406 L840 392"/><path d="M462 410 L458 394 M470 410 L474 396"/></g>
       </svg>
 
       <div class="heroInner">
@@ -415,11 +454,44 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.4px;word-br
         <span class="sectionLabel" data-i18n="howLabel">HOW TO JOIN</span>
         <h3 data-i18n="howTitle">참여 방법</h3>
         <ol class="steps">
-          <li class="step"><b>1</b><span data-i18n="step1">장면 보기</span></li>
-          <li class="step"><b>2</b><span data-i18n="step2">YES / NO</span></li>
-          <li class="step"><b>3</b><span data-i18n="step3">26개 완료</span></li>
-          <li class="step"><b>4</b><span data-i18n="step4">퇴소증 확인</span></li>
-        </ol>
+        <li class="step">
+          <span class="stepArt">
+            <svg viewBox="0 0 48 44" aria-hidden="true">
+              <rect x="4" y="5" width="34" height="27" rx="4" fill="#FFF7E4" stroke="#0F3B3A" stroke-width="2.4"/>
+              <path d="M7 26 L16 17 L23 24 L29 19 L35 26 Z" fill="#49AAC4"/>
+              <circle cx="30" cy="13" r="3" fill="#F2C230"/>
+              <circle cx="31" cy="29" r="10.5" fill="#FFF7E4" fill-opacity=".9" stroke="#0F3B3A" stroke-width="2.4"/>
+              <path d="M38.5 36.5 L44 42" stroke="#0F3B3A" stroke-width="3.2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <b>1</b><span class="stepTxt" data-i18n="step1">기억 속 장면 확인</span>
+        </li>
+        <li class="stepGo" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 2 L11 8 L4 14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
+        <li class="step">
+          <span class="stepArt">
+            <svg viewBox="0 0 48 44" aria-hidden="true">
+              <circle cx="16" cy="22" r="12.5" fill="#2F7D4F" stroke="#0F3B3A" stroke-width="2.4"/>
+              <path d="M10.5 22.5 L14.5 26.5 L21.5 17.5" fill="none" stroke="#FFF7E4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="34" cy="22" r="12.5" fill="#D6534A" stroke="#0F3B3A" stroke-width="2.4"/>
+              <path d="M29.5 17.5 L38.5 26.5 M38.5 17.5 L29.5 26.5" stroke="#FFF7E4" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <b>2</b><span class="stepTxt" data-i18n="step2">YES / NO 선택</span>
+        </li>
+        <li class="stepGo" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 2 L11 8 L4 14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
+        <li class="step">
+          <span class="stepArt">
+            <svg viewBox="0 0 48 44" aria-hidden="true">
+              <rect x="7" y="6" width="30" height="32" rx="4" fill="#1F5E44" stroke="#0F3B3A" stroke-width="2.4"/>
+              <rect x="12" y="11" width="20" height="15" rx="2" fill="#FFF7E4"/>
+              <path d="M14 24 L19 18 L23 22 L27 17 L30 24 Z" fill="#49AAC4"/>
+              <rect x="12" y="29" width="13" height="3" rx="1.5" fill="#FFF7E4" opacity=".7"/>
+              <path d="M38 12 c2.6-3 7-1.4 7 1.8 0 3.4-4.4 6-7 7.7-2.6-1.7-7-4.3-7-7.7 0-3.2 4.4-4.8 7-1.8Z" fill="#D6534A" stroke="#0F3B3A" stroke-width="1.8"/>
+            </svg>
+          </span>
+          <b>3</b><span class="stepTxt" data-i18n="step3">맞힌 친구만 사진첩에!</span>
+        </li>
+      </ol>
         <p class="hint-line" data-i18n="howNote">문제 순서는 도전할 때마다 무작위로 섞이고, 정답 여부는 26개를 모두 마친 뒤에 한 번에 공개됩니다.</p>
       </section>
 
@@ -588,7 +660,7 @@ const I18N={
   heroLead:'수련회의 마지막 밤, 캠프파이어 앞에서|26개의 추억을 떠올리고|친구들과 명예롭게 퇴소해 보세요.',
   startBtn:'퇴소식 시작하기',heroNote:'26개의 장면 · 정답은 마지막에 한 번에 공개',
   howLabel:'HOW TO JOIN',howTitle:'참여 방법',
-  step1:'장면 보기',step2:'YES / NO',step3:'26개 완료',step4:'퇴소증 확인',
+  step1:'기억 속 장면 확인',step2:'YES / NO 선택',step3:'맞힌 친구만 사진첩에!',
   howNote:'문제 순서는 도전할 때마다 무작위로 섞이고, 정답 여부는 26개를 모두 마친 뒤에 한 번에 공개됩니다.',
   nextLabel:'NEXT STORY',vodTitle:'〈아이돌 수련회〉 확장판',
   vodDescHome:'숨겨진 장면과 함께 수련회의 추억을 다시 확인해 보세요.',
@@ -623,7 +695,7 @@ const I18N={
   heroLead:'On the last night of camp, by the campfire,|recall 26 memories and|graduate with your friends in honour.',
   startBtn:'Start Exit Ceremony',heroNote:'26 scenes · results revealed all at once at the end',
   howLabel:'HOW TO JOIN',howTitle:'How to join',
-  step1:'See the scene',step2:'YES / NO',step3:'Finish all 26',step4:'Get certificate',
+  step1:'Check the scene',step2:'Pick YES / NO',step3:'Only friends you got right join the album!',
   howNote:'The order is shuffled on every attempt, and whether you were right is revealed only after all 26 scenes.',
   nextLabel:'NEXT STORY',vodTitle:'Idol School Camp — Extended Edition',
   vodDescHome:'Revisit the camp with the scenes that never aired.',
@@ -659,7 +731,7 @@ const I18N={
   heroLead:'修練会の最後の夜、キャンプファイアの前で|26の思い出を振り返り|仲間と名誉ある退所をしましょう。',
   startBtn:'退所式を始める',heroNote:'26のシーン · 正解は最後にまとめて公開',
   howLabel:'HOW TO JOIN',howTitle:'参加方法',
-  step1:'シーンを見る',step2:'YES / NO',step3:'26問すべて',step4:'退所証を確認',
+  step1:'記憶のシーンを確認',step2:'YES / NO を選ぶ',step3:'正解した仲間だけアルバムに！',
   howNote:'出題順は挑戦するたびにシャッフルされ、正解かどうかは26問すべてを終えたあとにまとめて公開されます。',
   nextLabel:'NEXT STORY',vodTitle:'『アイドル修練会』拡張版',
   vodDescHome:'未公開シーンと一緒に、修練会の思い出をもう一度。',
@@ -694,7 +766,7 @@ const I18N={
   heroLead:'修炼会的最后一夜，在营火前|回想 26 个回忆|和朋友们光荣退所吧。',
   startBtn:'开始退所式',heroNote:'26 个场景 · 答案在最后一次公开',
   howLabel:'HOW TO JOIN',howTitle:'参与方式',
-  step1:'查看场景',step2:'YES / NO',step3:'完成 26 题',step4:'查看退所证',
+  step1:'确认回忆场景',step2:'选择 YES / NO',step3:'只有答对的朋友进相册！',
   howNote:'题目顺序每次挑战都会打乱，是否答对将在完成全部 26 题后一次公开。',
   nextLabel:'NEXT STORY',vodTitle:'《偶像修炼会》扩展版',
   vodDescHome:'和未公开场景一起，重温修炼会的回忆。',
@@ -729,7 +801,7 @@ const I18N={
   heroLead:'修煉會的最後一夜，在營火前|回想 26 個回憶|和朋友們光榮退所吧。',
   startBtn:'開始退所式',heroNote:'26 個場景 · 答案在最後一次公開',
   howLabel:'HOW TO JOIN',howTitle:'參與方式',
-  step1:'查看場景',step2:'YES / NO',step3:'完成 26 題',step4:'查看退所證',
+  step1:'確認回憶場景',step2:'選擇 YES / NO',step3:'只有答對的朋友進相冊！',
   howNote:'題目順序每次挑戰都會打亂，是否答對將在完成全部 26 題後一次公開。',
   nextLabel:'NEXT STORY',vodTitle:'《偶像修煉會》擴充版',
   vodDescHome:'和未公開場景一起，重溫修煉會的回憶。',
