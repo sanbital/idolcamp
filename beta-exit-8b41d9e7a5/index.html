@@ -11,22 +11,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@700&display=swap" rel="stylesheet">
 <script src="../config.js"></script>
 <style>
-/* Palette and shapes are taken from the main idolcamp site so the exit
-   ceremony reads as the same product: green field, ivory cards, navy
-   outlines, Jua display type. Campfire is the running motif. */
+/* The exit ceremony is entered from the main idolcamp site's 퇴소 tab, so it
+   reuses that site's shell verbatim: 1080 wrap, centred camp logo, language
+   pills, tab bar, then the ceremony as the active tab panel below.
+   Type is unified with the main page (Pretendard, Jua for display numerals).
+   Campfire is the section's motif. */
 :root{
   --green:#8FB35A;--green-deep:#6E9440;
   --forest:#123A2E;--navy:#0F3B3A;--ink-soft:#3C5245;--ink-faint:#6E8271;
   --card:#F6FAEF;--paper:#FBF6E9;--paper-2:#F3EAD2;
   --yellow:#F2C230;--yellow-lite:#FFD956;--blue:#49AAC4;--orange:#E8792B;
-  --red:#D6534A;--purple:#7F6FE3;--mint:#34D399;--wood:#6E4A2F;
+  --red:#D6534A;--purple:#7F6FE3;--mint:#34D399;
   --line:rgba(15,59,58,.12);
   --sans:"Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",system-ui,-apple-system,sans-serif;
   --display:"Jua","Gaegu","Pretendard","Noto Sans KR",sans-serif;
-  --serif:"Nanum Myeongjo","AppleMyungjo","Noto Serif KR",Georgia,serif;
   --radius:22px;
-  --shadow:0 14px 32px rgba(15,59,58,.20);
-  --pop:0 5px 0 rgba(15,59,58,.14);
+  --shadow:0 18px 40px rgba(15,59,58,.22);
+  --pop:0 5px 0 rgba(15,59,58,.12);
+  font-synthesis-weight:none;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden}
@@ -41,85 +43,93 @@ body{
 }
 button{font-family:inherit}
 :focus-visible{outline:3px solid var(--navy);outline-offset:2px}
-.wrap{width:min(calc(100% - 24px),500px);margin:auto;padding:14px 0 calc(44px + env(safe-area-inset-bottom))}
+.wrap{max-width:1080px;margin:0 auto;padding:22px 20px calc(64px + env(safe-area-inset-bottom))}
+.narrow{max-width:760px;margin-left:auto;margin-right:auto}
 
-/* ---------- chrome ---------- */
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
-.back{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:7px 13px 7px 10px;border-radius:999px;background:rgba(255,255,255,.55);border:1.5px solid rgba(15,59,58,.35);color:var(--navy);font-size:12.5px;font-weight:800;text-decoration:none}
-.back svg{width:13px;height:13px}
-.tagChip{flex:none;font-size:10px;font-weight:800;letter-spacing:.1em;background:var(--yellow);border:2px solid var(--navy);color:var(--navy);padding:5px 11px;border-radius:999px}
-.langs{display:flex;gap:6px;margin-bottom:14px;padding:6px;background:rgba(15,59,58,.12);border-radius:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+/* ---------- site shell ---------- */
+.camp-topbar{display:flex;flex-direction:column;align-items:center;gap:9px;margin:0 0 9px;width:100%}
+.top-camp-logo{display:block;width:196px;max-width:68vw;height:auto;object-fit:contain;margin:0 auto;filter:drop-shadow(0 3px 5px rgba(15,59,58,.16))}
+.langs{display:flex;gap:5px;width:100%;padding:4px;border-radius:16px;background:rgba(15,59,58,.10);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .langs::-webkit-scrollbar{display:none}
-.langs button{position:relative;flex:1 1 0;min-width:max-content;white-space:nowrap;border:0;background:transparent;color:#1c4636;border-radius:12px;padding:10px 9px;font-size:11.5px;font-weight:800;cursor:pointer;transition:background .15s ease,color .15s ease}
+.langs button{position:relative;flex:1 1 0;min-width:max-content;border:0;background:transparent;color:#12402f;font-weight:700;font-size:12.5px;padding:9px 11px;border-radius:12px;cursor:pointer;white-space:nowrap;transition:.15s}
 .langs button:after{content:"";position:absolute;left:0;right:0;top:-6px;bottom:-6px}
-.langs button.on{background:var(--navy);color:#FFF6D8}
+.langs button[aria-pressed="true"]{background:var(--navy);color:#eafff4;box-shadow:0 4px 12px rgba(15,59,58,.3)}
+
+.tabs{display:flex;gap:6px;margin:14px 0 0;padding:6px;background:rgba(15,59,58,.10);border-radius:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1 1 0;min-width:max-content;white-space:nowrap;border:0;background:transparent;color:#1c4636;font-family:inherit;font-weight:800;font-size:14px;padding:11px 13px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;transition:.15s}
+.tab.active{background:var(--navy);color:#eafff4;box-shadow:0 4px 12px rgba(15,59,58,.3)}
+.tab.locked{color:#71857a;cursor:not-allowed}
+.tab .lock{font-size:12px;opacity:.75}
+.tab .soon{font-style:normal;font-size:10px;font-weight:800;color:#8a9d90;background:rgba(15,59,58,.12);border-radius:999px;padding:2px 6px}
 
 .page{display:none}
-.page.on{display:block;animation:pageIn .22s ease both}
+.page.on{display:block;animation:pageIn .2s ease both}
 @keyframes pageIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .card{background:var(--card);border:2px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
-.sectionLabel{display:block;font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--ink-faint)}
+.sectionLabel{display:block;font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--ink-faint)}
+h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.4px;word-break:keep-all}
 
 /* ---------- home: campfire night ---------- */
-.hero{position:relative;min-height:474px;padding:20px 18px 20px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;border-radius:26px;overflow:hidden;border:2px solid rgba(15,59,58,.15);box-shadow:var(--shadow)}
+.hero{position:relative;margin-top:16px;border-radius:26px;overflow:hidden;border:2px solid rgba(15,59,58,.15);box-shadow:var(--shadow)}
 .nightart{position:absolute;inset:0;width:100%;height:100%;display:block}
-.heroTop,.heroBottom{position:relative;z-index:2;width:100%}
-/* wooden camp sign */
-.signBoard{position:relative;display:inline-block;padding:15px 24px 17px;border-radius:14px;border:3px solid #4A2C16;color:#FFEFB8;
-  background:linear-gradient(#95653A,#77492A 55%,#6A3F23);
-  background-image:linear-gradient(#95653A,#77492A 55%,#6A3F23),repeating-linear-gradient(90deg,rgba(0,0,0,.10) 0 3px,transparent 3px 9px);
+.artWide{display:none}
+.heroInner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:22px;min-height:470px;padding:22px 18px;text-align:center}
+.signBoard{position:relative;display:inline-block;padding:15px 26px 17px;border-radius:14px;border:3px solid #4A2C16;color:#FFEFB8;
+  background:linear-gradient(#95653A,#77492A 55%,#6A3F23),repeating-linear-gradient(90deg,rgba(0,0,0,.10) 0 3px,transparent 3px 9px);
   box-shadow:0 9px 0 rgba(0,0,0,.30),inset 0 2px 0 rgba(255,255,255,.16)}
 .signBoard:before,.signBoard:after{content:"";position:absolute;top:9px;width:7px;height:7px;border-radius:50%;background:#E8D9A8;box-shadow:inset 0 -1px 0 rgba(0,0,0,.35)}
 .signBoard:before{left:10px}
 .signBoard:after{right:10px}
-.signBoard h1{margin:0;font-family:var(--display);font-size:38px;line-height:1.12;letter-spacing:-.01em;color:#FFEFB8;text-shadow:0 3px 0 rgba(38,20,8,.55)}
+.signBoard h1{font-family:var(--display);font-size:clamp(30px,8vw,40px);line-height:1.12;font-weight:400;letter-spacing:-.01em;color:#FFEFB8;text-shadow:0 3px 0 rgba(38,20,8,.55)}
 .signBoard .en{display:block;margin-top:5px;font-size:11px;font-weight:800;letter-spacing:.28em;color:rgba(255,232,170,.78)}
-.heroLead{margin:14px 0 0;color:#fff;font-size:13.5px;line-height:1.65;font-weight:600;text-shadow:0 2px 6px rgba(0,0,0,.8)}
-.primary{width:100%;min-height:56px;border:2px solid var(--navy);border-radius:16px;padding:14px;background:linear-gradient(var(--yellow-lite),var(--yellow));color:var(--navy);font-family:var(--display);font-size:20px;letter-spacing:-.01em;box-shadow:0 6px 0 #B8862A,0 12px 20px rgba(0,0,0,.26);cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
+.heroLead{margin:14px 0 0;color:#fff;font-size:14px;line-height:1.65;font-weight:600;text-shadow:0 2px 6px rgba(0,0,0,.8);word-break:keep-all}
+.heroCta{width:100%;max-width:420px}
+.primary{width:100%;min-height:56px;border:2px solid var(--navy);border-radius:16px;padding:14px;background:linear-gradient(var(--yellow-lite),var(--yellow));color:var(--navy);font-size:18px;font-weight:900;letter-spacing:-.02em;box-shadow:0 6px 0 #B8862A,0 12px 20px rgba(0,0,0,.26);cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
 .primary:active{transform:translateY(3px);box-shadow:0 3px 0 #B8862A}
 .primary:disabled{opacity:.65;transform:none}
-.heroNote{display:block;margin-top:10px;font-size:11.5px;font-weight:700;color:rgba(255,247,220,.78);text-shadow:0 1px 4px rgba(0,0,0,.6)}
+.heroNote{display:block;margin-top:10px;font-size:11.5px;font-weight:700;color:rgba(255,247,220,.8);text-shadow:0 1px 4px rgba(0,0,0,.6)}
 @keyframes flicker{0%,100%{transform:scaleY(1) translateY(0)}50%{transform:scaleY(1.07) translateY(-2px)}}
 .flame{transform-origin:50% 100%;animation:flicker 2.1s ease-in-out infinite}
 .glow{animation:flicker 2.6s ease-in-out infinite;transform-origin:50% 70%}
 
-.how{margin-top:14px;padding:16px 15px}
-.how h3{margin:5px 0 13px;font-family:var(--display);font-size:19px}
+.homeGrid{display:grid;gap:14px;margin-top:14px}
+.how{padding:18px 17px}
+.how h3{margin:6px 0 13px;font-size:20px}
 .steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0;padding:0}
-.step{padding:11px 4px 10px;background:var(--paper);border:2px solid var(--line);border-radius:15px;text-align:center;font-size:10.5px;line-height:1.35;letter-spacing:-.03em;font-weight:700;color:var(--ink-soft);word-break:keep-all;box-shadow:var(--pop)}
-.step b{display:block;width:23px;height:23px;margin:0 auto 6px;border-radius:50%;background:var(--yellow);border:2px solid var(--navy);color:var(--navy);font-family:var(--display);font-size:13px;line-height:20px}
-.hint-line{margin:12px 2px 2px;font-size:11.5px;line-height:1.6;color:var(--ink-faint);font-weight:600;word-break:keep-all}
+.step{padding:12px 5px 11px;background:var(--paper);border:2px solid var(--line);border-radius:15px;text-align:center;font-size:11px;line-height:1.35;letter-spacing:-.03em;font-weight:700;color:var(--ink-soft);word-break:keep-all;box-shadow:var(--pop)}
+.step b{display:block;width:24px;height:24px;margin:0 auto 6px;border-radius:50%;background:var(--yellow);border:2px solid var(--navy);color:var(--navy);font-family:var(--display);font-size:14px;font-weight:400;line-height:21px}
+.hint-line{margin:13px 2px 2px;font-size:12px;line-height:1.6;color:var(--ink-faint);font-weight:600;word-break:keep-all}
 
-.vodCard{margin-top:14px;padding:17px 16px;border-radius:var(--radius);background:linear-gradient(150deg,#14402F,#1F5E44);border:2px solid rgba(15,59,58,.4);color:#fff;box-shadow:var(--shadow)}
+.vodCard{display:grid;grid-template-columns:minmax(0,1fr);align-items:center;gap:14px;padding:18px 17px;border-radius:var(--radius);background:linear-gradient(180deg,#1C5C46 0%,#0F3B3A 100%);border:2px solid rgba(110,231,168,.34);color:var(--paper);box-shadow:0 14px 32px rgba(15,59,58,.34)}
 .vodCard .sectionLabel{color:rgba(255,240,205,.6)}
-.vodCard strong{display:block;margin:6px 0 4px;font-family:var(--display);font-size:19px;letter-spacing:-.01em}
-.vodCard p{margin:0;font-size:12px;line-height:1.6;color:rgba(255,248,232,.8);font-weight:600;word-break:keep-all}
-.vod{width:100%;min-height:52px;margin-top:13px;border:2px solid var(--navy);border-radius:15px;padding:12px;background:var(--yellow);color:var(--navy);font-family:var(--display);font-size:16px;cursor:pointer;box-shadow:0 4px 0 rgba(15,59,58,.45);transition:transform .15s ease}
+.vodCard strong{display:block;margin:6px 0 4px;font-size:20px;font-weight:900;letter-spacing:-.4px}
+.vodCard p{margin:0;font-size:13px;line-height:1.6;color:rgba(255,248,232,.82);font-weight:600;word-break:keep-all}
+.vod{width:100%;min-height:52px;border:2px solid var(--navy);border-radius:15px;padding:12px 18px;background:var(--yellow);color:var(--navy);font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 4px 0 rgba(15,59,58,.45);transition:transform .15s ease}
 .vod:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(15,59,58,.45)}
 
 /* ---------- question ---------- */
-.qhead{margin:0 2px 12px}
+.qhead{margin:14px 2px 10px}
 .qhrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-.qcount{font-family:var(--display);font-size:15px;color:rgba(15,59,58,.55)}
-.qcount b{font-size:30px;font-weight:400;color:var(--navy);margin-right:2px}
-.randChip{flex:none;padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.55);border:1.5px solid rgba(15,59,58,.3);color:var(--navy);font-size:10.5px;font-weight:800}
-/* progress = a row of camp tents, one per memory */
-.stamps{display:flex;gap:2px;align-items:flex-end;height:15px}
-.stamps i{flex:1;min-width:3px;height:12px;background:rgba(15,59,58,.22);clip-path:polygon(50% 0,100% 100%,0 100%);transition:background .2s ease,height .2s ease}
+.qcount{font-family:var(--display);font-size:16px;color:rgba(15,59,58,.55)}
+.qcount b{font-size:32px;font-weight:400;color:var(--navy);margin-right:2px}
+.randChip{flex:none;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.55);border:1.5px solid rgba(15,59,58,.3);color:var(--navy);font-size:11px;font-weight:800}
+.stamps{display:flex;gap:2px;align-items:flex-end;height:16px}
+.stamps i{flex:1;min-width:3px;height:13px;background:rgba(15,59,58,.22);clip-path:polygon(50% 0,100% 100%,0 100%);transition:background .2s ease,height .2s ease}
 .stamps i.done{background:var(--forest)}
-.stamps i.now{background:var(--orange);height:15px}
+.stamps i.now{background:var(--orange);height:16px}
 
-.status{padding:14px 12px;border-radius:16px;background:var(--card);border:2px dashed rgba(15,59,58,.25);font-size:12.5px;font-weight:700;text-align:center;color:var(--ink-soft);margin-bottom:10px}
+.status{padding:16px 12px;border-radius:16px;background:var(--card);border:2px dashed rgba(15,59,58,.25);font-size:13px;font-weight:700;text-align:center;color:var(--ink-soft);margin-bottom:10px}
 .status.hide{display:none}
 .status .dots:after{content:"";animation:dots 1.2s steps(4,end) infinite}
 @keyframes dots{0%{content:""}25%{content:"·"}50%{content:"··"}75%{content:"···"}}
 
-.qcard{overflow:visible;padding:12px 12px 16px}
+.qcard{padding:13px}
 .qcard.swap{animation:swapIn .2s ease both}
 @keyframes swapIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.qbody{display:grid;gap:12px}
 .picFrame{position:relative;background:#fff;border:2px solid var(--line);border-radius:12px;padding:7px 7px 8px;box-shadow:var(--pop)}
-/* masking tape, like a photo stuck into a camp scrapbook */
-.picFrame:before{content:"";position:absolute;z-index:3;top:-9px;left:18px;width:54px;height:17px;background:rgba(242,194,48,.42);border:1px solid rgba(15,59,58,.10);transform:rotate(-6deg)}
+.picFrame:before{content:"";position:absolute;z-index:3;top:-9px;left:18px;width:56px;height:17px;background:rgba(242,194,48,.42);border:1px solid rgba(15,59,58,.10);transform:rotate(-6deg)}
 .pic{position:relative;aspect-ratio:16/9;background:#20241f;border-radius:7px;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .pic:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,rgba(255,255,255,.05),rgba(255,255,255,.13),rgba(255,255,255,.05));background-size:220% 100%;animation:sheen 1.4s linear infinite;opacity:1;transition:opacity .2s ease}
 .pic.loaded:before,.pic.failed:before{opacity:0;animation:none}
@@ -128,39 +138,37 @@ button{font-family:inherit}
 .pic.loaded img{opacity:1}
 .pic .missing{position:relative;z-index:1;display:none;padding:20px;text-align:center;font-size:12px;font-weight:700;color:#cbbfa8}
 .pic.failed .missing{display:block}
-.filmTag{position:absolute;z-index:2;top:-9px;right:10px;padding:5px 11px;border-radius:999px;background:var(--forest);border:2px solid var(--navy);color:#FFE9A8;font-size:11px;font-weight:800;transform:rotate(2deg)}
+.filmTag{position:absolute;z-index:2;top:-9px;right:10px;padding:5px 12px;border-radius:999px;background:var(--forest);border:2px solid var(--navy);color:#FFE9A8;font-size:11.5px;font-weight:800;transform:rotate(2deg)}
 
-.qb{padding:16px 4px 0;text-align:center}
-.hint{margin:0;font-size:11.5px;font-weight:800;color:var(--purple)}
-.question{margin:9px 0 0;font-size:19px;line-height:1.55;font-weight:800;letter-spacing:-.03em;color:var(--forest);word-break:keep-all;overflow-wrap:break-word;min-height:86px;display:flex;align-items:center;justify-content:center}
-
-.answers{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:13px}
-.ans{position:relative;min-height:66px;border:2px solid var(--navy);border-radius:17px;padding:12px 8px;font-family:var(--display);font-size:24px;letter-spacing:.04em;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s ease,box-shadow .15s ease,opacity .15s ease}
+.qside{display:flex;flex-direction:column;justify-content:center;padding:2px 2px 0;text-align:center}
+.hint{margin:0;font-size:12px;font-weight:800;color:var(--purple)}
+.question{margin:9px 0 0;font-size:19px;line-height:1.55;font-weight:800;letter-spacing:-.03em;color:var(--forest);word-break:keep-all;overflow-wrap:break-word;display:flex;align-items:center;justify-content:center}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.ans{min-height:68px;border:2px solid var(--navy);border-radius:17px;padding:12px 8px;font-family:var(--display);font-size:25px;font-weight:400;letter-spacing:.04em;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s ease,box-shadow .15s ease,opacity .15s ease}
 .ans .glyph{font-size:19px;opacity:.85}
-.ans:active{transform:translateY(3px)}
 .yes{background:#2F7D4F;box-shadow:0 5px 0 #1C5233}
 .no{background:var(--red);box-shadow:0 5px 0 #9E3830}
-.ans:active{box-shadow:0 2px 0 rgba(15,59,58,.5)}
+.ans:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(15,59,58,.5)}
 .ans:disabled{opacity:.5;transform:none}
-.tip{display:flex;align-items:center;justify-content:center;gap:7px;margin:13px 0 0;padding:11px 12px;border:2px dashed rgba(15,59,58,.25);border-radius:14px;background:var(--paper);text-align:center;font-size:11.5px;line-height:1.55;font-weight:700;color:var(--ink-soft);word-break:keep-all}
-.tip svg{width:15px;height:15px;flex:none;color:var(--yellow)}
+.tip{display:flex;align-items:center;justify-content:center;gap:7px;margin:10px 0 0;padding:9px 11px;border:2px dashed rgba(15,59,58,.25);border-radius:14px;background:var(--paper);text-align:center;font-size:12px;line-height:1.55;font-weight:700;color:var(--ink-soft);word-break:keep-all}
+.tip svg{width:15px;height:15px;flex:none;color:#C79A1E}
 
 /* ---------- result ---------- */
-.ribbon{position:relative;margin:0 auto -12px;width:min(100%,340px);padding:12px 16px;border-radius:12px;border:2px solid var(--navy);background:linear-gradient(var(--yellow-lite),var(--yellow));color:var(--navy);font-family:var(--display);font-size:16.5px;text-align:center;box-shadow:0 5px 0 rgba(15,59,58,.35);z-index:2}
+.ribbon{position:relative;margin:16px auto -12px;width:min(100%,380px);padding:13px 16px;border-radius:12px;border:2px solid var(--navy);background:linear-gradient(var(--yellow-lite),var(--yellow));color:var(--navy);font-size:16px;font-weight:900;text-align:center;box-shadow:0 5px 0 rgba(15,59,58,.35);z-index:2}
 .ribbon:before,.ribbon:after{content:"";position:absolute;bottom:-9px;width:0;height:0;border-top:10px solid #C79A1E}
 .ribbon:before{left:-2px;border-left:11px solid transparent}
 .ribbon:after{right:-2px;border-right:11px solid transparent}
 .certOuter{padding:16px 14px 14px;border-radius:var(--radius);background:linear-gradient(150deg,#EADFC0,#DCCB9E);border:2px solid rgba(15,59,58,.18);box-shadow:var(--shadow)}
-.cert{position:relative;padding:22px 15px 18px;background:var(--paper);border:2px solid #C9B489;text-align:center}
-.cert:before{content:"";position:absolute;inset:5px;border:1px solid #E2D2AD;pointer-events:none}
-.certEyebrow{display:block;font-size:10px;font-weight:800;letter-spacing:.2em;color:#9B8B6B}
-.certName{margin:7px 0 0;font-family:var(--serif);font-size:26px;font-weight:700;letter-spacing:.02em;color:#1F5E44}
-.certRule{display:flex;align-items:center;gap:9px;margin:11px 4px 15px;color:#A89771}
+.cert{position:relative;padding:26px 20px 20px;background:var(--paper);border:2px solid #C9B489;text-align:center}
+.cert:before{content:"";position:absolute;inset:6px;border:1px solid #E2D2AD;pointer-events:none}
+.certEyebrow{display:block;font-size:10.5px;font-weight:800;letter-spacing:.2em;color:#9B8B6B}
+.certName{margin:8px 0 0;font-size:clamp(22px,4vw,30px);font-weight:900;letter-spacing:-.4px;color:#1F5E44}
+.certRule{display:flex;align-items:center;gap:9px;margin:12px 4px 16px;color:#A89771}
 .certRule:before,.certRule:after{content:"";flex:1;height:1px;background:currentColor;opacity:.5}
-.certRule span{font-size:9.5px;font-weight:800;letter-spacing:.14em}
-.certVisual{margin:0 0 16px;display:flex;align-items:center;justify-content:center;min-height:150px;padding:12px 10px;border-radius:14px;background:radial-gradient(circle at 50% 38%,#FFF8E2,#F2E6C6)}
-.certVisual img{display:block;width:100%;height:auto;max-height:280px;object-fit:contain;border-radius:6px}
-#campLogo{max-width:80%;max-height:132px}
+.certRule span{font-size:10px;font-weight:800;letter-spacing:.14em}
+.certVisual{margin:0 0 18px;display:flex;align-items:center;justify-content:center;min-height:150px;padding:12px 10px;border-radius:14px;background:radial-gradient(circle at 50% 38%,#FFF8E2,#F2E6C6)}
+.certVisual img{display:block;width:100%;height:auto;max-height:300px;object-fit:contain;border-radius:6px}
+#campLogo{max-width:70%;max-height:140px}
 .seal{width:132px;color:#1F5E44}
 .seal svg{display:block;width:100%;height:auto}
 
@@ -189,74 +197,110 @@ button{font-family:inherit}
 .cert.perfect .certFoot{border-top-color:rgba(214,176,94,.28);color:#B09C6D}
 
 .rtype{margin:0 0 4px}
-.rtype .lead{display:block;font-size:12px;font-weight:700;color:var(--ink-soft)}
-.titleBox{position:relative;display:block;margin:9px auto;padding:14px 10px;max-width:340px}
-.titleBox:before,.titleBox:after{content:"";position:absolute;left:14%;right:14%;height:1px;background:linear-gradient(90deg,transparent,#D3BD93,transparent)}
+.rtype .lead{display:block;font-size:13px;font-weight:700;color:var(--ink-soft)}
+.titleBox{position:relative;display:block;margin:10px auto;padding:16px 10px;max-width:620px}
+.titleBox:before,.titleBox:after{content:"";position:absolute;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,#D3BD93,transparent)}
 .titleBox:before{top:0}
 .titleBox:after{bottom:0}
-.titleBox strong{display:block;font-family:var(--serif);font-size:29px;line-height:1.32;font-weight:700;letter-spacing:-.035em;color:#5B3E96;word-break:keep-all}
-.titleBox .brk{color:#C3AD86;font-weight:400;margin:0 2px}
+.titleBox strong{display:block;font-size:clamp(25px,5.4vw,40px);line-height:1.3;font-weight:900;letter-spacing:-.045em;color:#5B3E96;word-break:keep-all}
+.titleBox .brk{color:#C3AD86;font-weight:700;margin:0 3px}
 
-.countBlock{margin:16px auto 0;max-width:300px}
-.countRow{display:flex;align-items:center;justify-content:center;gap:8px}
-.countLabel{font-size:11.5px;font-weight:800;color:var(--ink-faint)}
-.countVal{font-family:var(--display);font-size:25px;color:#1F5E44}
-.countVal em{font-style:normal;font-size:13px;color:var(--ink-faint)}
+.countBlock{margin:18px auto 0;max-width:330px}
+.countRow{display:flex;align-items:center;justify-content:center;gap:9px}
+.countLabel{font-size:12px;font-weight:800;color:var(--ink-faint)}
+.countVal{font-family:var(--display);font-size:27px;color:#1F5E44}
+.countVal em{font-style:normal;font-size:14px;color:var(--ink-faint)}
 .countBar{height:6px;margin-top:9px;border-radius:999px;background:#E7DBC0;overflow:hidden}
 .countBar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#1F5E44,var(--yellow));width:0;transition:width .5s cubic-bezier(.22,.7,.3,1)}
 
-.friendNames{margin:17px 0 0;padding-top:14px;border-top:1px dashed #DCCFB2}
-.friendNames .label{display:block;margin-bottom:9px;font-size:9.5px;font-weight:800;letter-spacing:.16em;color:#9B8B6B}
-.friendList{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
-@media(min-width:360px){.friendList{grid-template-columns:repeat(3,1fr)}}
-.plate{padding:7px 4px 6px;border:1px solid #E0D2B4;border-radius:8px;background:#FFFAEE;text-align:center;line-height:1.25}
-.plate b{display:block;font-size:12px;font-weight:800;letter-spacing:-.02em;word-break:keep-all}
-.plate em{display:block;margin-top:2px;font-style:normal;font-size:8px;font-weight:700;letter-spacing:.06em;color:#A08E73;text-transform:uppercase;word-break:break-word}
+.friendNames{margin:20px 0 0;padding-top:16px;border-top:1px dashed #DCCFB2}
+.friendNames .label{display:block;margin-bottom:10px;font-size:10px;font-weight:800;letter-spacing:.16em;color:#9B8B6B}
+.friendList{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:7px}
+.plate{padding:8px 4px 7px;border:1px solid #E0D2B4;border-radius:8px;background:#FFFAEE;text-align:center;line-height:1.25}
+.plate b{display:block;font-size:12.5px;font-weight:800;letter-spacing:-.02em;word-break:keep-all}
+.plate em{display:block;margin-top:2px;font-style:normal;font-size:8.5px;font-weight:700;letter-spacing:.06em;color:#A08E73;text-transform:uppercase;word-break:break-word}
 
-.desc{margin:15px auto 0;max-width:330px;font-size:12.5px;line-height:1.75;font-weight:600;color:var(--ink-soft);word-break:keep-all}
-.certFoot{margin-top:17px;padding-top:12px;border-top:1px solid #EADFC4;font-size:10px;font-weight:800;letter-spacing:.12em;color:#A08E73}
+.desc{margin:16px auto 0;max-width:420px;font-size:13px;line-height:1.75;font-weight:600;color:var(--ink-soft);word-break:keep-all}
+.certFoot{margin-top:18px;padding-top:13px;border-top:1px solid #EADFC4;font-size:10.5px;font-weight:800;letter-spacing:.12em;color:#A08E73}
 
-/* ---------- share ---------- */
-.shareCard{margin-top:14px;padding:16px 14px 17px}
-.shareCard h2{margin:5px 0 13px;font-family:var(--display);font-size:19px}
-.shareRow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.shareBtn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:68px;padding:10px 4px;border:2px solid var(--navy);border-radius:15px;background:var(--paper);color:var(--navy);font-size:11.5px;font-weight:800;letter-spacing:-.02em;cursor:pointer;box-shadow:var(--pop);transition:transform .15s ease,box-shadow .15s ease,opacity .15s ease}
-.shareBtn svg{width:21px;height:21px;flex:none}
-.shareBtn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(15,59,58,.14)}
+.shareCard{margin-top:14px;padding:18px 16px}
+.shareCard h2{margin:6px 0 13px;font-size:20px}
+.shareRow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.shareBtn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:70px;padding:10px 4px;border:2px solid var(--navy);border-radius:15px;background:var(--paper);color:var(--navy);font-size:12px;font-weight:800;letter-spacing:-.02em;cursor:pointer;box-shadow:var(--pop);transition:transform .15s ease,box-shadow .15s ease,opacity .15s ease}
+.shareBtn svg{width:22px;height:22px;flex:none}
+.shareBtn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(15,59,58,.12)}
 .shareBtn:disabled{opacity:.5;cursor:default;transform:none}
 .shareBtn.x{background:#16181C;color:#fff}
 .shareBtn.ig{background:#FFF2F6;color:#98305D}
-.shareNote{margin:11px 2px 0;text-align:center;font-size:11px;line-height:1.65;font-weight:700;color:var(--ink-faint);word-break:keep-all;min-height:2.2em}
+.shareNote{margin:12px 2px 0;text-align:center;font-size:11.5px;line-height:1.65;font-weight:700;color:var(--ink-faint);word-break:keep-all;min-height:2.2em}
 .shareNote.warn{color:var(--red)}
 
-.album{margin-top:14px;padding:16px 14px 18px}
-.album h2{margin:5px 0 0;font-family:var(--display);font-size:19px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:13px}
+.album{margin-top:14px;padding:18px 16px}
+.album h2{margin:6px 0 0;font-size:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:10px;margin-top:14px}
 .pol{margin:0;background:#fff;border:2px solid var(--line);padding:5px 5px 6px;box-shadow:var(--pop)}
 .pol:nth-child(3n+1){transform:rotate(-1.4deg)}
 .pol:nth-child(3n){transform:rotate(1.4deg)}
 .pol img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:#EFE7D7}
 .pol figcaption{margin-top:5px;text-align:center;line-height:1.2}
-.pol figcaption b{display:block;font-size:10px;font-weight:800;letter-spacing:-.02em;word-break:keep-all}
-.pol figcaption em{display:block;margin-top:1px;font-style:normal;font-size:7.5px;font-weight:700;letter-spacing:.05em;color:#A08E73;text-transform:uppercase;word-break:break-word}
-.empty{text-align:center;padding:22px 10px;font-size:12px;line-height:1.7;font-weight:700;color:var(--ink-faint)}
+.pol figcaption b{display:block;font-size:10.5px;font-weight:800;letter-spacing:-.02em;word-break:keep-all}
+.pol figcaption em{display:block;margin-top:1px;font-style:normal;font-size:8px;font-weight:700;letter-spacing:.05em;color:#A08E73;text-transform:uppercase;word-break:break-word}
+.empty{text-align:center;padding:24px 10px;font-size:12.5px;line-height:1.7;font-weight:700;color:var(--ink-faint)}
 
-.actions{margin-top:12px}
-.ghost{width:100%;min-height:52px;border:2px solid var(--navy);border-radius:15px;padding:13px;background:var(--card);color:var(--navy);font-family:var(--display);font-size:16px;cursor:pointer;box-shadow:var(--pop);transition:transform .15s ease,box-shadow .15s ease}
-.ghost:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(15,59,58,.14)}
+.actions{margin-top:14px}
+.ghost{width:100%;min-height:52px;border:2px solid var(--navy);border-radius:15px;padding:13px;background:var(--card);color:var(--navy);font-size:15px;font-weight:900;cursor:pointer;box-shadow:var(--pop);transition:transform .15s ease,box-shadow .15s ease}
+.ghost:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(15,59,58,.12)}
 
 .denied{min-height:100vh;display:flex;align-items:center;justify-content:center;font-weight:800;color:#2b4437}
 
+/* ---------- desktop ---------- */
+@media(min-width:760px){
+  .artMobile{display:none}
+  .artWide{display:block}
+  /* copy and CTA hold the left column, the campfire scene owns the right */
+  .heroInner{align-items:flex-start;justify-content:center;text-align:left;min-height:400px;padding:34px 40px;max-width:56%;gap:0}
+  .heroCopy{max-width:100%}
+  .heroLead{font-size:15.5px}
+  .heroCta{max-width:340px;margin-top:24px}
+  .homeGrid{grid-template-columns:1.15fr .85fr;align-items:start}
+  .vodCard{grid-template-columns:minmax(0,1fr) auto;align-self:stretch}
+  .vod{width:auto;min-width:210px;margin-top:0}
+  .qbody{grid-template-columns:minmax(0,7fr) minmax(0,5fr);align-items:center}
+  .qside{text-align:left;padding:6px 8px}
+  .question{justify-content:flex-start;text-align:left;font-size:20px;min-height:96px;margin-top:12px}
+  .qcard{padding:16px}
+  .result-narrow{max-width:760px;margin:0 auto}
+  .cert{padding:34px 34px 26px}
+  .titleBox strong{font-size:clamp(30px,3.6vw,40px)}
+  .friendList{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}
+  .tab{font-size:15px;padding:13px 16px}
+  .stamps{max-width:680px}
+  .qhead{margin-top:18px}
+}
+/* the site shell (logo + languages + tabs) costs vertical room, so mobile
+   runs tighter to keep the photo, question and YES/NO on one screen */
+@media(max-width:759px){
+  .wrap{padding:14px 12px calc(48px + env(safe-area-inset-bottom))}
+  .top-camp-logo{width:150px}
+  .camp-topbar{gap:7px;margin-bottom:7px}
+  .langs{padding:3px}
+  .langs button{padding:8px 8px;font-size:11.5px}
+  .tabs{margin-top:9px;padding:4px;gap:4px}
+  .tab{font-size:13px;padding:10px 8px;gap:4px}
+  .tab .soon{display:none}
+  .hero{margin-top:11px}
+  .qhead{margin:11px 2px 9px}
+  .qcount b{font-size:28px}
+}
 @media(max-width:359px){
-  .hero{min-height:436px;padding:16px 14px}
+  .heroInner{min-height:430px;padding:18px 14px}
   .signBoard{padding:13px 16px 15px}
-  .signBoard h1{font-size:31px}
   .steps{grid-template-columns:repeat(2,1fr)}
-  .question{font-size:17.5px;min-height:78px}
+  .question{font-size:17.5px;min-height:80px}
   .ans{min-height:60px;font-size:21px}
-  .certName{font-size:23px}
-  .titleBox strong{font-size:24px}
-  .grid{gap:7px}
+  .grid,.friendList{grid-template-columns:repeat(3,1fr)}
+  .friendList{grid-template-columns:repeat(2,1fr)}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
@@ -266,71 +310,44 @@ button{font-family:inherit}
 <body>
 <div id="denied" class="denied" style="display:none">404</div>
 <div id="app" style="display:none">
-<main class="wrap">
+<div class="wrap">
 
-  <header class="topbar">
-    <a class="back" href="../">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
-      아이돌 수련회
-    </a>
-    <span class="tagChip">BETA</span>
-  </header>
+  <div class="camp-topbar">
+    <a href="../"><img class="top-camp-logo" src="../assets/camp-logo.png" alt="아이돌 수련회"></a>
+    <div class="langs" id="langs" role="group" aria-label="Language"></div>
+  </div>
 
-  <nav class="langs" id="langs" aria-label="언어 선택"></nav>
+  <nav class="tabs" id="tabbar" role="tablist" aria-label="sections">
+    <a class="tab" href="../" data-i18n="tabEnroll">입소</a>
+    <a class="tab" href="../?tab=talent" data-i18n="tabTalent">장기자랑</a>
+    <button class="tab active" type="button" aria-current="page" data-i18n="tabFarewell">퇴소</button>
+    <button class="tab locked" type="button" aria-disabled="true"><span class="lock">🛍️</span><span data-i18n="tabKit">수료 키트</span><em class="soon" data-i18n="soon">준비중</em></button>
+  </nav>
 
   <!-- ================= HOME ================= -->
   <section id="home" class="page on">
     <div class="hero">
-      <svg class="nightart" viewBox="0 0 500 474" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <svg class="nightart artMobile" viewBox="0 0 500 474" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <defs>
-          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#0A1E38"/><stop offset=".55" stop-color="#123049"/><stop offset="1" stop-color="#17402F"/>
-          </linearGradient>
-          <radialGradient id="fireGlow">
-            <stop offset="0" stop-color="#FFD066" stop-opacity=".62"/>
-            <stop offset=".55" stop-color="#E8792B" stop-opacity=".22"/>
-            <stop offset="1" stop-color="#E8792B" stop-opacity="0"/>
-          </radialGradient>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0A1E38"/><stop offset=".55" stop-color="#123049"/><stop offset="1" stop-color="#17402F"/></linearGradient>
+          <radialGradient id="fireGlow"><stop offset="0" stop-color="#FFD066" stop-opacity=".62"/><stop offset=".55" stop-color="#E8792B" stop-opacity=".22"/><stop offset="1" stop-color="#E8792B" stop-opacity="0"/></radialGradient>
         </defs>
         <rect width="500" height="474" fill="url(#sky)"/>
-        <!-- moon + stars -->
-        <circle cx="424" cy="62" r="26" fill="#FFEEB8" opacity=".95"/>
-        <circle cx="434" cy="54" r="26" fill="#0F2740"/>
-        <g fill="#FFF7D5" opacity=".8">
-          <circle cx="48" cy="66" r="2"/><circle cx="104" cy="38" r="1.4"/><circle cx="163" cy="80" r="1.6"/>
-          <circle cx="243" cy="46" r="2"/><circle cx="311" cy="98" r="1.3"/><circle cx="470" cy="128" r="1.7"/>
-          <circle cx="76" cy="140" r="1.3"/><circle cx="368" cy="40" r="1.5"/>
-        </g>
-        <!-- bunting across the top -->
+        <circle cx="424" cy="62" r="26" fill="#FFEEB8" opacity=".95"/><circle cx="434" cy="54" r="26" fill="#0F2740"/>
+        <g fill="#FFF7D5" opacity=".8"><circle cx="48" cy="66" r="2"/><circle cx="104" cy="38" r="1.4"/><circle cx="163" cy="80" r="1.6"/><circle cx="243" cy="46" r="2"/><circle cx="311" cy="98" r="1.3"/><circle cx="470" cy="128" r="1.7"/></g>
         <path d="M-6 74 Q250 128 506 74" fill="none" stroke="#F6E7C0" stroke-width="2.4" opacity=".85"/>
         <g>
-          <path d="M34 82 L54 87 L41 104 Z" fill="#E8792B"/>
-          <path d="M84 94 L104 99 L91 116 Z" fill="#F2C230"/>
-          <path d="M134 103 L154 108 L141 125 Z" fill="#49AAC4"/>
-          <path d="M184 110 L204 113 L192 131 Z" fill="#D6534A"/>
-          <path d="M236 113 L256 115 L245 133 Z" fill="#F6F1E3"/>
-          <path d="M288 112 L308 108 L298 128 Z" fill="#F2C230"/>
-          <path d="M338 105 L358 100 L347 120 Z" fill="#49AAC4"/>
-          <path d="M388 95 L408 88 L399 108 Z" fill="#E8792B"/>
+          <path d="M34 82 L54 87 L41 104 Z" fill="#E8792B"/><path d="M84 94 L104 99 L91 116 Z" fill="#F2C230"/>
+          <path d="M134 103 L154 108 L141 125 Z" fill="#49AAC4"/><path d="M184 110 L204 113 L192 131 Z" fill="#D6534A"/>
+          <path d="M236 113 L256 115 L245 133 Z" fill="#F6F1E3"/><path d="M288 112 L308 108 L298 128 Z" fill="#F2C230"/>
+          <path d="M338 105 L358 100 L347 120 Z" fill="#49AAC4"/><path d="M388 95 L408 88 L399 108 Z" fill="#E8792B"/>
           <path d="M438 84 L458 76 L450 97 Z" fill="#D6534A"/>
         </g>
-        <!-- treeline -->
         <path d="M0 254 L44 186 L88 254 Z M74 260 L120 180 L166 260 Z M330 256 L376 178 L422 256 Z M404 262 L452 192 L500 262 Z" fill="#0E2A24"/>
         <rect y="250" width="500" height="224" fill="#123528"/>
         <path d="M0 250 Q250 226 500 250 L500 474 L0 474 Z" fill="#16382A"/>
-        <!-- tents flanking the fire -->
-        <g>
-          <path d="M52 342 L104 260 L156 342 Z" fill="#E8792B"/>
-          <path d="M104 260 L128 298 L104 342 L80 298 Z" fill="#C25F1C"/>
-          <path d="M104 276 L122 342 L86 342 Z" fill="#7A3B10"/>
-          <path d="M104 254 L104 242 L124 246 L104 252" fill="#F2C230"/>
-        </g>
-        <g>
-          <path d="M348 346 L396 272 L444 346 Z" fill="#2F7D4F"/>
-          <path d="M396 272 L418 306 L396 346 L374 306 Z" fill="#22633C"/>
-          <path d="M396 286 L412 346 L380 346 Z" fill="#123A2E"/>
-        </g>
-        <!-- campfire -->
+        <g><path d="M52 342 L104 260 L156 342 Z" fill="#E8792B"/><path d="M104 260 L128 298 L104 342 L80 298 Z" fill="#C25F1C"/><path d="M104 276 L122 342 L86 342 Z" fill="#7A3B10"/><path d="M104 254 L104 242 L124 246 L104 252" fill="#F2C230"/></g>
+        <g><path d="M348 346 L396 272 L444 346 Z" fill="#2F7D4F"/><path d="M396 272 L418 306 L396 346 L374 306 Z" fill="#22633C"/><path d="M396 286 L412 346 L380 346 Z" fill="#123A2E"/></g>
         <ellipse class="glow" cx="250" cy="344" rx="150" ry="94" fill="url(#fireGlow)"/>
         <g transform="translate(250 344)">
           <rect x="-52" y="30" width="104" height="14" rx="7" fill="#6A3B21" transform="rotate(13)"/>
@@ -340,43 +357,80 @@ button{font-family:inherit}
             <path d="M0 26 C-20 12 -14 -6 -2 -20 C1 -2 10 2 12 -8 C24 8 17 18 0 26Z" fill="#F2C230"/>
             <path d="M0 22 C-8 14 -6 4 -1 -6 C1 4 6 6 6 0 C11 8 8 16 0 22Z" fill="#FFF0B0"/>
           </g>
-          <g fill="#FFD066" opacity=".75">
-            <circle cx="-34" cy="-58" r="2"/><circle cx="28" cy="-72" r="1.6"/><circle cx="8" cy="-92" r="1.3"/>
-          </g>
+          <g fill="#FFD066" opacity=".75"><circle cx="-34" cy="-58" r="2"/><circle cx="28" cy="-72" r="1.6"/><circle cx="8" cy="-92" r="1.3"/></g>
         </g>
       </svg>
 
-      <div class="heroTop">
-        <div class="signBoard">
-          <h1 id="hero">온라인 퇴소식</h1>
-          <span class="en">EXIT CEREMONY</span>
-        </div>
-        <p class="heroLead" id="sub">수련회의 마지막 밤, 캠프파이어 앞에서<br>26개의 추억을 떠올리고<br>친구들과 명예롭게 퇴소해 보세요.</p>
-      </div>
+      <svg class="nightart artWide" viewBox="0 0 1040 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="skyW" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0A1E38"/><stop offset=".55" stop-color="#123049"/><stop offset="1" stop-color="#17402F"/></linearGradient>
+          <radialGradient id="fireGlowW"><stop offset="0" stop-color="#FFD066" stop-opacity=".62"/><stop offset=".55" stop-color="#E8792B" stop-opacity=".22"/><stop offset="1" stop-color="#E8792B" stop-opacity="0"/></radialGradient>
+        </defs>
+        <rect width="1040" height="420" fill="url(#skyW)"/>
+        <circle cx="905" cy="66" r="24" fill="#FFEEB8" opacity=".95"/><circle cx="914" cy="59" r="24" fill="#0F2740"/>
+        <g fill="#FFF7D5" opacity=".78"><circle cx="120" cy="52" r="2"/><circle cx="250" cy="96" r="1.4"/><circle cx="392" cy="44" r="1.7"/><circle cx="530" cy="88" r="1.4"/><circle cx="648" cy="40" r="2"/><circle cx="762" cy="104" r="1.4"/><circle cx="990" cy="140" r="1.6"/><circle cx="60" cy="132" r="1.3"/></g>
+        <path d="M-10 42 Q520 104 1050 42" fill="none" stroke="#F6E7C0" stroke-width="2.2" opacity=".8"/>
+        <g>
+          <path d="M60 52 L80 56 L67 74 Z" fill="#E8792B"/><path d="M160 68 L180 73 L167 91 Z" fill="#F2C230"/>
+          <path d="M262 81 L282 86 L269 104 Z" fill="#49AAC4"/><path d="M366 90 L386 94 L374 112 Z" fill="#D6534A"/>
+          <path d="M470 96 L490 99 L478 117 Z" fill="#F6F1E3"/><path d="M574 97 L594 96 L583 115 Z" fill="#F2C230"/>
+          <path d="M676 92 L696 88 L686 107 Z" fill="#49AAC4"/><path d="M778 82 L798 76 L789 96 Z" fill="#E8792B"/>
+          <path d="M878 68 L898 60 L890 81 Z" fill="#D6534A"/><path d="M968 52 L988 43 L981 64 Z" fill="#F2C230"/>
+        </g>
+        <path d="M0 288 L54 208 L108 288 Z M92 292 L150 200 L208 292 Z M842 290 L898 206 L954 290 Z M930 296 L992 216 L1040 296 Z" fill="#0E2A24"/>
+        <rect y="284" width="1040" height="136" fill="#123528"/>
+        <path d="M0 284 Q520 258 1040 284 L1040 420 L0 420 Z" fill="#16382A"/>
+        <g><path d="M512 372 L568 286 L624 372 Z" fill="#E8792B"/><path d="M568 286 L594 326 L568 372 L542 326 Z" fill="#C25F1C"/><path d="M568 302 L588 372 L548 372 Z" fill="#7A3B10"/><path d="M568 280 L568 268 L590 272 L568 278" fill="#F2C230"/></g>
+        <g><path d="M846 376 L898 298 L950 376 Z" fill="#2F7D4F"/><path d="M898 298 L922 334 L898 376 L874 334 Z" fill="#22633C"/><path d="M898 312 L916 376 L880 376 Z" fill="#123A2E"/></g>
+        <ellipse class="glow" cx="730" cy="368" rx="180" ry="106" fill="url(#fireGlowW)"/>
+        <g transform="translate(730 368)">
+          <rect x="-54" y="28" width="108" height="14" rx="7" fill="#6A3B21" transform="rotate(13)"/>
+          <rect x="-54" y="28" width="108" height="14" rx="7" fill="#8A4E29" transform="rotate(-13)"/>
+          <g class="flame">
+            <path d="M0 30 C-46 6 -30 -24 -8 -50 C-9 -20 6 -11 10 -36 C38 -6 42 14 0 30Z" fill="#E8792B"/>
+            <path d="M0 26 C-21 12 -15 -6 -2 -21 C1 -2 10 2 12 -8 C25 8 18 18 0 26Z" fill="#F2C230"/>
+            <path d="M0 22 C-8 14 -6 4 -1 -6 C1 4 6 6 6 0 C11 8 8 16 0 22Z" fill="#FFF0B0"/>
+          </g>
+          <g fill="#FFD066" opacity=".75"><circle cx="-36" cy="-62" r="2"/><circle cx="30" cy="-78" r="1.6"/><circle cx="8" cy="-98" r="1.3"/></g>
+        </g>
+      </svg>
 
-      <div class="heroBottom">
-        <button class="primary" id="start">퇴소식 시작하기 ›</button>
-        <span class="heroNote">26개의 장면 · 정답은 마지막에 한 번에 공개</span>
+      <div class="heroInner">
+        <div class="heroCopy">
+          <div class="signBoard">
+            <h1 data-i18n="heroTitle">온라인 퇴소식</h1>
+            <span class="en">EXIT CEREMONY</span>
+          </div>
+          <p class="heroLead" data-i18n="heroLead">수련회의 마지막 밤, 캠프파이어 앞에서|26개의 추억을 떠올리고|친구들과 명예롭게 퇴소해 보세요.</p>
+        </div>
+        <div class="heroCta">
+          <button class="primary" id="start" data-i18n="startBtn">퇴소식 시작하기</button>
+          <span class="heroNote" data-i18n="heroNote">26개의 장면 · 정답은 마지막에 한 번에 공개</span>
+        </div>
       </div>
     </div>
 
-    <section class="card how">
-      <span class="sectionLabel">HOW TO JOIN</span>
-      <h3 id="how">참여 방법</h3>
-      <ol class="steps">
-        <li class="step"><b>1</b><span>장면 보기</span></li>
-        <li class="step"><b>2</b><span>YES / NO</span></li>
-        <li class="step"><b>3</b><span>26개 완료</span></li>
-        <li class="step"><b>4</b><span>퇴소증 확인</span></li>
-      </ol>
-      <p class="hint-line">문제 순서는 도전할 때마다 무작위로 섞이고, 정답 여부는 26개를 모두 마친 뒤에 한 번에 공개됩니다.</p>
-    </section>
+    <div class="homeGrid">
+      <section class="card how">
+        <span class="sectionLabel" data-i18n="howLabel">HOW TO JOIN</span>
+        <h3 data-i18n="howTitle">참여 방법</h3>
+        <ol class="steps">
+          <li class="step"><b>1</b><span data-i18n="step1">장면 보기</span></li>
+          <li class="step"><b>2</b><span data-i18n="step2">YES / NO</span></li>
+          <li class="step"><b>3</b><span data-i18n="step3">26개 완료</span></li>
+          <li class="step"><b>4</b><span data-i18n="step4">퇴소증 확인</span></li>
+        </ol>
+        <p class="hint-line" data-i18n="howNote">문제 순서는 도전할 때마다 무작위로 섞이고, 정답 여부는 26개를 모두 마친 뒤에 한 번에 공개됩니다.</p>
+      </section>
 
-    <div class="vodCard">
-      <span class="sectionLabel">NEXT STORY</span>
-      <strong>〈아이돌 수련회〉 확장판</strong>
-      <p>숨겨진 장면과 함께 수련회의 추억을 다시 확인해 보세요.</p>
-      <button class="vod">확장판 보러 가기 ›</button>
+      <div class="vodCard">
+        <div>
+          <span class="sectionLabel" data-i18n="nextLabel">NEXT STORY</span>
+          <strong data-i18n="vodTitle">〈아이돌 수련회〉 확장판</strong>
+          <p data-i18n="vodDescHome">숨겨진 장면과 함께 수련회의 추억을 다시 확인해 보세요.</p>
+        </div>
+        <button class="vod" data-i18n="vodBtn">확장판 보러 가기</button>
+      </div>
     </div>
   </section>
 
@@ -385,52 +439,54 @@ button{font-family:inherit}
     <div class="qhead">
       <div class="qhrow">
         <span class="qcount"><b id="qIndexNum">1</b> / 26</span>
-        <span class="randChip">무작위 순서</span>
+        <span class="randChip" data-i18n="randChip">무작위 순서</span>
       </div>
-      <div class="stamps" id="stamps" role="progressbar" aria-valuemin="0" aria-valuemax="26" aria-valuenow="0" aria-label="퇴소식 진행률"></div>
+      <div class="stamps" id="stamps" role="progressbar" aria-valuemin="0" aria-valuemax="26" aria-valuenow="0" aria-label="progress"></div>
     </div>
 
-    <div id="quizStatus" class="status">문항을 불러오는 중입니다.</div>
+    <div id="quizStatus" class="status" data-i18n="loadingQ">문항을 불러오는 중입니다.</div>
 
     <article class="card qcard" id="qCard" style="display:none">
-      <div class="picFrame">
-        <div class="pic" id="picBox">
-          <img id="qImg" alt="문제 장면">
-          <div class="missing" id="missingImg">문제 사진을 불러오지 못했습니다.</div>
+      <div class="qbody">
+        <div class="picFrame">
+          <div class="pic" id="picBox">
+            <img id="qImg" alt="scene">
+            <div class="missing" id="missingImg" data-i18n="imgFail">문제 사진을 불러오지 못했습니다.</div>
+          </div>
+          <span class="filmTag" id="qTag">No.01</span>
         </div>
-        <span class="filmTag" id="qTag">추억 No.01</span>
-      </div>
-      <div class="qb">
-        <p class="hint">이 순간을 기억하시나요?</p>
-        <p class="question" id="questionText" aria-live="polite"></p>
+        <div class="qside">
+          <p class="hint" data-i18n="hintQ">이 순간을 기억하시나요?</p>
+          <p class="question" id="questionText" aria-live="polite"></p>
+          <div class="answers" id="answers" style="display:none">
+            <button class="ans yes" id="yesBtn"><span class="glyph" aria-hidden="true">○</span>YES</button>
+            <button class="ans no" id="noBtn"><span class="glyph" aria-hidden="true">✕</span>NO</button>
+          </div>
+          <p class="tip" id="qTip" style="display:none">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.5.4.8 1 .9 1.6h5.4c.1-.6.4-1.2.9-1.6A6 6 0 0 0 12 3Z"/></svg>
+            <span data-i18n="tipQ">선택하면 바로 다음 장면으로 · 정답은 마지막에 한 번에</span>
+          </p>
+        </div>
       </div>
     </article>
-
-    <div class="answers" id="answers" style="display:none">
-      <button class="ans yes" id="yesBtn"><span class="glyph" aria-hidden="true">○</span>YES</button>
-      <button class="ans no" id="noBtn"><span class="glyph" aria-hidden="true">✕</span>NO</button>
-    </div>
-    <p class="tip" id="qTip" style="display:none">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.5.4.8 1 .9 1.6h5.4c.1-.6.4-1.2.9-1.6A6 6 0 0 0 12 3Z"/></svg>
-      선택하면 바로 다음 장면으로 · 정답은 마지막에 한 번에
-    </p>
   </section>
 
   <!-- ================= RESULT ================= -->
   <section id="result" class="page">
-    <div class="ribbon">명예로운 퇴소에 성공했어요!</div>
+   <div class="result-narrow">
+    <div class="ribbon" data-i18n="ribbon">명예로운 퇴소에 성공했어요!</div>
     <div class="certOuter" id="certOuter">
       <div class="cert" id="cert">
         <div class="perfectBadge" id="perfectBadge" style="display:none">PERFECT · 26 / 26</div>
         <span class="certEyebrow">ONLINE EXIT CERTIFICATE</span>
-        <h2 class="certName">온라인 퇴소증</h2>
+        <h2 class="certName" data-i18n="certName">온라인 퇴소증</h2>
         <div class="certRule"><span>IDOL SCHOOL CAMP</span></div>
 
         <div class="certVisual" id="certVisual">
-          <img id="groupPhoto" alt="아이돌 수련회 단체사진" style="display:none">
-          <img id="campLogo" src="../assets/camp-logo.png" alt="아이돌 수련회 로고">
+          <img id="groupPhoto" alt="group photo" style="display:none">
+          <img id="campLogo" src="../assets/camp-logo.png" alt="아이돌 수련회">
           <div class="seal" id="campSeal" style="display:none">
-            <svg viewBox="0 0 130 130" role="img" aria-label="아이돌 수련회 마크">
+            <svg viewBox="0 0 130 130" role="img" aria-label="아이돌 수련회">
               <circle cx="65" cy="65" r="61" fill="none" stroke="currentColor" stroke-width="2"/>
               <circle cx="65" cy="65" r="54.5" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 4" opacity=".65"/>
               <path d="M65 30 L79 57 H51 Z" fill="currentColor"/>
@@ -447,7 +503,7 @@ button{font-family:inherit}
 
         <div class="countBlock">
           <div class="countRow">
-            <span class="countLabel">함께 퇴소한 친구</span>
+            <span class="countLabel" data-i18n="countLabel">함께 퇴소한 친구</span>
             <span class="countVal"><span id="friendScore">0</span><em> / 26</em></span>
           </div>
           <div class="countBar"><i id="countFill"></i></div>
@@ -460,43 +516,46 @@ button{font-family:inherit}
     </div>
 
     <section class="card shareCard">
-      <span class="sectionLabel">SHARE MY CERTIFICATE</span>
-      <h2>퇴소증 자랑하기</h2>
+      <span class="sectionLabel" data-i18n="shareLabel">SHARE MY CERTIFICATE</span>
+      <h2 data-i18n="shareTitle">퇴소증 자랑하기</h2>
       <div class="shareRow">
         <button class="shareBtn x" id="shareX">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-7 8 8.2 12h-6.4l-5-7.3L6 22H3l7.5-8.6L2.6 2H9l4.5 6.6L18.9 2Z" fill="currentColor"/></svg>
-          <span>X에 올리기</span>
+          <span data-i18n="shareX">X에 올리기</span>
         </button>
         <button class="shareBtn ig" id="shareIg">
           <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5.4"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none"/></svg>
-          <span>인스타그램</span>
+          <span data-i18n="shareIg">인스타그램</span>
         </button>
         <button class="shareBtn save" id="saveImg">
           <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v10.5m0 0 4.2-4.2M12 14l-4.2-4.2M4.5 19h15"/></svg>
-          <span>이미지 저장</span>
+          <span data-i18n="shareSave">이미지 저장</span>
         </button>
       </div>
-      <p class="shareNote" id="shareNote" role="status">퇴소증을 이미지로 저장하거나 내 계정에 바로 올릴 수 있어요.</p>
+      <p class="shareNote" id="shareNote" role="status"></p>
     </section>
 
     <section class="card album">
-      <span class="sectionLabel">MY CAMP MEMORIES</span>
-      <h2>추억의 사진첩</h2>
+      <span class="sectionLabel" data-i18n="albumLabel">MY CAMP MEMORIES</span>
+      <h2 data-i18n="albumTitle">추억의 사진첩</h2>
       <div class="grid" id="albumGrid"></div>
-      <div class="empty" id="albumEmpty" style="display:none">이번엔 사진첩이 비어 있어요.</div>
+      <div class="empty" id="albumEmpty" style="display:none" data-i18n="albumEmpty">이번엔 사진첩이 비어 있어요.</div>
     </section>
 
-    <div class="vodCard">
-      <span class="sectionLabel">NEXT STORY</span>
-      <strong>〈아이돌 수련회〉 확장판</strong>
-      <p>퀴즈에서 만난 장면들, 확장판에서 더 길게 다시 만나 보세요.</p>
-      <button class="vod">확장판 보러 가기 ›</button>
+    <div class="vodCard" style="margin-top:14px">
+      <div>
+        <span class="sectionLabel" data-i18n="nextLabel">NEXT STORY</span>
+        <strong data-i18n="vodTitle">〈아이돌 수련회〉 확장판</strong>
+        <p data-i18n="vodDescResult">퀴즈에서 만난 장면들, 확장판에서 더 길게 다시 만나 보세요.</p>
+      </div>
+      <button class="vod" data-i18n="vodBtn">확장판 보러 가기</button>
     </div>
 
-    <div class="actions"><button class="ghost" id="retryBtn">처음부터 다시 도전하기</button></div>
+    <div class="actions"><button class="ghost" id="retryBtn" data-i18n="retryBtn">처음부터 다시 도전하기</button></div>
+   </div>
   </section>
 
-</main>
+</div>
 </div>
 <script>
 (function(){
@@ -514,9 +573,206 @@ const CFG=window.MUNIVERSE_CONFIG||{},
       MEMBER_BUCKET='idolcamp-members',
       TOTAL=26;
 
-let lang='ko',questions=[],order=[],idx=0,answers=[],
+/* -------- I18N (same shape as the main site) -------- */
+const LANGS=[
+  {code:'ko',label:'한국어'},
+  {code:'en',label:'EN'},
+  {code:'ja',label:'日本語'},
+  {code:'zh-CN',label:'简体'},
+  {code:'zh-TW',label:'繁體'}
+];
+const I18N={
+ 'ko':{
+  tabEnroll:'입소',tabTalent:'장기자랑',tabFarewell:'퇴소',tabKit:'수료 키트',soon:'준비중',
+  heroTitle:'온라인 퇴소식',
+  heroLead:'수련회의 마지막 밤, 캠프파이어 앞에서|26개의 추억을 떠올리고|친구들과 명예롭게 퇴소해 보세요.',
+  startBtn:'퇴소식 시작하기',heroNote:'26개의 장면 · 정답은 마지막에 한 번에 공개',
+  howLabel:'HOW TO JOIN',howTitle:'참여 방법',
+  step1:'장면 보기',step2:'YES / NO',step3:'26개 완료',step4:'퇴소증 확인',
+  howNote:'문제 순서는 도전할 때마다 무작위로 섞이고, 정답 여부는 26개를 모두 마친 뒤에 한 번에 공개됩니다.',
+  nextLabel:'NEXT STORY',vodTitle:'〈아이돌 수련회〉 확장판',
+  vodDescHome:'숨겨진 장면과 함께 수련회의 추억을 다시 확인해 보세요.',
+  vodDescResult:'퀴즈에서 만난 장면들, 확장판에서 더 길게 다시 만나 보세요.',
+  vodBtn:'확장판 보러 가기',vodPending:'확장판 링크 준비 중입니다.',
+  randChip:'무작위 순서',loadingQ:'문항을 불러오는 중입니다.',imgFail:'문제 사진을 불러오지 못했습니다.',
+  memoryNo:'추억 No.',hintQ:'이 순간을 기억하시나요?',
+  tipQ:'선택하면 바로 다음 장면으로 · 정답은 마지막에 한 번에',
+  grading:'추억을 정리하는 중입니다',gradeFail:'결과 집계에 실패했습니다. 다시 시도해 주세요.',
+  loadFail:'퇴소식 데이터를 불러오지 못했습니다.',preparing:'준비 중…',
+  ribbon:'명예로운 퇴소에 성공했어요!',certName:'온라인 퇴소증',
+  lead:'당신은',titleTpl:'{t} 수련생',tail:'입니다.',fallback0:'아직 낯가리는',fallbackN:'{n}명의 친구를 모은',
+  countLabel:'함께 퇴소한 친구',campFriends:'CAMP FRIENDS',
+  descN:'{n}명의 수련회 친구와 추억을 나누며 명예롭게 퇴소에 성공했습니다.',
+  desc0:'이번에는 함께 퇴소한 친구를 만나지 못했어요. 다시 도전하면 새로운 순서로 추억을 확인할 수 있습니다.',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'추억의 사진첩',albumEmpty:'이번엔 사진첩이 비어 있어요.',
+  shareLabel:'SHARE MY CERTIFICATE',shareTitle:'퇴소증 자랑하기',
+  shareX:'X에 올리기',shareIg:'인스타그램',shareSave:'이미지 저장',
+  shareHint:'퇴소증을 이미지로 저장하거나 내 계정에 바로 올릴 수 있어요.',
+  shareSaved:'퇴소증 이미지를 저장했어요.',
+  shareSavedX:'퇴소증 이미지를 저장했어요. X 작성 창에서 이미지를 첨부해 주세요.',
+  shareSavedIg:'퇴소증 이미지를 저장했어요. 인스타그램 앱에서 업로드해 주세요.',
+  shareSheetIg:'인스타그램을 선택하면 내 계정에 바로 올릴 수 있어요.',
+  shareSheetOk:'공유가 완료되면 내 계정에 올라갑니다.',
+  shareFail:'이미지를 만들지 못했습니다. 화면을 캡처해 주세요.',
+  shareBody:'〈아이돌 수련회〉 온라인 퇴소식|저는 「{title}」입니다.|함께 퇴소한 친구 {n} / 26',
+  retryBtn:'처음부터 다시 도전하기'
+ },
+ 'en':{
+  tabEnroll:'Enrollment',tabTalent:'Talent Show',tabFarewell:'Farewell',tabKit:'Completion Kit',soon:'Preparing',
+  heroTitle:'Exit Ceremony',
+  heroLead:'On the last night of camp, by the campfire,|recall 26 memories and|graduate with your friends in honour.',
+  startBtn:'Start Exit Ceremony',heroNote:'26 scenes · results revealed all at once at the end',
+  howLabel:'HOW TO JOIN',howTitle:'How to join',
+  step1:'See the scene',step2:'YES / NO',step3:'Finish all 26',step4:'Get certificate',
+  howNote:'The order is shuffled on every attempt, and whether you were right is revealed only after all 26 scenes.',
+  nextLabel:'NEXT STORY',vodTitle:'Idol School Camp — Extended Edition',
+  vodDescHome:'Revisit the camp with the scenes that never aired.',
+  vodDescResult:'The scenes from this quiz, longer and unseen, in the extended edition.',
+  vodBtn:'Go watch Idol School Camp',vodPending:'The extended edition link is not ready yet.',
+  randChip:'Random order',loadingQ:'Loading the scenes…',imgFail:'This photo could not be loaded.',
+  memoryNo:'Memory No.',hintQ:'Do you remember this moment?',
+  tipQ:'Your pick moves straight to the next scene · answers come at the end',
+  grading:'Gathering your memories',gradeFail:'Scoring failed. Please try again.',
+  loadFail:'Could not load the exit ceremony data.',preparing:'Loading…',
+  ribbon:'Congratulations on your honourable exit!',certName:'Exit Certificate',
+  lead:'You are',titleTpl:'The {t} Camper',tail:'',fallback0:'Still Shy',fallbackN:'Friend of {n}',
+  countLabel:'Friends who graduated with you',campFriends:'CAMP FRIENDS',
+  descN:'You shared memories with {n} camp friends and graduated with honours.',
+  descN1:'You shared memories with 1 camp friend and graduated with honours.',
+  desc0:'You did not meet a camp friend this time. Try again for a fresh order of memories.',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'Memory Album',albumEmpty:'Your album is empty this time.',
+  shareLabel:'SHARE MY CERTIFICATE',shareTitle:'Share your certificate',
+  shareX:'Post on X',shareIg:'Instagram',shareSave:'Save image',
+  shareHint:'Save the certificate as an image, or post it straight to your own account.',
+  shareSaved:'Certificate image saved.',
+  shareSavedX:'Certificate image saved. Attach it in the X composer.',
+  shareSavedIg:'Certificate image saved. Upload it from the Instagram app.',
+  shareSheetIg:'Pick Instagram to post it straight to your account.',
+  shareSheetOk:'Once shared, it posts to your own account.',
+  shareFail:'Could not build the image. Please take a screenshot.',
+  shareBody:'Idol School Camp — Exit Ceremony|I am "{title}".|Friends who graduated with me: {n} / 26',
+  retryBtn:'Try again from the start'
+ },
+ 'ja':{
+  tabEnroll:'入所',tabTalent:'隠し芸',tabFarewell:'退所',tabKit:'修了キット',soon:'準備中',
+  heroTitle:'オンライン退所式',
+  heroLead:'修練会の最後の夜、キャンプファイアの前で|26の思い出を振り返り|仲間と名誉ある退所をしましょう。',
+  startBtn:'退所式を始める',heroNote:'26のシーン · 正解は最後にまとめて公開',
+  howLabel:'HOW TO JOIN',howTitle:'参加方法',
+  step1:'シーンを見る',step2:'YES / NO',step3:'26問すべて',step4:'退所証を確認',
+  howNote:'出題順は挑戦するたびにシャッフルされ、正解かどうかは26問すべてを終えたあとにまとめて公開されます。',
+  nextLabel:'NEXT STORY',vodTitle:'『アイドル修練会』拡張版',
+  vodDescHome:'未公開シーンと一緒に、修練会の思い出をもう一度。',
+  vodDescResult:'クイズで出会ったシーンを、拡張版でもっと長く。',
+  vodBtn:'『アイドル・キャンプ』を見る',vodPending:'拡張版のリンクは準備中です。',
+  randChip:'ランダム出題',loadingQ:'問題を読み込んでいます。',imgFail:'写真を読み込めませんでした。',
+  memoryNo:'思い出 No.',hintQ:'この瞬間を覚えていますか？',
+  tipQ:'選ぶとすぐ次のシーンへ · 正解は最後にまとめて',
+  grading:'思い出を整理しています',gradeFail:'集計に失敗しました。もう一度お試しください。',
+  loadFail:'退所式のデータを読み込めませんでした。',preparing:'準備中…',
+  ribbon:'名誉ある退所に成功しました！',certName:'オンライン退所証',
+  lead:'あなたは',titleTpl:'{t}研修生',tail:'です。',fallback0:'まだ人見知りの',fallbackN:'{n}人の友だちを集めた',
+  countLabel:'一緒に退所した仲間',campFriends:'CAMP FRIENDS',
+  descN:'{n}人の修練会の仲間と思い出を分かち合い、名誉ある退所に成功しました。',
+  desc0:'今回は一緒に退所する仲間に出会えませんでした。もう一度挑戦すると新しい順番で思い出を確認できます。',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'思い出アルバム',albumEmpty:'今回はアルバムが空っぽです。',
+  shareLabel:'SHARE MY CERTIFICATE',shareTitle:'退所証をシェアする',
+  shareX:'Xに投稿',shareIg:'Instagram',shareSave:'画像を保存',
+  shareHint:'退所証を画像で保存したり、自分のアカウントにそのまま投稿できます。',
+  shareSaved:'退所証の画像を保存しました。',
+  shareSavedX:'退所証の画像を保存しました。Xの投稿画面で添付してください。',
+  shareSavedIg:'退所証の画像を保存しました。Instagramアプリからアップロードしてください。',
+  shareSheetIg:'Instagramを選ぶと自分のアカウントにそのまま投稿できます。',
+  shareSheetOk:'共有が完了すると自分のアカウントに投稿されます。',
+  shareFail:'画像を作成できませんでした。画面をキャプチャしてください。',
+  shareBody:'『アイドル修練会』オンライン退所式|私は「{title}」です。|一緒に退所した仲間 {n} / 26',
+  retryBtn:'最初からやり直す'
+ },
+ 'zh-CN':{
+  tabEnroll:'入所',tabTalent:'才艺表演',tabFarewell:'退所',tabKit:'结业礼包',soon:'准备中',
+  heroTitle:'线上退所式',
+  heroLead:'修炼会的最后一夜，在营火前|回想 26 个回忆|和朋友们光荣退所吧。',
+  startBtn:'开始退所式',heroNote:'26 个场景 · 答案在最后一次公开',
+  howLabel:'HOW TO JOIN',howTitle:'参与方式',
+  step1:'查看场景',step2:'YES / NO',step3:'完成 26 题',step4:'查看退所证',
+  howNote:'题目顺序每次挑战都会打乱，是否答对将在完成全部 26 题后一次公开。',
+  nextLabel:'NEXT STORY',vodTitle:'《偶像修炼会》扩展版',
+  vodDescHome:'和未公开场景一起，重温修炼会的回忆。',
+  vodDescResult:'测验中出现的场景，在扩展版里看得更久更完整。',
+  vodBtn:'去看《偶像修炼会》',vodPending:'扩展版链接正在准备中。',
+  randChip:'随机出题',loadingQ:'正在载入题目。',imgFail:'无法载入照片。',
+  memoryNo:'回忆 No.',hintQ:'你记得这个瞬间吗？',
+  tipQ:'选择后立即进入下一个场景 · 答案在最后一次公开',
+  grading:'正在整理回忆',gradeFail:'统计失败，请再试一次。',
+  loadFail:'无法载入退所式数据。',preparing:'准备中…',
+  ribbon:'恭喜成功完成退所！',certName:'线上退所证书',
+  lead:'你是',titleTpl:'{t}修炼生',tail:'',fallback0:'还在认生的',fallbackN:'收集了 {n} 位朋友的',
+  countLabel:'一起完成退所的朋友',campFriends:'CAMP FRIENDS',
+  descN:'你与 {n} 位修炼会朋友分享回忆，光荣完成了退所。',
+  desc0:'这次没有遇到一起退所的朋友。再挑战一次，就能以新的顺序确认回忆。',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'回忆相册',albumEmpty:'这次相册是空的。',
+  shareLabel:'SHARE MY CERTIFICATE',shareTitle:'分享退所结果',
+  shareX:'发布到 X',shareIg:'Instagram',shareSave:'保存图片',
+  shareHint:'可以把退所证保存为图片，或直接发布到自己的账号。',
+  shareSaved:'已保存退所证图片。',
+  shareSavedX:'已保存退所证图片。请在 X 的发布窗口中附上图片。',
+  shareSavedIg:'已保存退所证图片。请从 Instagram 应用上传。',
+  shareSheetIg:'选择 Instagram 就能直接发布到自己的账号。',
+  shareSheetOk:'分享完成后会发布到你自己的账号。',
+  shareFail:'无法生成图片，请截屏保存。',
+  shareBody:'《偶像修炼会》线上退所式|我是「{title}」。|一起完成退所的朋友 {n} / 26',
+  retryBtn:'从头再挑战'
+ },
+ 'zh-TW':{
+  tabEnroll:'入所',tabTalent:'才藝表演',tabFarewell:'退所',tabKit:'結業禮包',soon:'準備中',
+  heroTitle:'線上退所式',
+  heroLead:'修煉會的最後一夜，在營火前|回想 26 個回憶|和朋友們光榮退所吧。',
+  startBtn:'開始退所式',heroNote:'26 個場景 · 答案在最後一次公開',
+  howLabel:'HOW TO JOIN',howTitle:'參與方式',
+  step1:'查看場景',step2:'YES / NO',step3:'完成 26 題',step4:'查看退所證',
+  howNote:'題目順序每次挑戰都會打亂，是否答對將在完成全部 26 題後一次公開。',
+  nextLabel:'NEXT STORY',vodTitle:'《偶像修煉會》擴充版',
+  vodDescHome:'和未公開場景一起，重溫修煉會的回憶。',
+  vodDescResult:'測驗中出現的場景，在擴充版裡看得更久更完整。',
+  vodBtn:'前往觀看《偶像修煉會》',vodPending:'擴充版連結準備中。',
+  randChip:'隨機出題',loadingQ:'正在載入題目。',imgFail:'無法載入照片。',
+  memoryNo:'回憶 No.',hintQ:'你記得這個瞬間嗎？',
+  tipQ:'選擇後立即進入下一個場景 · 答案在最後一次公開',
+  grading:'正在整理回憶',gradeFail:'統計失敗，請再試一次。',
+  loadFail:'無法載入退所式資料。',preparing:'準備中…',
+  ribbon:'恭喜成功完成退所！',certName:'線上退所證書',
+  lead:'你是',titleTpl:'{t}修煉生',tail:'',fallback0:'還在認生的',fallbackN:'收集了 {n} 位朋友的',
+  countLabel:'一起完成退所的好友',campFriends:'CAMP FRIENDS',
+  descN:'你與 {n} 位修煉會朋友分享回憶，光榮完成了退所。',
+  desc0:'這次沒有遇到一起退所的朋友。再挑戰一次，就能以新的順序確認回憶。',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'回憶相冊',albumEmpty:'這次相冊是空的。',
+  shareLabel:'SHARE MY CERTIFICATE',shareTitle:'分享退所結果',
+  shareX:'發布到 X',shareIg:'Instagram',shareSave:'儲存圖片',
+  shareHint:'可以把退所證儲存為圖片，或直接發布到自己的帳號。',
+  shareSaved:'已儲存退所證圖片。',
+  shareSavedX:'已儲存退所證圖片。請在 X 的發文視窗附上圖片。',
+  shareSavedIg:'已儲存退所證圖片。請從 Instagram App 上傳。',
+  shareSheetIg:'選擇 Instagram 就能直接發布到自己的帳號。',
+  shareSheetOk:'分享完成後會發布到你自己的帳號。',
+  shareFail:'無法產生圖片，請截圖保存。',
+  shareBody:'《偶像修煉會》線上退所式|我是「{title}」。|一起完成退所的好友 {n} / 26',
+  retryBtn:'從頭再挑戰'
+ }
+};
+let lang=(()=>{
+  const n=(navigator.language||'ko').toLowerCase();
+  if(n.startsWith('ko'))return 'ko';
+  if(n.startsWith('ja'))return 'ja';
+  if(n.startsWith('zh'))return (n.includes('tw')||n.includes('hk')||n.includes('hant'))?'zh-TW':'zh-CN';
+  if(n.startsWith('en'))return 'en';
+  return 'ko';
+})();
+function t(){return I18N[lang]||I18N.ko;}
+function fmt(s,map){return String(s==null?'':s).replace(/\{(\w+)\}/g,(m,k)=>map&&map[k]!=null?map[k]:m);}
+
+let questions=[],order=[],idx=0,answers=[],
     memberPhotos=new Map(),titles=new Map(),settings=null,
-    lastCount=0,lastMatched=[];
+    lastCount=0,lastMatched=[],hasResult=false;
 
 const $=s=>document.querySelector(s);
 function headers(extra){return Object.assign({apikey:SB_KEY,Authorization:'Bearer '+SB_KEY},extra||{});}
@@ -524,23 +780,45 @@ function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 function publicUrl(bucket,path){return `${SB_URL}/storage/v1/object/public/${bucket}/${String(path||'').replace(/^\/+/, '')}`;}
 function showPage(id){document.querySelectorAll('.page').forEach(e=>e.classList.toggle('on',e.id===id));window.scrollTo(0,0);}
 function shuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){let j;if(window.crypto&&crypto.getRandomValues){const r=new Uint32Array(1);crypto.getRandomValues(r);j=r[0]%(i+1);}else j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
-function questionText(q){return q[lang==='en'?'question_en':lang==='ja'?'question_ja':lang==='cn'?'question_zh_cn':lang==='tw'?'question_zh_tw':'question_ko']||q.question_ko||'';}
-function memberLabel(m){return lang==='ko'?(m.member_ko||m.member_en||''):(m.member_en||m.member_ko||'');}
 
-function drawLangs(){
-  const labels=[['ko','한국어'],['en','English'],['ja','日本語'],['tw','繁體中文'],['cn','简体中文']];
+const Q_COL={ko:'question_ko',en:'question_en',ja:'question_ja','zh-CN':'question_zh_cn','zh-TW':'question_zh_tw'};
+const T_COL={ko:'title_ko',en:'title_en',ja:'title_ja','zh-CN':'title_zh_cn','zh-TW':'title_zh_tw'};
+/* translations may be missing in the data; Korean stays the fallback */
+function questionText(q){return q[Q_COL[lang]]||q.question_ko||'';}
+function titleFor(count){
+  const row=titles.get(count);
+  if(!row)return count===0?t().fallback0:fmt(t().fallbackN,{n:count});
+  return row[T_COL[lang]]||row.title_ko||fmt(t().fallbackN,{n:count});
+}
+/* full result phrase, e.g. 「반은 내 친구인 수련생」 */
+function fullTitle(count){return fmt(t().titleTpl,{t:titleFor(count)});}
+function memberPrimary(m){return lang==='ko'?(m.member_ko||m.member_en||''):(m.member_en||m.member_ko||'');}
+function memberSecondary(m){return lang==='ko'?(m.member_en||''):(m.member_ko||'');}
+
+function setI18nValue(el,value){
+  const s=String(value==null?'':value);
+  if(s.includes('|'))el.innerHTML=s.split('|').map(p=>esc(p)).join('<br>');
+  else el.textContent=s;
+}
+function buildLangs(){
   const box=$('#langs');box.innerHTML='';
-  labels.forEach(([code,label])=>{
+  LANGS.forEach(L=>{
     const b=document.createElement('button');
-    b.type='button';b.textContent=label;b.className=lang===code?'on':'';
-    b.setAttribute('aria-pressed',lang===code?'true':'false');
-    b.onclick=()=>{
-      lang=code;drawLangs();
-      if($('#question').classList.contains('on')&&questions.length)renderQuestion();
-      if($('#result').classList.contains('on'))renderResultView();
-    };
+    b.type='button';b.textContent=L.label;
+    b.setAttribute('aria-pressed',L.code===lang);
+    b.onclick=()=>{lang=L.code;document.documentElement.lang=L.code;applyI18n();};
     box.appendChild(b);
   });
+}
+function applyI18n(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(t()[k]!=null)setI18nValue(el,t()[k]);
+  });
+  buildLangs();
+  if($('#question').classList.contains('on')&&order.length)renderQuestion();
+  if(hasResult)renderResultView();
+  else note(t().shareHint);
 }
 
 async function api(path,opts){
@@ -548,7 +826,6 @@ async function api(path,opts){
   if(!r.ok)throw new Error(await r.text());
   return r.status===204?null:r.json();
 }
-
 async function loadData(){
   if(!SB_URL||!SB_KEY)throw new Error('Supabase 설정이 없습니다.');
   const [qs,photos,ts,st]=await Promise.all([
@@ -560,11 +837,11 @@ async function loadData(){
   if(!Array.isArray(qs)||qs.length!==TOTAL)throw new Error(`문항 수 확인 필요 (${qs?.length||0}/${TOTAL})`);
   questions=qs;
   memberPhotos.clear();photos.forEach(p=>memberPhotos.set(p.id,p));
-  titles.clear();ts.forEach(t=>titles.set(Number(t.friend_count),t));
+  titles.clear();ts.forEach(r=>titles.set(Number(r.friend_count),r));
   settings=Array.isArray(st)&&st[0]?st[0]:null;
 }
 
-/* ---- progress stamps ---- */
+/* ---- progress: one tent per memory ---- */
 function buildStamps(){
   const box=$('#stamps');
   if(box.childElementCount===TOTAL)return;
@@ -573,15 +850,12 @@ function buildStamps(){
 }
 function paintStamps(current){
   const box=$('#stamps');
-  Array.prototype.forEach.call(box.children,(el,i)=>{
-    el.className=i<current?'done':(i===current?'now':'');
-  });
+  Array.prototype.forEach.call(box.children,(el,i)=>{el.className=i<current?'done':(i===current?'now':'');});
   box.setAttribute('aria-valuenow',String(current));
 }
-
-function setStatus(text,visible){
+function setStatus(html,visible){
   const el=$('#quizStatus');
-  el.innerHTML=text;
+  el.innerHTML=html;
   el.classList.toggle('hide',!visible);
 }
 
@@ -591,15 +865,14 @@ function startQuiz(){
   showPage('question');
   renderQuestion();
 }
-
 function renderQuestion(){
   const q=order[idx];if(!q)return;
   setStatus('',false);
   $('#qCard').style.display='block';
   $('#answers').style.display='grid';
-  $('#qTip').style.display='block';
+  $('#qTip').style.display='flex';
   $('#qIndexNum').textContent=String(idx+1);
-  $('#qTag').textContent=`추억 No.${String(idx+1).padStart(2,'0')}`;
+  $('#qTag').textContent=t().memoryNo+String(idx+1).padStart(2,'0');
   paintStamps(idx);
   $('#questionText').textContent=questionText(q);
 
@@ -612,13 +885,11 @@ function renderQuestion(){
 
   const card=$('#qCard');
   card.classList.remove('swap');void card.offsetWidth;card.classList.add('swap');
-
   $('#yesBtn').disabled=false;$('#noBtn').disabled=false;
 
   const next=order[idx+1];
   if(next&&next.image_path){const pre=new Image();pre.src=publicUrl(EXIT_BUCKET,next.image_path);}
 }
-
 function choose(choice){
   const q=order[idx];if(!q)return;
   answers.push({photo_no:q.photo_no,choice:!!choice});
@@ -626,12 +897,9 @@ function choose(choice){
   idx++;
   if(idx<TOTAL)renderQuestion();else grade();
 }
-
 async function grade(){
-  setStatus('추억을 정리하는 중입니다<span class="dots"></span>',true);
+  setStatus(esc(t().grading)+'<span class="dots"></span>',true);
   $('#qCard').style.display='none';
-  $('#answers').style.display='none';
-  $('#qTip').style.display='none';
   paintStamps(TOTAL);
   try{
     const data=await api('/rest/v1/rpc/grade_camp_exit_quiz',{method:'POST',headers:headers({'Content-Type':'application/json'}),body:JSON.stringify({p_answers:answers})});
@@ -639,37 +907,27 @@ async function grade(){
     renderResult(Number(result.friend_count||0),Array.isArray(result.member_ids)?result.member_ids:[]);
   }catch(e){
     console.error(e);
-    setStatus('결과 집계에 실패했습니다. 다시 시도해 주세요.',true);
+    setStatus(esc(t().gradeFail),true);
     setTimeout(()=>{idx=0;answers=[];order=shuffle(questions);renderQuestion();},1200);
   }
 }
 
-function titleFor(count){
-  const t=titles.get(count);
-  if(!t)return count===0?'아직 낯가리는':`${count}명의 친구를 모은`;
-  return t[lang==='en'?'title_en':lang==='ja'?'title_ja':lang==='cn'?'title_zh_cn':lang==='tw'?'title_zh_tw':'title_ko']||t.title_ko;
-}
-
-/* re-renders every language-dependent part of the result from stored state */
 function renderResultView(){
   const count=lastCount,matched=lastMatched;
-
   $('#friendScore').textContent=count;
   $('#countFill').style.width=`${(count/TOTAL)*100}%`;
-  $('#resultTitle').innerHTML=
-    `<span class="lead">당신은</span>`+
-    `<span class="titleBox"><strong><span class="brk">「</span>${esc(titleFor(count))} 수련생<span class="brk">」</span></strong></span>`+
-    `<span class="lead">입니다.</span>`;
-  $('#resultDesc').textContent=count===0
-    ?'이번에는 함께 퇴소한 친구를 만나지 못했어요. 다시 도전하면 새로운 순서로 추억을 확인할 수 있습니다.'
-    :`${count}명의 수련회 친구와 추억을 나누며 명예롭게 퇴소에 성공했습니다.`;
 
-  /* no matches: the name area is left empty, the description carries the state */
+  const tail=t().tail?`<span class="lead">${esc(t().tail)}</span>`:'';
+  $('#resultTitle').innerHTML=
+    `<span class="lead">${esc(t().lead)}</span>`+
+    `<span class="titleBox"><strong><span class="brk">「</span>${esc(fullTitle(count))}<span class="brk">」</span></strong></span>`+tail;
+  $('#resultDesc').textContent=count===0?t().desc0:fmt(count===1&&t().descN1?t().descN1:t().descN,{n:count});
+
   const names=$('#friendNames');
   names.className=matched.length?'friendNames':'';
   names.innerHTML=matched.length
-    ?`<span class="label">CAMP FRIENDS</span><div class="friendList">${matched.map(p=>
-        `<span class="plate"><b>${esc(p.member_ko||p.member_en||'')}</b><em>${esc(p.member_en||'')}</em></span>`).join('')}</div>`
+    ?`<span class="label">${esc(t().campFriends)}</span><div class="friendList">${matched.map(p=>
+        `<span class="plate"><b>${esc(memberPrimary(p))}</b><em>${esc(memberSecondary(p))}</em></span>`).join('')}</div>`
     :'';
 
   const grid=$('#albumGrid');
@@ -678,14 +936,14 @@ function renderResultView(){
   matched.forEach(p=>{
     const f=document.createElement('figure');
     f.className='pol';
-    f.innerHTML=`<img alt="${esc(memberLabel(p))}" src="${esc(publicUrl(MEMBER_BUCKET,p.photo_path))}">`+
-      `<figcaption><b>${esc(p.member_ko||p.member_en||'')}</b><em>${esc(p.member_en||'')}</em></figcaption>`;
+    f.innerHTML=`<img alt="${esc(memberPrimary(p))}" src="${esc(publicUrl(MEMBER_BUCKET,p.photo_path))}">`+
+      `<figcaption><b>${esc(memberPrimary(p))}</b><em>${esc(memberSecondary(p))}</em></figcaption>`;
     const im=f.querySelector('img');
     im.onerror=()=>{im.style.visibility='hidden';};
     grid.appendChild(f);
   });
 
-  /* 26/26 only: group photo on top. Otherwise the camp logo (seal is the last-resort fallback). */
+  /* 26/26 only: group photo on top. Otherwise the camp logo. */
   const photo=$('#groupPhoto'),logo=$('#campLogo'),seal=$('#campSeal'),perfect=count===TOTAL;
   logo.onerror=()=>{logo.style.display='none';if(photo.style.display==='none')seal.style.display='block';};
   if(perfect&&settings&&settings.group_photo_path){
@@ -701,6 +959,13 @@ function renderResultView(){
   $('#perfectBadge').style.display=perfect?'inline-block':'none';
 
   prepareCertImage();
+}
+function renderResult(count,ids){
+  lastCount=count;
+  lastMatched=ids.map(id=>memberPhotos.get(id)).filter(Boolean);
+  hasResult=true;
+  renderResultView();
+  showPage('result');
 }
 
 /* ============ certificate image (canvas export) ============ */
@@ -737,6 +1002,7 @@ function wrapLines(ctx,text,maxW){
   if(line)lines.push(line);
   return lines;
 }
+function spaced(s){return String(s).split('').join(' ');}
 
 async function drawCertificate(count,matched){
   const perfect=count===TOTAL;
@@ -745,13 +1011,13 @@ async function drawCertificate(count,matched){
   const cv=document.createElement('canvas');
   cv.width=CERT_W;cv.height=CERT_H;
   const ctx=cv.getContext('2d');
-  const SANS='"Pretendard","Apple SD Gothic Neo","Noto Sans KR",-apple-system,sans-serif';
-  const SERIF='"Nanum Myeongjo","AppleMyungjo","Noto Serif KR",serif';
+  const SANS='"Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",-apple-system,sans-serif';
+  const DISP='"Jua","Pretendard","Noto Sans KR",sans-serif';
   const C=perfect
-    ?{bg:'#102e23',frame:'#caa64f',frame2:'rgba(214,176,94,.42)',eyebrow:'#d8bd7c',name:'#f7e7b6',rule:'#b99a52',lead:'#cbbf9d',title:'#f4d98a',brk:'#9c8248',label:'#bcae8a',val:'#f7e7b6',track:'rgba(255,246,220,.14)',bar:'#e2b64c',plate:'rgba(255,247,225,.06)',plateLine:'rgba(214,176,94,.32)',ko:'#f6efdc',en:'#b0a382',desc:'#cdc3a7',foot:'#b09c6d'}
+    ?{bg:'#102E23',frame:'#CAA64F',frame2:'rgba(214,176,94,.42)',eyebrow:'#D8BD7C',name:'#F7E7B6',rule:'#B99A52',lead:'#CBBF9D',title:'#F4D98A',brk:'#9C8248',label:'#BCAE8A',val:'#F7E7B6',track:'rgba(255,246,220,.14)',bar:'#E2B64C',plate:'rgba(255,247,225,.06)',plateLine:'rgba(214,176,94,.32)',ko:'#F6EFDC',en:'#B0A382',desc:'#CDC3A7',foot:'#B09C6D'}
     :{bg:'#FBF6E9',frame:'#C9B489',frame2:'#E2D2AD',eyebrow:'#9B8B6B',name:'#1F5E44',rule:'#A89771',lead:'#3C5245',title:'#5B3E96',brk:'#C3AD86',label:'#6E8271',val:'#1F5E44',track:'#E7DBC0',bar:'#1F5E44',plate:'#FFFAEE',plateLine:'#E0D2B4',ko:'#123A2E',en:'#A08E73',desc:'#3C5245',foot:'#A08E73'};
 
-  ctx.fillStyle=perfect?'#0a241b':'#EADFC0';
+  ctx.fillStyle=perfect?'#0A241B':'#EADFC0';
   ctx.fillRect(0,0,CERT_W,CERT_H);
   ctx.fillStyle=C.bg;ctx.fillRect(28,28,CERT_W-56,CERT_H-56);
   ctx.strokeStyle=C.frame;ctx.lineWidth=3;ctx.strokeRect(28,28,CERT_W-56,CERT_H-56);
@@ -763,30 +1029,28 @@ async function drawCertificate(count,matched){
   if(perfect){
     const bw=286,bh=46,bx=mid-bw/2;
     const g=ctx.createLinearGradient(bx,y-34,bx+bw,y+12);
-    g.addColorStop(0,'#f6dc9a');g.addColorStop(1,'#d9a93f');
-    ctx.fillStyle=g;
-    rrect(ctx,bx,y-34,bw,bh,23);ctx.fill();
-    ctx.fillStyle='#3c2a06';ctx.font='900 20px '+SANS;
-    ctx.fillText('P E R F E C T   ·   2 6 / 2 6',mid,y-3);
+    g.addColorStop(0,'#F6DC9A');g.addColorStop(1,'#D9A93F');
+    ctx.fillStyle=g;rrect(ctx,bx,y-34,bw,bh,23);ctx.fill();
+    ctx.fillStyle='#3C2A06';ctx.font='900 20px '+SANS;
+    ctx.fillText('PERFECT · 26 / 26',mid,y-3);
     y+=54;
   }
 
-  ctx.fillStyle=C.eyebrow;ctx.font='900 20px '+SANS;
-  ctx.fillText('O N L I N E   E X I T   C E R T I F I C A T E',mid,y);
+  ctx.fillStyle=C.eyebrow;ctx.font='800 19px '+SANS;
+  ctx.fillText(spaced('ONLINE EXIT CERTIFICATE'),mid,y);
   y+=62;
-  ctx.fillStyle=C.name;ctx.font='700 56px '+SERIF;
-  ctx.fillText('온라인 퇴소증',mid,y);
+  ctx.fillStyle=C.name;ctx.font='900 54px '+SANS;
+  ctx.fillText(t().certName,mid,y);
   y+=40;
-  ctx.fillStyle=C.rule;ctx.font='900 17px '+SANS;
-  const capW=ctx.measureText('I D O L   S C H O O L   C A M P').width;
-  ctx.fillText('I D O L   S C H O O L   C A M P',mid,y);
+  ctx.fillStyle=C.rule;ctx.font='800 17px '+SANS;
+  const cap=spaced('IDOL SCHOOL CAMP'),capW=ctx.measureText(cap).width;
+  ctx.fillText(cap,mid,y);
   ctx.strokeStyle=C.rule;ctx.globalAlpha=.5;ctx.lineWidth=1.5;
   ctx.beginPath();ctx.moveTo(120,y-6);ctx.lineTo(mid-capW/2-22,y-6);
   ctx.moveTo(mid+capW/2+22,y-6);ctx.lineTo(CERT_W-120,y-6);ctx.stroke();
   ctx.globalAlpha=1;
   y+=34;
 
-  /* top visual: group photo at 26/26, otherwise the camp logo */
   const visualH=perfect?270:190;
   let visual=null;
   if(perfect&&settings&&settings.group_photo_path)visual=await loadImg(publicUrl(EXIT_BUCKET,settings.group_photo_path),true);
@@ -794,24 +1058,21 @@ async function drawCertificate(count,matched){
   if(visual){
     const box=fitContain(visual.naturalWidth,visual.naturalHeight,CERT_W-260,visualH);
     ctx.drawImage(visual,mid-box.w/2,y,box.w,box.h);
-    if(perfect){
-      ctx.strokeStyle=C.frame;ctx.lineWidth=2.5;
-      ctx.strokeRect(mid-box.w/2-7,y-7,box.w+14,box.h+14);
-    }
+    if(perfect){ctx.strokeStyle=C.frame;ctx.lineWidth=2.5;ctx.strokeRect(mid-box.w/2-7,y-7,box.w+14,box.h+14);}
     y+=box.h;
   }else y+=60;
   y+=54;
 
-  ctx.fillStyle=C.lead;ctx.font='800 24px '+SANS;
-  ctx.fillText('당신은',mid,y);
+  ctx.fillStyle=C.lead;ctx.font='700 24px '+SANS;
+  ctx.fillText(t().lead,mid,y);
   const titleTop=y+32;
   y+=80;
 
-  ctx.font='700 58px '+SERIF;
-  const titleLines=wrapLines(ctx,`「${titleFor(count)} 수련생」`,CERT_W-220);
+  ctx.font='900 54px '+SANS;
+  const titleLines=wrapLines(ctx,`「${fullTitle(count)}」`,CERT_W-220);
   ctx.fillStyle=C.title;
-  titleLines.forEach(line=>{ctx.fillText(line,mid,y);y+=70;});
-  const titleBottom=y-48;
+  titleLines.forEach(line=>{ctx.fillText(line,mid,y);y+=68;});
+  const titleBottom=y-46;
   ctx.strokeStyle=C.brk;ctx.lineWidth=1.5;ctx.globalAlpha=.75;
   ctx.beginPath();
   ctx.moveTo(mid-190,titleTop);ctx.lineTo(mid+190,titleTop);
@@ -819,18 +1080,20 @@ async function drawCertificate(count,matched){
   ctx.stroke();ctx.globalAlpha=1;
   y+=8;
 
-  ctx.fillStyle=C.lead;ctx.font='800 24px '+SANS;
-  ctx.fillText('입니다.',mid,y);
-  y+=64;
+  if(t().tail){
+    ctx.fillStyle=C.lead;ctx.font='700 24px '+SANS;
+    ctx.fillText(t().tail,mid,y);
+    y+=64;
+  }else y+=24;
 
-  ctx.font='900 21px '+SANS;
-  const lbl='함께 퇴소한 친구',lblW=ctx.measureText(lbl).width;
-  ctx.font='700 40px '+SERIF;
+  ctx.font='800 21px '+SANS;
+  const lbl=t().countLabel,lblW=ctx.measureText(lbl).width;
+  ctx.font='400 40px '+DISP;
   const numTxt=`${count} / ${TOTAL}`,numW=ctx.measureText(numTxt).width;
-  const totalW=lblW+18+numW,startX=mid-totalW/2;
+  const startX=mid-(lblW+18+numW)/2;
   ctx.textAlign='left';
-  ctx.fillStyle=C.label;ctx.font='900 21px '+SANS;ctx.fillText(lbl,startX,y);
-  ctx.fillStyle=C.val;ctx.font='700 40px '+SERIF;ctx.fillText(numTxt,startX+lblW+18,y);
+  ctx.fillStyle=C.label;ctx.font='800 21px '+SANS;ctx.fillText(lbl,startX,y);
+  ctx.fillStyle=C.val;ctx.font='400 40px '+DISP;ctx.fillText(numTxt,startX+lblW+18,y);
   ctx.textAlign='center';
   y+=22;
   const barW=420,barX=mid-barW/2;
@@ -839,42 +1102,38 @@ async function drawCertificate(count,matched){
   y+=52;
 
   if(matched.length){
-    ctx.fillStyle=C.label;ctx.font='900 17px '+SANS;
-    ctx.fillText('C A M P   F R I E N D S',mid,y);
+    ctx.fillStyle=C.label;ctx.font='800 17px '+SANS;
+    ctx.fillText(spaced('CAMP FRIENDS'),mid,y);
     y+=30;
-
-    /* the name block has to fit above the footer whatever the count is:
-       name plates when there is room, otherwise one compact wrapped line */
     const bottom=CERT_H-152,avail=bottom-y;
     const n=matched.length,cols=n<=4?2:n<=12?3:4,rows=Math.ceil(n/cols);
     const gapX=12,gapY=9;
     const cellH=Math.floor((avail-gapY*(rows-1))/rows);
-
     if(cellH>=46){
       const h=Math.min(cellH,76),gridW=CERT_W-200,cellW=(gridW-gapX*(cols-1))/cols;
-      const koF=cols===4?21:25,enF=cols===4?12:14,gx=mid-gridW/2;
+      const f1=cols===4?21:25,f2=cols===4?12:14,gx=mid-gridW/2;
       matched.forEach((p,i)=>{
         const cx=gx+(i%cols)*(cellW+gapX),cy=y+Math.floor(i/cols)*(h+gapY);
         ctx.fillStyle=C.plate;ctx.strokeStyle=C.plateLine;ctx.lineWidth=1.5;
         rrect(ctx,cx,cy,cellW,h,10);ctx.fill();ctx.stroke();
         const ccx=cx+cellW/2;
-        ctx.fillStyle=C.ko;ctx.font='900 '+koF+'px '+SANS;
-        ctx.fillText(p.member_ko||p.member_en||'',ccx,cy+h/2+2);
-        ctx.fillStyle=C.en;ctx.font='800 '+enF+'px '+SANS;
-        ctx.fillText(String(p.member_en||'').toUpperCase(),ccx,cy+h-14);
+        ctx.fillStyle=C.ko;ctx.font='800 '+f1+'px '+SANS;
+        ctx.fillText(memberPrimary(p),ccx,cy+h/2+2);
+        ctx.fillStyle=C.en;ctx.font='700 '+f2+'px '+SANS;
+        ctx.fillText(memberSecondary(p),ccx,cy+h-14);
       });
     }else{
       const lh=36;
-      ctx.font='800 25px '+SANS;
-      let lines=wrapLines(ctx,matched.map(p=>p.member_ko||p.member_en||'').join(' · '),CERT_W-200);
+      ctx.font='700 25px '+SANS;
+      let lines=wrapLines(ctx,matched.map(memberPrimary).join(' · '),CERT_W-200);
       const maxLines=Math.max(1,Math.floor(avail/lh));
       if(lines.length>maxLines)lines=lines.slice(0,maxLines);
       ctx.fillStyle=C.ko;
       lines.forEach(line=>{ctx.fillText(line,mid,y+22);y+=lh;});
     }
   }else{
-    ctx.fillStyle=C.desc;ctx.font='700 24px '+SANS;
-    ctx.fillText('이번에는 함께 퇴소한 친구를 만나지 못했어요.',mid,y+8);
+    ctx.fillStyle=C.desc;ctx.font='700 23px '+SANS;
+    wrapLines(ctx,t().desc0,CERT_W-260).slice(0,3).forEach((line,i)=>ctx.fillText(line,mid,y+8+i*34));
   }
 
   ctx.fillStyle=C.foot;ctx.font='800 20px '+SANS;
@@ -890,13 +1149,11 @@ async function drawCertificate(count,matched){
 
 /* pre-render so the share sheet can open inside the click gesture */
 function prepareCertImage(){
-  note('퇴소증을 이미지로 저장하거나 내 계정에 바로 올릴 수 있어요.');
+  note(t().shareHint);
   certBlobPromise=drawCertificate(lastCount,lastMatched).catch(e=>{console.error(e);return null;});
 }
 function certFileName(){return `idolcamp-exit-certificate-${lastCount}of${TOTAL}.png`;}
-function shareText(){
-  return `〈아이돌 수련회〉 온라인 퇴소식\n저는 「${titleFor(lastCount)} 수련생」입니다.\n함께 퇴소한 친구 ${lastCount} / ${TOTAL}`;
-}
+function shareText(){return fmt(t().shareBody,{title:fullTitle(lastCount),n:lastCount}).replace(/\|/g,'\n');}
 function note(msg,warn){
   const el=$('#shareNote');
   el.textContent=msg;
@@ -915,21 +1172,21 @@ async function getCertBlob(){
 }
 async function saveCert(){
   const blob=await getCertBlob();
-  if(!blob){note('이미지를 만들지 못했습니다. 화면을 캡처해 주세요.',true);return;}
+  if(!blob){note(t().shareFail,true);return;}
   downloadBlob(blob);
-  note('퇴소증 이미지를 저장했어요.');
+  note(t().shareSaved);
 }
 /* Instagram and X have no web API to post on a user's behalf; the native
    share sheet is what actually hands the image to their own account. */
 async function shareCert(target){
   const blob=await getCertBlob();
-  if(!blob){note('이미지를 만들지 못했습니다. 화면을 캡처해 주세요.',true);return;}
+  if(!blob){note(t().shareFail,true);return;}
   const file=new File([blob],certFileName(),{type:'image/png'});
   const link=CFG.shareUrl||'';
   if(navigator.canShare&&navigator.canShare({files:[file]})){
     try{
       await navigator.share({files:[file],text:target==='x'&&link?`${shareText()}\n${link}`:shareText()});
-      note(target==='ig'?'인스타그램을 선택하면 내 계정에 바로 올릴 수 있어요.':'공유가 완료되면 내 계정에 올라갑니다.');
+      note(target==='ig'?t().shareSheetIg:t().shareSheetOk);
       return;
     }catch(e){
       if(e&&e.name==='AbortError')return;
@@ -938,31 +1195,21 @@ async function shareCert(target){
   }
   downloadBlob(blob);
   if(target==='x'){
-    const url='https://x.com/intent/post?text='+encodeURIComponent(shareText())+(link?'&url='+encodeURIComponent(link):'');
-    window.open(url,'_blank','noopener');
-    note('퇴소증 이미지를 저장했어요. X 작성 창에서 이미지를 첨부해 주세요.');
-  }else{
-    note('퇴소증 이미지를 저장했어요. 인스타그램 앱에서 업로드해 주세요.');
-  }
-}
-
-function renderResult(count,ids){
-  lastCount=count;
-  lastMatched=ids.map(id=>memberPhotos.get(id)).filter(Boolean);
-  renderResultView();
-  showPage('result');
+    window.open('https://x.com/intent/post?text='+encodeURIComponent(shareText())+(link?'&url='+encodeURIComponent(link):''),'_blank','noopener');
+    note(t().shareSavedX);
+  }else note(t().shareSavedIg);
 }
 
 function goVod(){
   if(settings&&settings.vod_url)location.href=settings.vod_url;
-  else alert('확장판 URL 입력 대기 중입니다.');
+  else alert(t().vodPending);
 }
 
 $('#start').onclick=async()=>{
-  const b=$('#start');b.disabled=true;b.textContent='준비 중…';
+  const b=$('#start');b.disabled=true;b.textContent=t().preparing;
   try{await loadData();startQuiz();}
-  catch(e){console.error(e);alert('퇴소식 데이터를 불러오지 못했습니다.');}
-  finally{b.disabled=false;b.textContent='퇴소식 시작하기 →';}
+  catch(e){console.error(e);alert(t().loadFail);}
+  finally{b.disabled=false;b.textContent=t().startBtn;}
 };
 $('#yesBtn').onclick=()=>choose(true);
 $('#noBtn').onclick=()=>choose(false);
@@ -971,7 +1218,9 @@ $('#saveImg').onclick=()=>saveCert();
 $('#shareX').onclick=()=>shareCert('x');
 $('#shareIg').onclick=()=>shareCert('ig');
 document.querySelectorAll('.vod').forEach(b=>b.onclick=goVod);
-drawLangs();
+
+document.documentElement.lang=lang;
+applyI18n();
 })();
 </script>
 </body>
