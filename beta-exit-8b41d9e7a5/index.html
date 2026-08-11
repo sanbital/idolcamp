@@ -895,13 +895,15 @@ function publicUrl(bucket,path){return `${SB_URL}/storage/v1/object/public/${buc
 /* Storage egress is the whole cost of this event, so images are requested at
    the size they are displayed. If the project has no image transformations the
    first render URL fails once, and the session falls back to plain objects. */
-const IMG_SIZES={question:[1000,72],member:[320,75],group:[900,78]};
-let renderOk=(()=>{try{return sessionStorage.getItem('idolcamp.render')!=='0';}catch(e){return true;}})();
+const IMG_SIZES={question:[800,68],member:[240,72],group:[800,75]};
+/* config.js can turn resizing off instantly without a deploy */
+const IMG_OPT=!(CFG.exitCeremony&&CFG.exitCeremony.optimizeImages===false);
+let renderOk=IMG_OPT&&(()=>{try{return sessionStorage.getItem('idolcamp.render')!=='0';}catch(e){return true;}})();
 function renderUrl(bucket,path,kind){
   const box=IMG_SIZES[kind];
   if(!renderOk||!box)return publicUrl(bucket,path);
   const clean=String(path||'').replace(/^\/+/, '');
-  return `${SB_URL}/storage/v1/render/image/public/${bucket}/${clean}?width=${box[0]}&quality=${box[1]}`;
+  return `${SB_URL}/storage/v1/render/image/public/${bucket}/${clean}?width=${box[0]}&quality=${box[1]}&resize=contain`;
 }
 function disableRender(){
   renderOk=false;

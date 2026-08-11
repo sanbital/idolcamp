@@ -16,7 +16,9 @@ window.MUNIVERSE_CONFIG = {
   exitCeremony: {
     enabled: true,
     releaseAt: "2026-08-14T18:00:00+09:00",
-    path: "/exit/"
+    path: "/exit/",
+    // false로 바꾸면 이미지 리사이즈를 끄고 원본을 그대로 내보냅니다 (배포 불필요)
+    optimizeImages: true
   },
   talent: {
     enabled: true,
