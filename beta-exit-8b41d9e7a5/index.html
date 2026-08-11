@@ -7,39 +7,561 @@
 <title>아이돌 수련회 온라인 퇴소식 BETA</title>
 <script src="../config.js"></script>
 <style>
-:root{--ink:#173b2e;--paper:#fffaf0;--line:#d9c6a4;--green:#2d6543;--yellow:#e9b84f;--red:#cf5d3e;--purple:#70488d}
-*{box-sizing:border-box}html,body{margin:0;padding:0}body{background:#f6ecd9;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",Arial,sans-serif}.wrap{width:min(calc(100% - 24px),500px);margin:auto;padding:16px 0 40px}.head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.brand{font-weight:900;font-size:17px}.beta{font-size:10px;font-weight:900;background:#ffe39b;border:1px solid #d7a73e;padding:5px 9px;border-radius:999px}.langs{display:flex;gap:6px;overflow:auto;padding-bottom:10px}.langs button{white-space:nowrap;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:7px 10px;font-weight:800}.langs button.on{background:var(--ink);color:#fff}.page{display:none}.page.on{display:block}.card{background:var(--paper);border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:0 10px 28px rgba(76,49,20,.10)}
-.hero{position:relative;min-height:510px;padding:24px 18px;display:flex;flex-direction:column;justify-content:flex-end;text-align:center;background:linear-gradient(#07162b,#0c2940 55%,#143b34);overflow:hidden}.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(6,28,22,.15) 64%,rgba(6,28,22,.72));pointer-events:none}.nightart{position:absolute;inset:0;width:100%;height:100%;display:block}.heroCopy{position:relative;z-index:2}.hero h1{margin:0;color:#fff0bd;font-size:38px;letter-spacing:-1.5px;text-shadow:0 2px 0 #4b2e17}.hero p{color:#fff;line-height:1.55;font-weight:800;text-shadow:0 1px 4px #000}.primary{width:100%;border:0;border-radius:15px;padding:15px;background:var(--yellow);color:#3a280f;font-size:17px;font-weight:950;box-shadow:0 7px 18px rgba(0,0,0,.22);cursor:pointer}.primary:disabled{opacity:.5}.how{margin-top:12px;padding:16px}.how h3{margin:0 0 10px}.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.step{padding:10px 4px;background:#fff3dc;border:1px dashed var(--line);border-radius:13px;text-align:center;font-size:10px;line-height:1.35}.step b{font-size:19px;display:block}.kit{margin-top:12px;padding:16px;border-radius:20px;background:linear-gradient(135deg,#173b2e,#37694e);color:#fff}.kit strong{display:block;font-size:17px}.kit small{opacity:.8}.kit button{width:100%;margin-top:10px;border:0;border-radius:13px;padding:12px;background:#efbd55;color:#38270e;font-weight:950}
-.qtop{display:flex;justify-content:space-between;font-weight:900;margin:2px 2px 8px}.track{height:8px;background:#ded0b8;border-radius:999px;overflow:hidden;margin-bottom:10px}.fill{height:100%;background:linear-gradient(90deg,#2e6b4a,#e6b44c);transition:width .2s}.pic{position:relative;aspect-ratio:16/9;background:#e7dcc8;display:flex;align-items:center;justify-content:center}.pic img{width:100%;height:100%;object-fit:contain}.pic .missing{display:none;padding:20px;text-align:center;font-size:12px;color:#766f64}.tag{position:absolute;top:12px;left:12px;padding:7px 10px;border-radius:8px;background:var(--green);color:#fff;font-size:11px;font-weight:950;transform:rotate(-3deg)}.qb{text-align:center;padding:20px 16px}.hint{color:var(--purple);font-size:12px;font-weight:900}.question{font-size:21px;line-height:1.5;font-weight:950;margin-top:8px;min-height:90px;display:flex;align-items:center;justify-content:center;word-break:keep-all}.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.ans{border:0;border-radius:16px;padding:18px;font-size:23px;font-weight:950;color:#fff;cursor:pointer}.yes{background:#3b7846}.no{background:var(--red)}.ans:disabled{opacity:.55}.tip{margin-top:13px;padding:10px;border:1px dashed #d8c095;background:#fff2d4;border-radius:11px;font-size:11px}.note{text-align:center;color:#766f64;font-size:10px;margin-top:8px}.loading{padding:40px 20px;text-align:center;font-weight:850}
-.certTitleBar{display:flex;align-items:center;justify-content:space-between;margin:1px 2px 9px}.certTitleBar h2{margin:0;font-size:21px}.certwrap{padding:17px;background:#ead9b3}.cert{padding:21px 14px;text-align:center;background:#fffdf5;border:1px solid #cdb688}.logoarea{min-height:170px;border:1px solid var(--line);border-radius:16px;background:radial-gradient(circle at 50% 40%,#fff6da,#efe1bc);display:flex;align-items:center;justify-content:center;margin-bottom:16px;overflow:hidden}.logoarea img{display:block;width:100%;height:auto;max-height:300px;object-fit:contain}.logoMark{padding:12px 16px;border:2px solid #194835;border-radius:13px;color:#194835;font-weight:950;letter-spacing:.08em}.cert h1{margin:5px 0;font-size:28px}.score{font-size:50px;font-weight:950;color:#174b37}.rtype{margin:15px 0 2px;text-align:center}.rtype .lead{display:block;font-size:11px;line-height:1.35;color:#7a7368;font-weight:850}.rtype strong{display:inline-block;margin:5px 0 3px;padding:7px 13px;border-radius:999px;background:#f3e7ff;color:#70488d;font-family:"Nanum Myeongjo","AppleMyungjo","Noto Serif KR",serif;font-size:25px;line-height:1.25;font-weight:900;letter-spacing:-.045em}.desc{font-size:13px;line-height:1.7}.friendNames{margin:11px 0 16px;padding-top:10px;border-top:1px dashed #d7c7a8}.friendNames .label{display:block;margin-bottom:7px;color:#776c5d;font-size:10px;font-weight:900;letter-spacing:.08em}.friendList{display:flex;flex-wrap:wrap;justify-content:center;gap:5px}.friendChip{display:inline-flex;align-items:baseline;gap:3px;padding:5px 7px;border:1px solid #ddcfb5;border-radius:999px;background:#fff8e8;color:var(--ink);font-size:10px;font-weight:900}.friendChip em{font-style:normal;color:#8a7966;font-size:8px;font-weight:800}.album{margin-top:12px;padding:15px}.album h2{margin:2px 0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.pol{margin:0;background:#fff;border:1px solid #ddcfb5;padding:5px 5px 7px;box-shadow:0 3px 7px #0002}.pol:nth-child(odd){transform:rotate(-1deg)}.pol:nth-child(even){transform:rotate(1deg)}.pol img{width:100%;aspect-ratio:4/5;object-fit:cover;background:#eee}.pol figcaption{text-align:center;font-size:9px;font-weight:900;margin-top:3px;word-break:keep-all}.empty{text-align:center;padding:24px 10px;color:#766f64;font-size:12px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.actions button{border:1px solid var(--line);border-radius:13px;padding:13px;background:#fffaf0;font-weight:900;color:var(--ink)}.actions .dark{background:var(--ink);color:#fff}.status{padding:12px;border-radius:13px;background:#fff3dc;border:1px solid var(--line);font-size:12px;font-weight:800;text-align:center;margin-bottom:10px}
-.denied{min-height:100vh;display:flex;align-items:center;justify-content:center;font-weight:900;color:#444}@media(max-width:380px){.steps{grid-template-columns:repeat(2,1fr)}.hero{min-height:475px}.hero h1{font-size:34px}.question{font-size:19px}.rtype strong{font-size:22px}}
+:root{
+  --ink:#173b2e;--ink-soft:#5d6a5c;--ink-faint:#8a8578;
+  --paper:#fffaf0;--paper-2:#fff5e3;--bg:#f1e5cd;
+  --line:#dbc8a6;--line-soft:#e9dcc1;
+  --green:#2d6543;--green-deep:#194835;
+  --yellow:#e9b84f;--yellow-soft:#ffe9b6;
+  --red:#c9553a;--purple:#6b4189;
+  --serif:"Nanum Myeongjo","AppleMyungjo","Noto Serif KR",Georgia,serif;
+  --r-s:8px;--r-m:14px;--r-l:20px;
+  --shadow:0 8px 22px rgba(76,49,20,.10);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(circle at 12% 8%,rgba(255,255,255,.55),transparent 42%),
+    radial-gradient(circle at 88% 92%,rgba(198,166,110,.20),transparent 46%),
+    repeating-linear-gradient(135deg,rgba(150,120,70,.030) 0 2px,transparent 2px 5px);
+  background-attachment:fixed;
+}
+button{font-family:inherit}
+:focus-visible{outline:3px solid var(--purple);outline-offset:2px}
+.wrap{width:min(calc(100% - 24px),500px);margin:auto;padding:14px 0 calc(44px + env(safe-area-inset-bottom))}
+
+/* ---------- chrome ---------- */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.mark .eyebrow{display:block;font-size:9px;font-weight:900;letter-spacing:.16em;color:var(--ink-faint)}
+.mark strong{display:block;font-size:16px;font-weight:900;letter-spacing:-.03em;margin-top:2px}
+.tagChip{flex:none;font-size:9.5px;font-weight:900;letter-spacing:.1em;background:var(--yellow-soft);border:1px solid #d7a73e;color:#6b4c11;padding:5px 9px;border-radius:999px}
+.langs{display:flex;gap:6px;overflow-x:auto;padding:6px 0 14px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.langs::-webkit-scrollbar{display:none}
+.langs button{position:relative;flex:none;white-space:nowrap;border:1px solid var(--line);background:var(--paper);color:var(--ink-soft);border-radius:999px;padding:9px 13px;font-size:12px;font-weight:800;cursor:pointer;transition:background .16s ease,color .16s ease}
+/* keeps the pill visually light while giving it a 48px-tall touch target */
+.langs button:after{content:"";position:absolute;left:0;right:0;top:-6px;bottom:-6px}
+.langs button.on{background:var(--ink);border-color:var(--ink);color:#fff9ec}
+
+.page{display:none}
+.page.on{display:block;animation:pageIn .22s ease both}
+@keyframes pageIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.paper{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-l);box-shadow:var(--shadow)}
+.sectionLabel{display:block;font-size:9.5px;font-weight:900;letter-spacing:.16em;color:var(--ink-faint)}
+
+/* ---------- home ---------- */
+.hero{position:relative;min-height:470px;padding:26px 20px 22px;display:flex;flex-direction:column;justify-content:flex-end;text-align:center;border-radius:var(--r-l);overflow:hidden;background:linear-gradient(#07162b,#0c2940 55%,#143b34);box-shadow:0 12px 30px rgba(20,30,20,.24)}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(6,28,22,.20) 62%,rgba(6,24,20,.80));pointer-events:none}
+.nightart{position:absolute;inset:0;width:100%;height:100%;display:block}
+.heroCopy{position:relative;z-index:2}
+.heroCopy .eyebrow{display:block;font-size:10px;font-weight:900;letter-spacing:.24em;color:#ffd98a;margin-bottom:8px}
+.hero h1{margin:0;color:#fff0bd;font-size:40px;line-height:1.1;letter-spacing:-.045em;text-shadow:0 2px 0 rgba(60,32,10,.55)}
+.hero .rule{width:52px;height:2px;background:rgba(255,224,150,.6);margin:14px auto}
+.hero p{margin:0 0 18px;color:#fff;font-size:14px;line-height:1.65;font-weight:700;text-shadow:0 1px 5px rgba(0,0,0,.75)}
+.primary{width:100%;min-height:54px;border:0;border-radius:var(--r-m);padding:15px;background:linear-gradient(#f0c463,#e2a839);color:#37260c;font-size:17px;font-weight:900;letter-spacing:-.02em;box-shadow:0 6px 0 #b8862a,0 12px 22px rgba(0,0,0,.28);cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
+.primary:active{transform:translateY(3px);box-shadow:0 3px 0 #b8862a,0 8px 16px rgba(0,0,0,.24)}
+.primary:disabled{opacity:.6;transform:none;box-shadow:0 6px 0 #b8862a}
+.heroNote{display:block;margin-top:11px;font-size:11px;font-weight:700;color:rgba(255,246,220,.72)}
+
+.how{margin-top:12px;padding:16px 15px}
+.how h3{margin:6px 0 12px;font-size:16px;letter-spacing:-.02em}
+.steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:0;padding:0}
+.step{position:relative;padding:12px 3px 10px;background:var(--paper-2);border:1px dashed var(--line);border-radius:var(--r-m);text-align:center;font-size:10px;line-height:1.4;letter-spacing:-.03em;font-weight:700;color:var(--ink-soft);word-break:keep-all}
+.step b{display:block;margin-bottom:5px;font-family:var(--serif);font-size:20px;color:var(--green);font-weight:700}
+.hint-line{margin:11px 2px 2px;font-size:11px;line-height:1.6;color:var(--ink-faint);font-weight:700}
+
+.vodCard{margin-top:12px;padding:17px 16px;border-radius:var(--r-l);background:linear-gradient(140deg,#153a2c,#2f6047);color:#fff;box-shadow:var(--shadow)}
+.vodCard .sectionLabel{color:rgba(255,240,205,.62)}
+.vodCard strong{display:block;margin:6px 0 4px;font-size:17px;letter-spacing:-.03em}
+.vodCard p{margin:0;font-size:12px;line-height:1.6;color:rgba(255,248,232,.78);font-weight:600}
+.vod{width:100%;min-height:50px;margin-top:13px;border:0;border-radius:var(--r-m);padding:13px;background:var(--yellow);color:#3a280f;font-size:14.5px;font-weight:900;cursor:pointer;transition:transform .15s ease,filter .15s ease}
+.vod:active{transform:scale(.985);filter:brightness(.96)}
+
+/* ---------- question ---------- */
+.qhead{margin:0 2px 12px}
+.qhrow{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:9px}
+.memoryNo{font-size:11px;font-weight:900;letter-spacing:.18em;color:var(--green)}
+.qcount{font-size:12px;font-weight:800;color:var(--ink-faint)}
+.qcount b{font-family:var(--serif);font-size:21px;font-weight:700;color:var(--ink);margin-right:1px}
+.stamps{display:flex;gap:3px;align-items:center}
+.stamps i{flex:1;height:7px;min-width:3px;border-radius:2px;background:#e0d2b6;transition:background .2s ease,transform .2s ease}
+.stamps i.done{background:var(--green)}
+.stamps i.now{background:var(--yellow);transform:scaleY(1.7);box-shadow:0 0 0 1px rgba(184,134,42,.35)}
+
+.status{padding:14px 12px;border-radius:var(--r-m);background:var(--paper-2);border:1px dashed var(--line);font-size:12.5px;font-weight:800;text-align:center;color:var(--ink-soft);margin-bottom:10px}
+.status.hide{display:none}
+.status .dots:after{content:"";animation:dots 1.2s steps(4,end) infinite}
+@keyframes dots{0%{content:""}25%{content:"·"}50%{content:"··"}75%{content:"···"}}
+
+.qcard{overflow:hidden}
+.qcard.swap{animation:swapIn .2s ease both}
+@keyframes swapIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.pic{position:relative;aspect-ratio:16/9;background:#20241f;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pic:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,rgba(255,255,255,.05),rgba(255,255,255,.12),rgba(255,255,255,.05));background-size:220% 100%;animation:sheen 1.4s linear infinite;opacity:1;transition:opacity .2s ease}
+.pic.loaded:before,.pic.failed:before{opacity:0;animation:none}
+@keyframes sheen{from{background-position:120% 0}to{background-position:-120% 0}}
+.pic img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .22s ease}
+.pic.loaded img{opacity:1}
+.pic .missing{position:relative;z-index:1;display:none;padding:20px;text-align:center;font-size:12px;font-weight:700;color:#cbbfa8}
+.pic.failed .missing{display:block}
+.filmTag{position:absolute;z-index:2;top:10px;left:10px;padding:5px 9px;border-radius:5px;background:rgba(23,59,46,.86);color:#ffeec2;font-size:9.5px;font-weight:900;letter-spacing:.14em;transform:rotate(-2deg)}
+
+.qb{padding:17px 16px 18px;text-align:center}
+.hint{margin:0;font-size:11px;font-weight:900;letter-spacing:.06em;color:var(--purple)}
+.hint:after{content:"";display:block;width:26px;height:1px;background:var(--line);margin:9px auto 0}
+.question{margin:11px 0 0;font-size:19px;line-height:1.55;font-weight:800;letter-spacing:-.03em;word-break:keep-all;overflow-wrap:break-word;min-height:88px;display:flex;align-items:center;justify-content:center}
+
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.ans{position:relative;min-height:64px;border:2px solid transparent;border-radius:var(--r-m);padding:12px 8px;font-size:17px;font-weight:900;letter-spacing:.06em;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:transform .15s ease,filter .15s ease,opacity .15s ease}
+.ans .glyph{font-size:21px;line-height:1;font-weight:400}
+.ans:active{transform:scale(.97);filter:brightness(.95)}
+.ans:disabled{opacity:.45;transform:none}
+.yes{background:#33714a;border-color:#255637;box-shadow:0 4px 0 #1d4a2e}
+.no{background:var(--red);border-color:#a9432c;box-shadow:0 4px 0 #8f3823}
+.tip{margin:12px 2px 0;text-align:center;font-size:11px;line-height:1.6;font-weight:700;color:var(--ink-faint)}
+
+/* ---------- result ---------- */
+.certOuter{padding:14px;border-radius:var(--r-l);background:linear-gradient(150deg,#e8d5ac,#dcc599);box-shadow:var(--shadow)}
+.cert{position:relative;padding:20px 15px 18px;background:#fffdf6;border:1px solid #cbb489;text-align:center}
+.cert:before{content:"";position:absolute;inset:5px;border:1px solid #e2d2ad;pointer-events:none}
+.certEyebrow{display:block;font-size:9.5px;font-weight:900;letter-spacing:.22em;color:#9b8b6b}
+.certName{margin:7px 0 0;font-family:var(--serif);font-size:25px;font-weight:700;letter-spacing:.02em;color:var(--green-deep)}
+.certRule{display:flex;align-items:center;gap:9px;margin:11px 4px 15px;color:#a89771}
+.certRule:before,.certRule:after{content:"";flex:1;height:1px;background:currentColor;opacity:.5}
+.certRule span{font-size:9.5px;font-weight:900;letter-spacing:.14em}
+
+.certVisual{margin:0 0 16px;display:flex;align-items:center;justify-content:center;min-height:150px;padding:10px;border-radius:var(--r-m);background:radial-gradient(circle at 50% 38%,#fff8e2,#f2e6c6)}
+.certVisual img{display:block;width:100%;height:auto;max-height:280px;object-fit:contain;border-radius:6px}
+.seal{width:132px;color:var(--green-deep)}
+.seal svg{display:block;width:100%;height:auto}
+
+.rtype{margin:0 0 4px}
+.rtype .lead{display:block;font-size:12px;font-weight:800;color:var(--ink-soft);letter-spacing:.02em}
+.titleBox{position:relative;display:block;margin:9px auto;padding:14px 10px;max-width:340px}
+.titleBox:before,.titleBox:after{content:"";position:absolute;left:14%;right:14%;height:1px;background:linear-gradient(90deg,transparent,#d3bd93,transparent)}
+.titleBox:before{top:0}
+.titleBox:after{bottom:0}
+.titleBox strong{display:block;font-family:var(--serif);font-size:29px;line-height:1.32;font-weight:700;letter-spacing:-.035em;color:var(--purple);word-break:keep-all}
+.titleBox .brk{color:#c3ad86;font-weight:400;margin:0 2px}
+
+.countBlock{margin:16px auto 0;max-width:300px}
+.countRow{display:flex;align-items:baseline;justify-content:center;gap:8px}
+.countLabel{font-size:11px;font-weight:900;letter-spacing:.06em;color:var(--ink-faint)}
+.countVal{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--green-deep)}
+.countVal em{font-style:normal;font-size:13px;color:var(--ink-faint)}
+.countBar{height:5px;margin-top:8px;border-radius:999px;background:#e7dbc0;overflow:hidden}
+.countBar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green),var(--yellow));width:0;transition:width .5s cubic-bezier(.22,.7,.3,1)}
+
+.friendNames{margin:17px 0 0;padding-top:14px;border-top:1px dashed #dccfb2}
+.friendNames .label{display:block;margin-bottom:9px;font-size:9.5px;font-weight:900;letter-spacing:.16em;color:#9b8b6b}
+.friendList{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+@media(min-width:360px){.friendList{grid-template-columns:repeat(3,1fr)}}
+.plate{padding:7px 4px 6px;border:1px solid #e0d2b4;border-radius:6px;background:#fffaee;text-align:center;line-height:1.25}
+.plate b{display:block;font-size:12px;font-weight:900;letter-spacing:-.02em;word-break:keep-all}
+.plate em{display:block;margin-top:2px;font-style:normal;font-size:8px;font-weight:800;letter-spacing:.06em;color:#a08e73;text-transform:uppercase;word-break:break-word}
+
+.desc{margin:15px auto 0;max-width:330px;font-size:12.5px;line-height:1.75;font-weight:600;color:var(--ink-soft);word-break:keep-all}
+.certFoot{margin-top:17px;padding-top:12px;border-top:1px solid #eadfc4;font-size:10px;font-weight:800;letter-spacing:.12em;color:#a08e73}
+
+.album{margin-top:12px;padding:16px 14px 18px}
+.album h2{margin:5px 0 0;font-size:17px;letter-spacing:-.03em}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:13px}
+.pol{margin:0;background:#fff;border:1px solid #e3d7c0;padding:5px 5px 6px;box-shadow:0 3px 9px rgba(72,52,22,.14)}
+.pol:nth-child(3n+1){transform:rotate(-1.2deg)}
+.pol:nth-child(3n){transform:rotate(1.2deg)}
+.pol img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:#efe7d7}
+.pol figcaption{margin-top:5px;text-align:center;line-height:1.2}
+.pol figcaption b{display:block;font-size:10px;font-weight:900;letter-spacing:-.02em;word-break:keep-all}
+.pol figcaption em{display:block;margin-top:1px;font-style:normal;font-size:7.5px;font-weight:800;letter-spacing:.05em;color:#a08e73;text-transform:uppercase;word-break:break-word}
+.empty{text-align:center;padding:22px 10px;font-size:12px;line-height:1.7;font-weight:700;color:var(--ink-faint)}
+
+.actions{margin-top:12px}
+.ghost{width:100%;min-height:50px;border:1px solid var(--line);border-radius:var(--r-m);padding:13px;background:var(--paper);color:var(--ink);font-size:14px;font-weight:900;cursor:pointer;transition:background .15s ease}
+.ghost:active{background:var(--paper-2)}
+
+.denied{min-height:100vh;display:flex;align-items:center;justify-content:center;font-weight:900;color:#444}
+
+@media(max-width:359px){
+  .hero{min-height:430px;padding:22px 16px 18px}
+  .hero h1{font-size:34px}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .question{font-size:17.5px;min-height:80px}
+  .ans{min-height:58px;font-size:16px}
+  .certName{font-size:22px}
+  .titleBox strong{font-size:24px}
+  .grid{gap:7px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
 </style>
 </head>
 <body>
 <div id="denied" class="denied" style="display:none">404</div>
 <div id="app" style="display:none">
 <main class="wrap">
-  <div class="head"><div><div class="brand" id="brand">아이돌 수련회 · 온라인 퇴소식</div><small>PRIVATE BETA</small></div><span class="beta">BETA</span></div>
-  <div class="langs" id="langs"></div>
-  <section id="home" class="page on">
-    <div class="card hero">
-      <svg class="nightart" viewBox="0 0 500 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="glow"><stop offset="0" stop-color="#ffd66f" stop-opacity=".55"/><stop offset="1" stop-color="#ff8b32" stop-opacity="0"/></radialGradient></defs><circle cx="404" cy="75" r="32" fill="#ffe9b0" opacity=".92"/><circle cx="415" cy="66" r="32" fill="#0a2137"/><g fill="#fff7d5" opacity=".78"><circle cx="55" cy="72" r="2"/><circle cx="115" cy="42" r="1.5"/><circle cx="175" cy="91" r="1.4"/><circle cx="260" cy="58" r="2"/><circle cx="324" cy="112" r="1.3"/><circle cx="457" cy="134" r="1.7"/></g><path d="M0 310 L70 244 L118 288 L185 215 L258 288 L329 228 L390 289 L450 237 L500 276 L500 520 L0 520Z" fill="#0e302c"/><ellipse cx="250" cy="414" rx="130" ry="88" fill="url(#glow)"/><g transform="translate(250 405)"><rect x="-45" y="42" width="92" height="13" rx="6" fill="#6a3b21" transform="rotate(14)"/><rect x="-47" y="42" width="92" height="13" rx="6" fill="#7e4926" transform="rotate(-14)"/><path d="M0 42C-38 20-24-5-7-25C-8-4 4 3 8-18C30 6 34 25 0 42Z" fill="#ff8b32"/><path d="M0 38C-17 25-12 9-2-4C1 8 9 11 11 2C20 18 14 30 0 38Z" fill="#ffd35d"/></g></svg>
-      <div class="heroCopy"><h1 id="hero">온라인 퇴소식</h1><p id="sub">수련회의 마지막 밤.<br>26개의 추억을 YES / NO로 떠올리고<br>친구들과 명예롭게 퇴소해 보세요!</p><button class="primary" id="start">퇴소식 시작하기 →</button></div>
+
+  <header class="topbar">
+    <div class="mark">
+      <span class="eyebrow">MUNIVERSE · PRIVATE BETA</span>
+      <strong id="brand">아이돌 수련회 · 온라인 퇴소식</strong>
     </div>
-    <div class="card how"><h3 id="how">참여 방법</h3><div class="steps"><div class="step"><b>1</b><span>장면을 보고</span></div><div class="step"><b>2</b><span>YES / NO 선택</span></div><div class="step"><b>3</b><span>26개 모두 완료</span></div><div class="step"><b>4</b><span>친구·퇴소증 확인</span></div></div></div>
-    <div class="kit"><strong>아이돌 수련회 확장판</strong><small>숨겨진 장면과 함께 추억을 다시 확인해 보세요</small><button class="vod">확장판 보러 가기 →</button></div>
+    <span class="tagChip">BETA</span>
+  </header>
+
+  <nav class="langs" id="langs" aria-label="언어 선택"></nav>
+
+  <!-- ================= HOME ================= -->
+  <section id="home" class="page on">
+    <div class="hero">
+      <svg class="nightart" viewBox="0 0 500 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="glow"><stop offset="0" stop-color="#ffd66f" stop-opacity=".55"/><stop offset="1" stop-color="#ff8b32" stop-opacity="0"/></radialGradient></defs><circle cx="404" cy="75" r="32" fill="#ffe9b0" opacity=".92"/><circle cx="415" cy="66" r="32" fill="#0a2137"/><g fill="#fff7d5" opacity=".78"><circle cx="55" cy="72" r="2"/><circle cx="115" cy="42" r="1.5"/><circle cx="175" cy="91" r="1.4"/><circle cx="260" cy="58" r="2"/><circle cx="324" cy="112" r="1.3"/><circle cx="457" cy="134" r="1.7"/></g><path d="M0 310 L70 244 L118 288 L185 215 L258 288 L329 228 L390 289 L450 237 L500 276 L500 520 L0 520Z" fill="#0e302c"/><ellipse cx="250" cy="414" rx="130" ry="88" fill="url(#glow)"/><g transform="translate(250 405)"><rect x="-45" y="42" width="92" height="13" rx="6" fill="#6a3b21" transform="rotate(14)"/><rect x="-47" y="42" width="92" height="13" rx="6" fill="#7e4926" transform="rotate(-14)"/><path d="M0 42C-38 20-24-5-7-25C-8-4 4 3 8-18C30 6 34 25 0 42Z" fill="#ff8b32"/><path d="M0 38C-17 25-12 9-2-4C1 8 9 11 11 2C20 18 14 30 0 38Z" fill="#ffd35d"/></g></svg>
+      <div class="heroCopy">
+        <span class="eyebrow">ONLINE EXIT CEREMONY</span>
+        <h1 id="hero">온라인 퇴소식</h1>
+        <div class="rule"></div>
+        <p id="sub">수련회의 마지막 밤.<br>26개의 추억을 YES / NO로 떠올리고<br>친구들과 명예롭게 퇴소해 보세요.</p>
+        <button class="primary" id="start">퇴소식 시작하기 →</button>
+        <span class="heroNote">26개의 장면 · 정답은 마지막에 한 번에 공개</span>
+      </div>
+    </div>
+
+    <section class="paper how">
+      <span class="sectionLabel">HOW TO JOIN</span>
+      <h3 id="how">참여 방법</h3>
+      <ol class="steps">
+        <li class="step"><b>1</b><span>장면 보기</span></li>
+        <li class="step"><b>2</b><span>YES / NO</span></li>
+        <li class="step"><b>3</b><span>26개 완료</span></li>
+        <li class="step"><b>4</b><span>퇴소증 확인</span></li>
+      </ol>
+      <p class="hint-line">문제 순서는 도전할 때마다 무작위로 섞이고, 정답 여부는 26개를 모두 마친 뒤에 한 번에 공개됩니다.</p>
+    </section>
+
+    <div class="vodCard">
+      <span class="sectionLabel">NEXT STORY</span>
+      <strong>〈아이돌 수련회〉 확장판</strong>
+      <p>숨겨진 장면과 함께 수련회의 추억을 다시 확인해 보세요.</p>
+      <button class="vod">확장판 보러 가기 →</button>
+    </div>
   </section>
+
+  <!-- ================= QUESTION ================= -->
   <section id="question" class="page">
-    <div id="quizStatus" class="status">문항을 불러오는 중입니다.</div><div class="qtop"><span id="qIndex">0 / 26</span><span>정답은 마지막에만 집계됩니다</span></div><div class="track"><div class="fill" id="fill" style="width:0%"></div></div>
-    <div class="card" id="qCard" style="display:none"><div class="pic"><img id="qImg" alt="문제 장면"><div class="missing" id="missingImg">문제 사진 업로드 대기 중</div><span class="tag" id="qTag">MEMORY</span></div><div class="qb"><div class="hint">이 순간을 기억하시나요?</div><div class="question" id="questionText"></div><div class="answers"><button class="ans yes" id="yesBtn">YES</button><button class="ans no" id="noBtn">NO</button></div><div class="tip">선택 후 바로 다음 문제로 이동합니다. 정답 여부는 진행 중 공개되지 않습니다.</div></div></div>
+    <div class="qhead">
+      <div class="qhrow">
+        <span class="memoryNo" id="qTag">MEMORY 01</span>
+        <span class="qcount"><b id="qIndexNum">1</b> / 26</span>
+      </div>
+      <div class="stamps" id="stamps" role="progressbar" aria-valuemin="0" aria-valuemax="26" aria-valuenow="0" aria-label="퇴소식 진행률"></div>
+    </div>
+
+    <div id="quizStatus" class="status">문항을 불러오는 중입니다.</div>
+
+    <article class="paper qcard" id="qCard" style="display:none">
+      <div class="pic" id="picBox">
+        <img id="qImg" alt="문제 장면">
+        <div class="missing" id="missingImg">문제 사진을 불러오지 못했습니다.</div>
+        <span class="filmTag" id="filmTag">MEMORY</span>
+      </div>
+      <div class="qb">
+        <p class="hint">이 순간을 기억하시나요?</p>
+        <p class="question" id="questionText" aria-live="polite"></p>
+      </div>
+    </article>
+
+    <div class="answers" id="answers" style="display:none">
+      <button class="ans yes" id="yesBtn"><span class="glyph" aria-hidden="true">○</span>YES</button>
+      <button class="ans no" id="noBtn"><span class="glyph" aria-hidden="true">✕</span>NO</button>
+    </div>
+    <p class="tip" id="qTip" style="display:none">선택하면 바로 다음 장면으로 · 정답은 마지막에 한 번에</p>
   </section>
+
+  <!-- ================= RESULT ================= -->
   <section id="result" class="page">
-    <div class="certTitleBar"><h2>온라인 퇴소증</h2><span class="beta">RESULT</span></div><div class="card certwrap"><div class="cert"><div class="logoarea" id="heroResult"><div class="logoMark">아이돌 수련회</div></div><small>명예로운 퇴소에 성공했습니다!</small><h1>온라인 퇴소증</h1><small>CERTIFICATE</small><div class="score"><span id="friendScore">0</span><span style="font-size:15px">명</span></div><div class="rtype" id="resultTitle"></div><p class="desc" id="resultDesc"></p><div class="friendNames" id="friendNames"></div><small>2026 · Muniverse</small></div></div>
-    <div class="card album"><small>MY CAMP MEMORIES</small><h2>추억의 사진첩</h2><div class="grid" id="albumGrid"></div><div class="empty" id="albumEmpty" style="display:none">이번엔 사진첩이 비어 있어요. 다시 도전해 보세요!</div></div><div class="actions"><button class="dark" id="retryBtn">다시 도전하기</button><button class="vod">확장판 보러 가기</button></div>
+    <div class="certOuter">
+      <div class="cert">
+        <span class="certEyebrow">ONLINE EXIT CERTIFICATE</span>
+        <h2 class="certName">온라인 퇴소증</h2>
+        <div class="certRule"><span>IDOL SCHOOL CAMP</span></div>
+
+        <div class="certVisual" id="certVisual">
+          <img id="groupPhoto" alt="아이돌 수련회 단체사진" style="display:none">
+          <div class="seal" id="campSeal">
+            <svg viewBox="0 0 130 130" role="img" aria-label="아이돌 수련회 마크">
+              <circle cx="65" cy="65" r="61" fill="none" stroke="currentColor" stroke-width="2"/>
+              <circle cx="65" cy="65" r="54.5" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 4" opacity=".65"/>
+              <path d="M65 30 L79 57 H51 Z" fill="currentColor"/>
+              <path d="M65 43 L85 73 H45 Z" fill="currentColor" opacity=".88"/>
+              <rect x="62.5" y="73" width="5" height="8" rx="1" fill="#7e4926"/>
+              <path d="M38 82.5 H92" stroke="currentColor" stroke-width="1.4" opacity=".5"/>
+              <text x="65" y="101" text-anchor="middle" font-size="13" font-weight="900" fill="currentColor" font-family="-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif">아이돌 수련회</text>
+              <text x="65" y="113" text-anchor="middle" font-size="5.6" font-weight="700" letter-spacing="1" fill="currentColor" opacity=".75" font-family="-apple-system,sans-serif">ONLINE EXIT · 2026</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="rtype" id="resultTitle"></div>
+
+        <div class="countBlock">
+          <div class="countRow">
+            <span class="countLabel">함께 퇴소한 친구</span>
+            <span class="countVal"><span id="friendScore">0</span><em> / 26</em></span>
+          </div>
+          <div class="countBar"><i id="countFill"></i></div>
+        </div>
+
+        <div id="friendNames"></div>
+        <p class="desc" id="resultDesc"></p>
+        <div class="certFoot">2026 · Muniverse</div>
+      </div>
+    </div>
+
+    <section class="paper album">
+      <span class="sectionLabel">MY CAMP MEMORIES</span>
+      <h2>추억의 사진첩</h2>
+      <div class="grid" id="albumGrid"></div>
+      <div class="empty" id="albumEmpty" style="display:none">이번엔 사진첩이 비어 있어요.</div>
+    </section>
+
+    <div class="vodCard">
+      <span class="sectionLabel">NEXT STORY</span>
+      <strong>〈아이돌 수련회〉 확장판</strong>
+      <p>퀴즈에서 만난 장면들, 확장판에서 더 길게 다시 만나 보세요.</p>
+      <button class="vod">확장판 보러 가기 →</button>
+    </div>
+
+    <div class="actions"><button class="ghost" id="retryBtn">다시 도전하기</button></div>
   </section>
-</main></div>
+
+</main>
+</div>
 <script>
-(function(){'use strict';const BETA_KEY='V8f2Qm7L4xP9cN6w';if(new URLSearchParams(location.search).get('key')!==BETA_KEY){document.getElementById('denied').style.display='flex';return;}document.getElementById('app').style.display='block';const CFG=window.MUNIVERSE_CONFIG||{},SB_URL=CFG.supabaseUrl||'',SB_KEY=CFG.supabaseAnonKey||'',EXIT_BUCKET='idolcamp-exit',MEMBER_BUCKET='idolcamp-members',TOTAL=26;let lang='ko',questions=[],order=[],idx=0,answers=[],memberPhotos=new Map(),titles=new Map(),settings=null;const $=s=>document.querySelector(s);function headers(extra){return Object.assign({apikey:SB_KEY,Authorization:'Bearer '+SB_KEY},extra||{});}function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}function publicUrl(bucket,path){return `${SB_URL}/storage/v1/object/public/${bucket}/${String(path||'').replace(/^\/+/, '')}`;}function showPage(id){document.querySelectorAll('.page').forEach(e=>e.classList.toggle('on',e.id===id));window.scrollTo(0,0);}function shuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){let j;if(window.crypto&&crypto.getRandomValues){const r=new Uint32Array(1);crypto.getRandomValues(r);j=r[0]%(i+1);}else j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}function questionText(q){return q[lang==='en'?'question_en':lang==='ja'?'question_ja':lang==='cn'?'question_zh_cn':lang==='tw'?'question_zh_tw':'question_ko']||q.question_ko||'';}function memberLabel(m){return lang==='ko'?(m.member_ko||m.member_en||''):(m.member_en||m.member_ko||'');}function drawLangs(){const labels=[['ko','한국어'],['en','English'],['ja','日本語'],['tw','繁體中文'],['cn','简体中文']];$('#langs').innerHTML='';labels.forEach(([code,label])=>{const b=document.createElement('button');b.textContent=label;b.className=lang===code?'on':'';b.onclick=()=>{lang=code;drawLangs();if($('#question').classList.contains('on')&&questions.length)renderQuestion();if($('#result').classList.contains('on'))renderResultTextOnly();};$('#langs').appendChild(b);});}async function api(path,opts){const r=await fetch(`${SB_URL}${path}`,Object.assign({headers:headers()},opts||{}));if(!r.ok)throw new Error(await r.text());return r.status===204?null:r.json();}async function loadData(){if(!SB_URL||!SB_KEY)throw new Error('Supabase 설정이 없습니다.');const [qs,photos,ts,st]=await Promise.all([api('/rest/v1/camp_exit_quiz_public?select=photo_no,member_id,image_path,question_ko,question_en,question_ja,question_zh_cn,question_zh_tw,active&active=eq.true&order=photo_no.asc'),api('/rest/v1/camp_member_photos?select=id,member_ko,member_en,photo_path,active&active=eq.true&is_group=eq.false'),api('/rest/v1/camp_exit_titles?select=friend_count,title_ko,title_en,title_ja,title_zh_cn,title_zh_tw&order=friend_count.asc'),api('/rest/v1/camp_exit_settings?select=id,release_at,group_photo_path,kit_url,vod_url&id=eq.1&limit=1')]);if(!Array.isArray(qs)||qs.length!==TOTAL)throw new Error(`문항 수 확인 필요 (${qs?.length||0}/${TOTAL})`);questions=qs;memberPhotos.clear();photos.forEach(p=>memberPhotos.set(p.id,p));titles.clear();ts.forEach(t=>titles.set(Number(t.friend_count),t));settings=Array.isArray(st)&&st[0]?st[0]:null;}function startQuiz(){order=shuffle(questions);idx=0;answers=[];showPage('question');renderQuestion();}function renderQuestion(){const q=order[idx];if(!q)return;$('#quizStatus').textContent='26개 문제의 순서는 이번 도전에서 무작위로 섞였습니다.';$('#qCard').style.display='block';$('#qIndex').textContent=`${idx+1} / ${TOTAL}`;$('#fill').style.width=`${(idx/TOTAL)*100}%`;$('#qTag').textContent=`MEMORY ${String(idx+1).padStart(2,'0')}`;$('#questionText').textContent=questionText(q);const img=$('#qImg'),miss=$('#missingImg');img.style.display='block';miss.style.display='none';img.src=publicUrl(EXIT_BUCKET,q.image_path);img.onerror=()=>{img.style.display='none';miss.style.display='block';};$('#yesBtn').disabled=false;$('#noBtn').disabled=false;}function choose(choice){const q=order[idx];if(!q)return;answers.push({photo_no:q.photo_no,choice:!!choice});$('#yesBtn').disabled=true;$('#noBtn').disabled=true;idx++;if(idx<TOTAL)renderQuestion();else grade();}async function grade(){$('#quizStatus').textContent='추억을 정리하는 중입니다…';$('#qCard').style.display='none';$('#fill').style.width='100%';try{const data=await api('/rest/v1/rpc/grade_camp_exit_quiz',{method:'POST',headers:headers({'Content-Type':'application/json'}),body:JSON.stringify({p_answers:answers})});const result=(Array.isArray(data)?data[0]:data)||{};renderResult(Number(result.friend_count||0),Array.isArray(result.member_ids)?result.member_ids:[]);}catch(e){console.error(e);$('#quizStatus').textContent='결과 집계에 실패했습니다. 다시 시도해 주세요.';setTimeout(()=>{idx=0;answers=[];order=shuffle(questions);renderQuestion();},1200);}}function titleFor(count){const t=titles.get(count);if(!t)return count===0?'아직 낯가리는 수련생':`${count}명의 친구를 모은 수련생`;return t[lang==='en'?'title_en':lang==='ja'?'title_ja':lang==='cn'?'title_zh_cn':lang==='tw'?'title_zh_tw':'title_ko']||t.title_ko;}function renderResultTextOnly(){const count=Number($('#friendScore').textContent||0);$('#resultTitle').innerHTML=`<span class="lead">당신은</span><strong>${esc(titleFor(count))} 수련생</strong><span class="lead">입니다.</span>`;$('#resultDesc').textContent=`${count}명의 수련회 친구와 추억을 나누며 명예롭게 퇴소에 성공했습니다.`;}function renderResult(count,ids){$('#friendScore').textContent=count;renderResultTextOnly();const matched=ids.map(id=>memberPhotos.get(id)).filter(Boolean);const names=$('#friendNames');names.innerHTML=matched.length?`<span class="label">함께 퇴소한 친구</span><div class="friendList">${matched.map(p=>`<span class="friendChip">${esc(p.member_ko||p.member_en||'')}<em>${esc(p.member_en||'')}</em></span>`).join('')}</div>`:'';const grid=$('#albumGrid');grid.innerHTML='';$('#albumEmpty').style.display=matched.length?'none':'block';matched.forEach(p=>{const f=document.createElement('figure');f.className='pol';f.innerHTML=`<img alt="${esc(memberLabel(p))}" src="${esc(publicUrl(MEMBER_BUCKET,p.photo_path))}"><figcaption>${esc(memberLabel(p))}</figcaption>`;grid.appendChild(f);});const hero=$('#heroResult');hero.innerHTML='';if(count===TOTAL&&settings&&settings.group_photo_path){const im=document.createElement('img');im.src=publicUrl(EXIT_BUCKET,settings.group_photo_path);im.alt='아이돌 수련회 단체사진';im.onerror=()=>{hero.innerHTML='';};hero.appendChild(im);}else{hero.innerHTML='<div class="logoMark">아이돌 수련회</div>';}showPage('result');}function goVod(){if(settings&&settings.vod_url)location.href=settings.vod_url;else alert('확장판 URL 입력 대기 중입니다.');}$('#start').onclick=async()=>{const b=$('#start');b.disabled=true;b.textContent='준비 중…';try{await loadData();startQuiz();}catch(e){console.error(e);alert('퇴소식 데이터를 불러오지 못했습니다.');}finally{b.disabled=false;b.textContent='퇴소식 시작하기 →';}};$('#yesBtn').onclick=()=>choose(true);$('#noBtn').onclick=()=>choose(false);$('#retryBtn').onclick=startQuiz;document.querySelectorAll('.vod').forEach(b=>b.onclick=goVod);drawLangs();})();
+(function(){
+'use strict';
+
+/* ---- PRIVATE BETA access control (do not remove) ---- */
+const BETA_KEY='V8f2Qm7L4xP9cN6w';
+if(new URLSearchParams(location.search).get('key')!==BETA_KEY){document.getElementById('denied').style.display='flex';return;}
+document.getElementById('app').style.display='block';
+
+const CFG=window.MUNIVERSE_CONFIG||{},
+      SB_URL=CFG.supabaseUrl||'',
+      SB_KEY=CFG.supabaseAnonKey||'',
+      EXIT_BUCKET='idolcamp-exit',
+      MEMBER_BUCKET='idolcamp-members',
+      TOTAL=26;
+
+let lang='ko',questions=[],order=[],idx=0,answers=[],
+    memberPhotos=new Map(),titles=new Map(),settings=null,
+    lastCount=0,lastMatched=[];
+
+const $=s=>document.querySelector(s);
+function headers(extra){return Object.assign({apikey:SB_KEY,Authorization:'Bearer '+SB_KEY},extra||{});}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function publicUrl(bucket,path){return `${SB_URL}/storage/v1/object/public/${bucket}/${String(path||'').replace(/^\/+/, '')}`;}
+function showPage(id){document.querySelectorAll('.page').forEach(e=>e.classList.toggle('on',e.id===id));window.scrollTo(0,0);}
+function shuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){let j;if(window.crypto&&crypto.getRandomValues){const r=new Uint32Array(1);crypto.getRandomValues(r);j=r[0]%(i+1);}else j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+function questionText(q){return q[lang==='en'?'question_en':lang==='ja'?'question_ja':lang==='cn'?'question_zh_cn':lang==='tw'?'question_zh_tw':'question_ko']||q.question_ko||'';}
+function memberLabel(m){return lang==='ko'?(m.member_ko||m.member_en||''):(m.member_en||m.member_ko||'');}
+
+function drawLangs(){
+  const labels=[['ko','한국어'],['en','English'],['ja','日本語'],['tw','繁體中文'],['cn','简体中文']];
+  const box=$('#langs');box.innerHTML='';
+  labels.forEach(([code,label])=>{
+    const b=document.createElement('button');
+    b.type='button';b.textContent=label;b.className=lang===code?'on':'';
+    b.setAttribute('aria-pressed',lang===code?'true':'false');
+    b.onclick=()=>{
+      lang=code;drawLangs();
+      if($('#question').classList.contains('on')&&questions.length)renderQuestion();
+      if($('#result').classList.contains('on'))renderResultView();
+    };
+    box.appendChild(b);
+  });
+}
+
+async function api(path,opts){
+  const r=await fetch(`${SB_URL}${path}`,Object.assign({headers:headers()},opts||{}));
+  if(!r.ok)throw new Error(await r.text());
+  return r.status===204?null:r.json();
+}
+
+async function loadData(){
+  if(!SB_URL||!SB_KEY)throw new Error('Supabase 설정이 없습니다.');
+  const [qs,photos,ts,st]=await Promise.all([
+    api('/rest/v1/camp_exit_quiz_public?select=photo_no,member_id,image_path,question_ko,question_en,question_ja,question_zh_cn,question_zh_tw,active&active=eq.true&order=photo_no.asc'),
+    api('/rest/v1/camp_member_photos?select=id,member_ko,member_en,photo_path,active&active=eq.true&is_group=eq.false'),
+    api('/rest/v1/camp_exit_titles?select=friend_count,title_ko,title_en,title_ja,title_zh_cn,title_zh_tw&order=friend_count.asc'),
+    api('/rest/v1/camp_exit_settings?select=id,release_at,group_photo_path,kit_url,vod_url&id=eq.1&limit=1')
+  ]);
+  if(!Array.isArray(qs)||qs.length!==TOTAL)throw new Error(`문항 수 확인 필요 (${qs?.length||0}/${TOTAL})`);
+  questions=qs;
+  memberPhotos.clear();photos.forEach(p=>memberPhotos.set(p.id,p));
+  titles.clear();ts.forEach(t=>titles.set(Number(t.friend_count),t));
+  settings=Array.isArray(st)&&st[0]?st[0]:null;
+}
+
+/* ---- progress stamps ---- */
+function buildStamps(){
+  const box=$('#stamps');
+  if(box.childElementCount===TOTAL)return;
+  box.innerHTML='';
+  for(let i=0;i<TOTAL;i++)box.appendChild(document.createElement('i'));
+}
+function paintStamps(current){
+  const box=$('#stamps');
+  Array.prototype.forEach.call(box.children,(el,i)=>{
+    el.className=i<current?'done':(i===current?'now':'');
+  });
+  box.setAttribute('aria-valuenow',String(current));
+}
+
+function setStatus(text,visible){
+  const el=$('#quizStatus');
+  el.innerHTML=text;
+  el.classList.toggle('hide',!visible);
+}
+
+function startQuiz(){
+  order=shuffle(questions);idx=0;answers=[];
+  buildStamps();
+  showPage('question');
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q=order[idx];if(!q)return;
+  setStatus('',false);
+  $('#qCard').style.display='block';
+  $('#answers').style.display='grid';
+  $('#qTip').style.display='block';
+  $('#qIndexNum').textContent=String(idx+1);
+  const memory=`MEMORY ${String(idx+1).padStart(2,'0')}`;
+  $('#qTag').textContent=memory;
+  $('#filmTag').textContent=memory;
+  paintStamps(idx);
+  $('#questionText').textContent=questionText(q);
+
+  const box=$('#picBox'),img=$('#qImg');
+  box.classList.remove('loaded','failed');
+  img.onload=()=>box.classList.add('loaded');
+  img.onerror=()=>box.classList.add('failed');
+  img.src=publicUrl(EXIT_BUCKET,q.image_path);
+  if(img.complete&&img.naturalWidth)box.classList.add('loaded');
+
+  const card=$('#qCard');
+  card.classList.remove('swap');void card.offsetWidth;card.classList.add('swap');
+
+  $('#yesBtn').disabled=false;$('#noBtn').disabled=false;
+
+  const next=order[idx+1];
+  if(next&&next.image_path){const pre=new Image();pre.src=publicUrl(EXIT_BUCKET,next.image_path);}
+}
+
+function choose(choice){
+  const q=order[idx];if(!q)return;
+  answers.push({photo_no:q.photo_no,choice:!!choice});
+  $('#yesBtn').disabled=true;$('#noBtn').disabled=true;
+  idx++;
+  if(idx<TOTAL)renderQuestion();else grade();
+}
+
+async function grade(){
+  setStatus('추억을 정리하는 중입니다<span class="dots"></span>',true);
+  $('#qCard').style.display='none';
+  $('#answers').style.display='none';
+  $('#qTip').style.display='none';
+  paintStamps(TOTAL);
+  try{
+    const data=await api('/rest/v1/rpc/grade_camp_exit_quiz',{method:'POST',headers:headers({'Content-Type':'application/json'}),body:JSON.stringify({p_answers:answers})});
+    const result=(Array.isArray(data)?data[0]:data)||{};
+    renderResult(Number(result.friend_count||0),Array.isArray(result.member_ids)?result.member_ids:[]);
+  }catch(e){
+    console.error(e);
+    setStatus('결과 집계에 실패했습니다. 다시 시도해 주세요.',true);
+    setTimeout(()=>{idx=0;answers=[];order=shuffle(questions);renderQuestion();},1200);
+  }
+}
+
+function titleFor(count){
+  const t=titles.get(count);
+  if(!t)return count===0?'아직 낯가리는':`${count}명의 친구를 모은`;
+  return t[lang==='en'?'title_en':lang==='ja'?'title_ja':lang==='cn'?'title_zh_cn':lang==='tw'?'title_zh_tw':'title_ko']||t.title_ko;
+}
+
+/* re-renders every language-dependent part of the result from stored state */
+function renderResultView(){
+  const count=lastCount,matched=lastMatched;
+
+  $('#friendScore').textContent=count;
+  $('#countFill').style.width=`${(count/TOTAL)*100}%`;
+  $('#resultTitle').innerHTML=
+    `<span class="lead">당신은</span>`+
+    `<span class="titleBox"><strong><span class="brk">「</span>${esc(titleFor(count))} 수련생<span class="brk">」</span></strong></span>`+
+    `<span class="lead">입니다.</span>`;
+  $('#resultDesc').textContent=count===0
+    ?'이번에는 함께 퇴소한 친구를 만나지 못했어요. 다시 도전하면 새로운 순서로 추억을 확인할 수 있습니다.'
+    :`${count}명의 수련회 친구와 추억을 나누며 명예롭게 퇴소에 성공했습니다.`;
+
+  /* no matches: the name area is left empty, the description carries the state */
+  const names=$('#friendNames');
+  names.className=matched.length?'friendNames':'';
+  names.innerHTML=matched.length
+    ?`<span class="label">CAMP FRIENDS</span><div class="friendList">${matched.map(p=>
+        `<span class="plate"><b>${esc(p.member_ko||p.member_en||'')}</b><em>${esc(p.member_en||'')}</em></span>`).join('')}</div>`
+    :'';
+
+  const grid=$('#albumGrid');
+  grid.innerHTML='';
+  $('#albumEmpty').style.display=matched.length?'none':'block';
+  matched.forEach(p=>{
+    const f=document.createElement('figure');
+    f.className='pol';
+    f.innerHTML=`<img alt="${esc(memberLabel(p))}" src="${esc(publicUrl(MEMBER_BUCKET,p.photo_path))}">`+
+      `<figcaption><b>${esc(p.member_ko||p.member_en||'')}</b><em>${esc(p.member_en||'')}</em></figcaption>`;
+    const im=f.querySelector('img');
+    im.onerror=()=>{im.style.visibility='hidden';};
+    grid.appendChild(f);
+  });
+
+  const photo=$('#groupPhoto'),seal=$('#campSeal');
+  if(count===TOTAL&&settings&&settings.group_photo_path){
+    photo.onerror=()=>{photo.style.display='none';seal.style.display='block';};
+    photo.src=publicUrl(EXIT_BUCKET,settings.group_photo_path);
+    photo.style.display='block';seal.style.display='none';
+  }else{
+    photo.removeAttribute('src');
+    photo.style.display='none';seal.style.display='block';
+  }
+}
+
+function renderResult(count,ids){
+  lastCount=count;
+  lastMatched=ids.map(id=>memberPhotos.get(id)).filter(Boolean);
+  renderResultView();
+  showPage('result');
+}
+
+function goVod(){
+  if(settings&&settings.vod_url)location.href=settings.vod_url;
+  else alert('확장판 URL 입력 대기 중입니다.');
+}
+
+$('#start').onclick=async()=>{
+  const b=$('#start');b.disabled=true;b.textContent='준비 중…';
+  try{await loadData();startQuiz();}
+  catch(e){console.error(e);alert('퇴소식 데이터를 불러오지 못했습니다.');}
+  finally{b.disabled=false;b.textContent='퇴소식 시작하기 →';}
+};
+$('#yesBtn').onclick=()=>choose(true);
+$('#noBtn').onclick=()=>choose(false);
+$('#retryBtn').onclick=startQuiz;
+document.querySelectorAll('.vod').forEach(b=>b.onclick=goVod);
+drawLangs();
+})();
 </script>
 </body>
 </html>
