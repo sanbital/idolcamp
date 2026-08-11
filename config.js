@@ -1,6 +1,6 @@
 window.MUNIVERSE_CONFIG = {
   supabaseUrl: "https://kkaoerbblpuszptiibvo.supabase.co",
-  supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXB hYmFzZSIsInJlZiI6ImtrYW9lcmJibHB1c3pwdGlpYnZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NDY5MTMsImV4cCI6MjA5ODEyMjkxM30.Xf549NzokL9zY7AT8Jd5NYFRj81r7z2hS6i7kZbpCMw".replace(" ",""),
+  supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtrYW9lcmJibHB1c3pwdGlpYnZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NDY5MTMsImV4cCI6MjA5ODEyMjkxM30.Xf549NzokL9zY7AT8Jd5NYFRj81r7z2hS6i7kZbpCMw",
   shareUrl: "https://idolcamp.muniverse.io/",
   gisu: 1,
   maxShown: 1000,
@@ -42,17 +42,6 @@ window.MUNIVERSE_CONFIG = {
   }
 };
 
-/* Private beta skin loader: production /exit/ is intentionally untouched. */
-(function () {
-  var path = String(location.pathname || "").replace(/\/+$/, "");
-  if (!/\/beta-exit-8b41d9e7a5$/.test(path)) return;
-  document.documentElement.classList.add("exit-mockup-v2");
-  var link = document.createElement("link");
-  link.rel = "stylesheet";
-  link.href = new URL("./mockup-v2.css?v=20260812-1", location.href).href;
-  document.head.appendChild(link);
-})();
-
 window.addEventListener("DOMContentLoaded", function () {
   try {
     if (typeof I18N !== "undefined") {
@@ -88,7 +77,7 @@ window.addEventListener("DOMContentLoaded", function () {
       Object.assign(I18N["zh-TW"], {
         playlistTitle: "《IDOL SCHOOL CAMP》現在就來追完！",
         playlistSubtitle: "全集已公開 · 在 Muniverse YouTube 一次看完",
-        scoreDesc: "原有宣言、按讚與分享積分已於8月7日23:59截止統計。|8月11日上午10點起，將加入迷因才藝秀決賽投票積分。|X按讚統計至8月10日上午11點59分まで反映されます。|점수판은 10분마다 업데이트됩니다.",
+        scoreDesc: "原有宣言、按讚與分享積分已於8月7日23:59截止統計。|8月11日上午10點起，將加入迷因才藝秀決賽投票積分。|X按讚統計至8月10日上午11點59分。|積分榜每10分鐘更新一次。",
         scoreCtaTitle: "8月11日上午10點 迷因才藝秀決賽投票開始",
         scoreCtaBody: "用投票積分逆轉排名|把王者獎牌送給你最愛的隊伍|8月14日退營儀式活動開啟 · 敬請期待最後的故事"
       });
