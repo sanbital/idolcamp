@@ -133,10 +133,49 @@ button{font-family:inherit}
 .certRule:before,.certRule:after{content:"";flex:1;height:1px;background:currentColor;opacity:.5}
 .certRule span{font-size:9.5px;font-weight:900;letter-spacing:.14em}
 
-.certVisual{margin:0 0 16px;display:flex;align-items:center;justify-content:center;min-height:150px;padding:10px;border-radius:var(--r-m);background:radial-gradient(circle at 50% 38%,#fff8e2,#f2e6c6)}
+.certVisual{margin:0 0 16px;display:flex;align-items:center;justify-content:center;min-height:150px;padding:12px 10px;border-radius:var(--r-m);background:radial-gradient(circle at 50% 38%,#fff8e2,#f2e6c6)}
 .certVisual img{display:block;width:100%;height:auto;max-height:280px;object-fit:contain;border-radius:6px}
+#campLogo{max-width:78%;max-height:132px}
 .seal{width:132px;color:var(--green-deep)}
 .seal svg{display:block;width:100%;height:auto}
+
+/* ---- perfect 26/26 certificate ---- */
+.perfectBadge{display:inline-block;margin:0 0 12px;padding:7px 15px;border-radius:999px;background:linear-gradient(135deg,#f6dc9a,#d9a93f);color:#3c2a06;font-size:11px;font-weight:900;letter-spacing:.18em;box-shadow:0 3px 10px rgba(0,0,0,.28)}
+.certOuter.perfect{background:linear-gradient(150deg,#123528,#0a241b);box-shadow:0 12px 30px rgba(10,30,20,.32)}
+.cert.perfect{background:#102e23;border-color:#caa64f;color:#f6efdc}
+.cert.perfect:before{border-color:rgba(214,176,94,.42)}
+.cert.perfect .certEyebrow{color:#d8bd7c}
+.cert.perfect .certName{color:#f7e7b6}
+.cert.perfect .certRule{color:#b99a52}
+.cert.perfect .certVisual{background:linear-gradient(160deg,rgba(230,197,120,.16),rgba(230,197,120,.05));box-shadow:inset 0 0 0 1px rgba(214,176,94,.35)}
+.cert.perfect .rtype .lead{color:#cbbf9d}
+.cert.perfect .titleBox:before,.cert.perfect .titleBox:after{background:linear-gradient(90deg,transparent,#b99a52,transparent)}
+.cert.perfect .titleBox strong{color:#f4d98a}
+.cert.perfect .titleBox .brk{color:#9c8248}
+.cert.perfect .countLabel{color:#bcae8a}
+.cert.perfect .countVal{color:#f7e7b6}
+.cert.perfect .countVal em{color:#a6997a}
+.cert.perfect .countBar{background:rgba(255,246,220,.14)}
+.cert.perfect .countBar i{background:linear-gradient(90deg,#d9a93f,#f6dc9a)}
+.cert.perfect .friendNames{border-top-color:rgba(214,176,94,.32)}
+.cert.perfect .friendNames .label{color:#bda877}
+.cert.perfect .plate{background:rgba(255,247,225,.06);border-color:rgba(214,176,94,.32)}
+.cert.perfect .plate em{color:#b0a382}
+.cert.perfect .desc{color:#cdc3a7}
+.cert.perfect .certFoot{border-top-color:rgba(214,176,94,.28);color:#b09c6d}
+
+/* ---- share ---- */
+.shareCard{margin-top:12px;padding:16px 14px 17px}
+.shareCard h2{margin:5px 0 13px;font-size:17px;letter-spacing:-.03em}
+.shareRow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.shareBtn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:66px;padding:10px 4px;border:1px solid var(--line);border-radius:var(--r-m);background:var(--paper-2);color:var(--ink);font-size:11.5px;font-weight:800;letter-spacing:-.02em;cursor:pointer;transition:transform .15s ease,background .15s ease,opacity .15s ease}
+.shareBtn svg{width:21px;height:21px;flex:none}
+.shareBtn:active{transform:scale(.97)}
+.shareBtn:disabled{opacity:.5;cursor:default;transform:none}
+.shareBtn.x{background:#16181c;border-color:#16181c;color:#fff}
+.shareBtn.ig{background:#fff2f6;border-color:#e7c3d2;color:#98305d}
+.shareNote{margin:11px 2px 0;text-align:center;font-size:11px;line-height:1.65;font-weight:700;color:var(--ink-faint);word-break:keep-all;min-height:2.2em}
+.shareNote.warn{color:var(--red)}
 
 .rtype{margin:0 0 4px}
 .rtype .lead{display:block;font-size:12px;font-weight:800;color:var(--ink-soft);letter-spacing:.02em}
@@ -281,15 +320,17 @@ button{font-family:inherit}
 
   <!-- ================= RESULT ================= -->
   <section id="result" class="page">
-    <div class="certOuter">
-      <div class="cert">
+    <div class="certOuter" id="certOuter">
+      <div class="cert" id="cert">
+        <div class="perfectBadge" id="perfectBadge" style="display:none">PERFECT · 26 / 26</div>
         <span class="certEyebrow">ONLINE EXIT CERTIFICATE</span>
         <h2 class="certName">온라인 퇴소증</h2>
         <div class="certRule"><span>IDOL SCHOOL CAMP</span></div>
 
         <div class="certVisual" id="certVisual">
           <img id="groupPhoto" alt="아이돌 수련회 단체사진" style="display:none">
-          <div class="seal" id="campSeal">
+          <img id="campLogo" src="../assets/camp-logo.png" alt="아이돌 수련회 로고">
+          <div class="seal" id="campSeal" style="display:none">
             <svg viewBox="0 0 130 130" role="img" aria-label="아이돌 수련회 마크">
               <circle cx="65" cy="65" r="61" fill="none" stroke="currentColor" stroke-width="2"/>
               <circle cx="65" cy="65" r="54.5" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 4" opacity=".65"/>
@@ -318,6 +359,26 @@ button{font-family:inherit}
         <div class="certFoot">2026 · Muniverse</div>
       </div>
     </div>
+
+    <section class="paper shareCard">
+      <span class="sectionLabel">SHARE MY CERTIFICATE</span>
+      <h2>퇴소증 자랑하기</h2>
+      <div class="shareRow">
+        <button class="shareBtn x" id="shareX">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-7 8 8.2 12h-6.4l-5-7.3L6 22H3l7.5-8.6L2.6 2H9l4.5 6.6L18.9 2Z" fill="currentColor"/></svg>
+          <span>X에 올리기</span>
+        </button>
+        <button class="shareBtn ig" id="shareIg">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5.4"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none"/></svg>
+          <span>인스타그램</span>
+        </button>
+        <button class="shareBtn save" id="saveImg">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v10.5m0 0 4.2-4.2M12 14l-4.2-4.2M4.5 19h15"/></svg>
+          <span>이미지 저장</span>
+        </button>
+      </div>
+      <p class="shareNote" id="shareNote" role="status">퇴소증을 이미지로 저장하거나 내 계정에 바로 올릴 수 있어요.</p>
+    </section>
 
     <section class="paper album">
       <span class="sectionLabel">MY CAMP MEMORIES</span>
@@ -527,14 +588,262 @@ function renderResultView(){
     grid.appendChild(f);
   });
 
-  const photo=$('#groupPhoto'),seal=$('#campSeal');
-  if(count===TOTAL&&settings&&settings.group_photo_path){
-    photo.onerror=()=>{photo.style.display='none';seal.style.display='block';};
+  /* 26/26 only: group photo on top. Otherwise the camp logo (seal is the last-resort fallback). */
+  const photo=$('#groupPhoto'),logo=$('#campLogo'),seal=$('#campSeal'),perfect=count===TOTAL;
+  logo.onerror=()=>{logo.style.display='none';if(photo.style.display==='none')seal.style.display='block';};
+  if(perfect&&settings&&settings.group_photo_path){
+    photo.onerror=()=>{photo.style.display='none';logo.style.display='block';};
     photo.src=publicUrl(EXIT_BUCKET,settings.group_photo_path);
-    photo.style.display='block';seal.style.display='none';
+    photo.style.display='block';logo.style.display='none';seal.style.display='none';
   }else{
     photo.removeAttribute('src');
-    photo.style.display='none';seal.style.display='block';
+    photo.style.display='none';logo.style.display='block';seal.style.display='none';
+  }
+  $('#cert').classList.toggle('perfect',perfect);
+  $('#certOuter').classList.toggle('perfect',perfect);
+  $('#perfectBadge').style.display=perfect?'inline-block':'none';
+
+  prepareCertImage();
+}
+
+/* ============ certificate image (canvas export) ============ */
+const CERT_W=1080,CERT_H=1350;
+let certBlobPromise=null;
+
+function loadImg(src,cors){
+  return new Promise(resolve=>{
+    const im=new Image();
+    if(cors)im.crossOrigin='anonymous';
+    im.onload=()=>resolve(im);
+    im.onerror=()=>resolve(null);
+    im.src=src;
+  });
+}
+function fitContain(iw,ih,maxW,maxH){const r=Math.min(maxW/iw,maxH/ih);return{w:iw*r,h:ih*r};}
+/* ctx.roundRect is missing on older iOS Safari */
+function rrect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  if(ctx.roundRect){ctx.roundRect(x,y,w,h,r);return;}
+  r=Math.min(r,w/2,h/2);
+  ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();
+}
+function wrapLines(ctx,text,maxW){
+  const words=String(text).split(' ');const lines=[];let line='';
+  const pushChars=w=>{let cur='';for(const ch of w){if(ctx.measureText(cur+ch).width>maxW&&cur){lines.push(cur);cur=ch;}else cur+=ch;}return cur;};
+  for(const w of words){
+    const test=line?line+' '+w:w;
+    if(ctx.measureText(test).width<=maxW){line=test;continue;}
+    if(line){lines.push(line);line='';}
+    line=ctx.measureText(w).width>maxW?pushChars(w):w;
+  }
+  if(line)lines.push(line);
+  return lines;
+}
+
+async function drawCertificate(count,matched){
+  const perfect=count===TOTAL;
+  const cv=document.createElement('canvas');
+  cv.width=CERT_W;cv.height=CERT_H;
+  const ctx=cv.getContext('2d');
+  const SANS='"Apple SD Gothic Neo","Noto Sans KR",-apple-system,sans-serif';
+  const SERIF='"Nanum Myeongjo","AppleMyungjo","Noto Serif KR",serif';
+  const C=perfect
+    ?{bg:'#102e23',frame:'#caa64f',frame2:'rgba(214,176,94,.42)',eyebrow:'#d8bd7c',name:'#f7e7b6',rule:'#b99a52',lead:'#cbbf9d',title:'#f4d98a',brk:'#9c8248',label:'#bcae8a',val:'#f7e7b6',track:'rgba(255,246,220,.14)',bar:'#e2b64c',plate:'rgba(255,247,225,.06)',plateLine:'rgba(214,176,94,.32)',ko:'#f6efdc',en:'#b0a382',desc:'#cdc3a7',foot:'#b09c6d'}
+    :{bg:'#fffdf6',frame:'#cbb489',frame2:'#e2d2ad',eyebrow:'#9b8b6b',name:'#194835',rule:'#a89771',lead:'#5d6a5c',title:'#6b4189',brk:'#c3ad86',label:'#8a8578',val:'#194835',track:'#e7dbc0',bar:'#2d6543',plate:'#fffaee',plateLine:'#e0d2b4',ko:'#173b2e',en:'#a08e73',desc:'#5d6a5c',foot:'#a08e73'};
+
+  ctx.fillStyle=perfect?'#0a241b':'#e8d5ac';
+  ctx.fillRect(0,0,CERT_W,CERT_H);
+  ctx.fillStyle=C.bg;ctx.fillRect(28,28,CERT_W-56,CERT_H-56);
+  ctx.strokeStyle=C.frame;ctx.lineWidth=3;ctx.strokeRect(28,28,CERT_W-56,CERT_H-56);
+  ctx.strokeStyle=C.frame2;ctx.lineWidth=1.5;ctx.strokeRect(46,46,CERT_W-92,CERT_H-92);
+
+  ctx.textAlign='center';ctx.textBaseline='alphabetic';
+  const mid=CERT_W/2;let y=126;
+
+  if(perfect){
+    const bw=286,bh=46,bx=mid-bw/2;
+    const g=ctx.createLinearGradient(bx,y-34,bx+bw,y+12);
+    g.addColorStop(0,'#f6dc9a');g.addColorStop(1,'#d9a93f');
+    ctx.fillStyle=g;
+    rrect(ctx,bx,y-34,bw,bh,23);ctx.fill();
+    ctx.fillStyle='#3c2a06';ctx.font='900 20px '+SANS;
+    ctx.fillText('P E R F E C T   ·   2 6 / 2 6',mid,y-3);
+    y+=54;
+  }
+
+  ctx.fillStyle=C.eyebrow;ctx.font='900 20px '+SANS;
+  ctx.fillText('O N L I N E   E X I T   C E R T I F I C A T E',mid,y);
+  y+=62;
+  ctx.fillStyle=C.name;ctx.font='700 56px '+SERIF;
+  ctx.fillText('온라인 퇴소증',mid,y);
+  y+=40;
+  ctx.fillStyle=C.rule;ctx.font='900 17px '+SANS;
+  const capW=ctx.measureText('I D O L   S C H O O L   C A M P').width;
+  ctx.fillText('I D O L   S C H O O L   C A M P',mid,y);
+  ctx.strokeStyle=C.rule;ctx.globalAlpha=.5;ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(120,y-6);ctx.lineTo(mid-capW/2-22,y-6);
+  ctx.moveTo(mid+capW/2+22,y-6);ctx.lineTo(CERT_W-120,y-6);ctx.stroke();
+  ctx.globalAlpha=1;
+  y+=34;
+
+  /* top visual: group photo at 26/26, otherwise the camp logo */
+  const visualH=perfect?270:190;
+  let visual=null;
+  if(perfect&&settings&&settings.group_photo_path)visual=await loadImg(publicUrl(EXIT_BUCKET,settings.group_photo_path),true);
+  if(!visual)visual=await loadImg('../assets/camp-logo.png',false);
+  if(visual){
+    const box=fitContain(visual.naturalWidth,visual.naturalHeight,CERT_W-260,visualH);
+    ctx.drawImage(visual,mid-box.w/2,y,box.w,box.h);
+    if(perfect){
+      ctx.strokeStyle=C.frame;ctx.lineWidth=2.5;
+      ctx.strokeRect(mid-box.w/2-7,y-7,box.w+14,box.h+14);
+    }
+    y+=box.h;
+  }else y+=60;
+  y+=54;
+
+  ctx.fillStyle=C.lead;ctx.font='800 24px '+SANS;
+  ctx.fillText('당신은',mid,y);
+  const titleTop=y+32;
+  y+=80;
+
+  ctx.font='700 58px '+SERIF;
+  const titleLines=wrapLines(ctx,`「${titleFor(count)} 수련생」`,CERT_W-220);
+  ctx.fillStyle=C.title;
+  titleLines.forEach(line=>{ctx.fillText(line,mid,y);y+=70;});
+  const titleBottom=y-48;
+  ctx.strokeStyle=C.brk;ctx.lineWidth=1.5;ctx.globalAlpha=.75;
+  ctx.beginPath();
+  ctx.moveTo(mid-190,titleTop);ctx.lineTo(mid+190,titleTop);
+  ctx.moveTo(mid-190,titleBottom);ctx.lineTo(mid+190,titleBottom);
+  ctx.stroke();ctx.globalAlpha=1;
+  y+=8;
+
+  ctx.fillStyle=C.lead;ctx.font='800 24px '+SANS;
+  ctx.fillText('입니다.',mid,y);
+  y+=64;
+
+  ctx.font='900 21px '+SANS;
+  const lbl='함께 퇴소한 친구',lblW=ctx.measureText(lbl).width;
+  ctx.font='700 40px '+SERIF;
+  const numTxt=`${count} / ${TOTAL}`,numW=ctx.measureText(numTxt).width;
+  const totalW=lblW+18+numW,startX=mid-totalW/2;
+  ctx.textAlign='left';
+  ctx.fillStyle=C.label;ctx.font='900 21px '+SANS;ctx.fillText(lbl,startX,y);
+  ctx.fillStyle=C.val;ctx.font='700 40px '+SERIF;ctx.fillText(numTxt,startX+lblW+18,y);
+  ctx.textAlign='center';
+  y+=22;
+  const barW=420,barX=mid-barW/2;
+  ctx.fillStyle=C.track;rrect(ctx,barX,y,barW,9,5);ctx.fill();
+  if(count>0){ctx.fillStyle=C.bar;rrect(ctx,barX,y,barW*(count/TOTAL),9,5);ctx.fill();}
+  y+=52;
+
+  if(matched.length){
+    ctx.fillStyle=C.label;ctx.font='900 17px '+SANS;
+    ctx.fillText('C A M P   F R I E N D S',mid,y);
+    y+=30;
+
+    /* the name block has to fit above the footer whatever the count is:
+       name plates when there is room, otherwise one compact wrapped line */
+    const bottom=CERT_H-152,avail=bottom-y;
+    const n=matched.length,cols=n<=4?2:n<=12?3:4,rows=Math.ceil(n/cols);
+    const gapX=12,gapY=9;
+    const cellH=Math.floor((avail-gapY*(rows-1))/rows);
+
+    if(cellH>=46){
+      const h=Math.min(cellH,76),gridW=CERT_W-200,cellW=(gridW-gapX*(cols-1))/cols;
+      const koF=cols===4?21:25,enF=cols===4?12:14,gx=mid-gridW/2;
+      matched.forEach((p,i)=>{
+        const cx=gx+(i%cols)*(cellW+gapX),cy=y+Math.floor(i/cols)*(h+gapY);
+        ctx.fillStyle=C.plate;ctx.strokeStyle=C.plateLine;ctx.lineWidth=1.5;
+        rrect(ctx,cx,cy,cellW,h,10);ctx.fill();ctx.stroke();
+        const ccx=cx+cellW/2;
+        ctx.fillStyle=C.ko;ctx.font='900 '+koF+'px '+SANS;
+        ctx.fillText(p.member_ko||p.member_en||'',ccx,cy+h/2+2);
+        ctx.fillStyle=C.en;ctx.font='800 '+enF+'px '+SANS;
+        ctx.fillText(String(p.member_en||'').toUpperCase(),ccx,cy+h-14);
+      });
+    }else{
+      const lh=36;
+      ctx.font='800 25px '+SANS;
+      let lines=wrapLines(ctx,matched.map(p=>p.member_ko||p.member_en||'').join(' · '),CERT_W-200);
+      const maxLines=Math.max(1,Math.floor(avail/lh));
+      if(lines.length>maxLines)lines=lines.slice(0,maxLines);
+      ctx.fillStyle=C.ko;
+      lines.forEach(line=>{ctx.fillText(line,mid,y+22);y+=lh;});
+    }
+  }else{
+    ctx.fillStyle=C.desc;ctx.font='700 24px '+SANS;
+    ctx.fillText('이번에는 함께 퇴소한 친구를 만나지 못했어요.',mid,y+8);
+  }
+
+  ctx.fillStyle=C.foot;ctx.font='800 20px '+SANS;
+  ctx.fillText('2026 · Muniverse',mid,CERT_H-92);
+  ctx.strokeStyle=C.frame2;ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(200,CERT_H-124);ctx.lineTo(CERT_W-200,CERT_H-124);ctx.stroke();
+
+  return new Promise(resolve=>{
+    try{cv.toBlob(b=>resolve(b),'image/png');}
+    catch(e){console.error(e);resolve(null);}
+  });
+}
+
+/* pre-render so the share sheet can open inside the click gesture */
+function prepareCertImage(){
+  note('퇴소증을 이미지로 저장하거나 내 계정에 바로 올릴 수 있어요.');
+  certBlobPromise=drawCertificate(lastCount,lastMatched).catch(e=>{console.error(e);return null;});
+}
+function certFileName(){return `idolcamp-exit-certificate-${lastCount}of${TOTAL}.png`;}
+function shareText(){
+  return `〈아이돌 수련회〉 온라인 퇴소식\n저는 「${titleFor(lastCount)} 수련생」입니다.\n함께 퇴소한 친구 ${lastCount} / ${TOTAL}`;
+}
+function note(msg,warn){
+  const el=$('#shareNote');
+  el.textContent=msg;
+  el.classList.toggle('warn',!!warn);
+}
+function downloadBlob(blob){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=certFileName();
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+async function getCertBlob(){
+  if(!certBlobPromise)prepareCertImage();
+  return certBlobPromise;
+}
+async function saveCert(){
+  const blob=await getCertBlob();
+  if(!blob){note('이미지를 만들지 못했습니다. 화면을 캡처해 주세요.',true);return;}
+  downloadBlob(blob);
+  note('퇴소증 이미지를 저장했어요.');
+}
+/* Instagram and X have no web API to post on a user's behalf; the native
+   share sheet is what actually hands the image to their own account. */
+async function shareCert(target){
+  const blob=await getCertBlob();
+  if(!blob){note('이미지를 만들지 못했습니다. 화면을 캡처해 주세요.',true);return;}
+  const file=new File([blob],certFileName(),{type:'image/png'});
+  const link=CFG.shareUrl||'';
+  if(navigator.canShare&&navigator.canShare({files:[file]})){
+    try{
+      await navigator.share({files:[file],text:target==='x'&&link?`${shareText()}\n${link}`:shareText()});
+      note(target==='ig'?'인스타그램을 선택하면 내 계정에 바로 올릴 수 있어요.':'공유가 완료되면 내 계정에 올라갑니다.');
+      return;
+    }catch(e){
+      if(e&&e.name==='AbortError')return;
+      console.error(e);
+    }
+  }
+  downloadBlob(blob);
+  if(target==='x'){
+    const url='https://x.com/intent/post?text='+encodeURIComponent(shareText())+(link?'&url='+encodeURIComponent(link):'');
+    window.open(url,'_blank','noopener');
+    note('퇴소증 이미지를 저장했어요. X 작성 창에서 이미지를 첨부해 주세요.');
+  }else{
+    note('퇴소증 이미지를 저장했어요. 인스타그램 앱에서 업로드해 주세요.');
   }
 }
 
@@ -559,6 +868,9 @@ $('#start').onclick=async()=>{
 $('#yesBtn').onclick=()=>choose(true);
 $('#noBtn').onclick=()=>choose(false);
 $('#retryBtn').onclick=startQuiz;
+$('#saveImg').onclick=()=>saveCert();
+$('#shareX').onclick=()=>shareCert('x');
+$('#shareIg').onclick=()=>shareCert('ig');
 document.querySelectorAll('.vod').forEach(b=>b.onclick=goVod);
 drawLangs();
 })();
