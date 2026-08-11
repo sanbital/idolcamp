@@ -1,15 +1,23 @@
-/* Approved hero artwork — private beta only. Korean hero uses the exact approved visual. */
+/* Approved hero artwork — private beta only.
+   The HQ artwork is injected as an object URL by hq-fix.js.
+   No DB/Storage request is used for this banner. */
 html.exit-mockup-v2[lang^="ko"] .hero{
   position:relative;
   width:100%;
-  aspect-ratio:800/569;
+  aspect-ratio:4/3;
   min-height:0!important;
   margin-top:12px;
   overflow:hidden;
   border:0!important;
   border-radius:18px;
-  background:#081523 url('./hero-approved.webp?v=20260812-2') center/cover no-repeat!important;
+  background:#081523!important;
+  background-position:center!important;
+  background-size:100% 100%!important;
+  background-repeat:no-repeat!important;
   box-shadow:0 8px 0 rgba(62,47,27,.16),0 18px 34px rgba(37,31,22,.16)!important;
+}
+html.exit-mockup-v2[lang^="ko"] .hero.hero-hq-ready{
+  background-image:var(--hero-hq-image)!important;
 }
 html.exit-mockup-v2[lang^="ko"] .hero:after{display:none!important}
 html.exit-mockup-v2[lang^="ko"] .hero .heroArt{display:none!important}
@@ -32,10 +40,10 @@ html.exit-mockup-v2[lang^="ko"] .hero .heroInner>.heroDesc{display:none!importan
 html.exit-mockup-v2[lang^="ko"] .hero .heroCta{
   display:block!important;
   position:absolute!important;
-  left:20.2%!important;
-  right:20.8%!important;
-  top:83.0%!important;
-  height:14.6%!important;
+  left:25%!important;
+  right:25%!important;
+  top:82.5%!important;
+  height:13%!important;
   width:auto!important;
   max-width:none!important;
   margin:0!important;
@@ -68,4 +76,15 @@ html.exit-mockup-v2[lang^="ko"] .hero #start:focus-visible{
   background:#2f6a4b!important;
 }
 html.exit-mockup-v2[lang^="ko"] .hero #start:disabled{cursor:wait!important}
-@media(max-width:759px){html.exit-mockup-v2[lang^="ko"] .hero{border-radius:18px!important}}
+
+/* Perfect-certificate artwork is DOM/CSS, so frame and typography stay
+   resolution-independent. Only the real 26/26 group photo is raster. */
+html.exit-mockup-v2 #cert.perfect #groupPhoto{
+  image-rendering:auto!important;
+  width:100%!important;
+  height:auto!important;
+}
+
+@media(max-width:759px){
+  html.exit-mockup-v2[lang^="ko"] .hero{border-radius:18px!important}
+}
