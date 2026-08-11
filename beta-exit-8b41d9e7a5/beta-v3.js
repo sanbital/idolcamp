@@ -99,11 +99,13 @@ function ensurePerfectParts(cert){
 
 function localizeStats(stats){
   if(!stats)return;
-  const l=lang();
   const labels={
     ko:['매칭 완료 친구','정답 개수','정확도'],en:['Friends matched','Correct','Accuracy'],ja:['一緒に退所','正解数','正解率'],'zh-CN':['匹配朋友','答对','正确率'],'zh-TW':['配對好友','答對','正確率']
-  }[l]||['매칭 완료 친구','정답 개수','정확도'];
-  [...stats.children].forEach((el,i)=>{const s=$('span',el);if(s)s.textContent=labels[i];});
+  }[lang()]||['매칭 완료 친구','정답 개수','정확도'];
+  [...stats.children].forEach((el,i)=>{
+    const s=$('span',el);
+    if(s&&s.textContent!==labels[i])s.textContent=labels[i];
+  });
 }
 
 function applyResult(){
@@ -130,7 +132,7 @@ function applyResult(){
     if(p.msg.textContent!==map.message)p.msg.textContent=map.message;
     localizeStats(p.stats);
     const badge=$('#perfectBadge');
-    if(badge)badge.textContent='PERFECT · 26 / 26';
+    if(badge&&badge.textContent!=='PERFECT · 26 / 26')badge.textContent='PERFECT · 26 / 26';
   }else{
     cert.querySelectorAll('.perfectSubline,.perfectMedallion,.perfectMessage,.perfectStats,.perfectGoldSeal').forEach(e=>e.remove());
   }
