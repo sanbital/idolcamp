@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
-<title>아이돌 수련회 온라인 퇴소식 · PRIVATE BETA</title>
+<title>아이돌 수련회 퇴소식 · PRIVATE BETA</title>
 <style>
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#e9dfc9;font-family:-apple-system,BlinkMacSystemFont,"Pretendard",sans-serif}
 #betaFrame{display:block;width:100%;height:100dvh;border:0;opacity:0;transition:opacity .14s ease;background:#e9dfc9}
@@ -14,7 +14,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#e9dfc9;fon
 </head>
 <body>
 <div id="loading"><span>PRIVATE BETA</span></div>
-<iframe id="betaFrame" title="아이돌 수련회 온라인 퇴소식 프라이빗 베타" referrerpolicy="same-origin"></iframe>
+<iframe id="betaFrame" title="아이돌 수련회 퇴소식 프라이빗 베타" referrerpolicy="same-origin"></iframe>
 <script>
 (function(){
   'use strict';
@@ -29,13 +29,30 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#e9dfc9;fon
       var doc=frame.contentDocument;
       if(!doc){show();return;}
       doc.documentElement.classList.add('exit-mockup-v2');
-      var theme=doc.createElement('link');
-      theme.rel='stylesheet';
-      theme.href='./mockup-v2.css?v=20260812-2';
-      theme.onload=show;theme.onerror=show;
-      doc.head.appendChild(theme);
-      var base=doc.createElement('base');base.target='_top';doc.head.appendChild(base);
-      setTimeout(show,1200);
+
+      var baseTheme=doc.createElement('link');
+      baseTheme.rel='stylesheet';
+      baseTheme.href='./mockup-v2.css?v=20260812-2';
+      doc.head.appendChild(baseTheme);
+
+      var approvedTheme=doc.createElement('link');
+      approvedTheme.rel='stylesheet';
+      approvedTheme.href='./mockup-v3.css?v=20260812-1';
+      doc.head.appendChild(approvedTheme);
+
+      var behavior=doc.createElement('script');
+      behavior.src='./beta-v3.js?v=20260812-1';
+      doc.head.appendChild(behavior);
+
+      var base=doc.createElement('base');
+      base.target='_top';
+      doc.head.appendChild(base);
+
+      var pending=2;
+      function ready(){pending--;if(pending<=0)show();}
+      baseTheme.onload=ready;baseTheme.onerror=ready;
+      approvedTheme.onload=ready;approvedTheme.onerror=ready;
+      setTimeout(show,1400);
     }catch(e){show();}
   });
   setTimeout(show,3500);
