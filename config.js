@@ -13,6 +13,11 @@ window.MUNIVERSE_CONFIG = {
   idolcampApiUrl: "https://kkaoerbblpuszptiibvo.supabase.co/functions/v1/idolcamp-api",
   turnstileSiteKey: "0x4AAAAAAD0Ey7nrVqGnKma-",
   scoreDeadline: "2026-08-07T23:59:59+09:00",
+  exitCeremony: {
+    enabled: true,
+    releaseAt: "2026-08-14T18:00:00+09:00",
+    path: "/exit/"
+  },
   talent: {
     enabled: true,
     previewBeforeStart: false,
@@ -57,7 +62,7 @@ window.addEventListener("DOMContentLoaded", function () {
         playlistTitle: "『IDOL SCHOOL CAMP』を今こそ一気見！",
         playlistSubtitle: "全話公開済み · Muniverse YouTubeで一気見",
         scoreDesc: "既存の決意・いいね・共有スコアは8/7 23:59時点で集計終了しました。|8/11 午前10時から画像芸大会の決選投票スコアが加算されます。|Xいいねは8/10 午前11時59分まで反映されます。|点数表は10分ごとに更新されます。",
-        scoreCtaTitle: "8/11 午前10時 画像芸大会 決選投票スタート",
+        scoreCtaTitle: "8/11 午前10시 画像芸大会 決選投票スタート",
         scoreCtaBody: "投票スコアで順位を逆転しよう|推しチームに王メダルをプレゼント|8/14 退所式イベント開始 · 最後の物語もお楽しみに"
       });
       Object.assign(I18N["zh-CN"], {
@@ -136,7 +141,7 @@ window.addEventListener("DOMContentLoaded", function () {
         '<image href="' + logo + '" x="20" y="52" width="286" height="178" preserveAspectRatio="xMidYMid meet"/>' +
         '<text x="337" y="72" fill="#0c3c2f" font-family="Pretendard, sans-serif" font-size="62" font-weight="900" letter-spacing="-2">수련회 점수판</text>' +
         '<rect x="1045" y="18" width="125" height="52" rx="27" fill="#e6f0ce"/><text x="1108" y="52" text-anchor="middle" fill="#123b2f" font-family="Pretendard, sans-serif" font-size="25" font-weight="900">↻ 10분</text>' +
-        '<rect x="335" y="92" width="835" height="244" rx="22" fill="#fffefa" fill-opacity=".92" stroke="#e6e3da" stroke-width="2" filter="url(#headShadow)"/>' +
+        '<rect x="335" y="92" width="835" height="244" rx="22" fill="#fffefa" fill-opacity=".92" stroke="#e6e3da" stroke-width="2" filter="url(#headShadow"/>' +
         '<line x1="365" y1="167" x2="1140" y2="167" stroke="#e9e5da" stroke-width="1" stroke-dasharray="5 5"/><line x1="365" y1="235" x2="1140" y2="235" stroke="#e9e5da" stroke-width="1" stroke-dasharray="5 5"/><line x1="365" y1="288" x2="1140" y2="288" stroke="#e9e5da" stroke-width="1" stroke-dasharray="5 5"/>' +
         '<g fill="#08773d" stroke="#08773d" font-family="Pretendard, sans-serif" font-weight="900"><text x="373" y="132" font-size="31">▣</text><text x="371" y="210" font-size="38">◷</text><text x="369" y="270" font-size="42">★</text><text x="369" y="326" font-size="40">↻</text></g>' +
         '<g fill="#101d19" font-family="Pretendard, sans-serif" font-size="24" font-weight="800" letter-spacing="-.7"><text x="430" y="126">기존 다짐·좋아요·공유 점수는</text><text x="430" y="157">8/7 23:59 기준으로 집계가 마감되었습니다.</text><text x="430" y="202">8/11 오전 10시부터는</text><text x="430" y="232">장기자랑 결선 투표 점수가 합산됩니다.</text><text x="430" y="274">짤기자랑 X 좋아요는 8/10 오전 11시 59분까지 반영됩니다.</text><text x="430" y="326">점수판은 10분마다 업데이트됩니다.</text></g>' +
@@ -219,4 +224,60 @@ window.addEventListener("DOMContentLoaded", function () {
   } catch (e) {
     console.warn("Approved mockup UI override failed", e);
   }
+});
+
+/* 퇴소식: DB 공개시각 기준 자동 잠금 해제 + 공개 페이지 연결 */
+window.addEventListener("DOMContentLoaded", function () {
+  var cfg = window.MUNIVERSE_CONFIG || {};
+  var exitCfg = cfg.exitCeremony || {};
+  if (!exitCfg.enabled) return;
+  var tab = document.querySelector('.tab[data-tab="farewell"]');
+  if (!tab) return;
+  var fallbackRelease = Date.parse(exitCfg.releaseAt || "2026-08-14T18:00:00+09:00");
+  var target = exitCfg.path || "/exit/";
+  var serverOffset = 0;
+  var opened = false;
+
+  function unlock() {
+    if (opened) return;
+    opened = true;
+    tab.classList.remove("locked");
+    tab.removeAttribute("aria-disabled");
+    tab.innerHTML = '<span data-i18n="tabFarewell">퇴소</span>';
+    if (typeof applyI18n === "function") { try { applyI18n(); } catch (_) {} }
+    tab.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      location.href = target;
+    }, true);
+    var q = new URLSearchParams(location.search).get("tab");
+    if (q === "farewell" || location.hash === "#farewell") location.replace(target);
+  }
+
+  function evaluate(releaseAt) {
+    var releaseMs = Date.parse(releaseAt || "") || fallbackRelease;
+    if (Date.now() + serverOffset >= releaseMs) unlock();
+  }
+
+  async function sync() {
+    try {
+      if (!cfg.supabaseUrl || !cfg.supabaseAnonKey) { evaluate(exitCfg.releaseAt); return; }
+      var r = await fetch(cfg.supabaseUrl + "/rest/v1/camp_exit_settings?select=release_at&id=eq.1&limit=1", {
+        headers: { apikey: cfg.supabaseAnonKey, Authorization: "Bearer " + cfg.supabaseAnonKey }
+      });
+      var dh = r.headers.get("date");
+      if (dh) {
+        var serverMs = Date.parse(dh);
+        if (Number.isFinite(serverMs)) serverOffset = serverMs - Date.now();
+      }
+      if (!r.ok) throw new Error("exit settings unavailable");
+      var rows = await r.json();
+      evaluate(rows && rows[0] && rows[0].release_at);
+    } catch (_) {
+      evaluate(exitCfg.releaseAt);
+    }
+  }
+
+  sync();
+  setInterval(function () { if (!document.hidden && !opened) sync(); }, 60000);
 });
