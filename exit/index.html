@@ -46,7 +46,7 @@ const CFG=window.MUNIVERSE_CONFIG||{},SB_URL=CFG.supabaseUrl||'',SB_KEY=CFG.supa
 let questions=[],order=[],idx=0,answers=[],memberPhotos=new Map(),titles=new Map(),settings=null,serverOffset=0,gateTimer=null;
 const $=s=>document.querySelector(s);
 function headers(extra){return Object.assign({apikey:SB_KEY,Authorization:'Bearer '+SB_KEY},extra||{});}
-function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function publicUrl(bucket,path){return `${SB_URL}/storage/v1/object/public/${bucket}/${String(path||'').replace(/^\/+/, '')}`;}
 function showPage(id){document.querySelectorAll('.page').forEach(e=>e.classList.toggle('on',e.id===id));window.scrollTo(0,0);}
 function shuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){let j;if(window.crypto&&crypto.getRandomValues){const r=new Uint32Array(1);crypto.getRandomValues(r);j=r[0]%(i+1);}else j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
