@@ -281,3 +281,28 @@ window.addEventListener("DOMContentLoaded", function () {
   sync();
   setInterval(function () { if (!document.hidden && !opened) sync(); }, 60000);
 });
+
+/* 짤기자랑 결선투표 CTA: 실제 투표 상세 페이지로 연결 */
+window.addEventListener("DOMContentLoaded", function () {
+  var voteUrl = "https://www.muniverse.io/votes/4254d040-384f-404a-a47e-404c713cf366";
+  var banner = document.getElementById("voteBanner");
+  var scoreGo = document.getElementById("scoreVoteGo");
+  var scoreCta = document.getElementById("scoreCta");
+
+  if (banner) banner.href = voteUrl;
+  if (scoreGo) scoreGo.href = voteUrl;
+
+  if (scoreCta) {
+    scoreCta.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      window.open(voteUrl, "_blank", "noopener");
+    }, true);
+    scoreCta.addEventListener("keydown", function (e) {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      window.open(voteUrl, "_blank", "noopener");
+    }, true);
+  }
+});
