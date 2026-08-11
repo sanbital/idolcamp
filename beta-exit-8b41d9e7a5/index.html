@@ -5,231 +5,256 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
 <title>아이돌 수련회 온라인 퇴소식 BETA</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@700&display=swap" rel="stylesheet">
 <script src="../config.js"></script>
 <style>
+/* Palette and shapes are taken from the main idolcamp site so the exit
+   ceremony reads as the same product: green field, ivory cards, navy
+   outlines, Jua display type. Campfire is the running motif. */
 :root{
-  --ink:#173b2e;--ink-soft:#5d6a5c;--ink-faint:#8a8578;
-  --paper:#fffaf0;--paper-2:#fff5e3;--bg:#f1e5cd;
-  --line:#dbc8a6;--line-soft:#e9dcc1;
-  --green:#2d6543;--green-deep:#194835;
-  --yellow:#e9b84f;--yellow-soft:#ffe9b6;
-  --red:#c9553a;--purple:#6b4189;
+  --green:#8FB35A;--green-deep:#6E9440;
+  --forest:#123A2E;--navy:#0F3B3A;--ink-soft:#3C5245;--ink-faint:#6E8271;
+  --card:#F6FAEF;--paper:#FBF6E9;--paper-2:#F3EAD2;
+  --yellow:#F2C230;--yellow-lite:#FFD956;--blue:#49AAC4;--orange:#E8792B;
+  --red:#D6534A;--purple:#7F6FE3;--mint:#34D399;--wood:#6E4A2F;
+  --line:rgba(15,59,58,.12);
+  --sans:"Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",system-ui,-apple-system,sans-serif;
+  --display:"Jua","Gaegu","Pretendard","Noto Sans KR",sans-serif;
   --serif:"Nanum Myeongjo","AppleMyungjo","Noto Serif KR",Georgia,serif;
-  --r-s:8px;--r-m:14px;--r-l:20px;
-  --shadow:0 8px 22px rgba(76,49,20,.10);
+  --radius:22px;
+  --shadow:0 14px 32px rgba(15,59,58,.20);
+  --pop:0 5px 0 rgba(15,59,58,.14);
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0}
+html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden}
 body{
-  background:var(--bg);color:var(--ink);
-  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",Arial,sans-serif;
-  -webkit-font-smoothing:antialiased;
-  background-image:
-    radial-gradient(circle at 12% 8%,rgba(255,255,255,.55),transparent 42%),
-    radial-gradient(circle at 88% 92%,rgba(198,166,110,.20),transparent 46%),
-    repeating-linear-gradient(135deg,rgba(150,120,70,.030) 0 2px,transparent 2px 5px);
+  font-family:var(--sans);color:var(--forest);line-height:1.5;
+  -webkit-font-smoothing:antialiased;min-height:100dvh;
+  background:
+    radial-gradient(120% 90% at 12% -10%,#A6C878 0%,transparent 55%),
+    radial-gradient(120% 120% at 100% 0%,#7EA34E 0%,transparent 45%),
+    var(--green);
   background-attachment:fixed;
 }
 button{font-family:inherit}
-:focus-visible{outline:3px solid var(--purple);outline-offset:2px}
+:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
 .wrap{width:min(calc(100% - 24px),500px);margin:auto;padding:14px 0 calc(44px + env(safe-area-inset-bottom))}
 
 /* ---------- chrome ---------- */
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-.mark .eyebrow{display:block;font-size:9px;font-weight:900;letter-spacing:.16em;color:var(--ink-faint)}
-.mark strong{display:block;font-size:16px;font-weight:900;letter-spacing:-.03em;margin-top:2px}
-.tagChip{flex:none;font-size:9.5px;font-weight:900;letter-spacing:.1em;background:var(--yellow-soft);border:1px solid #d7a73e;color:#6b4c11;padding:5px 9px;border-radius:999px}
-.langs{display:flex;gap:6px;overflow-x:auto;padding:6px 0 14px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.back{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:7px 13px 7px 10px;border-radius:999px;background:rgba(255,255,255,.55);border:1.5px solid rgba(15,59,58,.35);color:var(--navy);font-size:12.5px;font-weight:800;text-decoration:none}
+.back svg{width:13px;height:13px}
+.tagChip{flex:none;font-size:10px;font-weight:800;letter-spacing:.1em;background:var(--yellow);border:2px solid var(--navy);color:var(--navy);padding:5px 11px;border-radius:999px}
+.langs{display:flex;gap:6px;margin-bottom:14px;padding:6px;background:rgba(15,59,58,.12);border-radius:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .langs::-webkit-scrollbar{display:none}
-.langs button{position:relative;flex:none;white-space:nowrap;border:1px solid var(--line);background:var(--paper);color:var(--ink-soft);border-radius:999px;padding:9px 13px;font-size:12px;font-weight:800;cursor:pointer;transition:background .16s ease,color .16s ease}
-/* keeps the pill visually light while giving it a 48px-tall touch target */
+.langs button{position:relative;flex:1 1 0;min-width:max-content;white-space:nowrap;border:0;background:transparent;color:#1c4636;border-radius:12px;padding:10px 9px;font-size:11.5px;font-weight:800;cursor:pointer;transition:background .15s ease,color .15s ease}
 .langs button:after{content:"";position:absolute;left:0;right:0;top:-6px;bottom:-6px}
-.langs button.on{background:var(--ink);border-color:var(--ink);color:#fff9ec}
+.langs button.on{background:var(--navy);color:#FFF6D8}
 
 .page{display:none}
 .page.on{display:block;animation:pageIn .22s ease both}
 @keyframes pageIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.paper{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-l);box-shadow:var(--shadow)}
-.sectionLabel{display:block;font-size:9.5px;font-weight:900;letter-spacing:.16em;color:var(--ink-faint)}
+.card{background:var(--card);border:2px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.sectionLabel{display:block;font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--ink-faint)}
 
-/* ---------- home ---------- */
-.hero{position:relative;min-height:470px;padding:26px 20px 22px;display:flex;flex-direction:column;justify-content:flex-end;text-align:center;border-radius:var(--r-l);overflow:hidden;background:linear-gradient(#07162b,#0c2940 55%,#143b34);box-shadow:0 12px 30px rgba(20,30,20,.24)}
-.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(6,28,22,.20) 62%,rgba(6,24,20,.80));pointer-events:none}
+/* ---------- home: campfire night ---------- */
+.hero{position:relative;min-height:474px;padding:20px 18px 20px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;border-radius:26px;overflow:hidden;border:2px solid rgba(15,59,58,.15);box-shadow:var(--shadow)}
 .nightart{position:absolute;inset:0;width:100%;height:100%;display:block}
-.heroCopy{position:relative;z-index:2}
-.heroCopy .eyebrow{display:block;font-size:10px;font-weight:900;letter-spacing:.24em;color:#ffd98a;margin-bottom:8px}
-.hero h1{margin:0;color:#fff0bd;font-size:40px;line-height:1.1;letter-spacing:-.045em;text-shadow:0 2px 0 rgba(60,32,10,.55)}
-.hero .rule{width:52px;height:2px;background:rgba(255,224,150,.6);margin:14px auto}
-.hero p{margin:0 0 18px;color:#fff;font-size:14px;line-height:1.65;font-weight:700;text-shadow:0 1px 5px rgba(0,0,0,.75)}
-.primary{width:100%;min-height:54px;border:0;border-radius:var(--r-m);padding:15px;background:linear-gradient(#f0c463,#e2a839);color:#37260c;font-size:17px;font-weight:900;letter-spacing:-.02em;box-shadow:0 6px 0 #b8862a,0 12px 22px rgba(0,0,0,.28);cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
-.primary:active{transform:translateY(3px);box-shadow:0 3px 0 #b8862a,0 8px 16px rgba(0,0,0,.24)}
-.primary:disabled{opacity:.6;transform:none;box-shadow:0 6px 0 #b8862a}
-.heroNote{display:block;margin-top:11px;font-size:11px;font-weight:700;color:rgba(255,246,220,.72)}
+.heroTop,.heroBottom{position:relative;z-index:2;width:100%}
+/* wooden camp sign */
+.signBoard{position:relative;display:inline-block;padding:15px 24px 17px;border-radius:14px;border:3px solid #4A2C16;color:#FFEFB8;
+  background:linear-gradient(#95653A,#77492A 55%,#6A3F23);
+  background-image:linear-gradient(#95653A,#77492A 55%,#6A3F23),repeating-linear-gradient(90deg,rgba(0,0,0,.10) 0 3px,transparent 3px 9px);
+  box-shadow:0 9px 0 rgba(0,0,0,.30),inset 0 2px 0 rgba(255,255,255,.16)}
+.signBoard:before,.signBoard:after{content:"";position:absolute;top:9px;width:7px;height:7px;border-radius:50%;background:#E8D9A8;box-shadow:inset 0 -1px 0 rgba(0,0,0,.35)}
+.signBoard:before{left:10px}
+.signBoard:after{right:10px}
+.signBoard h1{margin:0;font-family:var(--display);font-size:38px;line-height:1.12;letter-spacing:-.01em;color:#FFEFB8;text-shadow:0 3px 0 rgba(38,20,8,.55)}
+.signBoard .en{display:block;margin-top:5px;font-size:11px;font-weight:800;letter-spacing:.28em;color:rgba(255,232,170,.78)}
+.heroLead{margin:14px 0 0;color:#fff;font-size:13.5px;line-height:1.65;font-weight:600;text-shadow:0 2px 6px rgba(0,0,0,.8)}
+.primary{width:100%;min-height:56px;border:2px solid var(--navy);border-radius:16px;padding:14px;background:linear-gradient(var(--yellow-lite),var(--yellow));color:var(--navy);font-family:var(--display);font-size:20px;letter-spacing:-.01em;box-shadow:0 6px 0 #B8862A,0 12px 20px rgba(0,0,0,.26);cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
+.primary:active{transform:translateY(3px);box-shadow:0 3px 0 #B8862A}
+.primary:disabled{opacity:.65;transform:none}
+.heroNote{display:block;margin-top:10px;font-size:11.5px;font-weight:700;color:rgba(255,247,220,.78);text-shadow:0 1px 4px rgba(0,0,0,.6)}
+@keyframes flicker{0%,100%{transform:scaleY(1) translateY(0)}50%{transform:scaleY(1.07) translateY(-2px)}}
+.flame{transform-origin:50% 100%;animation:flicker 2.1s ease-in-out infinite}
+.glow{animation:flicker 2.6s ease-in-out infinite;transform-origin:50% 70%}
 
-.how{margin-top:12px;padding:16px 15px}
-.how h3{margin:6px 0 12px;font-size:16px;letter-spacing:-.02em}
-.steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:0;padding:0}
-.step{position:relative;padding:12px 3px 10px;background:var(--paper-2);border:1px dashed var(--line);border-radius:var(--r-m);text-align:center;font-size:10px;line-height:1.4;letter-spacing:-.03em;font-weight:700;color:var(--ink-soft);word-break:keep-all}
-.step b{display:block;margin-bottom:5px;font-family:var(--serif);font-size:20px;color:var(--green);font-weight:700}
-.hint-line{margin:11px 2px 2px;font-size:11px;line-height:1.6;color:var(--ink-faint);font-weight:700}
+.how{margin-top:14px;padding:16px 15px}
+.how h3{margin:5px 0 13px;font-family:var(--display);font-size:19px}
+.steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0;padding:0}
+.step{padding:11px 4px 10px;background:var(--paper);border:2px solid var(--line);border-radius:15px;text-align:center;font-size:10.5px;line-height:1.35;letter-spacing:-.03em;font-weight:700;color:var(--ink-soft);word-break:keep-all;box-shadow:var(--pop)}
+.step b{display:block;width:23px;height:23px;margin:0 auto 6px;border-radius:50%;background:var(--yellow);border:2px solid var(--navy);color:var(--navy);font-family:var(--display);font-size:13px;line-height:20px}
+.hint-line{margin:12px 2px 2px;font-size:11.5px;line-height:1.6;color:var(--ink-faint);font-weight:600;word-break:keep-all}
 
-.vodCard{margin-top:12px;padding:17px 16px;border-radius:var(--r-l);background:linear-gradient(140deg,#153a2c,#2f6047);color:#fff;box-shadow:var(--shadow)}
-.vodCard .sectionLabel{color:rgba(255,240,205,.62)}
-.vodCard strong{display:block;margin:6px 0 4px;font-size:17px;letter-spacing:-.03em}
-.vodCard p{margin:0;font-size:12px;line-height:1.6;color:rgba(255,248,232,.78);font-weight:600}
-.vod{width:100%;min-height:50px;margin-top:13px;border:0;border-radius:var(--r-m);padding:13px;background:var(--yellow);color:#3a280f;font-size:14.5px;font-weight:900;cursor:pointer;transition:transform .15s ease,filter .15s ease}
-.vod:active{transform:scale(.985);filter:brightness(.96)}
+.vodCard{margin-top:14px;padding:17px 16px;border-radius:var(--radius);background:linear-gradient(150deg,#14402F,#1F5E44);border:2px solid rgba(15,59,58,.4);color:#fff;box-shadow:var(--shadow)}
+.vodCard .sectionLabel{color:rgba(255,240,205,.6)}
+.vodCard strong{display:block;margin:6px 0 4px;font-family:var(--display);font-size:19px;letter-spacing:-.01em}
+.vodCard p{margin:0;font-size:12px;line-height:1.6;color:rgba(255,248,232,.8);font-weight:600;word-break:keep-all}
+.vod{width:100%;min-height:52px;margin-top:13px;border:2px solid var(--navy);border-radius:15px;padding:12px;background:var(--yellow);color:var(--navy);font-family:var(--display);font-size:16px;cursor:pointer;box-shadow:0 4px 0 rgba(15,59,58,.45);transition:transform .15s ease}
+.vod:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(15,59,58,.45)}
 
 /* ---------- question ---------- */
 .qhead{margin:0 2px 12px}
-.qhrow{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:9px}
-.memoryNo{font-size:11px;font-weight:900;letter-spacing:.18em;color:var(--green)}
-.qcount{font-size:12px;font-weight:800;color:var(--ink-faint)}
-.qcount b{font-family:var(--serif);font-size:21px;font-weight:700;color:var(--ink);margin-right:1px}
-.stamps{display:flex;gap:3px;align-items:center}
-.stamps i{flex:1;height:7px;min-width:3px;border-radius:2px;background:#e0d2b6;transition:background .2s ease,transform .2s ease}
-.stamps i.done{background:var(--green)}
-.stamps i.now{background:var(--yellow);transform:scaleY(1.7);box-shadow:0 0 0 1px rgba(184,134,42,.35)}
+.qhrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.qcount{font-family:var(--display);font-size:15px;color:rgba(15,59,58,.55)}
+.qcount b{font-size:30px;font-weight:400;color:var(--navy);margin-right:2px}
+.randChip{flex:none;padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.55);border:1.5px solid rgba(15,59,58,.3);color:var(--navy);font-size:10.5px;font-weight:800}
+/* progress = a row of camp tents, one per memory */
+.stamps{display:flex;gap:2px;align-items:flex-end;height:15px}
+.stamps i{flex:1;min-width:3px;height:12px;background:rgba(15,59,58,.22);clip-path:polygon(50% 0,100% 100%,0 100%);transition:background .2s ease,height .2s ease}
+.stamps i.done{background:var(--forest)}
+.stamps i.now{background:var(--orange);height:15px}
 
-.status{padding:14px 12px;border-radius:var(--r-m);background:var(--paper-2);border:1px dashed var(--line);font-size:12.5px;font-weight:800;text-align:center;color:var(--ink-soft);margin-bottom:10px}
+.status{padding:14px 12px;border-radius:16px;background:var(--card);border:2px dashed rgba(15,59,58,.25);font-size:12.5px;font-weight:700;text-align:center;color:var(--ink-soft);margin-bottom:10px}
 .status.hide{display:none}
 .status .dots:after{content:"";animation:dots 1.2s steps(4,end) infinite}
 @keyframes dots{0%{content:""}25%{content:"·"}50%{content:"··"}75%{content:"···"}}
 
-.qcard{overflow:hidden}
+.qcard{overflow:visible;padding:12px 12px 16px}
 .qcard.swap{animation:swapIn .2s ease both}
 @keyframes swapIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
-.pic{position:relative;aspect-ratio:16/9;background:#20241f;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.pic:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,rgba(255,255,255,.05),rgba(255,255,255,.12),rgba(255,255,255,.05));background-size:220% 100%;animation:sheen 1.4s linear infinite;opacity:1;transition:opacity .2s ease}
+.picFrame{position:relative;background:#fff;border:2px solid var(--line);border-radius:12px;padding:7px 7px 8px;box-shadow:var(--pop)}
+/* masking tape, like a photo stuck into a camp scrapbook */
+.picFrame:before{content:"";position:absolute;z-index:3;top:-9px;left:18px;width:54px;height:17px;background:rgba(242,194,48,.42);border:1px solid rgba(15,59,58,.10);transform:rotate(-6deg)}
+.pic{position:relative;aspect-ratio:16/9;background:#20241f;border-radius:7px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pic:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,rgba(255,255,255,.05),rgba(255,255,255,.13),rgba(255,255,255,.05));background-size:220% 100%;animation:sheen 1.4s linear infinite;opacity:1;transition:opacity .2s ease}
 .pic.loaded:before,.pic.failed:before{opacity:0;animation:none}
 @keyframes sheen{from{background-position:120% 0}to{background-position:-120% 0}}
 .pic img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .22s ease}
 .pic.loaded img{opacity:1}
 .pic .missing{position:relative;z-index:1;display:none;padding:20px;text-align:center;font-size:12px;font-weight:700;color:#cbbfa8}
 .pic.failed .missing{display:block}
-.filmTag{position:absolute;z-index:2;top:10px;left:10px;padding:5px 9px;border-radius:5px;background:rgba(23,59,46,.86);color:#ffeec2;font-size:9.5px;font-weight:900;letter-spacing:.14em;transform:rotate(-2deg)}
+.filmTag{position:absolute;z-index:2;top:-9px;right:10px;padding:5px 11px;border-radius:999px;background:var(--forest);border:2px solid var(--navy);color:#FFE9A8;font-size:11px;font-weight:800;transform:rotate(2deg)}
 
-.qb{padding:17px 16px 18px;text-align:center}
-.hint{margin:0;font-size:11px;font-weight:900;letter-spacing:.06em;color:var(--purple)}
-.hint:after{content:"";display:block;width:26px;height:1px;background:var(--line);margin:9px auto 0}
-.question{margin:11px 0 0;font-size:19px;line-height:1.55;font-weight:800;letter-spacing:-.03em;word-break:keep-all;overflow-wrap:break-word;min-height:88px;display:flex;align-items:center;justify-content:center}
+.qb{padding:16px 4px 0;text-align:center}
+.hint{margin:0;font-size:11.5px;font-weight:800;color:var(--purple)}
+.question{margin:9px 0 0;font-size:19px;line-height:1.55;font-weight:800;letter-spacing:-.03em;color:var(--forest);word-break:keep-all;overflow-wrap:break-word;min-height:86px;display:flex;align-items:center;justify-content:center}
 
-.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.ans{position:relative;min-height:64px;border:2px solid transparent;border-radius:var(--r-m);padding:12px 8px;font-size:17px;font-weight:900;letter-spacing:.06em;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:transform .15s ease,filter .15s ease,opacity .15s ease}
-.ans .glyph{font-size:21px;line-height:1;font-weight:400}
-.ans:active{transform:scale(.97);filter:brightness(.95)}
-.ans:disabled{opacity:.45;transform:none}
-.yes{background:#33714a;border-color:#255637;box-shadow:0 4px 0 #1d4a2e}
-.no{background:var(--red);border-color:#a9432c;box-shadow:0 4px 0 #8f3823}
-.tip{margin:12px 2px 0;text-align:center;font-size:11px;line-height:1.6;font-weight:700;color:var(--ink-faint)}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:13px}
+.ans{position:relative;min-height:66px;border:2px solid var(--navy);border-radius:17px;padding:12px 8px;font-family:var(--display);font-size:24px;letter-spacing:.04em;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s ease,box-shadow .15s ease,opacity .15s ease}
+.ans .glyph{font-size:19px;opacity:.85}
+.ans:active{transform:translateY(3px)}
+.yes{background:#2F7D4F;box-shadow:0 5px 0 #1C5233}
+.no{background:var(--red);box-shadow:0 5px 0 #9E3830}
+.ans:active{box-shadow:0 2px 0 rgba(15,59,58,.5)}
+.ans:disabled{opacity:.5;transform:none}
+.tip{display:flex;align-items:center;justify-content:center;gap:7px;margin:13px 0 0;padding:11px 12px;border:2px dashed rgba(15,59,58,.25);border-radius:14px;background:var(--paper);text-align:center;font-size:11.5px;line-height:1.55;font-weight:700;color:var(--ink-soft);word-break:keep-all}
+.tip svg{width:15px;height:15px;flex:none;color:var(--yellow)}
 
 /* ---------- result ---------- */
-.certOuter{padding:14px;border-radius:var(--r-l);background:linear-gradient(150deg,#e8d5ac,#dcc599);box-shadow:var(--shadow)}
-.cert{position:relative;padding:20px 15px 18px;background:#fffdf6;border:1px solid #cbb489;text-align:center}
-.cert:before{content:"";position:absolute;inset:5px;border:1px solid #e2d2ad;pointer-events:none}
-.certEyebrow{display:block;font-size:9.5px;font-weight:900;letter-spacing:.22em;color:#9b8b6b}
-.certName{margin:7px 0 0;font-family:var(--serif);font-size:25px;font-weight:700;letter-spacing:.02em;color:var(--green-deep)}
-.certRule{display:flex;align-items:center;gap:9px;margin:11px 4px 15px;color:#a89771}
+.ribbon{position:relative;margin:0 auto -12px;width:min(100%,340px);padding:12px 16px;border-radius:12px;border:2px solid var(--navy);background:linear-gradient(var(--yellow-lite),var(--yellow));color:var(--navy);font-family:var(--display);font-size:16.5px;text-align:center;box-shadow:0 5px 0 rgba(15,59,58,.35);z-index:2}
+.ribbon:before,.ribbon:after{content:"";position:absolute;bottom:-9px;width:0;height:0;border-top:10px solid #C79A1E}
+.ribbon:before{left:-2px;border-left:11px solid transparent}
+.ribbon:after{right:-2px;border-right:11px solid transparent}
+.certOuter{padding:16px 14px 14px;border-radius:var(--radius);background:linear-gradient(150deg,#EADFC0,#DCCB9E);border:2px solid rgba(15,59,58,.18);box-shadow:var(--shadow)}
+.cert{position:relative;padding:22px 15px 18px;background:var(--paper);border:2px solid #C9B489;text-align:center}
+.cert:before{content:"";position:absolute;inset:5px;border:1px solid #E2D2AD;pointer-events:none}
+.certEyebrow{display:block;font-size:10px;font-weight:800;letter-spacing:.2em;color:#9B8B6B}
+.certName{margin:7px 0 0;font-family:var(--serif);font-size:26px;font-weight:700;letter-spacing:.02em;color:#1F5E44}
+.certRule{display:flex;align-items:center;gap:9px;margin:11px 4px 15px;color:#A89771}
 .certRule:before,.certRule:after{content:"";flex:1;height:1px;background:currentColor;opacity:.5}
-.certRule span{font-size:9.5px;font-weight:900;letter-spacing:.14em}
-
-.certVisual{margin:0 0 16px;display:flex;align-items:center;justify-content:center;min-height:150px;padding:12px 10px;border-radius:var(--r-m);background:radial-gradient(circle at 50% 38%,#fff8e2,#f2e6c6)}
+.certRule span{font-size:9.5px;font-weight:800;letter-spacing:.14em}
+.certVisual{margin:0 0 16px;display:flex;align-items:center;justify-content:center;min-height:150px;padding:12px 10px;border-radius:14px;background:radial-gradient(circle at 50% 38%,#FFF8E2,#F2E6C6)}
 .certVisual img{display:block;width:100%;height:auto;max-height:280px;object-fit:contain;border-radius:6px}
-#campLogo{max-width:78%;max-height:132px}
-.seal{width:132px;color:var(--green-deep)}
+#campLogo{max-width:80%;max-height:132px}
+.seal{width:132px;color:#1F5E44}
 .seal svg{display:block;width:100%;height:auto}
 
-/* ---- perfect 26/26 certificate ---- */
-.perfectBadge{display:inline-block;margin:0 0 12px;padding:7px 15px;border-radius:999px;background:linear-gradient(135deg,#f6dc9a,#d9a93f);color:#3c2a06;font-size:11px;font-weight:900;letter-spacing:.18em;box-shadow:0 3px 10px rgba(0,0,0,.28)}
-.certOuter.perfect{background:linear-gradient(150deg,#123528,#0a241b);box-shadow:0 12px 30px rgba(10,30,20,.32)}
-.cert.perfect{background:#102e23;border-color:#caa64f;color:#f6efdc}
+.perfectBadge{display:inline-block;margin:0 0 12px;padding:7px 15px;border-radius:999px;background:linear-gradient(135deg,#F6DC9A,#D9A93F);border:2px solid #7A5A14;color:#3C2A06;font-size:11px;font-weight:900;letter-spacing:.16em;box-shadow:0 3px 8px rgba(0,0,0,.3)}
+.certOuter.perfect{background:linear-gradient(150deg,#123528,#0A241B);border-color:rgba(202,166,79,.5)}
+.cert.perfect{background:#102E23;border-color:#CAA64F;color:#F6EFDC}
 .cert.perfect:before{border-color:rgba(214,176,94,.42)}
-.cert.perfect .certEyebrow{color:#d8bd7c}
-.cert.perfect .certName{color:#f7e7b6}
-.cert.perfect .certRule{color:#b99a52}
+.cert.perfect .certEyebrow{color:#D8BD7C}
+.cert.perfect .certName{color:#F7E7B6}
+.cert.perfect .certRule{color:#B99A52}
 .cert.perfect .certVisual{background:linear-gradient(160deg,rgba(230,197,120,.16),rgba(230,197,120,.05));box-shadow:inset 0 0 0 1px rgba(214,176,94,.35)}
-.cert.perfect .rtype .lead{color:#cbbf9d}
-.cert.perfect .titleBox:before,.cert.perfect .titleBox:after{background:linear-gradient(90deg,transparent,#b99a52,transparent)}
-.cert.perfect .titleBox strong{color:#f4d98a}
-.cert.perfect .titleBox .brk{color:#9c8248}
-.cert.perfect .countLabel{color:#bcae8a}
-.cert.perfect .countVal{color:#f7e7b6}
-.cert.perfect .countVal em{color:#a6997a}
+.cert.perfect .rtype .lead{color:#CBBF9D}
+.cert.perfect .titleBox:before,.cert.perfect .titleBox:after{background:linear-gradient(90deg,transparent,#B99A52,transparent)}
+.cert.perfect .titleBox strong{color:#F4D98A}
+.cert.perfect .titleBox .brk{color:#9C8248}
+.cert.perfect .countLabel{color:#BCAE8A}
+.cert.perfect .countVal{color:#F7E7B6}
+.cert.perfect .countVal em{color:#A6997A}
 .cert.perfect .countBar{background:rgba(255,246,220,.14)}
-.cert.perfect .countBar i{background:linear-gradient(90deg,#d9a93f,#f6dc9a)}
+.cert.perfect .countBar i{background:linear-gradient(90deg,#D9A93F,#F6DC9A)}
 .cert.perfect .friendNames{border-top-color:rgba(214,176,94,.32)}
-.cert.perfect .friendNames .label{color:#bda877}
+.cert.perfect .friendNames .label{color:#BDA877}
 .cert.perfect .plate{background:rgba(255,247,225,.06);border-color:rgba(214,176,94,.32)}
-.cert.perfect .plate em{color:#b0a382}
-.cert.perfect .desc{color:#cdc3a7}
-.cert.perfect .certFoot{border-top-color:rgba(214,176,94,.28);color:#b09c6d}
+.cert.perfect .plate em{color:#B0A382}
+.cert.perfect .desc{color:#CDC3A7}
+.cert.perfect .certFoot{border-top-color:rgba(214,176,94,.28);color:#B09C6D}
 
-/* ---- share ---- */
-.shareCard{margin-top:12px;padding:16px 14px 17px}
-.shareCard h2{margin:5px 0 13px;font-size:17px;letter-spacing:-.03em}
+.rtype{margin:0 0 4px}
+.rtype .lead{display:block;font-size:12px;font-weight:700;color:var(--ink-soft)}
+.titleBox{position:relative;display:block;margin:9px auto;padding:14px 10px;max-width:340px}
+.titleBox:before,.titleBox:after{content:"";position:absolute;left:14%;right:14%;height:1px;background:linear-gradient(90deg,transparent,#D3BD93,transparent)}
+.titleBox:before{top:0}
+.titleBox:after{bottom:0}
+.titleBox strong{display:block;font-family:var(--serif);font-size:29px;line-height:1.32;font-weight:700;letter-spacing:-.035em;color:#5B3E96;word-break:keep-all}
+.titleBox .brk{color:#C3AD86;font-weight:400;margin:0 2px}
+
+.countBlock{margin:16px auto 0;max-width:300px}
+.countRow{display:flex;align-items:center;justify-content:center;gap:8px}
+.countLabel{font-size:11.5px;font-weight:800;color:var(--ink-faint)}
+.countVal{font-family:var(--display);font-size:25px;color:#1F5E44}
+.countVal em{font-style:normal;font-size:13px;color:var(--ink-faint)}
+.countBar{height:6px;margin-top:9px;border-radius:999px;background:#E7DBC0;overflow:hidden}
+.countBar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#1F5E44,var(--yellow));width:0;transition:width .5s cubic-bezier(.22,.7,.3,1)}
+
+.friendNames{margin:17px 0 0;padding-top:14px;border-top:1px dashed #DCCFB2}
+.friendNames .label{display:block;margin-bottom:9px;font-size:9.5px;font-weight:800;letter-spacing:.16em;color:#9B8B6B}
+.friendList{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+@media(min-width:360px){.friendList{grid-template-columns:repeat(3,1fr)}}
+.plate{padding:7px 4px 6px;border:1px solid #E0D2B4;border-radius:8px;background:#FFFAEE;text-align:center;line-height:1.25}
+.plate b{display:block;font-size:12px;font-weight:800;letter-spacing:-.02em;word-break:keep-all}
+.plate em{display:block;margin-top:2px;font-style:normal;font-size:8px;font-weight:700;letter-spacing:.06em;color:#A08E73;text-transform:uppercase;word-break:break-word}
+
+.desc{margin:15px auto 0;max-width:330px;font-size:12.5px;line-height:1.75;font-weight:600;color:var(--ink-soft);word-break:keep-all}
+.certFoot{margin-top:17px;padding-top:12px;border-top:1px solid #EADFC4;font-size:10px;font-weight:800;letter-spacing:.12em;color:#A08E73}
+
+/* ---------- share ---------- */
+.shareCard{margin-top:14px;padding:16px 14px 17px}
+.shareCard h2{margin:5px 0 13px;font-family:var(--display);font-size:19px}
 .shareRow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.shareBtn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:66px;padding:10px 4px;border:1px solid var(--line);border-radius:var(--r-m);background:var(--paper-2);color:var(--ink);font-size:11.5px;font-weight:800;letter-spacing:-.02em;cursor:pointer;transition:transform .15s ease,background .15s ease,opacity .15s ease}
+.shareBtn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:68px;padding:10px 4px;border:2px solid var(--navy);border-radius:15px;background:var(--paper);color:var(--navy);font-size:11.5px;font-weight:800;letter-spacing:-.02em;cursor:pointer;box-shadow:var(--pop);transition:transform .15s ease,box-shadow .15s ease,opacity .15s ease}
 .shareBtn svg{width:21px;height:21px;flex:none}
-.shareBtn:active{transform:scale(.97)}
+.shareBtn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(15,59,58,.14)}
 .shareBtn:disabled{opacity:.5;cursor:default;transform:none}
-.shareBtn.x{background:#16181c;border-color:#16181c;color:#fff}
-.shareBtn.ig{background:#fff2f6;border-color:#e7c3d2;color:#98305d}
+.shareBtn.x{background:#16181C;color:#fff}
+.shareBtn.ig{background:#FFF2F6;color:#98305D}
 .shareNote{margin:11px 2px 0;text-align:center;font-size:11px;line-height:1.65;font-weight:700;color:var(--ink-faint);word-break:keep-all;min-height:2.2em}
 .shareNote.warn{color:var(--red)}
 
-.rtype{margin:0 0 4px}
-.rtype .lead{display:block;font-size:12px;font-weight:800;color:var(--ink-soft);letter-spacing:.02em}
-.titleBox{position:relative;display:block;margin:9px auto;padding:14px 10px;max-width:340px}
-.titleBox:before,.titleBox:after{content:"";position:absolute;left:14%;right:14%;height:1px;background:linear-gradient(90deg,transparent,#d3bd93,transparent)}
-.titleBox:before{top:0}
-.titleBox:after{bottom:0}
-.titleBox strong{display:block;font-family:var(--serif);font-size:29px;line-height:1.32;font-weight:700;letter-spacing:-.035em;color:var(--purple);word-break:keep-all}
-.titleBox .brk{color:#c3ad86;font-weight:400;margin:0 2px}
-
-.countBlock{margin:16px auto 0;max-width:300px}
-.countRow{display:flex;align-items:baseline;justify-content:center;gap:8px}
-.countLabel{font-size:11px;font-weight:900;letter-spacing:.06em;color:var(--ink-faint)}
-.countVal{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--green-deep)}
-.countVal em{font-style:normal;font-size:13px;color:var(--ink-faint)}
-.countBar{height:5px;margin-top:8px;border-radius:999px;background:#e7dbc0;overflow:hidden}
-.countBar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green),var(--yellow));width:0;transition:width .5s cubic-bezier(.22,.7,.3,1)}
-
-.friendNames{margin:17px 0 0;padding-top:14px;border-top:1px dashed #dccfb2}
-.friendNames .label{display:block;margin-bottom:9px;font-size:9.5px;font-weight:900;letter-spacing:.16em;color:#9b8b6b}
-.friendList{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
-@media(min-width:360px){.friendList{grid-template-columns:repeat(3,1fr)}}
-.plate{padding:7px 4px 6px;border:1px solid #e0d2b4;border-radius:6px;background:#fffaee;text-align:center;line-height:1.25}
-.plate b{display:block;font-size:12px;font-weight:900;letter-spacing:-.02em;word-break:keep-all}
-.plate em{display:block;margin-top:2px;font-style:normal;font-size:8px;font-weight:800;letter-spacing:.06em;color:#a08e73;text-transform:uppercase;word-break:break-word}
-
-.desc{margin:15px auto 0;max-width:330px;font-size:12.5px;line-height:1.75;font-weight:600;color:var(--ink-soft);word-break:keep-all}
-.certFoot{margin-top:17px;padding-top:12px;border-top:1px solid #eadfc4;font-size:10px;font-weight:800;letter-spacing:.12em;color:#a08e73}
-
-.album{margin-top:12px;padding:16px 14px 18px}
-.album h2{margin:5px 0 0;font-size:17px;letter-spacing:-.03em}
+.album{margin-top:14px;padding:16px 14px 18px}
+.album h2{margin:5px 0 0;font-family:var(--display);font-size:19px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:13px}
-.pol{margin:0;background:#fff;border:1px solid #e3d7c0;padding:5px 5px 6px;box-shadow:0 3px 9px rgba(72,52,22,.14)}
-.pol:nth-child(3n+1){transform:rotate(-1.2deg)}
-.pol:nth-child(3n){transform:rotate(1.2deg)}
-.pol img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:#efe7d7}
+.pol{margin:0;background:#fff;border:2px solid var(--line);padding:5px 5px 6px;box-shadow:var(--pop)}
+.pol:nth-child(3n+1){transform:rotate(-1.4deg)}
+.pol:nth-child(3n){transform:rotate(1.4deg)}
+.pol img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:#EFE7D7}
 .pol figcaption{margin-top:5px;text-align:center;line-height:1.2}
-.pol figcaption b{display:block;font-size:10px;font-weight:900;letter-spacing:-.02em;word-break:keep-all}
-.pol figcaption em{display:block;margin-top:1px;font-style:normal;font-size:7.5px;font-weight:800;letter-spacing:.05em;color:#a08e73;text-transform:uppercase;word-break:break-word}
+.pol figcaption b{display:block;font-size:10px;font-weight:800;letter-spacing:-.02em;word-break:keep-all}
+.pol figcaption em{display:block;margin-top:1px;font-style:normal;font-size:7.5px;font-weight:700;letter-spacing:.05em;color:#A08E73;text-transform:uppercase;word-break:break-word}
 .empty{text-align:center;padding:22px 10px;font-size:12px;line-height:1.7;font-weight:700;color:var(--ink-faint)}
 
 .actions{margin-top:12px}
-.ghost{width:100%;min-height:50px;border:1px solid var(--line);border-radius:var(--r-m);padding:13px;background:var(--paper);color:var(--ink);font-size:14px;font-weight:900;cursor:pointer;transition:background .15s ease}
-.ghost:active{background:var(--paper-2)}
+.ghost{width:100%;min-height:52px;border:2px solid var(--navy);border-radius:15px;padding:13px;background:var(--card);color:var(--navy);font-family:var(--display);font-size:16px;cursor:pointer;box-shadow:var(--pop);transition:transform .15s ease,box-shadow .15s ease}
+.ghost:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(15,59,58,.14)}
 
-.denied{min-height:100vh;display:flex;align-items:center;justify-content:center;font-weight:900;color:#444}
+.denied{min-height:100vh;display:flex;align-items:center;justify-content:center;font-weight:800;color:#2b4437}
 
 @media(max-width:359px){
-  .hero{min-height:430px;padding:22px 16px 18px}
-  .hero h1{font-size:34px}
+  .hero{min-height:436px;padding:16px 14px}
+  .signBoard{padding:13px 16px 15px}
+  .signBoard h1{font-size:31px}
   .steps{grid-template-columns:repeat(2,1fr)}
-  .question{font-size:17.5px;min-height:80px}
-  .ans{min-height:58px;font-size:16px}
-  .certName{font-size:22px}
+  .question{font-size:17.5px;min-height:78px}
+  .ans{min-height:60px;font-size:21px}
+  .certName{font-size:23px}
   .titleBox strong{font-size:24px}
   .grid{gap:7px}
 }
@@ -244,10 +269,10 @@ button{font-family:inherit}
 <main class="wrap">
 
   <header class="topbar">
-    <div class="mark">
-      <span class="eyebrow">MUNIVERSE · PRIVATE BETA</span>
-      <strong id="brand">아이돌 수련회 · 온라인 퇴소식</strong>
-    </div>
+    <a class="back" href="../">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+      아이돌 수련회
+    </a>
     <span class="tagChip">BETA</span>
   </header>
 
@@ -256,18 +281,86 @@ button{font-family:inherit}
   <!-- ================= HOME ================= -->
   <section id="home" class="page on">
     <div class="hero">
-      <svg class="nightart" viewBox="0 0 500 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="glow"><stop offset="0" stop-color="#ffd66f" stop-opacity=".55"/><stop offset="1" stop-color="#ff8b32" stop-opacity="0"/></radialGradient></defs><circle cx="404" cy="75" r="32" fill="#ffe9b0" opacity=".92"/><circle cx="415" cy="66" r="32" fill="#0a2137"/><g fill="#fff7d5" opacity=".78"><circle cx="55" cy="72" r="2"/><circle cx="115" cy="42" r="1.5"/><circle cx="175" cy="91" r="1.4"/><circle cx="260" cy="58" r="2"/><circle cx="324" cy="112" r="1.3"/><circle cx="457" cy="134" r="1.7"/></g><path d="M0 310 L70 244 L118 288 L185 215 L258 288 L329 228 L390 289 L450 237 L500 276 L500 520 L0 520Z" fill="#0e302c"/><ellipse cx="250" cy="414" rx="130" ry="88" fill="url(#glow)"/><g transform="translate(250 405)"><rect x="-45" y="42" width="92" height="13" rx="6" fill="#6a3b21" transform="rotate(14)"/><rect x="-47" y="42" width="92" height="13" rx="6" fill="#7e4926" transform="rotate(-14)"/><path d="M0 42C-38 20-24-5-7-25C-8-4 4 3 8-18C30 6 34 25 0 42Z" fill="#ff8b32"/><path d="M0 38C-17 25-12 9-2-4C1 8 9 11 11 2C20 18 14 30 0 38Z" fill="#ffd35d"/></g></svg>
-      <div class="heroCopy">
-        <span class="eyebrow">ONLINE EXIT CEREMONY</span>
-        <h1 id="hero">온라인 퇴소식</h1>
-        <div class="rule"></div>
-        <p id="sub">수련회의 마지막 밤.<br>26개의 추억을 YES / NO로 떠올리고<br>친구들과 명예롭게 퇴소해 보세요.</p>
-        <button class="primary" id="start">퇴소식 시작하기 →</button>
+      <svg class="nightart" viewBox="0 0 500 474" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0A1E38"/><stop offset=".55" stop-color="#123049"/><stop offset="1" stop-color="#17402F"/>
+          </linearGradient>
+          <radialGradient id="fireGlow">
+            <stop offset="0" stop-color="#FFD066" stop-opacity=".62"/>
+            <stop offset=".55" stop-color="#E8792B" stop-opacity=".22"/>
+            <stop offset="1" stop-color="#E8792B" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="500" height="474" fill="url(#sky)"/>
+        <!-- moon + stars -->
+        <circle cx="424" cy="62" r="26" fill="#FFEEB8" opacity=".95"/>
+        <circle cx="434" cy="54" r="26" fill="#0F2740"/>
+        <g fill="#FFF7D5" opacity=".8">
+          <circle cx="48" cy="66" r="2"/><circle cx="104" cy="38" r="1.4"/><circle cx="163" cy="80" r="1.6"/>
+          <circle cx="243" cy="46" r="2"/><circle cx="311" cy="98" r="1.3"/><circle cx="470" cy="128" r="1.7"/>
+          <circle cx="76" cy="140" r="1.3"/><circle cx="368" cy="40" r="1.5"/>
+        </g>
+        <!-- bunting across the top -->
+        <path d="M-6 74 Q250 128 506 74" fill="none" stroke="#F6E7C0" stroke-width="2.4" opacity=".85"/>
+        <g>
+          <path d="M34 82 L54 87 L41 104 Z" fill="#E8792B"/>
+          <path d="M84 94 L104 99 L91 116 Z" fill="#F2C230"/>
+          <path d="M134 103 L154 108 L141 125 Z" fill="#49AAC4"/>
+          <path d="M184 110 L204 113 L192 131 Z" fill="#D6534A"/>
+          <path d="M236 113 L256 115 L245 133 Z" fill="#F6F1E3"/>
+          <path d="M288 112 L308 108 L298 128 Z" fill="#F2C230"/>
+          <path d="M338 105 L358 100 L347 120 Z" fill="#49AAC4"/>
+          <path d="M388 95 L408 88 L399 108 Z" fill="#E8792B"/>
+          <path d="M438 84 L458 76 L450 97 Z" fill="#D6534A"/>
+        </g>
+        <!-- treeline -->
+        <path d="M0 254 L44 186 L88 254 Z M74 260 L120 180 L166 260 Z M330 256 L376 178 L422 256 Z M404 262 L452 192 L500 262 Z" fill="#0E2A24"/>
+        <rect y="250" width="500" height="224" fill="#123528"/>
+        <path d="M0 250 Q250 226 500 250 L500 474 L0 474 Z" fill="#16382A"/>
+        <!-- tents flanking the fire -->
+        <g>
+          <path d="M52 342 L104 260 L156 342 Z" fill="#E8792B"/>
+          <path d="M104 260 L128 298 L104 342 L80 298 Z" fill="#C25F1C"/>
+          <path d="M104 276 L122 342 L86 342 Z" fill="#7A3B10"/>
+          <path d="M104 254 L104 242 L124 246 L104 252" fill="#F2C230"/>
+        </g>
+        <g>
+          <path d="M348 346 L396 272 L444 346 Z" fill="#2F7D4F"/>
+          <path d="M396 272 L418 306 L396 346 L374 306 Z" fill="#22633C"/>
+          <path d="M396 286 L412 346 L380 346 Z" fill="#123A2E"/>
+        </g>
+        <!-- campfire -->
+        <ellipse class="glow" cx="250" cy="344" rx="150" ry="94" fill="url(#fireGlow)"/>
+        <g transform="translate(250 344)">
+          <rect x="-52" y="30" width="104" height="14" rx="7" fill="#6A3B21" transform="rotate(13)"/>
+          <rect x="-52" y="30" width="104" height="14" rx="7" fill="#8A4E29" transform="rotate(-13)"/>
+          <g class="flame">
+            <path d="M0 30 C-44 6 -28 -22 -8 -46 C-9 -18 6 -10 10 -34 C36 -6 40 14 0 30Z" fill="#E8792B"/>
+            <path d="M0 26 C-20 12 -14 -6 -2 -20 C1 -2 10 2 12 -8 C24 8 17 18 0 26Z" fill="#F2C230"/>
+            <path d="M0 22 C-8 14 -6 4 -1 -6 C1 4 6 6 6 0 C11 8 8 16 0 22Z" fill="#FFF0B0"/>
+          </g>
+          <g fill="#FFD066" opacity=".75">
+            <circle cx="-34" cy="-58" r="2"/><circle cx="28" cy="-72" r="1.6"/><circle cx="8" cy="-92" r="1.3"/>
+          </g>
+        </g>
+      </svg>
+
+      <div class="heroTop">
+        <div class="signBoard">
+          <h1 id="hero">온라인 퇴소식</h1>
+          <span class="en">EXIT CEREMONY</span>
+        </div>
+        <p class="heroLead" id="sub">수련회의 마지막 밤, 캠프파이어 앞에서<br>26개의 추억을 떠올리고<br>친구들과 명예롭게 퇴소해 보세요.</p>
+      </div>
+
+      <div class="heroBottom">
+        <button class="primary" id="start">퇴소식 시작하기 ›</button>
         <span class="heroNote">26개의 장면 · 정답은 마지막에 한 번에 공개</span>
       </div>
     </div>
 
-    <section class="paper how">
+    <section class="card how">
       <span class="sectionLabel">HOW TO JOIN</span>
       <h3 id="how">참여 방법</h3>
       <ol class="steps">
@@ -283,7 +376,7 @@ button{font-family:inherit}
       <span class="sectionLabel">NEXT STORY</span>
       <strong>〈아이돌 수련회〉 확장판</strong>
       <p>숨겨진 장면과 함께 수련회의 추억을 다시 확인해 보세요.</p>
-      <button class="vod">확장판 보러 가기 →</button>
+      <button class="vod">확장판 보러 가기 ›</button>
     </div>
   </section>
 
@@ -291,19 +384,21 @@ button{font-family:inherit}
   <section id="question" class="page">
     <div class="qhead">
       <div class="qhrow">
-        <span class="memoryNo" id="qTag">MEMORY 01</span>
         <span class="qcount"><b id="qIndexNum">1</b> / 26</span>
+        <span class="randChip">무작위 순서</span>
       </div>
       <div class="stamps" id="stamps" role="progressbar" aria-valuemin="0" aria-valuemax="26" aria-valuenow="0" aria-label="퇴소식 진행률"></div>
     </div>
 
     <div id="quizStatus" class="status">문항을 불러오는 중입니다.</div>
 
-    <article class="paper qcard" id="qCard" style="display:none">
-      <div class="pic" id="picBox">
-        <img id="qImg" alt="문제 장면">
-        <div class="missing" id="missingImg">문제 사진을 불러오지 못했습니다.</div>
-        <span class="filmTag" id="filmTag">MEMORY</span>
+    <article class="card qcard" id="qCard" style="display:none">
+      <div class="picFrame">
+        <div class="pic" id="picBox">
+          <img id="qImg" alt="문제 장면">
+          <div class="missing" id="missingImg">문제 사진을 불러오지 못했습니다.</div>
+        </div>
+        <span class="filmTag" id="qTag">추억 No.01</span>
       </div>
       <div class="qb">
         <p class="hint">이 순간을 기억하시나요?</p>
@@ -315,11 +410,15 @@ button{font-family:inherit}
       <button class="ans yes" id="yesBtn"><span class="glyph" aria-hidden="true">○</span>YES</button>
       <button class="ans no" id="noBtn"><span class="glyph" aria-hidden="true">✕</span>NO</button>
     </div>
-    <p class="tip" id="qTip" style="display:none">선택하면 바로 다음 장면으로 · 정답은 마지막에 한 번에</p>
+    <p class="tip" id="qTip" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.5.4.8 1 .9 1.6h5.4c.1-.6.4-1.2.9-1.6A6 6 0 0 0 12 3Z"/></svg>
+      선택하면 바로 다음 장면으로 · 정답은 마지막에 한 번에
+    </p>
   </section>
 
   <!-- ================= RESULT ================= -->
   <section id="result" class="page">
+    <div class="ribbon">명예로운 퇴소에 성공했어요!</div>
     <div class="certOuter" id="certOuter">
       <div class="cert" id="cert">
         <div class="perfectBadge" id="perfectBadge" style="display:none">PERFECT · 26 / 26</div>
@@ -338,8 +437,8 @@ button{font-family:inherit}
               <path d="M65 43 L85 73 H45 Z" fill="currentColor" opacity=".88"/>
               <rect x="62.5" y="73" width="5" height="8" rx="1" fill="#7e4926"/>
               <path d="M38 82.5 H92" stroke="currentColor" stroke-width="1.4" opacity=".5"/>
-              <text x="65" y="101" text-anchor="middle" font-size="13" font-weight="900" fill="currentColor" font-family="-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif">아이돌 수련회</text>
-              <text x="65" y="113" text-anchor="middle" font-size="5.6" font-weight="700" letter-spacing="1" fill="currentColor" opacity=".75" font-family="-apple-system,sans-serif">ONLINE EXIT · 2026</text>
+              <text x="65" y="101" text-anchor="middle" font-size="13" font-weight="900" fill="currentColor">아이돌 수련회</text>
+              <text x="65" y="113" text-anchor="middle" font-size="5.6" font-weight="700" letter-spacing="1" fill="currentColor" opacity=".75">ONLINE EXIT · 2026</text>
             </svg>
           </div>
         </div>
@@ -360,7 +459,7 @@ button{font-family:inherit}
       </div>
     </div>
 
-    <section class="paper shareCard">
+    <section class="card shareCard">
       <span class="sectionLabel">SHARE MY CERTIFICATE</span>
       <h2>퇴소증 자랑하기</h2>
       <div class="shareRow">
@@ -380,7 +479,7 @@ button{font-family:inherit}
       <p class="shareNote" id="shareNote" role="status">퇴소증을 이미지로 저장하거나 내 계정에 바로 올릴 수 있어요.</p>
     </section>
 
-    <section class="paper album">
+    <section class="card album">
       <span class="sectionLabel">MY CAMP MEMORIES</span>
       <h2>추억의 사진첩</h2>
       <div class="grid" id="albumGrid"></div>
@@ -391,10 +490,10 @@ button{font-family:inherit}
       <span class="sectionLabel">NEXT STORY</span>
       <strong>〈아이돌 수련회〉 확장판</strong>
       <p>퀴즈에서 만난 장면들, 확장판에서 더 길게 다시 만나 보세요.</p>
-      <button class="vod">확장판 보러 가기 →</button>
+      <button class="vod">확장판 보러 가기 ›</button>
     </div>
 
-    <div class="actions"><button class="ghost" id="retryBtn">다시 도전하기</button></div>
+    <div class="actions"><button class="ghost" id="retryBtn">처음부터 다시 도전하기</button></div>
   </section>
 
 </main>
@@ -500,9 +599,7 @@ function renderQuestion(){
   $('#answers').style.display='grid';
   $('#qTip').style.display='block';
   $('#qIndexNum').textContent=String(idx+1);
-  const memory=`MEMORY ${String(idx+1).padStart(2,'0')}`;
-  $('#qTag').textContent=memory;
-  $('#filmTag').textContent=memory;
+  $('#qTag').textContent=`추억 No.${String(idx+1).padStart(2,'0')}`;
   paintStamps(idx);
   $('#questionText').textContent=questionText(q);
 
@@ -643,16 +740,18 @@ function wrapLines(ctx,text,maxW){
 
 async function drawCertificate(count,matched){
   const perfect=count===TOTAL;
+  /* webfonts must be resolved or canvas silently falls back */
+  if(document.fonts&&document.fonts.ready){try{await document.fonts.ready;}catch(e){}}
   const cv=document.createElement('canvas');
   cv.width=CERT_W;cv.height=CERT_H;
   const ctx=cv.getContext('2d');
-  const SANS='"Apple SD Gothic Neo","Noto Sans KR",-apple-system,sans-serif';
+  const SANS='"Pretendard","Apple SD Gothic Neo","Noto Sans KR",-apple-system,sans-serif';
   const SERIF='"Nanum Myeongjo","AppleMyungjo","Noto Serif KR",serif';
   const C=perfect
     ?{bg:'#102e23',frame:'#caa64f',frame2:'rgba(214,176,94,.42)',eyebrow:'#d8bd7c',name:'#f7e7b6',rule:'#b99a52',lead:'#cbbf9d',title:'#f4d98a',brk:'#9c8248',label:'#bcae8a',val:'#f7e7b6',track:'rgba(255,246,220,.14)',bar:'#e2b64c',plate:'rgba(255,247,225,.06)',plateLine:'rgba(214,176,94,.32)',ko:'#f6efdc',en:'#b0a382',desc:'#cdc3a7',foot:'#b09c6d'}
-    :{bg:'#fffdf6',frame:'#cbb489',frame2:'#e2d2ad',eyebrow:'#9b8b6b',name:'#194835',rule:'#a89771',lead:'#5d6a5c',title:'#6b4189',brk:'#c3ad86',label:'#8a8578',val:'#194835',track:'#e7dbc0',bar:'#2d6543',plate:'#fffaee',plateLine:'#e0d2b4',ko:'#173b2e',en:'#a08e73',desc:'#5d6a5c',foot:'#a08e73'};
+    :{bg:'#FBF6E9',frame:'#C9B489',frame2:'#E2D2AD',eyebrow:'#9B8B6B',name:'#1F5E44',rule:'#A89771',lead:'#3C5245',title:'#5B3E96',brk:'#C3AD86',label:'#6E8271',val:'#1F5E44',track:'#E7DBC0',bar:'#1F5E44',plate:'#FFFAEE',plateLine:'#E0D2B4',ko:'#123A2E',en:'#A08E73',desc:'#3C5245',foot:'#A08E73'};
 
-  ctx.fillStyle=perfect?'#0a241b':'#e8d5ac';
+  ctx.fillStyle=perfect?'#0a241b':'#EADFC0';
   ctx.fillRect(0,0,CERT_W,CERT_H);
   ctx.fillStyle=C.bg;ctx.fillRect(28,28,CERT_W-56,CERT_H-56);
   ctx.strokeStyle=C.frame;ctx.lineWidth=3;ctx.strokeRect(28,28,CERT_W-56,CERT_H-56);
