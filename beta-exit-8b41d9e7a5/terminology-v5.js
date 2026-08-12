@@ -3,6 +3,7 @@
 function swap(s){
   if(typeof s!=='string')return s;
   return s
+    .replace(/온라인 퇴소식/g,'아이돌 수련회 1기 퇴소식')
     .replace(/아이돌 수련회 특별 수료증/g,'아이돌 수련회 1기 특별 수료증')
     .replace(/온라인 퇴소증/g,'아이돌 수련회 1기 수료증')
     .replace(/퇴소증/g,'수료증')

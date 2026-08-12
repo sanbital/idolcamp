@@ -8,7 +8,7 @@ html.exit-mockup-v2 .langs{margin:0 auto 6px!important}
 html.exit-mockup-v2 .heroInner{justify-content:flex-end!important;padding:24px 22px 27px!important}
 html.exit-mockup-v2 .heroInner .eyebrow{display:none!important}
 html.exit-mockup-v2 .heroCampLogo{position:absolute;z-index:4;top:38px;left:50%;transform:translateX(-50%);display:block;width:178px;max-width:48%;height:auto;filter:drop-shadow(0 5px 7px rgba(0,0,0,.35))}
-html.exit-mockup-v2 .heroTitle{margin-top:0!important;max-width:96%!important;padding:13px 25px 14px!important;font-size:clamp(34px,9.2vw,46px)!important;white-space:nowrap!important}
+html.exit-mockup-v2 .heroTitle{margin-top:0!important;max-width:96%!important;padding:13px 25px 14px!important;font-size:clamp(27px,7.4vw,38px)!important;line-height:1.14!important;white-space:normal!important}
 html.exit-mockup-v2 .heroDesc{margin-top:20px!important;max-width:31em!important;font-size:14.5px!important;line-height:1.78!important}
 html.exit-mockup-v2 .heroDesc br:nth-child(1){display:block}
 html.exit-mockup-v2 .heroDesc br:nth-child(2){display:block}
@@ -20,17 +20,17 @@ html.exit-mockup-v2 .primary{min-height:61px!important;font-size:18px!important}
 @media(max-width:759px){
   html.exit-mockup-v2 .heroInner{min-height:550px!important;padding-top:176px!important}
   html.exit-mockup-v2 .heroCampLogo{top:34px;width:164px;max-width:50%}
-  html.exit-mockup-v2 .heroTitle{font-size:clamp(31px,8.7vw,41px)!important;padding-left:17px!important;padding-right:17px!important}
+  html.exit-mockup-v2 .heroTitle{font-size:clamp(25px,6.9vw,34px)!important;padding-left:17px!important;padding-right:17px!important}
   html.exit-mockup-v2 .heroDesc{font-size:13.8px!important;line-height:1.76!important}
 }
 @media(max-width:390px){
-  html.exit-mockup-v2 .heroTitle{font-size:29px!important}
+  html.exit-mockup-v2 .heroTitle{font-size:24px!important}
   html.exit-mockup-v2 .heroCampLogo{width:150px}
 }
 @media(min-width:760px){
   html.exit-mockup-v2 .heroInner{max-width:100%!important;min-height:500px!important;justify-content:flex-end!important;text-align:center!important;align-items:center!important;padding:54px 50px 38px!important}
   html.exit-mockup-v2 .heroCampLogo{top:38px;width:190px}
-  html.exit-mockup-v2 .heroTitle{font-size:48px!important}
+  html.exit-mockup-v2 .heroTitle{font-size:42px!important}
   html.exit-mockup-v2 .heroDesc{font-size:15px!important}
   html.exit-mockup-v2 .heroCta{max-width:430px!important}
   html.exit-mockup-v2 .primary{width:100%!important;min-width:0!important}
