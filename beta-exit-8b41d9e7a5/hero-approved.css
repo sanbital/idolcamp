@@ -1,4 +1,4 @@
-/* Private beta hero v5 — vector-first, no DB/storage request. */
+/* Private beta hero v8 — inline vector scene for iOS Safari. No DB/storage request. */
 html.exit-mockup-v2[lang^="ko"] .hero{
   position:relative;
   width:100%;
@@ -8,12 +8,23 @@ html.exit-mockup-v2[lang^="ko"] .hero{
   overflow:hidden;
   border:0!important;
   border-radius:18px;
-  background-color:#081523!important;
-  background-image:url('./hero-scene-v5.svg?v=20260812-v5'),url('./hero-approved.webp?v=fallback')!important;
-  background-position:center!important;
-  background-size:cover!important;
-  background-repeat:no-repeat!important;
+  background:#081523!important;
   box-shadow:0 8px 0 rgba(62,47,27,.16),0 18px 34px rgba(37,31,22,.16)!important;
+}
+html.exit-mockup-v2[lang^="ko"] .hero .heroApprovedInline{
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:1!important;
+  width:100%!important;
+  height:100%!important;
+  overflow:hidden!important;
+  pointer-events:none!important;
+}
+html.exit-mockup-v2[lang^="ko"] .hero .heroApprovedInline svg{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
 }
 html.exit-mockup-v2[lang^="ko"] .hero:after{display:none!important}
 html.exit-mockup-v2[lang^="ko"] .hero .heroArt{display:none!important}
@@ -22,7 +33,7 @@ html.exit-mockup-v2[lang^="ko"] .hero .heroInner{
   width:100%!important;max-width:none!important;min-height:0!important;padding:0!important;margin:0!important;text-align:initial!important;
 }
 html.exit-mockup-v2[lang^="ko"] .hero .heroCampLogo{
-  display:block!important;position:absolute!important;z-index:4!important;left:50%!important;top:10.6%!important;
+  display:block!important;position:absolute!important;z-index:4!important;left:50%!important;top:8.8%!important;
   width:19.6%!important;max-width:none!important;height:13.4%!important;object-fit:contain!important;
   transform:translateX(-50%)!important;margin:0!important;filter:drop-shadow(0 4px 8px rgba(0,0,0,.34))!important;
 }
@@ -31,7 +42,7 @@ html.exit-mockup-v2[lang^="ko"] .hero .heroInner>.heroTitle,
 html.exit-mockup-v2[lang^="ko"] .hero .heroInner>.heroDesc{display:none!important}
 html.exit-mockup-v2[lang^="ko"] .hero .heroCta{
   display:block!important;position:absolute!important;left:21.55%!important;right:21.55%!important;top:82.25%!important;height:11.8%!important;
-  width:auto!important;max-width:none!important;margin:0!important;padding:0!important;
+  width:auto!important;max-width:none!important;margin:0!important;padding:0!important;z-index:5!important;
 }
 html.exit-mockup-v2[lang^="ko"] .hero .heroCta>.heroNote{display:none!important}
 html.exit-mockup-v2[lang^="ko"] .hero #start{
