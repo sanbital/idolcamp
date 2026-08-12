@@ -1,6 +1,4 @@
-/* Approved hero artwork — private beta only.
-   The HQ artwork is injected as an object URL by hq-fix.js.
-   No DB/Storage request is used for this banner. */
+/* Private beta hero v5 — vector-first, no DB/storage request. */
 html.exit-mockup-v2[lang^="ko"] .hero{
   position:relative;
   width:100%;
@@ -10,81 +8,33 @@ html.exit-mockup-v2[lang^="ko"] .hero{
   overflow:hidden;
   border:0!important;
   border-radius:18px;
-  background:#081523!important;
+  background-color:#081523!important;
+  background-image:url('./hero-scene-v5.svg?v=20260812-v5'),url('./hero-approved.webp?v=fallback')!important;
   background-position:center!important;
-  background-size:100% 100%!important;
+  background-size:cover!important;
   background-repeat:no-repeat!important;
   box-shadow:0 8px 0 rgba(62,47,27,.16),0 18px 34px rgba(37,31,22,.16)!important;
-}
-html.exit-mockup-v2[lang^="ko"] .hero.hero-hq-ready{
-  background-image:var(--hero-hq-image)!important;
 }
 html.exit-mockup-v2[lang^="ko"] .hero:after{display:none!important}
 html.exit-mockup-v2[lang^="ko"] .hero .heroArt{display:none!important}
 html.exit-mockup-v2[lang^="ko"] .hero .heroInner{
-  position:absolute!important;
-  inset:0!important;
-  z-index:2!important;
-  display:block!important;
-  width:100%!important;
-  max-width:none!important;
-  min-height:0!important;
-  padding:0!important;
-  margin:0!important;
-  text-align:initial!important;
+  position:absolute!important;inset:0!important;z-index:2!important;display:block!important;
+  width:100%!important;max-width:none!important;min-height:0!important;padding:0!important;margin:0!important;text-align:initial!important;
 }
 html.exit-mockup-v2[lang^="ko"] .hero .heroInner>.heroCampLogo,
 html.exit-mockup-v2[lang^="ko"] .hero .heroInner>.eyebrow,
 html.exit-mockup-v2[lang^="ko"] .hero .heroInner>.heroTitle,
 html.exit-mockup-v2[lang^="ko"] .hero .heroInner>.heroDesc{display:none!important}
 html.exit-mockup-v2[lang^="ko"] .hero .heroCta{
-  display:block!important;
-  position:absolute!important;
-  left:25%!important;
-  right:25%!important;
-  top:82.5%!important;
-  height:13%!important;
-  width:auto!important;
-  max-width:none!important;
-  margin:0!important;
-  padding:0!important;
+  display:block!important;position:absolute!important;left:21.55%!important;right:21.55%!important;top:82.25%!important;height:11.8%!important;
+  width:auto!important;max-width:none!important;margin:0!important;padding:0!important;
 }
 html.exit-mockup-v2[lang^="ko"] .hero .heroCta>.heroNote{display:none!important}
 html.exit-mockup-v2[lang^="ko"] .hero #start{
-  display:block!important;
-  position:absolute!important;
-  inset:0!important;
-  width:100%!important;
-  height:100%!important;
-  min-width:0!important;
-  min-height:0!important;
-  margin:0!important;
-  padding:0!important;
-  border:0!important;
-  border-radius:12px!important;
-  background:transparent!important;
-  box-shadow:none!important;
-  color:transparent!important;
-  font-size:0!important;
-  opacity:.001!important;
-  cursor:pointer!important;
+  display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;
+  margin:0!important;padding:0!important;border:0!important;border-radius:20px!important;background:transparent!important;box-shadow:none!important;
+  color:transparent!important;font-size:0!important;opacity:.001!important;cursor:pointer!important;
 }
-html.exit-mockup-v2[lang^="ko"] .hero #start:focus-visible{
-  opacity:.16!important;
-  outline:3px solid #fff!important;
-  outline-offset:-4px!important;
-  background:#2f6a4b!important;
-}
+html.exit-mockup-v2[lang^="ko"] .hero #start:focus-visible{opacity:.18!important;outline:3px solid #fff!important;outline-offset:-4px!important;background:#2f6a4b!important}
 html.exit-mockup-v2[lang^="ko"] .hero #start:disabled{cursor:wait!important}
-
-/* Perfect-certificate artwork is DOM/CSS, so frame and typography stay
-   resolution-independent. Only the real 26/26 group photo is raster. */
-html.exit-mockup-v2 #cert.perfect #groupPhoto{
-  image-rendering:auto!important;
-  width:100%!important;
-  height:auto!important;
-}
-
-@media(max-width:759px){
-  html.exit-mockup-v2[lang^="ko"] .hero{border-radius:18px!important}
-}
+@media(max-width:759px){html.exit-mockup-v2[lang^="ko"] .hero{border-radius:18px!important}}
