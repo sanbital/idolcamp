@@ -1,7 +1,7 @@
 (function(){
 'use strict';
-/* Render the existing 1080x1350 certificate layout at 2x physical pixels
-   without changing any of the app's logical drawing coordinates. */
+/* Render the existing 1080x1350 certificate layout at 3x physical pixels
+   without changing logical drawing coordinates. This is client-side only. */
 const create=document.createElement.bind(document);
 document.createElement=function(name,opts){
   const el=create(name,opts);
@@ -9,11 +9,11 @@ document.createElement=function(name,opts){
     const nativeGet=el.getContext.bind(el);
     el.getContext=function(type){
       const args=[].slice.call(arguments,1);
-      if(type==='2d'&&this.width===1080&&this.height===1350&&!this.__idolcamp2x){
-        this.__idolcamp2x=true;
-        this.width=2160;this.height=2700;
+      if(type==='2d'&&this.width===1080&&this.height===1350&&!this.__idolcamp3x){
+        this.__idolcamp3x=true;
+        this.width=3240;this.height=4050;
         const ctx=nativeGet.apply(this,[type].concat(args));
-        if(ctx)ctx.scale(2,2);
+        if(ctx){ctx.scale(3,3);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
         return ctx;
       }
       return nativeGet.apply(this,[type].concat(args));
@@ -22,8 +22,7 @@ document.createElement=function(name,opts){
   return el;
 };
 /* Only the 26/26 group photo bypasses the image-transform endpoint so the
-   certificate receives the original Storage asset. Question images keep their
-   optimized transforms, so this does not increase normal event traffic. */
+   certificate receives the original Storage asset. Normal traffic stays optimized. */
 const d=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,'src');
 if(d&&d.get&&d.set){
   Object.defineProperty(HTMLImageElement.prototype,'src',{
