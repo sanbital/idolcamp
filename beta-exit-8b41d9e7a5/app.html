@@ -320,6 +320,121 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+/* ================= private beta v10 — night banner ================= */
+.hero{position:relative;aspect-ratio:5/8.4;margin-top:16px;border-radius:26px;overflow:hidden;
+  background:linear-gradient(180deg,#1A5236 0 55%,#164229 68%,#0B2818 82%,#071A11 100%);
+  box-shadow:0 20px 44px rgba(8,23,44,.34)}
+.hero:after{display:none}
+.heroScene{position:absolute;top:0;left:0;display:block;width:100%;height:auto}
+.heroScrim{position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,transparent 0 26%,rgba(5,20,12,.30) 36%,rgba(5,20,12,.86) 46%,#05140C 54%)}
+.heroInner{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;
+  min-height:0;padding:0 22px 26px;text-align:left}
+.heroLogo{position:absolute;top:20px;left:50%;transform:translateX(-50%);width:130px;max-width:44%;height:auto;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,.55))}
+.heroRule{display:flex;align-items:center;gap:10px;font-size:9.5px;font-weight:800;letter-spacing:.26em;color:var(--gold)}
+.heroRule:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(242,194,48,.7),transparent)}
+.heroKicker{margin:16px 0 0;font-size:13.5px;line-height:1.5;font-weight:700;color:#CFE0D6}
+.heroGisu{margin:6px 0 6px;font-size:20px;line-height:1.3;font-weight:800;letter-spacing:-.03em;color:var(--gold)}
+.heroTitle{font-size:34px;line-height:1.16;font-weight:900;letter-spacing:-.055em;color:#FFF7E4;text-shadow:0 2px 12px rgba(0,0,0,.5)}
+.heroDesc{margin:16px 0 0;max-width:32em;font-size:12.6px;line-height:1.8;font-weight:500;color:#B9CCC1}
+.heroCta{margin-top:20px}
+.hero .primary{min-height:54px;border:1.5px solid var(--gold);border-radius:14px;background:transparent;
+  color:#FFE9A6;font-size:16px;font-weight:900;box-shadow:none}
+.hero .primary:active{transform:translateY(2px);box-shadow:none;background:rgba(242,194,48,.12)}
+.hero .primary:disabled{opacity:.6}
+.heroMeta{display:flex;justify-content:space-between;margin-top:12px;font-size:9px;font-weight:700;
+  letter-spacing:.18em;color:rgba(255,244,220,.45)}
+@media(max-width:390px){
+  .heroTitle{font-size:30px}
+  .heroGisu{font-size:18px}
+  .heroLogo{width:118px}
+}
+@media(min-width:760px){
+  .hero{aspect-ratio:auto;min-height:520px}
+  .heroScene{inset:0;width:100%;height:100%}
+  /* on wide screens the copy sits on the left so the camp stays visible on the right */
+  .heroScrim{background:
+    linear-gradient(100deg,rgba(5,20,12,.94) 0 32%,rgba(5,20,12,.74) 50%,rgba(5,20,12,.32) 72%,rgba(5,20,12,.10) 100%),
+    linear-gradient(180deg,transparent 58%,rgba(5,20,12,.55))}
+  .heroInner{padding:0 46px 44px;max-width:620px}
+  .heroLogo{top:34px;width:170px}
+  .heroKicker{font-size:15px}
+  .heroGisu{font-size:24px}
+  .heroTitle{font-size:46px}
+  .heroDesc{font-size:14px}
+  .heroCta{max-width:430px}
+}
+
+/* ================= private beta v10 — certificate ================= */
+.resultTop{text-align:center;margin:18px 0 14px}
+.certOuter{position:relative;padding:7px;border-radius:18px;
+  background:linear-gradient(150deg,#DCC084,#A88434 45%,#E7D0A0 78%,#A67C1D);
+  box-shadow:0 16px 34px rgba(8,23,44,.32)}
+.cert{position:relative;padding:24px 18px 20px;border-radius:11px;text-align:center;overflow:hidden;
+  color:#0E211A;
+  background:repeating-linear-gradient(0deg,rgba(112,79,31,.028) 0 1px,transparent 1px 4px),#FCF5E4;
+  box-shadow:inset 0 0 0 1px rgba(166,124,29,.45)}
+.cert:before{content:"";position:absolute;inset:10px;border:1px solid rgba(166,124,29,.34);border-radius:5px;pointer-events:none}
+.cert>*{position:relative;z-index:1}
+.certLogo{display:block;width:132px;max-width:52%;height:auto;margin:0 auto}
+.certEyebrow{display:block;margin-top:14px;font-size:9.5px;font-weight:800;letter-spacing:.28em;color:#9A7731}
+.certName{margin:8px 0 0;font-size:clamp(24px,6.4vw,30px);font-weight:900;letter-spacing:-.05em;line-height:1.12;color:#6E4918;word-break:keep-all}
+.certName small{display:block;margin-bottom:3px;font-size:13px;font-weight:800;letter-spacing:-.02em;color:#2F6A4A}
+.certPhoto{position:relative;margin:18px auto 0;max-width:300px}
+.certPhotoIn{padding:7px;border-radius:12px;border:2px solid #C39B34;background:linear-gradient(180deg,#F6E8C2,#E2CE9A);box-shadow:0 8px 18px rgba(0,0,0,.22)}
+.certPhotoIn img{display:block;width:100%;height:auto;max-height:320px;object-fit:contain;border-radius:7px;background:#14392A}
+.certMedal{position:absolute;left:50%;bottom:-30px;transform:translateX(-50%);display:grid;place-items:center;
+  width:86px;height:86px;border-radius:50%;border:4px solid #C5932E;
+  background:radial-gradient(circle at 36% 26%,#FFF3A4,#E9C65C 38%,#C79126 74%,#9A6715);
+  color:#5B3A08;box-shadow:0 0 0 3px #F5D878,0 6px 14px rgba(0,0,0,.32);text-align:center;line-height:1.05}
+.certMedal b{font-size:20px;font-weight:900;letter-spacing:-.03em}
+.certMedal em{font-style:normal;font-size:8.5px;font-weight:900;letter-spacing:.06em}
+.certPlate{margin:16px auto 0;padding:11px 8px 12px;max-width:270px;border-top:1.5px solid #D8C285;border-bottom:1.5px solid #D8C285}
+.certPlate small{display:block;font-size:10.5px;font-weight:700;color:#8E7A45}
+.certPlate strong{display:block;margin-top:4px;font-size:19px;font-weight:900;letter-spacing:-.03em;line-height:1.3;color:#1F5E44;word-break:keep-all}
+.stampPlate{margin-top:16px;padding:11px 11px 13px;border-radius:12px;border:1.5px solid #C39B34;
+  background:linear-gradient(180deg,#F8EED6,#EDDFBB);box-shadow:inset 0 0 0 1px rgba(255,255,255,.5)}
+.stampCap{display:block;font-size:9px;font-weight:800;letter-spacing:.2em;color:#9A7731}
+.stampGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:9px}
+.stampGrid i{display:block;aspect-ratio:1;font-style:normal;color:#BFA870}
+.stampGrid i svg{display:block;width:100%;height:100%}
+.stampGrid i.on{color:#C2453A;opacity:.94}
+.stampGrid i.on:nth-child(4n+1){transform:rotate(-6deg)}
+.stampGrid i.on:nth-child(4n+2){transform:rotate(4deg)}
+.stampGrid i.on:nth-child(4n+3){transform:rotate(-3deg)}
+.stampGrid i.on:nth-child(4n){transform:rotate(6deg);opacity:.88}
+.certCount{display:flex;align-items:baseline;justify-content:space-between;margin-top:16px}
+.certCount span{font-size:11.5px;font-weight:700;color:#6C7A6E}
+.certCount b{font-size:21px;font-weight:900;color:#1F5E44;font-variant-numeric:tabular-nums}
+.certFoot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;padding-top:12px;
+  border-top:1px solid #E2D2A6;font-size:10px;font-weight:700;letter-spacing:.04em;color:#8E7A45;text-align:left}
+.certFoot .seal{flex:none;width:50px;height:50px;display:grid;place-items:center;border-radius:50%;
+  border:1.5px dashed #B4453A;color:#B4453A;transform:rotate(-8deg);line-height:1.15;font-size:9px;font-weight:900;text-align:center;opacity:.92}
+.perfectBadge{display:inline-block;margin:0 0 12px;padding:6px 15px;border-radius:999px;
+  background:linear-gradient(180deg,#F8E7A8,#D9AE43);border:1px solid #A2791F;color:#4A3406;
+  font-size:10.5px;font-weight:900;letter-spacing:.16em;box-shadow:0 2px 0 #8E661A}
+
+/* 26 / 26 — the honours certificate turns to the night palette */
+.certOuter.perfect{padding:8px;border-radius:16px;background:linear-gradient(145deg,#F3DC96,#A87D22 38%,#F7E5AE 62%,#8E6A1D);box-shadow:0 18px 38px rgba(0,0,0,.42)}
+.cert.perfect{color:#F7ECCF;background:radial-gradient(circle at 50% 0%,#1C4A34,#0F3123 52%,#0A2419 100%);box-shadow:none}
+.cert.perfect:before{border-color:rgba(246,220,144,.42)}
+.cert.perfect:after{content:"";position:absolute;left:50%;top:-18%;width:130%;height:70%;transform:translateX(-50%);pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 50% 50%,rgba(246,220,144,.16),transparent 62%)}
+.cert.perfect .certEyebrow{color:#DCC077}
+.cert.perfect .certName{color:#FFF3CE;text-shadow:0 2px 10px rgba(0,0,0,.4)}
+.cert.perfect .certName small{color:#F0D48A}
+.cert.perfect .certPlate{border-color:rgba(246,220,144,.5)}
+.cert.perfect .certPlate small{color:#D7BE83}
+.cert.perfect .certPlate strong{color:#FFF3CE}
+.cert.perfect .certCount span{color:#CBDCCF}
+.cert.perfect .certCount b{color:#FFEFC0}
+.cert.perfect .certFoot{border-top-color:rgba(246,220,144,.28);color:#C6B588}
+.cert.perfect .certFoot .seal{border-color:#E0BE6C;color:#F0D48A}
+
+/* memory album under the certificate */
+.panel .grid{grid-template-columns:repeat(auto-fill,minmax(92px,1fr))}
 </style>
 </head>
 <body>
@@ -356,7 +471,105 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
   <symbol id="lstar" viewBox="0 0 22 22">
     <path d="M11 1 L13.4 8.6 L21 11 L13.4 13.4 L11 21 L8.6 13.4 L1 11 L8.6 8.6 Z" fill="#FFF3C4" stroke="#0C2018" stroke-width="1.8" stroke-linejoin="round"/>
   </symbol>
-</defs></svg>
+
+  <linearGradient id="nSky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#030B18"/><stop offset="42%" stop-color="#0A2138"/><stop offset="72%" stop-color="#123246"/><stop offset="100%" stop-color="#16404A"/>
+  </linearGradient>
+  <linearGradient id="skyTrail" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#04101F"/><stop offset="50%" stop-color="#0A2438"/><stop offset="100%" stop-color="#14384A"/>
+  </linearGradient>
+  <radialGradient id="nMw"><stop offset="0" stop-color="#CFE2FF" stop-opacity=".22"/><stop offset="60%" stop-color="#9FC0E8" stop-opacity=".08"/><stop offset="1" stop-color="#9FC0E8" stop-opacity="0"/></radialGradient>
+  <radialGradient id="nMoon"><stop offset="0" stop-color="#FFF3C4" stop-opacity=".42"/><stop offset="1" stop-color="#FFF3C4" stop-opacity="0"/></radialGradient>
+  <radialGradient id="nFire"><stop offset="0" stop-color="#F5AE43" stop-opacity=".55"/><stop offset="1" stop-color="#F5AE43" stop-opacity="0"/></radialGradient>
+  <radialGradient id="nFireBig"><stop offset="0" stop-color="#F5AE43" stop-opacity=".48"/><stop offset="55%" stop-color="#E8792B" stop-opacity=".14"/><stop offset="1" stop-color="#E8792B" stop-opacity="0"/></radialGradient>
+  <linearGradient id="nLake" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#0A2436"/><stop offset="55%" stop-color="#0C2C3F"/><stop offset="100%" stop-color="#123443"/>
+  </linearGradient>
+  <radialGradient id="nFf"><stop offset="0" stop-color="#FFE68A" stop-opacity=".55"/><stop offset="1" stop-color="#FFE68A" stop-opacity="0"/></radialGradient>
+  <linearGradient id="nShoot" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFF8DC" stop-opacity="0"/><stop offset="1" stop-color="#FFF8DC" stop-opacity=".95"/></linearGradient>
+  <symbol id="nPine" viewBox="0 0 60 100">
+    <g stroke="#0C2018" stroke-width="3" stroke-linejoin="round">
+      <path d="M30 6 L48 42 H12 Z" fill="#1E5B3C"/><path d="M30 26 L52 66 H8 Z" fill="#246944"/>
+      <rect x="26" y="64" width="8" height="26" rx="3" fill="#5C3A1C"/>
+    </g>
+  </symbol>
+  <symbol id="nTent" viewBox="0 0 128 100">
+    <g stroke="#0C2018" stroke-width="3.6" stroke-linejoin="round">
+      <path d="M64 16 C61 16 26 78 20 90 q44 8 88 0 C102 78 67 16 64 16Z" fill="#E8792B"/>
+      <path d="M64 16 C61 16 26 78 20 90 q22 4 44 4 Z" fill="#F5983F" stroke="none"/>
+      <path d="M64 42 C62 42 50 80 48 90 q16 2.6 32 0 C78 80 66 42 64 42Z" fill="#FFD97A"/>
+      <path d="M64 16 L64 5" stroke-linecap="round"/><path d="M64 4 L84 9 L64 14 Z" fill="#F2C230"/>
+    </g>
+  </symbol>
+  <symbol id="nTent2" viewBox="0 0 128 100">
+    <g stroke="#0A1A22" stroke-width="3.2" stroke-linejoin="round">
+      <path d="M64 18 C61 18 26 78 20 90 q44 8 88 0 C102 78 67 18 64 18Z" fill="#1C4457"/>
+      <path d="M64 44 C62 44 52 80 50 90 q14 2.4 28 0 C76 80 66 44 64 44Z" fill="#FFCE6E"/>
+      <path d="M64 18 L64 7" stroke-linecap="round"/>
+    </g>
+  </symbol>
+  <symbol id="nBulb" viewBox="0 0 22 30">
+    <g stroke="#0C2018" stroke-width="2.2" stroke-linejoin="round">
+      <path d="M11 2 L11 7" stroke-linecap="round"/><rect x="6.5" y="6" width="9" height="4.4" rx="1.4" fill="#8A6A2A"/>
+      <circle cx="11" cy="17.5" r="7" fill="#FFD96A"/>
+    </g>
+  </symbol>
+  <symbol id="nStar" viewBox="0 0 22 22">
+    <path d="M11 1 L13.4 8.6 L21 11 L13.4 13.4 L11 21 L8.6 13.4 L1 11 L8.6 8.6 Z" fill="#FFF3C4" stroke="#0C2018" stroke-width="1.6" stroke-linejoin="round"/>
+  </symbol>
+  
+
+<symbol id="nightScene" viewBox="0 0 500 420">
+  <rect width="500" height="420" fill="url(#nSky)"/>
+  <g transform="rotate(-13 250 112)"><ellipse cx="250" cy="112" rx="300" ry="54" fill="url(#nMw)"/></g>
+  <g transform="rotate(-13 250 112)"><ellipse cx="250" cy="112" rx="250" ry="26" fill="url(#nMw)" opacity=".7"/></g>
+  <circle cx="161.9" cy="32.4" r="1.6" fill="#FFF7DE" opacity="0.31"/><circle cx="47.1" cy="125.3" r="1.3" fill="#FFF7DE" opacity="0.64"/><circle cx="43.0" cy="89.9" r="0.8" fill="#FFF7DE" opacity="0.34"/><circle cx="413.4" cy="26.6" r="0.8" fill="#FFF7DE" opacity="0.7"/><circle cx="30.9" cy="125.9" r="0.7" fill="#FFF7DE" opacity="0.98"/><circle cx="23.3" cy="184.6" r="1.0" fill="#FFF7DE" opacity="0.78"/><circle cx="270.3" cy="122.7" r="1.3" fill="#FFF7DE" opacity="0.98"/><circle cx="90.4" cy="125.0" r="1.6" fill="#FFF7DE" opacity="0.63"/><circle cx="48.7" cy="153.1" r="1.3" fill="#FFF7DE" opacity="0.54"/><circle cx="103.0" cy="146.3" r="1.1" fill="#FFF7DE" opacity="0.98"/><circle cx="232.8" cy="198.5" r="1.0" fill="#FFF7DE" opacity="0.48"/><circle cx="349.5" cy="52.5" r="1.3" fill="#FFF7DE" opacity="0.7"/><circle cx="247.6" cy="73.8" r="1.1" fill="#FFF7DE" opacity="0.69"/><circle cx="490.1" cy="25.4" r="1.1" fill="#FFF7DE" opacity="0.61"/><circle cx="171.0" cy="200.7" r="1.1" fill="#FFF7DE" opacity="0.31"/><circle cx="382.3" cy="123.2" r="1.0" fill="#FFF7DE" opacity="0.73"/><circle cx="175.1" cy="106.8" r="1.1" fill="#FFF7DE" opacity="0.55"/><circle cx="192.9" cy="143.8" r="0.7" fill="#FFF7DE" opacity="0.98"/><circle cx="177.7" cy="131.3" r="1.1" fill="#FFF7DE" opacity="0.54"/><circle cx="384.1" cy="27.8" r="0.8" fill="#FFF7DE" opacity="0.55"/><circle cx="248.3" cy="35.8" r="1.1" fill="#FFF7DE" opacity="0.65"/><circle cx="409.6" cy="185.8" r="1.0" fill="#FFF7DE" opacity="0.75"/><circle cx="341.4" cy="81.8" r="0.8" fill="#FFF7DE" opacity="0.6"/><circle cx="88.1" cy="49.9" r="0.8" fill="#FFF7DE" opacity="0.29"/><circle cx="283.2" cy="204.9" r="1.6" fill="#FFF7DE" opacity="0.86"/><circle cx="327.5" cy="159.1" r="1.1" fill="#FFF7DE" opacity="0.88"/><circle cx="240.8" cy="86.1" r="0.8" fill="#FFF7DE" opacity="0.55"/><circle cx="283.4" cy="115.4" r="1.0" fill="#FFF7DE" opacity="0.9099999999999999"/><circle cx="173.7" cy="78.3" r="0.7" fill="#FFF7DE" opacity="0.58"/><circle cx="51.1" cy="73.7" r="1.0" fill="#FFF7DE" opacity="0.6"/><circle cx="258.2" cy="44.1" r="1.3" fill="#FFF7DE" opacity="0.52"/><circle cx="457.1" cy="163.0" r="1.0" fill="#FFF7DE" opacity="0.94"/><circle cx="348.1" cy="56.1" r="1.0" fill="#FFF7DE" opacity="0.98"/><circle cx="111.5" cy="174.5" r="0.8" fill="#FFF7DE" opacity="0.98"/><circle cx="409.2" cy="159.1" r="0.8" fill="#FFF7DE" opacity="0.41"/><circle cx="302.6" cy="74.0" r="1.6" fill="#FFF7DE" opacity="0.98"/><circle cx="477.5" cy="78.4" r="0.8" fill="#FFF7DE" opacity="0.57"/><circle cx="235.0" cy="72.6" r="1.1" fill="#FFF7DE" opacity="0.9199999999999999"/><circle cx="321.6" cy="179.4" r="0.7" fill="#FFF7DE" opacity="0.89"/><circle cx="375.1" cy="102.8" r="0.8" fill="#FFF7DE" opacity="0.7899999999999999"/><circle cx="295.4" cy="100.1" r="1.6" fill="#FFF7DE" opacity="0.6"/><circle cx="274.1" cy="4.6" r="1.6" fill="#FFF7DE" opacity="0.72"/><circle cx="466.8" cy="93.3" r="0.8" fill="#FFF7DE" opacity="0.98"/><circle cx="105.5" cy="54.1" r="1.0" fill="#FFF7DE" opacity="0.62"/><circle cx="163.0" cy="117.0" r="0.8" fill="#FFF7DE" opacity="0.54"/><circle cx="370.0" cy="193.0" r="1.6" fill="#FFF7DE" opacity="0.67"/><circle cx="255.3" cy="187.7" r="0.8" fill="#FFF7DE" opacity="0.69"/><circle cx="74.9" cy="30.4" r="1.3" fill="#FFF7DE" opacity="0.77"/><circle cx="163.0" cy="111.4" r="1.3" fill="#FFF7DE" opacity="0.82"/><circle cx="386.1" cy="109.2" r="1.3" fill="#FFF7DE" opacity="0.52"/><circle cx="447.0" cy="13.6" r="1.0" fill="#FFF7DE" opacity="0.69"/><circle cx="256.1" cy="148.9" r="1.1" fill="#FFF7DE" opacity="0.84"/><circle cx="403.7" cy="109.2" r="0.8" fill="#FFF7DE" opacity="0.97"/><circle cx="438.3" cy="202.6" r="1.0" fill="#FFF7DE" opacity="0.9"/><circle cx="101.3" cy="96.2" r="1.1" fill="#FFF7DE" opacity="0.58"/><circle cx="151.4" cy="26.3" r="0.8" fill="#FFF7DE" opacity="0.91"/><circle cx="476.3" cy="85.6" r="1.1" fill="#FFF7DE" opacity="0.61"/><circle cx="333.9" cy="48.1" r="1.6" fill="#FFF7DE" opacity="0.7899999999999999"/><circle cx="257.8" cy="72.9" r="0.8" fill="#FFF7DE" opacity="0.74"/><circle cx="46.1" cy="78.7" r="1.0" fill="#FFF7DE" opacity="0.65"/><circle cx="9.0" cy="71.3" r="1.3" fill="#FFF7DE" opacity="0.48"/><circle cx="211.1" cy="196.0" r="1.0" fill="#FFF7DE" opacity="0.55"/><circle cx="257.4" cy="106.3" r="1.0" fill="#FFF7DE" opacity="0.56"/><circle cx="28.8" cy="148.0" r="1.1" fill="#FFF7DE" opacity="0.98"/><circle cx="250.0" cy="38.2" r="1.0" fill="#FFF7DE" opacity="0.82"/><circle cx="237.4" cy="200.9" r="0.7" fill="#FFF7DE" opacity="0.72"/><circle cx="328.3" cy="117.4" r="1.1" fill="#FFF7DE" opacity="0.98"/><circle cx="153.9" cy="46.3" r="0.8" fill="#FFF7DE" opacity="0.51"/><circle cx="353.4" cy="136.7" r="1.1" fill="#FFF7DE" opacity="0.94"/><circle cx="81.6" cy="18.2" r="1.1" fill="#FFF7DE" opacity="0.86"/><circle cx="134.5" cy="0.8" r="1.0" fill="#FFF7DE" opacity="0.92"/><circle cx="293.4" cy="84.7" r="1.0" fill="#FFF7DE" opacity="0.7"/><circle cx="116.4" cy="125.9" r="1.3" fill="#FFF7DE" opacity="0.98"/><circle cx="492.4" cy="32.1" r="1.6" fill="#FFF7DE" opacity="0.9099999999999999"/><circle cx="72.4" cy="177.3" r="1.6" fill="#FFF7DE" opacity="0.98"/><circle cx="313.7" cy="157.8" r="1.3" fill="#FFF7DE" opacity="0.37"/><circle cx="252.2" cy="179.5" r="0.7" fill="#FFF7DE" opacity="0.83"/><circle cx="20.9" cy="137.0" r="0.7" fill="#FFF7DE" opacity="0.75"/><circle cx="225.7" cy="10.9" r="0.7" fill="#FFF7DE" opacity="0.7"/><circle cx="244.6" cy="0.7" r="0.7" fill="#FFF7DE" opacity="0.78"/><circle cx="267.6" cy="141.7" r="0.7" fill="#FFF7DE" opacity="0.98"/><circle cx="236.9" cy="174.0" r="1.0" fill="#FFF7DE" opacity="0.44"/><circle cx="115.4" cy="139.7" r="1.1" fill="#FFF7DE" opacity="0.83"/><circle cx="191.3" cy="103.0" r="1.6" fill="#FFF7DE" opacity="0.69"/><circle cx="23.4" cy="136.1" r="0.8" fill="#FFF7DE" opacity="0.55"/><circle cx="73.7" cy="54.6" r="1.6" fill="#FFF7DE" opacity="0.74"/><circle cx="66.7" cy="103.7" r="1.1" fill="#FFF7DE" opacity="0.68"/><circle cx="336.0" cy="148.8" r="1.6" fill="#FFF7DE" opacity="0.61"/>
+  <use href="#nStar" x="64" y="44" width="15" height="15"/><use href="#nStar" x="196" y="26" width="11" height="11"/><use href="#nStar" x="146" y="120" width="10" height="10"/><use href="#nStar" x="300" y="58" width="9" height="9"/>
+  <g opacity=".9"><path d="M92 62 L150 34" stroke="url(#nShoot)" stroke-width="2.4" stroke-linecap="round"/><circle cx="151" cy="33" r="2.6" fill="#FFF8DC"/></g>
+  <circle cx="400" cy="64" r="76" fill="url(#nMoon)"/>
+  <circle cx="400" cy="64" r="27" fill="#FFF6D8"/>
+  <circle cx="411" cy="54" r="25" fill="#0A2036"/>
+  <path d="M0 214 L58 176 L104 200 L162 160 L226 206 L286 172 L344 208 L404 178 L462 210 L500 192 L500 268 L0 268 Z" fill="#16344C" opacity=".95"/>
+  <path d="M0 236 L54 212 L112 238 L168 208 L238 246 L296 218 L362 250 L430 220 L500 248 L500 300 L0 300 Z" fill="#102A3E"/>
+  <path d="M2 207 L15 258 L-11 258 Z" fill="#0C2233"/><path d="M31 212 L44 258 L18 258 Z" fill="#0C2233"/><path d="M61 204 L74 258 L48 258 Z" fill="#0C2233"/><path d="M91 217 L104 258 L78 258 Z" fill="#0C2233"/><path d="M122 216 L135 258 L109 258 Z" fill="#0C2233"/><path d="M154 216 L167 258 L141 258 Z" fill="#0C2233"/><path d="M183 215 L196 258 L170 258 Z" fill="#0C2233"/><path d="M216 211 L229 258 L203 258 Z" fill="#0C2233"/><path d="M246 219 L259 258 L233 258 Z" fill="#0C2233"/><path d="M278 211 L291 258 L265 258 Z" fill="#0C2233"/><path d="M311 208 L324 258 L298 258 Z" fill="#0C2233"/><path d="M347 213 L360 258 L334 258 Z" fill="#0C2233"/><path d="M370 208 L383 258 L357 258 Z" fill="#0C2233"/><path d="M409 213 L422 258 L396 258 Z" fill="#0C2233"/><path d="M439 215 L452 258 L426 258 Z" fill="#0C2233"/><path d="M474 206 L487 258 L461 258 Z" fill="#0C2233"/>
+  <rect x="0" y="258" width="500" height="56" fill="url(#nLake)"/>
+  <g fill="#FFF3C4">
+    <ellipse cx="400" cy="266" rx="19" ry="2.4" opacity=".5"/><ellipse cx="400" cy="274" rx="13" ry="1.8" opacity=".42"/>
+    <ellipse cx="400" cy="282" rx="22" ry="1.7" opacity=".34"/><ellipse cx="400" cy="290" rx="10" ry="1.3" opacity=".26"/>
+    <ellipse cx="400" cy="298" rx="16" ry="1.2" opacity=".2"/>
+  </g>
+  <g fill="#8FB9C9" opacity=".22"><ellipse cx="120" cy="278" rx="46" ry="1.4"/><ellipse cx="228" cy="294" rx="34" ry="1.2"/><ellipse cx="66" cy="300" rx="28" ry="1.1"/></g>
+  <path d="M0 312 Q250 298 500 312 L500 420 L0 420 Z" fill="#17452E"/>
+  <path d="M0 312 Q250 298 500 312" fill="none" stroke="#0B2018" stroke-width="2.6" opacity=".45"/>
+  <path d="M-6 318 Q250 366 506 314" fill="none" stroke="#C9B98E" stroke-width="2" opacity=".85"/>
+  <use href="#nBulb" x="46" y="330" width="17" height="24"/><use href="#nBulb" x="122" y="346" width="17" height="24"/>
+  <use href="#nBulb" x="200" y="354" width="17" height="24"/><use href="#nBulb" x="286" y="354" width="17" height="24"/>
+  <use href="#nBulb" x="364" y="346" width="17" height="24"/><use href="#nBulb" x="440" y="328" width="17" height="24"/>
+  <use href="#nPine" x="6" y="256" width="54" height="90"/><use href="#nPine" x="442" y="250" width="56" height="94"/>
+  <g opacity=".92"><use href="#nTent2" x="36" y="296" width="86" height="66"/></g>
+  <ellipse cx="152" cy="366" rx="62" ry="14" fill="#0B2018" opacity=".28"/>
+  <use href="#nTent" x="96" y="284" width="118" height="92"/>
+  <ellipse cx="352" cy="352" rx="118" ry="56" fill="url(#nFire)"/>
+  <g fill="#0A1C14" opacity=".92">
+    <g transform="translate(292 346)"><circle cx="0" cy="-16" r="9"/><path d="M-13 6 q13 -22 26 0 z"/><path d="M-13 6 h26 v5 h-26 z"/></g>
+    <g transform="translate(414 344)"><circle cx="0" cy="-16" r="9"/><path d="M-13 6 q13 -22 26 0 z"/><path d="M-13 6 h26 v5 h-26 z"/></g>
+    <g transform="translate(352 372)"><circle cx="0" cy="-18" r="10"/><path d="M-15 6 q15 -24 30 0 z"/></g>
+  </g>
+  <g transform="translate(352 342) scale(.78)" stroke="#0C2018" stroke-width="3.4" stroke-linejoin="round">
+    <ellipse cx="-42" cy="30" rx="12" ry="7" fill="#4E5C52"/><ellipse cx="-14" cy="36" rx="12" ry="7" fill="#5E6C62"/>
+    <ellipse cx="16" cy="36" rx="12" ry="7" fill="#4E5C52"/><ellipse cx="43" cy="29" rx="12" ry="7" fill="#5E6C62"/>
+    <rect x="-46" y="18" width="92" height="13" rx="6.5" fill="#8A5A2E" transform="rotate(12)"/>
+    <rect x="-46" y="18" width="92" height="13" rx="6.5" fill="#A06B36" transform="rotate(-12)"/>
+  </g>
+  <g transform="translate(352 342) scale(.78)">
+    <path d="M0 22 C-38 2 -25 -24 -7 -46 C-8 -18 5 -11 9 -33 C33 -6 36 8 0 22Z" fill="#E8792B" stroke="#0C2018" stroke-width="3.4" stroke-linejoin="round"/>
+    <path d="M0 18 C-19 8 -13 -7 -2 -21 C1 -3 9 1 11 -9 C23 5 16 13 0 18Z" fill="#F2C230"/>
+    <path d="M0 15 C-7 10 -5 1 -1 -8 C1 2 5 4 5 -1 C10 5 7 11 0 15Z" fill="#FFF3C4"/>
+  </g>
+  <g fill="#FFD98A"><circle cx="340" cy="300" r="2" opacity=".85"/><circle cx="366" cy="286" r="1.6" opacity=".7"/><circle cx="352" cy="268" r="1.3" opacity=".55"/><circle cx="376" cy="312" r="1.5" opacity=".6"/></g>
+  <circle cx="96" cy="352" r="9.2" fill="url(#nFf)"/><circle cx="96" cy="352" r="2.0" fill="#FFF0A8"/><circle cx="214" cy="330" r="7.8" fill="url(#nFf)"/><circle cx="214" cy="330" r="1.7" fill="#FFF0A8"/><circle cx="250" cy="382" r="10.1" fill="url(#nFf)"/><circle cx="250" cy="382" r="2.2" fill="#FFF0A8"/><circle cx="456" cy="356" r="8.3" fill="url(#nFf)"/><circle cx="456" cy="356" r="1.8" fill="#FFF0A8"/><circle cx="160" cy="398" r="7.4" fill="url(#nFf)"/><circle cx="160" cy="398" r="1.6" fill="#FFF0A8"/><circle cx="288" cy="318" r="6.9" fill="url(#nFf)"/><circle cx="288" cy="318" r="1.5" fill="#FFF0A8"/>
+  <path d="M0 396 q30 -16 58 -2 q26 -18 54 -2 q30 -16 60 0 q28 -18 58 -2 q30 -14 58 0 q28 -16 56 -2 q30 -14 60 2 L500 420 L0 420 Z" fill="#0D2F1F"/>
+</symbol></defs></svg>
 <div class="wrap">
 
   <div class="camp-topbar">
@@ -374,89 +587,19 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
   <!-- ================= HOME ================= -->
   <section id="home" class="page on">
     <div class="hero">
-      <!-- tonal night camp; illustration is atmosphere, the copy leads -->
-      <svg class="heroArt artMobile" viewBox="0 0 500 540" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <rect width="500" height="540" fill="url(#skyG)"/>
-        <circle cx="384" cy="62" r="76" fill="url(#moonGlow)"/>
-        <g stroke="#0C2018" stroke-width="3"><circle cx="384" cy="62" r="22" fill="#FFF3C4"/></g>
-        <circle cx="393" cy="54" r="22" fill="#0D2340"/>
-        <use href="#lstar" x="92" y="36" width="19" height="19"/>
-        <use href="#lstar" x="230" y="74" width="14" height="14"/>
-        <use href="#lstar" x="150" y="112" width="12" height="12"/>
-        <g fill="#FFF6DC"><circle cx="288" cy="40" r="1.6" opacity=".6"/><circle cx="442" cy="128" r="1.4" opacity=".5"/><circle cx="60" cy="120" r="1.3" opacity=".5"/></g>
-        <path d="M28 198 C90 142 130 122 182 122 C238 104 282 150 340 198 Z" fill="#16354A"/>
-        <path d="M262 200 C312 158 346 130 388 130 C436 130 474 164 508 200 Z" fill="#122C3E"/>
-        <path d="M-8 96 Q250 150 508 96" fill="none" stroke="#C9B98E" stroke-width="2.4"/>
-        <use href="#lbulb" x="54" y="106" width="19" height="26"/>
-        <use href="#lbulb" x="130" y="122" width="19" height="26"/>
-        <use href="#lbulb" x="206" y="131" width="19" height="26"/>
-        <use href="#lbulb" x="282" y="132" width="19" height="26"/>
-        <use href="#lbulb" x="356" y="124" width="19" height="26"/>
-        <use href="#lbulb" x="428" y="108" width="19" height="26"/>
-        <use href="#lpine" x="34" y="132" width="62" height="102"/>
-        <use href="#lpine" x="416" y="128" width="66" height="108"/>
-        <path d="M0 196 Q250 178 500 196 L500 540 L0 540 Z" fill="#1A5236"/>
-        <path d="M0 196 Q250 178 500 196" fill="none" stroke="#0C2018" stroke-width="3" opacity=".55"/>
-        <use href="#ltent" x="120" y="140" width="124" height="97"/>
-        <ellipse class="emberGlow" cx="322" cy="234" rx="104" ry="52" fill="url(#fireGlow)"/>
-        <g transform="translate(322 220) scale(0.82)" stroke="#0C2018" stroke-width="3.4" stroke-linejoin="round">
-          <ellipse cx="-42" cy="30" rx="12" ry="7" fill="#5C6B60"/><ellipse cx="-14" cy="36" rx="12" ry="7" fill="#6C7B70"/>
-          <ellipse cx="16" cy="36" rx="12" ry="7" fill="#5C6B60"/><ellipse cx="43" cy="29" rx="12" ry="7" fill="#6C7B70"/>
-          <rect x="-46" y="18" width="92" height="13" rx="6.5" fill="#8A5A2E" transform="rotate(12)"/>
-          <rect x="-46" y="18" width="92" height="13" rx="6.5" fill="#A06B36" transform="rotate(-12)"/>
-        </g>
-        <g transform="translate(322 220) scale(0.82)"><g class="flame">
-          <path d="M0 22 C-38 2 -25 -24 -7 -46 C-8 -18 5 -11 9 -33 C33 -6 36 8 0 22Z" fill="#E8792B" stroke="#0C2018" stroke-width="3.4" stroke-linejoin="round"/>
-          <path d="M0 18 C-19 8 -13 -7 -2 -21 C1 -3 9 1 11 -9 C23 5 16 13 0 18Z" fill="#F2C230"/>
-          <path d="M0 15 C-7 10 -5 1 -1 -8 C1 2 5 4 5 -1 C10 5 7 11 0 15Z" fill="#FFF3C4"/>
-        </g></g>
-      </svg>
-
-      <svg class="heroArt artWide" viewBox="0 0 1120 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <rect width="1120" height="420" fill="url(#skyG)"/>
-        <circle cx="946" cy="70" r="78" fill="url(#moonGlow)"/>
-        <g stroke="#0C2018" stroke-width="3"><circle cx="946" cy="70" r="22" fill="#FFF3C4"/></g>
-        <circle cx="955" cy="62" r="22" fill="#0D2340"/>
-        <use href="#lstar" x="612" y="40" width="18" height="18"/>
-        <use href="#lstar" x="806" y="30" width="14" height="14"/>
-        <use href="#lstar" x="700" y="112" width="12" height="12"/>
-        <g fill="#FFF6DC"><circle cx="880" cy="136" r="1.5" opacity=".55"/><circle cx="1064" cy="52" r="1.4" opacity=".5"/><circle cx="548" cy="118" r="1.2" opacity=".45"/></g>
-        <path d="M470 262 C556 200 618 156 692 156 C770 156 830 208 906 262 Z" fill="#16354A"/>
-        <path d="M846 266 C912 214 956 178 1014 178 C1076 178 1120 216 1120 266 Z" fill="#122C3E"/>
-        <path d="M462 92 Q800 146 1132 88" fill="none" stroke="#C9B98E" stroke-width="2.2"/>
-        <use href="#lbulb" x="536" y="102" width="18" height="25"/>
-        <use href="#lbulb" x="628" y="117" width="18" height="25"/>
-        <use href="#lbulb" x="722" y="127" width="18" height="25"/>
-        <use href="#lbulb" x="816" y="130" width="18" height="25"/>
-        <use href="#lbulb" x="908" y="124" width="18" height="25"/>
-        <use href="#lbulb" x="1002" y="110" width="18" height="25"/>
-        <use href="#lpine" x="478" y="186" width="62" height="102"/>
-        <use href="#lpine" x="1046" y="176" width="68" height="112"/>
-        <path d="M440 292 Q780 268 1120 292 L1120 420 L440 420 Z" fill="#1A5236"/>
-        <path d="M440 292 Q780 268 1120 292" fill="none" stroke="#0C2018" stroke-width="3" opacity=".5"/>
-        <use href="#ltent" x="576" y="222" width="134" height="105"/>
-        <ellipse class="emberGlow" cx="862" cy="340" rx="132" ry="64" fill="url(#fireGlow)"/>
-        <g transform="translate(862 326) scale(0.94)" stroke="#0C2018" stroke-width="3.4" stroke-linejoin="round">
-          <ellipse cx="-42" cy="30" rx="12" ry="7" fill="#5C6B60"/><ellipse cx="-14" cy="36" rx="12" ry="7" fill="#6C7B70"/>
-          <ellipse cx="16" cy="36" rx="12" ry="7" fill="#5C6B60"/><ellipse cx="43" cy="29" rx="12" ry="7" fill="#6C7B70"/>
-          <rect x="-46" y="18" width="92" height="13" rx="6.5" fill="#8A5A2E" transform="rotate(12)"/>
-          <rect x="-46" y="18" width="92" height="13" rx="6.5" fill="#A06B36" transform="rotate(-12)"/>
-        </g>
-        <g transform="translate(862 326) scale(0.94)"><g class="flame">
-          <path d="M0 22 C-38 2 -25 -24 -7 -46 C-8 -18 5 -11 9 -33 C33 -6 36 8 0 22Z" fill="#E8792B" stroke="#0C2018" stroke-width="3.4" stroke-linejoin="round"/>
-          <path d="M0 18 C-19 8 -13 -7 -2 -21 C1 -3 9 1 11 -9 C23 5 16 13 0 18Z" fill="#F2C230"/>
-          <path d="M0 15 C-7 10 -5 1 -1 -8 C1 2 5 4 5 -1 C10 5 7 11 0 15Z" fill="#FFF3C4"/>
-        </g></g>
-      </svg>
-
+      <svg class="heroScene" viewBox="0 0 500 388" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><use href="#nightScene" width="500" height="420"/></svg>
+      <span class="heroScrim"></span>
       <div class="heroInner">
-        <span class="eyebrow" data-i18n="heroEyebrow">아이돌 수련회의 마지막 밤</span>
-        <h1 class="heroTitle" data-i18n="heroTitle">아이돌 수련회 1기<br>퇴소식</h1>
+        <img class="heroLogo" src="../assets/camp-logo.png" alt="아이돌 수련회">
+        <span class="heroRule">IDOL SCHOOL CAMP · 1ST</span>
+        <p class="heroKicker" data-i18n="heroKicker">수련회의 마지막 밤</p>
+        <p class="heroGisu" data-i18n="heroGisu">아이돌 수련회 1기</p>
+        <h1 class="heroTitle" data-i18n="heroKind">퇴소식</h1>
         <p class="heroDesc" data-i18n="heroDesc">수련회가 끝나도, 우리의 추억은 계속됩니다.|26개의 순간을 떠올리며 친구들과 함께|마지막 퇴소식을 완성해 보세요.</p>
         <div class="heroCta">
           <button class="primary" id="start" data-i18n="startBtn">퇴소식 시작하기 →</button>
-          <span class="heroNote" data-i18n="heroNote">수련회의 장면 26개</span>
         </div>
+        <div class="heroMeta"><span data-i18n="heroMetaL">SCENES 26</span><span data-i18n="heroMetaR">ABOUT 3 MIN</span></div>
       </div>
     </div>
 
@@ -588,29 +731,30 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
 
     <div class="certOuter" id="certOuter">
       <div class="cert" id="cert">
-        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
         <div class="perfectBadge" id="perfectBadge" style="display:none">PERFECT · 26 / 26</div>
-        <span class="certEyebrow">ONLINE EXIT CERTIFICATE</span>
-        <h2 class="certName" data-i18n="certName">온라인 퇴소증</h2>
-        <div class="certRule"><span>IDOL SCHOOL CAMP · 1st</span></div>
+        <img class="certLogo" id="campLogo" src="../assets/camp-logo.png" alt="아이돌 수련회">
+        <span class="certEyebrow" id="certEyebrow">CERTIFICATE OF COMPLETION</span>
+        <h2 class="certName"><small id="certGisu">아이돌 수련회 1기</small><span id="certKind">수료증</span></h2>
 
-        <div class="certVisual" id="certVisual">
-          <img id="groupPhoto" alt="group photo" style="display:none">
-          <img id="campLogo" src="../assets/camp-logo.png" alt="아이돌 수련회">
+        <div class="certPhoto" id="certPhoto" style="display:none">
+          <div class="certPhotoIn"><img id="groupPhoto" alt="group photo"></div>
+          <span class="certMedal"><b>26</b><em id="medalCap">ALL CLEAR</em></span>
         </div>
 
-        <div class="rtype" id="resultTitle"></div>
-
-        <div class="countBlock">
-          <div class="countRow">
-            <span class="countLabel" data-i18n="countLabel">함께 퇴소한 친구</span>
-            <span class="countVal"><span id="friendScore">0</span><em> / 26</em></span>
-          </div>
-          <div class="countBar"><i id="countFill"></i></div>
+        <div class="certPlate">
+          <small id="certGradeLabel">수료 등급</small>
+          <strong id="certGrade"></strong>
         </div>
 
-        <div id="friendNames"></div>
-        <p class="desc" id="resultDesc"></p>
+        <div class="stampPlate" id="stampPlate">
+          <span class="stampCap" id="stampCap">출연자 26명</span>
+          <div class="stampGrid" id="stampGrid"></div>
+        </div>
+
+        <div class="certCount">
+          <span data-i18n="countLabel">함께 퇴소한 친구</span>
+          <b><span id="friendScore">0</span> / 26</b>
+        </div>
 
         <div class="certFoot">
           <span><span data-i18n="certIssued">발급일</span> <span id="certDate">—</span><br>2026 · Muniverse</span>
@@ -690,6 +834,10 @@ const I18N={
   progressLabel:'MY PROGRESS',progressTitle:'나의 진행 현황',bestLabel:'현재까지 모은 친구',bestChipLabel:'내 친구',rewardLabel:'REWARDS',rewardTitle:'보상 안내',rewardCert:'온라인 퇴소증',rewardCertDesc:'26개를 모두 마치면 나만의 퇴소증이 발급됩니다.',rewardAlbum:'추억의 사진첩',rewardAlbumDesc:'맞힌 친구들의 사진이 사진첩에 모입니다.',againTitle:'실패해도 괜찮아요!',againDesc:'아이돌 수련회를 다시 보고 몇 번이든 도전할 수 있어요.',againBtn:'아이돌 수련회 보고 오기 →',kitTitle:'수련회 수료키트 구경가기',kitDesc:'우리들의 추억이 담긴 특별한 굿즈',kitBtn:'수료키트 보러 가기 →',
   tabEnroll:'입소',tabTalent:'장기자랑',tabFarewell:'퇴소식',tabKit:'수료 키트',soon:'준비중',
   heroTitle:'아이돌 수련회 1기|퇴소식',
+  heroKicker:'수련회의 마지막 밤',heroGisu:'아이돌 수련회 1기',heroKind:'퇴소식',heroMetaL:'SCENES 26',heroMetaR:'ABOUT 3 MIN',
+  certEyeb:'CERTIFICATE OF COMPLETION',certEyebPerfect:'HONOURS CERTIFICATE',certGisu:'아이돌 수련회 1기',
+  certKind:'수료증',certKindPerfect:'수석 수료증',gradeLabel:'수료 등급',stampCap:'출연자 26명',wellDone:'참 잘했어요',
+  medalCap:'ALL CLEAR',ribbonPerfect:'26명 모두와 함께 수료했어요!',
   heroLead:'수련회의 마지막 밤, 캠프파이어 앞에서|26개의 추억을 떠올리고|친구들과 명예롭게 퇴소해 보세요.',
   startBtn:'퇴소식 시작하기 →',heroNote:'수련회의 장면 26개',
   howLabel:'HOW TO JOIN',howTitle:'퇴소식 진행 안내',howSub:'약 3분이면 끝나요',heroEyebrow:'아이돌 수련회의 마지막 밤',heroDesc:'수련회가 끝나도, 우리의 추억은 계속됩니다.|26개의 순간을 떠올리며 친구들과 함께|마지막 퇴소식을 완성해 보세요.',resultEyebrow:'EXIT COMPLETE',certIssued:'발급일',certSeal:'수련회<br>수료',previewNote:'26명의 친구와 추억을 완성하고 나만의 온라인 퇴소증을 받아보세요.',step1Head:'추억의 장면',step1Body:'26개의 장면을 하나씩 확인합니다.',step2Head:'YES or NO',step2Body:'장면과 관련된 질문에 답합니다.',step3Head:'퇴소증 완성',step3Body:'맞힌 친구가 사진첩에 추가됩니다.',
@@ -725,6 +873,10 @@ const I18N={
   progressLabel:'MY PROGRESS',progressTitle:'Your progress',bestLabel:'Friends collected so far',bestChipLabel:'My best',rewardLabel:'REWARDS',rewardTitle:'What you get',rewardCert:'Exit certificate',rewardCertDesc:'Finish all 26 and your own certificate is issued.',rewardAlbum:'Memory album',rewardAlbumDesc:'Every friend you get right joins your album.',againTitle:'It is fine to miss a few!',againDesc:'Rewatch Idol School Camp and try again as many times as you like.',againBtn:'Go watch Idol School Camp →',kitTitle:'Browse the camp completion kit',kitDesc:'Special goods holding our memories',kitBtn:'See the kit →',
   tabEnroll:'Enrollment',tabTalent:'Talent Show',tabFarewell:'Exit Ceremony',tabKit:'Completion Kit',soon:'Preparing',
   heroTitle:'Idol School Camp 1st|Exit Ceremony',
+  heroKicker:'The last night of camp',heroGisu:'IDOL SCHOOL CAMP 1ST',heroKind:'Exit Ceremony',heroMetaL:'SCENES 26',heroMetaR:'ABOUT 3 MIN',
+  certEyeb:'CERTIFICATE OF COMPLETION',certEyebPerfect:'HONOURS CERTIFICATE',certGisu:'IDOL SCHOOL CAMP 1ST',
+  certKind:'Certificate',certKindPerfect:'Honours Certificate',gradeLabel:'Grade',stampCap:'26 MEMBERS',wellDone:'WELL DONE',
+  medalCap:'ALL CLEAR',ribbonPerfect:'You graduated with all 26 friends!',
   heroLead:'On the last night of camp, by the campfire,|recall 26 memories and|graduate with your friends in honour.',
   startBtn:'Start Exit Ceremony →',heroNote:'26 scenes from the camp',
   howLabel:'HOW TO JOIN',howTitle:'How it works',howSub:'About 3 minutes',heroEyebrow:'THE LAST NIGHT OF CAMP',heroDesc:'Camp is over, but the memories are not.|Recall 26 moments and complete|the exit ceremony with your friends.',resultEyebrow:'EXIT COMPLETE',certIssued:'Issued',certSeal:'CAMP<br>PASSED',previewNote:'Complete your memories with 26 friends and receive your own online exit certificate.',step1Head:'A camp scene',step1Body:'Look back on 26 scenes, one at a time.',step2Head:'YES or NO',step2Body:'Answer the question about the scene.',step3Head:'Your certificate',step3Body:'Friends you get right join your album.',
@@ -761,6 +913,10 @@ const I18N={
   progressLabel:'MY PROGRESS',progressTitle:'これまでの記録',bestLabel:'集めた友だちの数',bestChipLabel:'自己ベスト',rewardLabel:'REWARDS',rewardTitle:'もらえるもの',rewardCert:'オンライン退所証',rewardCertDesc:'26問すべて終えると自分だけの退所証が発行されます。',rewardAlbum:'思い出アルバム',rewardAlbumDesc:'正解した仲間の写真がアルバムに集まります。',againTitle:'間違えても大丈夫！',againDesc:'『アイドル修練会』をもう一度見て、何度でも挑戦できます。',againBtn:'『アイドル・キャンプ』を見る →',kitTitle:'修了キットを見に行く',kitDesc:'思い出が詰まった特別なグッズ',kitBtn:'修了キットを見る →',
   tabEnroll:'入所',tabTalent:'隠し芸',tabFarewell:'退所式',tabKit:'修了キット',soon:'準備中',
   heroTitle:'アイドル修練会 1期|退所式',
+  heroKicker:'修練会、最後の夜',heroGisu:'アイドル修練会 1期',heroKind:'退所式',heroMetaL:'SCENES 26',heroMetaR:'ABOUT 3 MIN',
+  certEyeb:'CERTIFICATE OF COMPLETION',certEyebPerfect:'HONOURS CERTIFICATE',certGisu:'アイドル修練会 1期',
+  certKind:'修了証',certKindPerfect:'首席修了証',gradeLabel:'修了ランク',stampCap:'出演者26名',wellDone:'よくできました',
+  medalCap:'ALL CLEAR',ribbonPerfect:'26人全員と修了しました！',
   heroLead:'修練会の最後の夜、キャンプファイアの前で|26の思い出を振り返り|仲間と名誉ある退所をしましょう。',
   startBtn:'退所式を始める →',heroNote:'修練会のシーン26個',
   howLabel:'HOW TO JOIN',howTitle:'退所式の流れ',howSub:'約3分で終わります',heroEyebrow:'アイドル修練会、最後の夜',heroDesc:'修練会が終わっても、思い出は続きます。|26の瞬間を思い出しながら、仲間と一緒に|最後の退所式を完成させましょう。',resultEyebrow:'EXIT COMPLETE',certIssued:'発行日',certSeal:'修練会<br>修了',previewNote:'26人の仲間との思い出を完成させて、自分だけのオンライン退所証を受け取りましょう。',step1Head:'思い出のシーン',step1Body:'26のシーンをひとつずつ確認します。',step2Head:'YES or NO',step2Body:'シーンに関する質問に答えます。',step3Head:'退所証の完成',step3Body:'正解した仲間がアルバムに追加されます。',
@@ -796,6 +952,10 @@ const I18N={
   progressLabel:'MY PROGRESS',progressTitle:'我的进度',bestLabel:'当前已收集的朋友',bestChipLabel:'我的最佳',rewardLabel:'REWARDS',rewardTitle:'奖励说明',rewardCert:'线上退所证书',rewardCertDesc:'完成全部 26 题即可获得专属退所证书。',rewardAlbum:'回忆相册',rewardAlbumDesc:'答对的朋友会收进你的相册。',againTitle:'答错也没关系！',againDesc:'重看《偶像修炼会》，想挑战几次都可以。',againBtn:'去看《偶像修炼会》 →',kitTitle:'去看结业礼包',kitDesc:'装满我们回忆的特别周边',kitBtn:'查看结业礼包 →',
   tabEnroll:'入所',tabTalent:'才艺表演',tabFarewell:'退所式',tabKit:'结业礼包',soon:'准备中',
   heroTitle:'偶像修炼会 1期|退所式',
+  heroKicker:'修炼会的最后一夜',heroGisu:'偶像修炼会 1期',heroKind:'退所式',heroMetaL:'SCENES 26',heroMetaR:'ABOUT 3 MIN',
+  certEyeb:'CERTIFICATE OF COMPLETION',certEyebPerfect:'HONOURS CERTIFICATE',certGisu:'偶像修炼会 1期',
+  certKind:'结业证书',certKindPerfect:'首席结业证书',gradeLabel:'结业等级',stampCap:'26位出演者',wellDone:'做得好',
+  medalCap:'ALL CLEAR',ribbonPerfect:'与26位朋友一起完成结业！',
   heroLead:'修炼会的最后一夜，在营火前|回想 26 个回忆|和朋友们光荣退所吧。',
   startBtn:'开始退所式 →',heroNote:'修炼会的 26 个场景',
   howLabel:'HOW TO JOIN',howTitle:'退所式流程',howSub:'大约 3 分钟',heroEyebrow:'偶像修炼会的最后一夜',heroDesc:'修炼会结束了，但回忆还在继续。|回想 26 个瞬间，和朋友们一起|完成最后的退所式吧。',resultEyebrow:'EXIT COMPLETE',certIssued:'发放日',certSeal:'修炼会<br>结业',previewNote:'与 26 位朋友一起完成回忆，领取属于你的线上退所证书。',step1Head:'回忆的场景',step1Body:'逐一确认 26 个场景。',step2Head:'YES or NO',step2Body:'回答与场景相关的问题。',step3Head:'完成退所证',step3Body:'答对的朋友会加入相册。',
@@ -831,6 +991,10 @@ const I18N={
   progressLabel:'MY PROGRESS',progressTitle:'我的進度',bestLabel:'目前已收集的好友',bestChipLabel:'我的最佳',rewardLabel:'REWARDS',rewardTitle:'獎勵說明',rewardCert:'線上退所證書',rewardCertDesc:'完成全部 26 題即可獲得專屬退所證書。',rewardAlbum:'回憶相冊',rewardAlbumDesc:'答對的好友會收進你的相冊。',againTitle:'答錯也沒關係！',againDesc:'重看《偶像修煉會》，想挑戰幾次都可以。',againBtn:'前往觀看《偶像修煉會》 →',kitTitle:'去看結業禮包',kitDesc:'裝滿我們回憶的特別周邊',kitBtn:'查看結業禮包 →',
   tabEnroll:'入所',tabTalent:'才藝表演',tabFarewell:'退所式',tabKit:'結業禮包',soon:'準備中',
   heroTitle:'偶像修煉會 1期|退所式',
+  heroKicker:'修煉會的最後一夜',heroGisu:'偶像修煉會 1期',heroKind:'退所式',heroMetaL:'SCENES 26',heroMetaR:'ABOUT 3 MIN',
+  certEyeb:'CERTIFICATE OF COMPLETION',certEyebPerfect:'HONOURS CERTIFICATE',certGisu:'偶像修煉會 1期',
+  certKind:'結業證書',certKindPerfect:'首席結業證書',gradeLabel:'結業等級',stampCap:'26位出演者',wellDone:'做得好',
+  medalCap:'ALL CLEAR',ribbonPerfect:'與26位好友一起完成結業！',
   heroLead:'修煉會的最後一夜，在營火前|回想 26 個回憶|和朋友們光榮退所吧。',
   startBtn:'開始退所式 →',heroNote:'修煉會的 26 個場景',
   howLabel:'HOW TO JOIN',howTitle:'退所式流程',howSub:'大約 3 分鐘',heroEyebrow:'偶像修煉會的最後一夜',heroDesc:'修煉會結束了，但回憶還在繼續。|回想 26 個瞬間，和朋友們一起|完成最後的退所式吧。',resultEyebrow:'EXIT COMPLETE',certIssued:'發放日',certSeal:'修煉會<br>結業',previewNote:'與 26 位朋友一起完成回憶，領取屬於你的線上退所證書。',step1Head:'回憶的場景',step1Body:'逐一確認 26 個場景。',step2Head:'YES or NO',step2Body:'回答與場景相關的問題。',step3Head:'完成退所證',step3Body:'答對的朋友會加入相冊。',
@@ -1045,23 +1209,80 @@ async function grade(){
   }
 }
 
+/* ---------- scene stamps: one per cast member ---------- */
+function stampName(m){return m?(lang==='ko'?(m.member_ko||m.member_en||''):(m.member_en||m.member_ko||'')):'';}
+function stampWidthEm(str){
+  let w=0;
+  for(const ch of String(str)){
+    const o=ch.codePointAt(0);
+    if(o>0x2E80)w+=1;
+    else if(ch===' ')w+=.28;
+    else if(ch>='A'&&ch<='Z')w+=.72;
+    else if(ch>='0'&&ch<='9')w+=.6;
+    else w+=.56;
+  }
+  return Math.max(w,.6);
+}
+function stampHalf(y){const dy=Math.abs(y-32);return Math.sqrt(Math.max(4,21.6*21.6-dy*dy));}
+function stampLine(text,y,cap,weight){
+  const w=stampWidthEm(text);
+  let fs=cap;
+  for(let i=0;i<3;i++)fs=Math.min(cap,(2*stampHalf(y+.18*fs)-1.6)/w);
+  fs=Math.max(5.4,Math.round(fs*10)/10);
+  const avail=Math.round((2*stampHalf(y+.18*fs)-1.6)*10)/10,natural=w*fs;
+  const tl=natural>avail?` textLength="${avail.toFixed(1)}" lengthAdjust="spacingAndGlyphs"`:'';
+  return `<text x="32" y="${y}" text-anchor="middle" font-size="${fs}" font-weight="${weight}" fill="currentColor"${tl}>${esc(text)}</text>`;
+}
+function stampNameLines(name){
+  if(lang==='ko')return [name];
+  const parts=String(name).trim().split(/\s+/);
+  if(parts.length<=1)return [name];
+  if(parts.length===2)return parts;
+  return [parts[0],parts.slice(1).join(' ')];
+}
+function stampSvg(name,on,no){
+  const lines=stampNameLines(name),single=lines.length===1;
+  const bottom=on?t().wellDone:`SCENE ${String(no).padStart(2,'0')}`;
+  const body=single
+    ?stampLine(lines[0],on?36.5:34.5,lang==='ko'?14.5:12,on?900:800)
+    :stampLine(lines[0],on?31:29.5,10.5,on?900:800)+stampLine(lines[1],on?40.5:39,10.5,on?900:800);
+  const star=single
+    ?'<path d="M32 9 l2.6 5.4 6 .9 -4.3 4.2 1 5.9 -5.3 -2.8 -5.3 2.8 1 -5.9 -4.3 -4.2 6 -.9 z" fill="currentColor"/>'
+    :'<path d="M32 7 l2.1 4.3 4.7 .7 -3.4 3.3 .8 4.6 -4.2 -2.2 -4.2 2.2 .8 -4.6 -3.4 -3.3 4.7 -.7 z" fill="currentColor"/>';
+  const boty=single?(on?47.5:45):(on?51:49);
+  const rings=on
+    ?'<circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="32" cy="32" r="25.4" fill="none" stroke="currentColor" stroke-width=".9"/>'+star
+    :'<circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="4 4"/>';
+  return `<svg viewBox="0 0 64 64" aria-hidden="true">${rings}${body}${stampLine(bottom,boty,6.8,800)}</svg>`;
+}
+function stampList(matched){
+  const got=new Set((matched||[]).map(m=>m&&m.id).filter(Boolean));
+  return (questions||[]).slice().sort((a,b)=>a.photo_no-b.photo_no).map(q=>{
+    const m=memberPhotos.get(q.member_id);
+    return {no:q.photo_no,name:stampName(m)||('No.'+q.photo_no),on:got.has(q.member_id)};
+  });
+}
+function renderStamps(matched){
+  const plate=$('#stampPlate'),grid=$('#stampGrid'),list=stampList(matched);
+  if(!list.length){plate.style.display='none';grid.innerHTML='';return;}
+  plate.style.display='';
+  grid.innerHTML=list.map(st=>`<i class="${st.on?'on':''}">${stampSvg(st.name,st.on,st.no)}</i>`).join('');
+}
+
 function renderResultView(){
-  const count=lastCount,matched=lastMatched;
+  const count=lastCount,matched=lastMatched,perfect=count===TOTAL;
   $('#friendScore').textContent=count;
-  $('#countFill').style.width=`${(count/TOTAL)*100}%`;
+  $('#certEyebrow').textContent=perfect?t().certEyebPerfect:t().certEyeb;
+  $('#certGisu').textContent=t().certGisu;
+  $('#certKind').textContent=perfect?t().certKindPerfect:t().certKind;
+  $('#certGradeLabel').textContent=t().gradeLabel;
+  $('#certGrade').textContent=fullTitle(count);
+  $('#stampCap').textContent=t().stampCap;
+  $('#medalCap').textContent=t().medalCap;
+  const top=document.querySelector('.resultTop h2');
+  if(top)top.textContent=perfect?t().ribbonPerfect:t().ribbon;
 
-  const tail=t().tail?`<span class="lead">${esc(t().tail)}</span>`:'';
-  $('#resultTitle').innerHTML=
-    `<span class="lead">${esc(t().lead)}</span>`+
-    `<span class="titleBox"><strong><span class="brk">「</span>${esc(fullTitle(count))}<span class="brk">」</span></strong></span>`+tail;
-  $('#resultDesc').textContent=count===0?t().desc0:fmt(count===1&&t().descN1?t().descN1:t().descN,{n:count});
-
-  const names=$('#friendNames');
-  names.className=matched.length?'friendNames':'';
-  names.innerHTML=matched.length
-    ?`<span class="label">${esc(t().campFriends)}</span><div class="friendList">${matched.map(p=>
-        `<span class="plate"><b>${esc(memberPrimary(p))}</b><em>${esc(memberSecondary(p))}</em></span>`).join('')}</div>`
-    :'';
+  renderStamps(matched);
 
   const grid=$('#albumGrid');
   grid.innerHTML='';
@@ -1076,16 +1297,18 @@ function renderResultView(){
     grid.appendChild(f);
   });
 
-  /* 26/26 only: group photo on top. Otherwise the camp logo. */
-  const photo=$('#groupPhoto'),logo=$('#campLogo'),perfect=count===TOTAL;
-  logo.onerror=()=>{logo.style.display='none';};
+  /* the group photo belongs to the 26 / 26 honours certificate only */
+  const photo=$('#groupPhoto'),photoBox=$('#certPhoto');
   if(perfect&&settings&&settings.group_photo_path){
-    loadInto(photo,EXIT_BUCKET,settings.group_photo_path,'group',()=>{photo.style.display='none';logo.style.display='block';});
-    photo.style.display='block';logo.style.display='none';
+    photoBox.style.display='block';
+    loadInto(photo,EXIT_BUCKET,settings.group_photo_path,'group',()=>{photoBox.style.display='none';});
   }else{
+    photoBox.style.display='none';
     photo.removeAttribute('src');
-    photo.style.display='none';logo.style.display='block';
   }
+  const logo=$('#campLogo');
+  logo.onerror=()=>{logo.style.display='none';};
+
   $('#certDate').textContent=new Intl.DateTimeFormat(lang==='ko'?'ko-KR':lang,{year:'numeric',month:'long',day:'numeric'}).format(new Date());
   $('#cert').classList.toggle('perfect',perfect);
   $('#certOuter').classList.toggle('perfect',perfect);
@@ -1104,7 +1327,6 @@ function renderResult(count,ids){
 }
 
 /* ============ certificate image (canvas export) ============ */
-const CERT_W=1080,CERT_H=1350;
 let certBlobPromise=null;
 
 function loadImg(src,cors){
@@ -1139,145 +1361,206 @@ function wrapLines(ctx,text,maxW){
 }
 function spaced(s){return String(s).split('').join(' ');}
 
+function fitText(ctx,text,maxW,startPx,weight,family){
+  let size=startPx;
+  for(let i=0;i<8;i++){
+    ctx.font=`${weight} ${size}px ${family}`;
+    const w=ctx.measureText(text).width;
+    if(w<=maxW||size<=9)break;
+    size=Math.max(9,size*maxW/w*0.99);
+  }
+  ctx.font=`${weight} ${size}px ${family}`;
+  return size;
+}
+function drawStampCanvas(ctx,cx,cy,r,st,color,muted,wellDone,family){
+  const on=st.on,lines=stampNameLines(st.name),single=lines.length===1;
+  ctx.save();
+  ctx.translate(cx,cy);
+  ctx.rotate((on?[-6,4,-3,6][st.no%4]:0)*Math.PI/180);
+  ctx.textAlign='center';ctx.textBaseline='alphabetic';
+  ctx.strokeStyle=on?color:muted;ctx.fillStyle=on?color:muted;
+  if(on){
+    ctx.lineWidth=r*.085;ctx.beginPath();ctx.arc(0,0,r*.94,0,Math.PI*2);ctx.stroke();
+    ctx.lineWidth=r*.03;ctx.beginPath();ctx.arc(0,0,r*.79,0,Math.PI*2);ctx.stroke();
+    const sr=single?r*.20:r*.17,sy=single?-r*.50:-r*.60;
+    ctx.beginPath();
+    for(let i=0;i<10;i++){
+      const rad=i%2?sr*.46:sr,a=-Math.PI/2+i*Math.PI/5;
+      const x=Math.cos(a)*rad,y=sy+Math.sin(a)*rad;
+      i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+    }
+    ctx.closePath();ctx.fill();
+  }else{
+    ctx.lineWidth=r*.045;ctx.setLineDash([r*.13,r*.13]);
+    ctx.beginPath();ctx.arc(0,0,r*.90,0,Math.PI*2);ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  const put=(text,dy,cap,weight)=>{
+    const rr=r*.74;
+    let size=cap;
+    for(let i=0;i<6;i++){
+      const yy=Math.abs(dy)+size*.2;
+      const half=Math.sqrt(Math.max(4,rr*rr-yy*yy));
+      ctx.font=`${weight} ${size}px ${family}`;
+      const w=ctx.measureText(text).width,avail=2*half;
+      if(w<=avail)break;
+      size=Math.max(r*.10,size*avail/w*0.99);
+    }
+    ctx.fillText(text,0,dy);
+  };
+  if(single)put(lines[0],on?r*.14:r*.08,r*(lang==='ko'?.45:.38),900);
+  else{put(lines[0],on?-r*.02:-r*.07,r*.33,900);put(lines[1],on?r*.27:r*.22,r*.33,900);}
+  put(on?wellDone:('SCENE '+String(st.no).padStart(2,'0')),single?r*.49:r*.60,r*.21,800);
+  ctx.restore();
+}
+async function drawCertBody(ctx,count,matched,perfect,W,C,SANS){
+  const mid=W/2,padX=92,innerW=W-padX*2;
+  let y=0;
+  ctx.textAlign='center';ctx.textBaseline='alphabetic';
+
+  if(perfect){
+    const bw=320,bh=54,bx=mid-bw/2;
+    const g=ctx.createLinearGradient(bx,y,bx+bw,y+bh);
+    g.addColorStop(0,'#F8E7A8');g.addColorStop(1,'#D9AE43');
+    ctx.fillStyle=g;rrect(ctx,bx,y,bw,bh,27);ctx.fill();
+    ctx.strokeStyle='#A2791F';ctx.lineWidth=2;rrect(ctx,bx,y,bw,bh,27);ctx.stroke();
+    ctx.fillStyle='#4A3406';ctx.font='900 22px '+SANS;
+    ctx.fillText('PERFECT · 26 / 26',mid,y+34);
+    y+=bh+34;
+  }
+
+  const logo=await loadImg('../assets/camp-logo.png',false);
+  if(logo){
+    const box=fitContain(logo.naturalWidth,logo.naturalHeight,330,150);
+    ctx.drawImage(logo,mid-box.w/2,y,box.w,box.h);
+    y+=box.h+30;
+  }
+
+  ctx.fillStyle=C.eyebrow;ctx.font='800 19px '+SANS;
+  ctx.fillText(spaced(perfect?t().certEyebPerfect:t().certEyeb),mid,y+16);
+  y+=48;
+  ctx.fillStyle=C.gisu;ctx.font='800 26px '+SANS;
+  ctx.fillText(t().certGisu,mid,y+22);
+  y+=44;
+  ctx.fillStyle=C.name;
+  fitText(ctx,perfect?t().certKindPerfect:t().certKind,innerW-40,64,900,SANS);
+  ctx.fillText(perfect?t().certKindPerfect:t().certKind,mid,y+56);
+  y+=86;
+
+  if(perfect&&settings&&settings.group_photo_path){
+    let visual=await loadImg(renderUrl(EXIT_BUCKET,settings.group_photo_path,'group'),true);
+    if(!visual)visual=await loadImg(publicUrl(EXIT_BUCKET,settings.group_photo_path),true);
+    if(visual){
+      const box=fitContain(visual.naturalWidth,visual.naturalHeight,innerW-120,430);
+      const fx=mid-box.w/2-14,fy=y+18,fw=box.w+28,fh=box.h+28;
+      ctx.fillStyle='#EBD9AE';rrect(ctx,fx,fy,fw,fh,18);ctx.fill();
+      ctx.strokeStyle='#C39B34';ctx.lineWidth=4;rrect(ctx,fx,fy,fw,fh,18);ctx.stroke();
+      ctx.drawImage(visual,mid-box.w/2,fy+14,box.w,box.h);
+      const my=fy+fh,mr=58;
+      const mg=ctx.createRadialGradient(mid-mr*.3,my-mr*.3,mr*.15,mid,my,mr);
+      mg.addColorStop(0,'#FFF3A4');mg.addColorStop(.45,'#E9C65C');mg.addColorStop(1,'#B6861F');
+      ctx.fillStyle=mg;ctx.beginPath();ctx.arc(mid,my,mr,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='#C5932E';ctx.lineWidth=6;ctx.stroke();
+      ctx.fillStyle='#5B3A08';ctx.font='900 30px '+SANS;ctx.fillText(String(TOTAL),mid,my+2);
+      ctx.font='900 13px '+SANS;ctx.fillText(t().medalCap,mid,my+26);
+      y=fy+fh+mr+34;
+    }
+  }
+
+  ctx.strokeStyle=C.plateLine;ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(mid-260,y);ctx.lineTo(mid+260,y);ctx.stroke();
+  ctx.fillStyle=C.label;ctx.font='700 21px '+SANS;
+  ctx.fillText(t().gradeLabel,mid,y+34);
+  ctx.fillStyle=C.grade;
+  const grade=fullTitle(count);
+  fitText(ctx,grade,innerW-60,40,900,SANS);
+  ctx.fillText(grade,mid,y+80);
+  ctx.beginPath();ctx.moveTo(mid-260,y+104);ctx.lineTo(mid+260,y+104);ctx.stroke();
+  y+=104+38;
+
+  const list=stampList(matched);
+  if(list.length){
+    const cols=6,gap=14,cellW=(innerW-24-gap*(cols-1))/cols,r=cellW*.5;
+    const rows=Math.ceil(list.length/cols),capH=30;
+    const plateH=capH+rows*cellW+(rows-1)*gap+34;
+    ctx.fillStyle=C.plate;rrect(ctx,padX,y,innerW,plateH,20);ctx.fill();
+    ctx.strokeStyle='#C39B34';ctx.lineWidth=2.5;rrect(ctx,padX,y,innerW,plateH,20);ctx.stroke();
+    ctx.fillStyle='#9A7731';ctx.font='800 15px '+SANS;
+    ctx.fillText(spaced(t().stampCap),mid,y+26);
+    list.forEach((st,i)=>{
+      const row=Math.floor(i/cols),inRow=Math.min(cols,list.length-row*cols),col=i%cols;
+      const rowW=inRow*cellW+(inRow-1)*gap;
+      const x0=mid-rowW/2;
+      const cx=x0+col*(cellW+gap)+cellW/2;
+      const cy=y+capH+16+row*(cellW+gap)+cellW/2;
+      drawStampCanvas(ctx,cx,cy,r,st,'#C2453A','#BFA870',t().wellDone,SANS);
+    });
+    y+=plateH+34;
+  }
+
+  ctx.textAlign='left';
+  ctx.fillStyle=C.label;ctx.font='700 22px '+SANS;
+  ctx.fillText(t().countLabel,padX,y+22);
+  ctx.textAlign='right';
+  ctx.fillStyle=C.val;ctx.font='900 38px '+SANS;
+  ctx.fillText(`${count} / ${TOTAL}`,W-padX,y+26);
+  y+=58;
+
+  ctx.strokeStyle=C.plateLine;ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(padX,y);ctx.lineTo(W-padX,y);ctx.stroke();
+  y+=32;
+  ctx.textAlign='left';ctx.fillStyle=C.foot;ctx.font='700 19px '+SANS;
+  const date=new Intl.DateTimeFormat(lang==='ko'?'ko-KR':lang,{year:'numeric',month:'long',day:'numeric'}).format(new Date());
+  ctx.fillText(`${t().certIssued} ${date}`,padX,y+20);
+  ctx.fillText('2026 · Muniverse',padX,y+50);
+  const sx=W-padX-46,sy=y+28,sr=44;
+  ctx.strokeStyle=C.seal;ctx.fillStyle=C.seal;ctx.lineWidth=3;ctx.setLineDash([7,6]);
+  ctx.beginPath();ctx.arc(sx,sy,sr,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+  ctx.textAlign='center';ctx.font='900 16px '+SANS;
+  const sealLines=String(t().certSeal).split('<br>');
+  sealLines.forEach((line,i)=>ctx.fillText(line,sx,sy-2+i*20+(sealLines.length===1?8:0)));
+  y+=84;
+  return y;
+}
 async function drawCertificate(count,matched){
   const perfect=count===TOTAL;
   /* webfonts must be resolved or canvas silently falls back */
   if(document.fonts&&document.fonts.ready){try{await document.fonts.ready;}catch(e){}}
-  const cv=document.createElement('canvas');
-  cv.width=CERT_W;cv.height=CERT_H;
-  const ctx=cv.getContext('2d');
   const SANS='"Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",-apple-system,sans-serif';
-  const DISP='"Jua","Pretendard","Noto Sans KR",sans-serif';
+  const W=1080,PAD=78,S=2;
   const C=perfect
-    ?{bg:'#102E23',frame:'#CAA64F',frame2:'rgba(214,176,94,.42)',eyebrow:'#D8BD7C',name:'#F7E7B6',rule:'#B99A52',lead:'#CBBF9D',title:'#F4D98A',brk:'#9C8248',label:'#BCAE8A',val:'#F7E7B6',track:'rgba(255,246,220,.14)',bar:'#E2B64C',plate:'rgba(255,247,225,.06)',plateLine:'rgba(214,176,94,.32)',ko:'#F6EFDC',en:'#B0A382',desc:'#CDC3A7',foot:'#B09C6D'}
-    :{bg:'#FBF6E9',frame:'#C9B489',frame2:'#E2D2AD',eyebrow:'#9B8B6B',name:'#1F5E44',rule:'#A89771',lead:'#3C5245',title:'#5B3E96',brk:'#C3AD86',label:'#6E8271',val:'#1F5E44',track:'#E7DBC0',bar:'#1F5E44',plate:'#FFFAEE',plateLine:'#E0D2B4',ko:'#123A2E',en:'#A08E73',desc:'#3C5245',foot:'#A08E73'};
+    ?{eyebrow:'#DCC077',gisu:'#F0D48A',name:'#FFF3CE',label:'#D7BE83',grade:'#FFF3CE',val:'#FFEFC0',
+      plate:'#F5EAD2',plateLine:'rgba(246,220,144,.55)',foot:'#C6B588',seal:'#E0BE6C'}
+    :{eyebrow:'#9A7731',gisu:'#2F6A4A',name:'#6E4918',label:'#8E7A45',grade:'#1F5E44',val:'#1F5E44',
+      plate:'#F8EED6',plateLine:'#D8C285',foot:'#8E7A45',seal:'#B4453A'};
 
-  ctx.fillStyle=perfect?'#0A241B':'#EADFC0';
-  ctx.fillRect(0,0,CERT_W,CERT_H);
-  ctx.fillStyle=C.bg;ctx.fillRect(28,28,CERT_W-56,CERT_H-56);
-  ctx.strokeStyle=C.frame;ctx.lineWidth=3;ctx.strokeRect(28,28,CERT_W-56,CERT_H-56);
-  ctx.strokeStyle=C.frame2;ctx.lineWidth=1.5;ctx.strokeRect(46,46,CERT_W-92,CERT_H-92);
+  const scratch=document.createElement('canvas');
+  scratch.width=W*S;scratch.height=2900*S;
+  const sc=scratch.getContext('2d');
+  sc.scale(S,S);sc.imageSmoothingQuality='high';
+  const bodyH=await drawCertBody(sc,count,matched,perfect,W,C,SANS);
 
-  ctx.textAlign='center';ctx.textBaseline='alphabetic';
-  const mid=CERT_W/2;let y=126;
+  const H=Math.round(bodyH+PAD*2);
+  const cv=document.createElement('canvas');
+  cv.width=W*S;cv.height=H*S;
+  const ctx=cv.getContext('2d');
+  ctx.scale(S,S);ctx.imageSmoothingQuality='high';
 
+  const gold=ctx.createLinearGradient(0,0,W,H);
+  if(perfect){gold.addColorStop(0,'#F3DC96');gold.addColorStop(.38,'#A87D22');gold.addColorStop(.62,'#F7E5AE');gold.addColorStop(1,'#8E6A1D');}
+  else{gold.addColorStop(0,'#DCC084');gold.addColorStop(.45,'#A88434');gold.addColorStop(.78,'#E7D0A0');gold.addColorStop(1,'#A67C1D');}
+  ctx.fillStyle=gold;ctx.fillRect(0,0,W,H);
+  ctx.fillStyle=perfect?'#0F3123':'#FCF5E4';
+  rrect(ctx,26,26,W-52,H-52,16);ctx.fill();
   if(perfect){
-    const bw=286,bh=46,bx=mid-bw/2;
-    const g=ctx.createLinearGradient(bx,y-34,bx+bw,y+12);
-    g.addColorStop(0,'#F6DC9A');g.addColorStop(1,'#D9A93F');
-    ctx.fillStyle=g;rrect(ctx,bx,y-34,bw,bh,23);ctx.fill();
-    ctx.fillStyle='#3C2A06';ctx.font='900 20px '+SANS;
-    ctx.fillText('PERFECT · 26 / 26',mid,y-3);
-    y+=54;
+    const glow=ctx.createRadialGradient(W/2,120,40,W/2,120,W*.7);
+    glow.addColorStop(0,'rgba(246,220,144,.18)');glow.addColorStop(1,'rgba(246,220,144,0)');
+    ctx.fillStyle=glow;rrect(ctx,26,26,W-52,H-52,16);ctx.fill();
   }
+  ctx.strokeStyle=perfect?'rgba(246,220,144,.42)':'rgba(166,124,29,.42)';
+  ctx.lineWidth=1.5;rrect(ctx,44,44,W-88,H-88,10);ctx.stroke();
 
-  ctx.fillStyle=C.eyebrow;ctx.font='800 19px '+SANS;
-  ctx.fillText(spaced('ONLINE EXIT CERTIFICATE'),mid,y);
-  y+=62;
-  ctx.fillStyle=C.name;ctx.font='900 54px '+SANS;
-  ctx.fillText(t().certName,mid,y);
-  y+=40;
-  ctx.fillStyle=C.rule;ctx.font='800 17px '+SANS;
-  const cap=spaced('IDOL SCHOOL CAMP'),capW=ctx.measureText(cap).width;
-  ctx.fillText(cap,mid,y);
-  ctx.strokeStyle=C.rule;ctx.globalAlpha=.5;ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.moveTo(120,y-6);ctx.lineTo(mid-capW/2-22,y-6);
-  ctx.moveTo(mid+capW/2+22,y-6);ctx.lineTo(CERT_W-120,y-6);ctx.stroke();
-  ctx.globalAlpha=1;
-  y+=34;
-
-  const visualH=perfect?270:190;
-  let visual=null;
-  if(perfect&&settings&&settings.group_photo_path){
-    visual=await loadImg(renderUrl(EXIT_BUCKET,settings.group_photo_path,'group'),true);
-    if(!visual)visual=await loadImg(publicUrl(EXIT_BUCKET,settings.group_photo_path),true);
-  }
-  if(!visual)visual=await loadImg('../assets/camp-logo.png',false);
-  if(visual){
-    const box=fitContain(visual.naturalWidth,visual.naturalHeight,CERT_W-260,visualH);
-    ctx.drawImage(visual,mid-box.w/2,y,box.w,box.h);
-    if(perfect){ctx.strokeStyle=C.frame;ctx.lineWidth=2.5;ctx.strokeRect(mid-box.w/2-7,y-7,box.w+14,box.h+14);}
-    y+=box.h;
-  }else y+=60;
-  y+=54;
-
-  ctx.fillStyle=C.lead;ctx.font='700 24px '+SANS;
-  ctx.fillText(t().lead,mid,y);
-  const titleTop=y+32;
-  y+=80;
-
-  ctx.font='900 54px '+SANS;
-  const titleLines=wrapLines(ctx,`「${fullTitle(count)}」`,CERT_W-220);
-  ctx.fillStyle=C.title;
-  titleLines.forEach(line=>{ctx.fillText(line,mid,y);y+=68;});
-  const titleBottom=y-46;
-  ctx.strokeStyle=C.brk;ctx.lineWidth=1.5;ctx.globalAlpha=.75;
-  ctx.beginPath();
-  ctx.moveTo(mid-190,titleTop);ctx.lineTo(mid+190,titleTop);
-  ctx.moveTo(mid-190,titleBottom);ctx.lineTo(mid+190,titleBottom);
-  ctx.stroke();ctx.globalAlpha=1;
-  y+=8;
-
-  if(t().tail){
-    ctx.fillStyle=C.lead;ctx.font='700 24px '+SANS;
-    ctx.fillText(t().tail,mid,y);
-    y+=64;
-  }else y+=24;
-
-  ctx.font='800 21px '+SANS;
-  const lbl=t().countLabel,lblW=ctx.measureText(lbl).width;
-  ctx.font='400 40px '+DISP;
-  const numTxt=`${count} / ${TOTAL}`,numW=ctx.measureText(numTxt).width;
-  const startX=mid-(lblW+18+numW)/2;
-  ctx.textAlign='left';
-  ctx.fillStyle=C.label;ctx.font='800 21px '+SANS;ctx.fillText(lbl,startX,y);
-  ctx.fillStyle=C.val;ctx.font='400 40px '+DISP;ctx.fillText(numTxt,startX+lblW+18,y);
-  ctx.textAlign='center';
-  y+=22;
-  const barW=420,barX=mid-barW/2;
-  ctx.fillStyle=C.track;rrect(ctx,barX,y,barW,9,5);ctx.fill();
-  if(count>0){ctx.fillStyle=C.bar;rrect(ctx,barX,y,barW*(count/TOTAL),9,5);ctx.fill();}
-  y+=52;
-
-  if(matched.length){
-    ctx.fillStyle=C.label;ctx.font='800 17px '+SANS;
-    ctx.fillText(spaced('CAMP FRIENDS'),mid,y);
-    y+=30;
-    const bottom=CERT_H-152,avail=bottom-y;
-    const n=matched.length,cols=n<=4?2:n<=12?3:4,rows=Math.ceil(n/cols);
-    const gapX=12,gapY=9;
-    const cellH=Math.floor((avail-gapY*(rows-1))/rows);
-    if(cellH>=46){
-      const h=Math.min(cellH,76),gridW=CERT_W-200,cellW=(gridW-gapX*(cols-1))/cols;
-      const f1=cols===4?21:25,f2=cols===4?12:14,gx=mid-gridW/2;
-      matched.forEach((p,i)=>{
-        const cx=gx+(i%cols)*(cellW+gapX),cy=y+Math.floor(i/cols)*(h+gapY);
-        ctx.fillStyle=C.plate;ctx.strokeStyle=C.plateLine;ctx.lineWidth=1.5;
-        rrect(ctx,cx,cy,cellW,h,10);ctx.fill();ctx.stroke();
-        const ccx=cx+cellW/2;
-        ctx.fillStyle=C.ko;ctx.font='800 '+f1+'px '+SANS;
-        ctx.fillText(memberPrimary(p),ccx,cy+h/2+2);
-        ctx.fillStyle=C.en;ctx.font='700 '+f2+'px '+SANS;
-        ctx.fillText(memberSecondary(p),ccx,cy+h-14);
-      });
-    }else{
-      const lh=36;
-      ctx.font='700 25px '+SANS;
-      let lines=wrapLines(ctx,matched.map(memberPrimary).join(' · '),CERT_W-200);
-      const maxLines=Math.max(1,Math.floor(avail/lh));
-      if(lines.length>maxLines)lines=lines.slice(0,maxLines);
-      ctx.fillStyle=C.ko;
-      lines.forEach(line=>{ctx.fillText(line,mid,y+22);y+=lh;});
-    }
-  }else{
-    ctx.fillStyle=C.desc;ctx.font='700 23px '+SANS;
-    wrapLines(ctx,t().desc0,CERT_W-260).slice(0,3).forEach((line,i)=>ctx.fillText(line,mid,y+8+i*34));
-  }
-
-  ctx.fillStyle=C.foot;ctx.font='800 20px '+SANS;
-  ctx.fillText('2026 · Muniverse',mid,CERT_H-92);
-  ctx.strokeStyle=C.frame2;ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(200,CERT_H-124);ctx.lineTo(CERT_W-200,CERT_H-124);ctx.stroke();
+  ctx.drawImage(scratch,0,0,W*S,Math.round(bodyH*S),0,PAD,W,bodyH);
 
   return new Promise(resolve=>{
     try{cv.toBlob(b=>resolve(b),'image/png');}
