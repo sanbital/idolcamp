@@ -21,7 +21,11 @@ function patchText(root){
   }
 }
 function apply(){patchText(document.body);}
-const mo=new MutationObserver(ms=>{ms.forEach(m=>{m.addedNodes.forEach(n=>patchText(n));if(m.type==='characterData'&&m.target)m.target.nodeValue=swap(m.target.nodeValue);});});
+const mo=new MutationObserver(ms=>{ms.forEach(m=>{
+  m.addedNodes.forEach(n=>patchText(n));
+  /* only write when the text actually changes, or the write feeds the observer again */
+  if(m.type==='characterData'&&m.target){const v=swap(m.target.nodeValue);if(v!==m.target.nodeValue)m.target.nodeValue=v;}
+});});
 if(document.body)mo.observe(document.body,{subtree:true,childList:true,characterData:true});
 else document.addEventListener('DOMContentLoaded',()=>{apply();mo.observe(document.body,{subtree:true,childList:true,characterData:true});},{once:true});
 apply();
