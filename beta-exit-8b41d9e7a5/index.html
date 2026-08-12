@@ -31,13 +31,14 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#e9dfc9;fon
       doc.documentElement.classList.add('exit-mockup-v2');
 
       function addCss(href){var l=doc.createElement('link');l.rel='stylesheet';l.href=href;doc.head.appendChild(l);return l;}
+      function addJs(src){var s=doc.createElement('script');s.src=src;doc.head.appendChild(s);return s;}
       var baseTheme=addCss('./mockup-v2.css?v=20260812-2');
       var approvedTheme=addCss('./mockup-v3.css?v=20260812-1');
-      var heroTheme=addCss('./hero-approved.css?v=20260812-2');
+      var heroTheme=addCss('./hero-approved.css?v=20260812-hq3');
 
-      var behavior=doc.createElement('script');
-      behavior.src='./beta-v3.js?v=20260812-2';
-      doc.head.appendChild(behavior);
+      addJs('./hq-hero-loader.js?v=20260812-hq2');
+      addJs('./beta-v3.js?v=20260812-2');
+      addJs('./perfect-hq.js?v=20260812-hq1');
 
       var base=doc.createElement('base');base.target='_top';doc.head.appendChild(base);
 
