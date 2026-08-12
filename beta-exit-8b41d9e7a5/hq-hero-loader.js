@@ -1,9 +1,10 @@
 (function(){
 'use strict';
 
-const VERSION='20260812-exact-v9';
-const PARTS=[1,2,3,4,5,6].map(function(n){
-  return './hero-hq-v2.part'+String(n).padStart(2,'0')+'?v='+VERSION;
+/* Private beta HQ hero. Static GitHub Pages assets only: no Supabase/DB request. */
+const VERSION='20260812-retina-v11';
+const PARTS=[1,2,3,4,5,6,7,8].map(function(n){
+  return './hero-hq3.part'+String(n).padStart(2,'0')+'?v='+VERSION;
 });
 let blobUrl='';
 let loading=null;
@@ -25,11 +26,19 @@ function getHeroUrl(){
       return r.text();
     });
   })).then(function(parts){
-    blobUrl=decodeBase64ToUrl(parts.join(''));
-    return blobUrl;
+    const url=decodeBase64ToUrl(parts.join(''));
+    return new Promise(function(resolve,reject){
+      const test=new Image();
+      test.onload=function(){
+        if(test.naturalWidth<1200){reject(new Error('HQ hero width '+test.naturalWidth));return;}
+        blobUrl=url; resolve(url);
+      };
+      test.onerror=function(){reject(new Error('HQ hero decode failed'));};
+      test.src=url;
+    });
   }).catch(function(err){
     loading=null;
-    console.error('[private beta] exact HQ hero load failed; keeping exact low-res fallback',err);
+    console.error('[private beta] HQ hero failed; keeping approved fallback',err);
     throw err;
   });
   return loading;
@@ -45,12 +54,16 @@ function mount(url){
     img.alt='';
     img.setAttribute('aria-hidden','true');
     img.decoding='async';
+    img.loading='eager';
+    img.fetchPriority='high';
     hero.insertBefore(img,hero.firstChild);
   }
   if(img.dataset.hqReady==='1') return;
   img.onload=function(){
-    img.dataset.hqReady='1';
-    hero.classList.add('hero-hq-ready');
+    if(img.naturalWidth>=1200){
+      img.dataset.hqReady='1';
+      hero.classList.add('hero-hq-ready');
+    }
   };
   img.onerror=function(){
     img.remove();
@@ -61,9 +74,7 @@ function mount(url){
 
 function apply(){
   if(!(document.documentElement.lang||'ko').toLowerCase().startsWith('ko')) return;
-  getHeroUrl().then(mount).catch(function(){
-    /* The CSS background is the same approved artwork, so never replace it with a vector/black panel. */
-  });
+  getHeroUrl().then(mount).catch(function(){});
 }
 
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply,{once:true});
