@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import random, base64
+import random, base64, math
 
 LOGO = "data:image/png;base64," + open('/tmp/claude-0/-home-user-idolcamp/97c3bb07-6953-53a0-923a-f966643f234f/scratchpad/logo.b64').read()
 
@@ -105,36 +105,87 @@ SCENE_GALAXY = f'''
 MEMBERS = ["차웅기","켄신","남지운","이청명","장여준","김희주","김성준","전민욱","송승호","강우진",
  "박주원","붐","최립우","서경배","스티븐","박한","다이스케","마징시앙","조나단","김도훈",
  "박누리","서정우","즈언","제이엘","김성민","장슈아이보"]
+MEMBERS_EN = ["Woongki","KENSHIN","Nam JiWoon","Lee CheongMyeong","JANG YEOJUN","Kim HeeJu","Kim SeongJun",
+ "JEON MINWOOK","SONG SEUNGHO","Kang Woo Jin","Juwon","BOOM","Chuei Li Yu","SEO KYOUNGBAE","Steven","Han",
+ "Daisuke","MA JINGXIANG","Jonathan","Kim DoHun","Park NuRi","Jeongwoo","Chih En","JL","KIM SUNGMIN","Shuaibo"]
 MISSED = {4, 9, 13, 18, 21, 24, 25}   # 0-based, 19 / 26 sample
+WELLDONE = {"ko":"참 잘했어요","en":"WELL DONE","ja":"よくできました","zh-CN":"做得好","zh-TW":"做得好"}
 
-def namesize(n):
-    return {1:15,2:14.5,3:13,4:11,5:9.4,6:8.2}.get(len(n), 8)
+def _half_at(y, r=21.6):
+    dy = abs(y - 32.0)
+    return math.sqrt(max(4.0, r * r - dy * dy))
 
-def stampcell(i, on):
-    name = MEMBERS[i]; fs = namesize(name)
+def _width_em(t):
+    w = 0.0
+    for c in t:
+        if ord(c) > 0x2E80: w += 1.0          # hangul / kana / hanzi
+        elif c == ' ':      w += 0.28
+        elif c.isupper():   w += 0.72
+        elif c.isdigit():   w += 0.60
+        else:               w += 0.56
+    return max(w, 0.6)
+
+def _line(text, y, cap, weight=900):
+    """Fit one line of text inside the stamp ring at baseline y."""
+    w = _width_em(text)
+    fs = cap
+    for _ in range(3):
+        avail = 2 * _half_at(y + 0.18 * fs) - 1.6
+        fs = min(cap, avail / w)
+    fs = round(max(5.4, fs), 1)
+    avail = round(2 * _half_at(y + 0.18 * fs) - 1.6, 1)
+    natural = w * fs
+    tl = f' textLength="{min(natural, avail):.1f}" lengthAdjust="spacingAndGlyphs"' if natural > avail else ''
+    return (f'<text x="32" y="{y}" text-anchor="middle" font-size="{fs}" font-weight="{weight}"'
+            f' fill="currentColor"{tl}>{text}</text>')
+
+def _latin_lines(name):
+    parts = name.split()
+    if len(parts) == 1:
+        return [name]
+    if len(parts) == 2:
+        return parts
+    return [parts[0], " ".join(parts[1:])]
+
+STAR_BIG = '<path d="M32 9 l2.6 5.4 6 .9 -4.3 4.2 1 5.9 -5.3 -2.8 -5.3 2.8 1 -5.9 -4.3 -4.2 6 -.9 z" fill="currentColor"/>'
+STAR_SM  = '<path d="M32 7 l2.1 4.3 4.7 .7 -3.4 3.3 .8 4.6 -4.2 -2.2 -4.2 2.2 .8 -4.6 -3.4 -3.3 4.7 -.7 z" fill="currentColor"/>'
+
+def stamp_svg(name, lang="ko", on=True, scene=None):
+    ko = lang == "ko"
+    lines = [name] if ko else _latin_lines(name)
+    bot = WELLDONE[lang] if on else f"SCENE {scene:02d}"
+    if len(lines) == 1:
+        body = _line(lines[0], 36.5 if on else 34.5, 14.5 if ko else 12, 900 if on else 800)
+        star = STAR_BIG
+        boty = 47.5 if on else 45
+    else:
+        body = (_line(lines[0], 31 if on else 29.5, 10.5, 900 if on else 800)
+                + _line(lines[1], 40.5 if on else 39, 10.5, 900 if on else 800))
+        star = STAR_SM
+        boty = 51 if on else 49
+    bottom = _line(bot, boty, 6.8, 800)
     if on:
-        return ('<i class="on"><svg viewBox="0 0 64 64" aria-hidden="true">'
-                '<circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="2.6"/>'
-                '<circle cx="32" cy="32" r="25.4" fill="none" stroke="currentColor" stroke-width=".9"/>'
-                '<path d="M32 10.5 l2.5 5.2 5.7 .8 -4.1 4 1 5.6 -5.1 -2.7 -5.1 2.7 1 -5.6 -4.1 -4 5.7 -.8 z" fill="currentColor"/>'
-                f'<text x="32" y="39.5" text-anchor="middle" font-size="{fs}" font-weight="900" fill="currentColor">{name}</text>'
-                '<text x="32" y="49.5" text-anchor="middle" font-size="6.6" font-weight="800" letter-spacing=".15" fill="currentColor">참 잘했어요</text>'
-                '</svg></i>')
-    return ('<i><svg viewBox="0 0 64 64" aria-hidden="true">'
-            '<circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="4 4"/>'
-            f'<text x="32" y="36" text-anchor="middle" font-size="{fs}" font-weight="800" fill="currentColor">{name}</text>'
-            f'<text x="32" y="47" text-anchor="middle" font-size="7" font-weight="700" letter-spacing=".3" fill="currentColor">SCENE {i+1:02d}</text>'
-            '</svg></i>')
+        rings = ('<circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="2.6"/>'
+                 '<circle cx="32" cy="32" r="25.4" fill="none" stroke="currentColor" stroke-width=".9"/>' + star)
+    else:
+        rings = '<circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="4 4"/>'
+    return f'<i class="{"on" if on else ""}"><svg viewBox="0 0 64 64" aria-hidden="true">{rings}{body}{bottom}</svg></i>'
 
-def stampgrid(count=None, missed=None):
+def stampcell(i, on, lang="ko"):
+    name = MEMBERS[i] if lang == "ko" else MEMBERS_EN[i]
+    return stamp_svg(name, lang, on, scene=i + 1)
+
+def stampgrid(missed=None, lang="ko"):
     missed = set() if missed is None else missed
-    return "".join(stampcell(i, i not in missed) for i in range(26))
+    return "".join(stampcell(i, i not in missed, lang) for i in range(26))
+
+def langrow(idx, lang):
+    return "".join(stampcell(i, True, lang) for i in idx)
 
 def polaroids(idx):
-    out=[]
-    for i in idx:
-        out.append(f'<figure class="pol"><span class="pph"></span><figcaption><b>{MEMBERS[i]}</b><em>SCENE {i+1:02d}</em></figcaption></figure>')
-    return "".join(out)
+    return "".join(
+        f'<figure class="pol"><span class="pph"></span><figcaption><b>{MEMBERS[i]}</b><em>SCENE {i+1:02d}</em></figcaption></figure>'
+        for i in idx)
 
 HTML = f'''<title>퇴소식 시안 v8</title>
 <style>
@@ -179,20 +230,20 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
 .phone-in{{border-radius:18px;overflow:hidden;background:#0B1D14}}
 
 /* ---------- banner (minimal poster) ---------- */
-.bnr{{position:relative;aspect-ratio:5/7.5;overflow:hidden;background:linear-gradient(180deg,#17452E 0 52%,#123722 66%,#08210F 84%,#06170C 100%)}}
+.bnr{{position:relative;aspect-ratio:5/8.4;overflow:hidden;background:linear-gradient(180deg,#17452E 0 52%,#123722 66%,#08210F 84%,#06170C 100%)}}
 .scene{{position:absolute;top:0;left:0;display:block;width:100%;height:auto}}
-.scrim{{position:absolute;inset:0;background:linear-gradient(180deg,transparent 0 36%,rgba(5,20,12,.34) 47%,rgba(5,20,12,.86) 58%,#05140C 68%)}}
-.in{{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:0 20px 20px}}
-.bnrLogo{{position:absolute;top:16px;left:50%;transform:translateX(-50%);width:132px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5))}}
+.scrim{{position:absolute;inset:0;background:linear-gradient(180deg,transparent 0 26%,rgba(5,20,12,.30) 36%,rgba(5,20,12,.86) 46%,#05140C 54%)}}
+.in{{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:0 22px 26px}}
+.bnrLogo{{position:absolute;top:20px;left:50%;transform:translateX(-50%);width:130px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.55))}}
 .rule{{display:flex;align-items:center;gap:10px;font-family:var(--lat);font-size:9.5px;letter-spacing:.26em;color:var(--gold)}}
 .rule:after{{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(233,187,67,.7),transparent)}}
-.t1{{margin:12px 0 0;font-size:13.5px;font-weight:700;color:#CFE0D6}}
-.t2{{margin:3px 0 0;font-size:34px;font-weight:900;letter-spacing:-.055em;line-height:1.04;color:#FFF7E4}}
-.t2 b{{display:block;font-size:20px;font-weight:800;letter-spacing:-.03em;color:var(--gold)}}
-.lead{{margin:12px 0 0;font-size:12px;line-height:1.7;color:#B9CCC1;word-break:keep-all}}
-.cta{{display:block;width:100%;margin-top:15px;padding:15px 10px;border:1.5px solid var(--gold);border-radius:14px;background:transparent;
+.t1{{margin:16px 0 0;font-size:13.5px;font-weight:700;line-height:1.5;color:#CFE0D6}}
+.t2{{margin:6px 0 0;font-size:34px;font-weight:900;letter-spacing:-.055em;line-height:1.16;color:#FFF7E4;text-shadow:0 2px 12px rgba(0,0,0,.5)}}
+.t2 b{{display:block;margin-bottom:6px;font-size:20px;font-weight:800;letter-spacing:-.03em;line-height:1.3;color:var(--gold)}}
+.lead{{margin:16px 0 0;font-size:12.4px;line-height:1.8;color:#B9CCC1;word-break:keep-all}}
+.cta{{display:block;width:100%;margin-top:20px;padding:16px 10px;border:1.5px solid var(--gold);border-radius:14px;background:transparent;
   color:var(--gold-2);font-family:var(--ko);font-size:16px;font-weight:900;cursor:default}}
-.meta{{display:flex;justify-content:space-between;margin-top:9px;font-family:var(--lat);font-size:9px;letter-spacing:.18em;color:rgba(255,244,220,.45)}}
+.meta{{display:flex;justify-content:space-between;margin-top:12px;font-family:var(--lat);font-size:9px;letter-spacing:.18em;color:rgba(255,244,220,.45)}}
 
 /* ---------- certificate shared ---------- */
 .certpad{{padding:15px;background:#0C2418}}
@@ -310,6 +361,12 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
 .callout h3{{margin:0;font-size:16px;font-weight:900;letter-spacing:-.02em}}
 .callout p{{margin:7px 0 0;color:#C3D5CB;font-size:13.5px;word-break:keep-all}}
 
+.langgrid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:24px}}
+.langbox{{padding:13px 13px 15px;border-radius:14px;border:1.5px solid #C39B34;background:linear-gradient(180deg,#F8EED6,#EDDFBB)}}
+.langlab{{display:block;font-size:11px;font-weight:800;letter-spacing:.02em;color:#8E6C28}}
+.stamp-demo{{grid-template-columns:repeat(4,1fr);margin-top:10px;color:var(--stamp)}}
+.stamp-demo i{{color:var(--stamp)}}
+.langnote{{margin:16px 0 0;color:#C3D5CB;font-size:13.5px;word-break:keep-all}}
 .closing{{margin-top:52px;padding:22px 20px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(233,187,67,.24)}}
 .closing h2{{margin:0;font-size:17px;font-weight:900;letter-spacing:-.02em}}
 .closing ol{{margin:11px 0 0;padding-left:20px;color:#C3D5CB;font-size:14px}}
@@ -370,12 +427,12 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
   <header class="head">
     <span class="kicker">Private beta · 시안 v8</span>
     <h1>아이돌 수련회 1기 퇴소식<br>확정 배너 · 수료증 2종</h1>
-    <p>배너는 은하수 호숫가 안으로 확정했습니다. 수료증에서 퍼지는 빛살 무늬는 걷어냈고, 스탬프는 26개 장면이 곧 출연자 26명이라는 점을 살려 도장마다 출연자 이름이 찍히도록 바꿨습니다. 이름은 실제 퇴소식 데이터의 26명 순서를 그대로 썼습니다.</p>
+    <p>26개를 다 맞힌 사람은 수석 수료증을 받습니다. 도장에는 출연자 이름이 찍히고, 한국어 외 언어에서는 같은 자리에 영문명이 들어갑니다. 배너는 은하수안으로 확정하고 위아래 간격을 다시 잡았습니다.</p>
     <div class="chips">
-      <span class="chip">배너 확정 · 은하수 호숫가</span>
-      <span class="chip">빛살 무늬 제거</span>
-      <span class="chip">출연자 이름 스탬프 26개</span>
-      <span class="chip">26/26 특별 수료증 · 단체사진</span>
+      <span class="chip">배너 간격 재조정</span>
+      <span class="chip">수석 수료증</span>
+      <span class="chip">언어별 이름 스탬프</span>
+      <span class="chip">26/26 수석 수료증 · 단체사진</span>
       <span class="chip">26 미만 기본 수료증 · 로고 상단</span>
     </div>
   </header>
@@ -390,7 +447,7 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
         <div class="opt-tag"><b>확정</b><span>은하수 호숫가</span></div>
         <div class="phone"><div class="phone-in">
           <div class="bnr">
-            <svg class="scene" viewBox="0 0 500 420" aria-hidden="true"><use href="#scene-galaxy" width="500" height="420"/></svg>
+            <svg class="scene" viewBox="0 0 500 388" aria-hidden="true"><use href="#scene-galaxy" width="500" height="420"/></svg>
             <div class="scrim"></div>
             <div class="in">
               <img class="bnrLogo" src="{LOGO}" alt="아이돌 수련회">
@@ -421,13 +478,13 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
     <div class="rail">
 
       <article class="opt">
-        <div class="opt-tag"><b>26/26</b><span>화려한 특별 수료증</span></div>
+        <div class="opt-tag"><b>26/26</b><span>수석 수료증</span></div>
         <div class="phone"><div class="phone-in"><div class="certpad">
           <div class="h-frame"><div class="h">
             <span class="badge">PERFECT 26 / 26</span>
             <img class="certLogo" src="{LOGO}" alt="아이돌 수련회">
-            <span class="eyeb">SPECIAL CERTIFICATE</span>
-            <h3><small>아이돌 수련회 1기</small>특별 수료증</h3>
+            <span class="eyeb">HONOURS CERTIFICATE</span>
+            <h3><small>아이돌 수련회 1기</small>수석 수료증</h3>
             <div class="photo">
               <div class="ph">GROUP PHOTO</div>
               <div class="medal"><b>26</b><span>ALL CLEAR</span></div>
@@ -454,7 +511,7 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
           </div>
         </div></div></div>
         <ul class="why">
-          <li>퍼지는 빛살 무늬는 걷어내고, 금박 프레임과 PERFECT 배지·메달·왁스 실링만으로 만점 전용 물건이라는 게 드러나게 했습니다.</li>
+          <li>금박 프레임과 PERFECT 배지·메달·왁스 실링만으로, 26개를 다 맞힌 사람에게만 나오는 수석 수료증임을 드러냅니다.</li>
           <li>단체사진은 이 버전에만 들어가고, 메달이 사진 아래에 겹쳐 앉아 트로피처럼 보입니다.</li>
           <li>출연자 26명 이름 위에 도장이 전부 찍혀 있어, 저장·공유했을 때 완주가 한눈에 보입니다.</li>
         </ul>
@@ -503,6 +560,32 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
         <p>26개 질문이 곧 출연자 26명이라, 맞힌 사람의 이름 위에 「참 잘했어요」 도장이 비스듬히 찍힙니다. 못 맞힌 사람은 점선 칸에 이름과 장면 번호만 남아, 누구를 놓쳤는지 바로 보입니다.</p>
       </div>
     </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <h2>3. 언어별 스탬프</h2>
+      <span class="note">영어·일본어·간체·번체에서는 같은 칸에 영문명이 들어갑니다. 이름이 길면 두 줄로 나누고 글자 크기를 칸에 맞춰 줄입니다.</span>
+    </div>
+    <div class="langgrid">
+      <div class="langbox">
+        <span class="langlab">한국어 · 참 잘했어요</span>
+        <div class="stampgrid stamp-demo">{langrow([0,3,17,25],'ko')}</div>
+      </div>
+      <div class="langbox">
+        <span class="langlab">English · WELL DONE</span>
+        <div class="stampgrid stamp-demo">{langrow([0,3,17,25],'en')}</div>
+      </div>
+      <div class="langbox">
+        <span class="langlab">日本語 · よくできました</span>
+        <div class="stampgrid stamp-demo">{langrow([1,9,13,22],'ja')}</div>
+      </div>
+      <div class="langbox">
+        <span class="langlab">简体 · 繁體 · 做得好</span>
+        <div class="stampgrid stamp-demo">{langrow([4,7,12,24],'zh-CN')}</div>
+      </div>
+    </div>
+    <p class="langnote">가장 긴 이름(Lee CheongMyeong, SEO KYOUNGBAE, MA JINGXIANG)도 두 줄로 접혀 도장 안에 들어갑니다. 아래 문구만 언어별로 바뀌고 도장 모양·크기는 그대로입니다.</p>
   </section>
 
   <div class="closing">
