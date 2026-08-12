@@ -13,7 +13,7 @@ const HERO={
 };
 
 const PERFECT={
-  ko:{eyebrow:'PERFECT EXIT · 26 / 26',top:'축하합니다!',name:'아이돌 수련회 특별 수료증',sub:'26명의 친구들과 모두 퇴소 완료',message:'당신은 26명의 친구들과 함께 수련회의 모든 여정을 완벽히 마쳤습니다. 모든 추억을 완성한 특별한 아이돌 수련회 마스터에게 이 수료증을 수여합니다.',save:'특별 수료증 저장하기',share:'특별 수료증 자랑하기'},
+  ko:{eyebrow:'PERFECT · 26 / 26',top:'축하합니다!',name:'아이돌 수련회 1기 특별 수료증',sub:'26명의 친구들과 모두 수료 완료',message:'당신은 26명의 친구들과 함께 수련회의 모든 여정을 완벽히 마쳤습니다. 모든 추억을 완성한 특별한 수련생에게 이 수료증을 수여합니다.',save:'특별 수료증 저장하기',share:'특별 수료증 자랑하기'},
   en:{eyebrow:'PERFECT EXIT · 26 / 26',top:'Congratulations!',name:'Idol School Camp Special Certificate',sub:'Completed the exit with all 26 friends',message:'You completed every camp memory together with all 26 friends. This special certificate is awarded to a true Idol School Camp Master.',save:'Save special certificate',share:'Share special certificate'},
   ja:{eyebrow:'PERFECT EXIT · 26 / 26',top:'おめでとうございます！',name:'アイドル修練会 特別修了証',sub:'26人全員と退所完了',message:'26人の仲間とともに修練会のすべての思い出を完成させました。アイドル修練会マスターにこの特別修了証を授与します。',save:'特別修了証を保存',share:'特別修了証をシェア'},
   'zh-CN':{eyebrow:'PERFECT EXIT · 26 / 26',top:'恭喜！',name:'偶像修炼会 特别结业证书',sub:'与26位朋友全部完成退所',message:'你与26位朋友一起完成了修炼会的全部回忆。特此向真正的偶像修炼会大师颁发这份特别结业证书。',save:'保存特别证书',share:'分享特别证书'},
@@ -21,7 +21,7 @@ const PERFECT={
 };
 
 const NORMAL={
-  ko:{eyebrow:'EXIT COMPLETE',top:'명예로운 퇴소에 성공했어요!',name:'온라인 퇴소증',save:'이미지 저장',share:'퇴소증 자랑하기'},
+  ko:{eyebrow:'COURSE COMPLETE',top:'수료를 축하합니다!',name:'아이돌 수련회 1기 수료증',save:'수료증 저장하기',share:'수료증 자랑하기'},
   en:{eyebrow:'EXIT COMPLETE',top:'Congratulations on your honourable exit!',name:'Exit Certificate',save:'Save image',share:'Share your certificate'},
   ja:{eyebrow:'EXIT COMPLETE',top:'名誉ある退所に成功しました！',name:'オンライン退所証',save:'画像を保存',share:'退所証をシェアする'},
   'zh-CN':{eyebrow:'EXIT COMPLETE',top:'恭喜成功完成退所！',name:'线上退所证书',save:'保存图片',share:'分享退所结果'},
