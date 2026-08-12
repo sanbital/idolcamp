@@ -102,67 +102,41 @@ SCENE_GALAXY = f'''
   <path d="M0 396 q30 -16 58 -2 q26 -18 54 -2 q30 -16 60 0 q28 -18 58 -2 q30 -14 58 0 q28 -16 56 -2 q30 -14 60 2 L500 420 L0 420 Z" fill="#0D2F1F"/>
 </symbol>'''
 
-SCENE_TRAIL = f'''
-<symbol id="scene-trail" viewBox="0 0 500 420">
-  <rect width="500" height="420" fill="url(#skyTrail)"/>
-  {trails()}
-  <g fill="#FFF7DE"><circle cx="70" cy="46" r="1.5" opacity=".8"/><circle cx="424" cy="38" r="1.3" opacity=".7"/><circle cx="256" cy="26" r="1.1" opacity=".6"/><circle cx="140" cy="96" r="1.2" opacity=".55"/><circle cx="352" cy="104" r="1.4" opacity=".6"/></g>
-  {sparkles([(206,52,13),(322,74,10),(74,88,11),(430,52,9)])}
-  <path d="M0 226 L70 186 L128 216 L196 176 L262 220 L322 184 L392 222 L452 190 L500 216 L500 300 L0 300 Z" fill="#12283C"/>
-  {pine_row(268, 13, 34, '#0B1F2E')}
-  <path d="M0 282 Q250 262 500 282 L500 420 L0 420 Z" fill="#122F22"/>
-  <ellipse cx="250" cy="360" rx="220" ry="96" fill="url(#fireGlowBig)"/>
-  <use href="#lpine" x="14" y="238" width="62" height="102"/><use href="#lpine" x="86" y="256" width="46" height="76"/>
-  <use href="#lpine" x="404" y="232" width="66" height="108"/><use href="#lpine" x="368" y="262" width="42" height="70"/>
-  <g opacity=".95"><use href="#ltent2" x="46" y="292" width="92" height="70"/></g>
-  <g opacity=".95"><use href="#ltent2" x="372" y="296" width="86" height="66"/></g>
-  <path d="M-6 292 Q250 338 506 288" fill="none" stroke="#C9B98E" stroke-width="2" opacity=".8"/>
-  <use href="#lbulb" x="58" y="304" width="17" height="24"/><use href="#lbulb" x="146" y="322" width="17" height="24"/>
-  <use href="#lbulb" x="240" y="330" width="17" height="24"/><use href="#lbulb" x="332" y="322" width="17" height="24"/>
-  <use href="#lbulb" x="420" y="302" width="17" height="24"/>
-  <g fill="#0A1C14" opacity=".92">
-    <g transform="translate(166 366)"><circle cx="0" cy="-18" r="10"/><path d="M-15 8 q15 -25 30 0 z"/><path d="M-15 8 h30 v6 h-30 z"/></g>
-    <g transform="translate(336 364)"><circle cx="0" cy="-18" r="10"/><path d="M-15 8 q15 -25 30 0 z"/><path d="M-15 8 h30 v6 h-30 z"/></g>
-  </g>
-  <g transform="translate(250 356) scale(1.18)" stroke="#0C2018" stroke-width="3" stroke-linejoin="round">
-    <ellipse cx="-42" cy="30" rx="12" ry="7" fill="#4E5C52"/><ellipse cx="-14" cy="36" rx="12" ry="7" fill="#5E6C62"/>
-    <ellipse cx="16" cy="36" rx="12" ry="7" fill="#4E5C52"/><ellipse cx="43" cy="29" rx="12" ry="7" fill="#5E6C62"/>
-    <rect x="-46" y="18" width="92" height="13" rx="6.5" fill="#8A5A2E" transform="rotate(12)"/>
-    <rect x="-46" y="18" width="92" height="13" rx="6.5" fill="#A06B36" transform="rotate(-12)"/>
-  </g>
-  <g transform="translate(250 356) scale(1.18)">
-    <path d="M0 22 C-38 2 -25 -24 -7 -46 C-8 -18 5 -11 9 -33 C33 -6 36 8 0 22Z" fill="#E8792B" stroke="#0C2018" stroke-width="3" stroke-linejoin="round"/>
-    <path d="M0 18 C-19 8 -13 -7 -2 -21 C1 -3 9 1 11 -9 C23 5 16 13 0 18Z" fill="#F2C230"/>
-    <path d="M0 15 C-7 10 -5 1 -1 -8 C1 2 5 4 5 -1 C10 5 7 11 0 15Z" fill="#FFF3C4"/>
-  </g>
-  <g fill="#FFD98A"><circle cx="236" cy="292" r="2.2" opacity=".85"/><circle cx="266" cy="272" r="1.7" opacity=".7"/><circle cx="248" cy="250" r="1.4" opacity=".5"/><circle cx="278" cy="306" r="1.6" opacity=".6"/><circle cx="222" cy="264" r="1.3" opacity=".5"/></g>
-  {fireflies([(104,346,2.0),(392,340,1.8),(300,394,2.0),(150,398,1.5)])}
-  <path d="M0 398 q32 -16 60 -2 q28 -18 56 -2 q30 -14 60 0 q30 -18 58 -2 q30 -14 58 0 q30 -16 56 -2 q30 -14 62 2 L500 420 L0 420 Z" fill="#0B2718"/>
-</symbol>'''
+MEMBERS = ["차웅기","켄신","남지운","이청명","장여준","김희주","김성준","전민욱","송승호","강우진",
+ "박주원","붐","최립우","서경배","스티븐","박한","다이스케","마징시앙","조나단","김도훈",
+ "박누리","서정우","즈언","제이엘","김성민","장슈아이보"]
+MISSED = {4, 9, 13, 18, 21, 24, 25}   # 0-based, 19 / 26 sample
 
-def stampcell(n, on):
+def namesize(n):
+    return {1:15,2:14.5,3:13,4:11,5:9.4,6:8.2}.get(len(n), 8)
+
+def stampcell(i, on):
+    name = MEMBERS[i]; fs = namesize(name)
     if on:
-        return ('<i class="on"><svg viewBox="0 0 52 52" aria-hidden="true">'
-                '<circle cx="26" cy="26" r="24" fill="none" stroke="currentColor" stroke-width="2.4"/>'
-                '<circle cx="26" cy="26" r="19.5" fill="none" stroke="currentColor" stroke-width="1"/>'
-                '<path d="M26 8 l2.7 5.6 6.2 .8 -4.5 4.3 1.1 6.1 -5.5 -2.9 -5.5 2.9 1.1 -6.1 -4.5 -4.3 6.2 -.8 z" fill="currentColor"/>'
-                '<text x="26" y="33.5" text-anchor="middle" font-size="9" font-weight="900" fill="currentColor">참 잘</text>'
-                '<text x="26" y="42.5" text-anchor="middle" font-size="9" font-weight="900" fill="currentColor">했어요</text>'
+        return ('<i class="on"><svg viewBox="0 0 64 64" aria-hidden="true">'
+                '<circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="2.6"/>'
+                '<circle cx="32" cy="32" r="25.4" fill="none" stroke="currentColor" stroke-width=".9"/>'
+                '<path d="M32 10.5 l2.5 5.2 5.7 .8 -4.1 4 1 5.6 -5.1 -2.7 -5.1 2.7 1 -5.6 -4.1 -4 5.7 -.8 z" fill="currentColor"/>'
+                f'<text x="32" y="39.5" text-anchor="middle" font-size="{fs}" font-weight="900" fill="currentColor">{name}</text>'
+                '<text x="32" y="49.5" text-anchor="middle" font-size="6.6" font-weight="800" letter-spacing=".15" fill="currentColor">참 잘했어요</text>'
                 '</svg></i>')
-    return f'<i>{n}</i>'
+    return ('<i><svg viewBox="0 0 64 64" aria-hidden="true">'
+            '<circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="4 4"/>'
+            f'<text x="32" y="36" text-anchor="middle" font-size="{fs}" font-weight="800" fill="currentColor">{name}</text>'
+            f'<text x="32" y="47" text-anchor="middle" font-size="7" font-weight="700" letter-spacing=".3" fill="currentColor">SCENE {i+1:02d}</text>'
+            '</svg></i>')
 
-def stampgrid(count, total=26):
-    return "".join(stampcell(i+1, i < count) for i in range(total))
+def stampgrid(count=None, missed=None):
+    missed = set() if missed is None else missed
+    return "".join(stampcell(i, i not in missed) for i in range(26))
 
-def polaroids(n, empty=0, start=1):
+def polaroids(idx):
     out=[]
-    for i in range(n):
-        out.append(f'<figure class="pol"><span class="pph"></span><figcaption><b>친구 {start+i:02d}</b><em>SCENE {start+i:02d}</em></figcaption></figure>')
-    for i in range(empty):
-        out.append('<figure class="pol empty"><span class="pph"></span><figcaption><b>?</b><em>미공개</em></figcaption></figure>')
+    for i in idx:
+        out.append(f'<figure class="pol"><span class="pph"></span><figcaption><b>{MEMBERS[i]}</b><em>SCENE {i+1:02d}</em></figcaption></figure>')
     return "".join(out)
 
-HTML = f'''<title>퇴소식 시안 v7</title>
+HTML = f'''<title>퇴소식 시안 v8</title>
 <style>
 :root{{
   --night-0:#050F16; --cream:#FFF5DE; --kraft:#F3E7CA;
@@ -224,16 +198,15 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
 .certpad{{padding:15px;background:#0C2418}}
 .certLogo{{display:block;width:118px;margin:0 auto}}
 .eyeb{{display:block;font-family:var(--lat);font-size:9.5px;letter-spacing:.28em}}
-.stampgrid{{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:12px}}
-.stampgrid i{{position:relative;aspect-ratio:1;display:grid;place-items:center;border-radius:50%;border:1px dashed #D4BE8C;font-style:normal;
-  font-size:11px;font-weight:800;font-variant-numeric:tabular-nums}}
+.stampgrid{{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:12px}}
+.stampgrid i{{position:relative;aspect-ratio:1;display:block;font-style:normal}}
 .stampgrid i svg{{width:100%;height:100%}}
-.stampgrid i.on:nth-child(6n+1){{transform:rotate(-7deg)}}
-.stampgrid i.on:nth-child(6n+2){{transform:rotate(5deg)}}
-.stampgrid i.on:nth-child(6n+3){{transform:rotate(-3deg)}}
-.stampgrid i.on:nth-child(6n+4){{transform:rotate(8deg)}}
-.stampgrid i.on:nth-child(6n+5){{transform:rotate(-5deg)}}
-.stampgrid i.on:nth-child(6n){{transform:rotate(3deg)}}
+.stampgrid i.on:nth-child(4n+1){{transform:rotate(-6deg)}}
+.stampgrid i.on:nth-child(4n+2){{transform:rotate(4deg)}}
+.stampgrid i.on:nth-child(4n+3){{transform:rotate(-3deg)}}
+.stampgrid i.on:nth-child(4n){{transform:rotate(6deg)}}
+
+
 .stampgrid i.on{{opacity:.94}}
 .stampgrid i.on:nth-child(4n){{opacity:.86}}
 .gridLabel{{display:flex;align-items:baseline;justify-content:space-between;margin-top:16px}}
@@ -253,8 +226,8 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
 .g .plate{{margin:14px auto 0;padding:10px 8px 11px;max-width:250px;border-top:1.5px solid #D8C285;border-bottom:1.5px solid #D8C285}}
 .g .plate small{{display:block;font-size:10.5px;font-weight:700;color:#8E7A45}}
 .g .plate strong{{display:block;margin-top:4px;font-size:19px;font-weight:900;letter-spacing:-.03em;color:#1F5E44}}
-.g .stampgrid i:not(.on){{border:1.2px dashed #D4BE8C;color:#C3AE7C;background:#FFFCF3}}
-.g .stampgrid i.on{{border:0;color:var(--stamp)}}
+.g .stampgrid i:not(.on){{color:#BFA870}}
+.g .stampgrid i.on{{color:var(--stamp)}}
 .g .gridLabel span{{color:#6C7A6E}}
 .g .gridLabel b{{color:#1F5E44}}
 .g .foot{{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;padding-top:12px;border-top:1px solid #E2D2A6;
@@ -267,10 +240,8 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
   box-shadow:0 16px 34px rgba(0,0,0,.55)}}
 .h{{position:relative;padding:22px 17px 18px;border-radius:8px;text-align:center;color:#F7ECCF;overflow:hidden;
   background:radial-gradient(circle at 50% 0%,#1C4A34,#0F3123 52%,#0A2419 100%)}}
-.h:before{{content:"";position:absolute;left:50%;top:-52%;width:160%;height:130%;transform:translateX(-50%);pointer-events:none;opacity:.16;
-  background:repeating-conic-gradient(from 0deg at 50% 50%,rgba(246,220,144,.5) 0deg 3deg,transparent 3deg 13deg);
-  -webkit-mask-image:radial-gradient(circle at 50% 42%,#000 0 34%,transparent 62%);
-  mask-image:radial-gradient(circle at 50% 42%,#000 0 34%,transparent 62%)}}
+.h:before{{content:"";position:absolute;left:50%;top:-18%;width:130%;height:70%;transform:translateX(-50%);pointer-events:none;
+  background:radial-gradient(ellipse at 50% 50%,rgba(246,220,144,.16),transparent 62%)}}
 .h:after{{content:"";position:absolute;inset:9px;border:1px solid rgba(246,220,144,.42);border-radius:5px;pointer-events:none}}
 .h>*{{position:relative;z-index:1}}
 .h .badge{{display:inline-block;padding:6px 15px;border-radius:999px;background:linear-gradient(180deg,#F8E7A8,#D9AE43);border:1px solid #A2791F;
@@ -295,7 +266,7 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
   background:linear-gradient(180deg,#F8EED6,#EDDFBB);box-shadow:inset 0 0 0 1px rgba(255,255,255,.5)}}
 .h .stampPlate .cap{{display:block;font-family:var(--lat);font-size:8.5px;letter-spacing:.22em;color:#9A7731}}
 .h .stampgrid{{margin-top:9px}}
-.h .stampgrid i{{border:0;color:var(--stamp)}}
+.h .stampgrid i{{color:var(--stamp)}}
 .h .gridLabel span{{color:#CBDCCF}}
 .h .gridLabel b{{color:#FFEFC0}}
 .h .foot{{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:15px;padding-top:12px;
@@ -312,6 +283,7 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
 .albumHead h4{{margin:4px 0 0;font-size:15px;font-weight:900;letter-spacing:-.03em;color:#1F5E44}}
 .albumHead .cnt{{font-size:11.5px;font-weight:800;color:#8E7A45;font-variant-numeric:tabular-nums}}
 .polgrid{{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}}
+.albumMore{{margin:11px 0 0;text-align:center;font-size:11px;font-weight:700;color:#8E7A45}}
 .pol{{margin:0;padding:4px 4px 6px;background:#fff;border-radius:3px;box-shadow:0 3px 9px rgba(60,45,20,.18)}}
 .pol:nth-child(3n+1){{transform:rotate(-1deg)}}
 .pol:nth-child(3n){{transform:rotate(1deg)}}
@@ -392,32 +364,30 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
     <path d="M11 1 L13.4 8.6 L21 11 L13.4 13.4 L11 21 L8.6 13.4 L1 11 L8.6 8.6 Z" fill="#FFF3C4" stroke="#0C2018" stroke-width="1.6" stroke-linejoin="round"/>
   </symbol>
   {SCENE_GALAXY}
-  {SCENE_TRAIL}
 </defs></svg>
 
 <div class="sheet">
   <header class="head">
-    <span class="kicker">Private beta · 시안 v7</span>
-    <h1>아이돌 수련회 1기 퇴소식<br>배너 일러스트 · 수료증 2종</h1>
-    <p>주신 피드백대로 다시 잡았습니다. 배너는 미니멀 포스터형을 유지하고 일러스트만 두 방향으로 새로 그렸습니다. 수료증은 26개를 다 맞혔을 때와 못 맞혔을 때를 완전히 다른 물건으로 나눴고, 사진첩은 수료증 밖으로 빼서 아래에 따로 뒀습니다.</p>
+    <span class="kicker">Private beta · 시안 v8</span>
+    <h1>아이돌 수련회 1기 퇴소식<br>확정 배너 · 수료증 2종</h1>
+    <p>배너는 은하수 호숫가 안으로 확정했습니다. 수료증에서 퍼지는 빛살 무늬는 걷어냈고, 스탬프는 26개 장면이 곧 출연자 26명이라는 점을 살려 도장마다 출연자 이름이 찍히도록 바꿨습니다. 이름은 실제 퇴소식 데이터의 26명 순서를 그대로 썼습니다.</p>
     <div class="chips">
-      <span class="chip">일러스트 2안</span>
-      <span class="chip">26/26 화려한 수료증 · 단체사진 포함</span>
-      <span class="chip">26개 미만 기본 수료증 · 로고 상단</span>
-      <span class="chip">참 잘했어요 스탬프</span>
-      <span class="chip">사진첩 분리</span>
+      <span class="chip">배너 확정 · 은하수 호숫가</span>
+      <span class="chip">빛살 무늬 제거</span>
+      <span class="chip">출연자 이름 스탬프 26개</span>
+      <span class="chip">26/26 특별 수료증 · 단체사진</span>
+      <span class="chip">26 미만 기본 수료증 · 로고 상단</span>
     </div>
   </header>
 
   <section class="sec">
     <div class="sec-head">
-      <h2>1. 배너 일러스트</h2>
-      <span class="note">레이아웃은 미니멀 포스터형 그대로. 밋밋하던 밤 그림에 은하수·별똥별·반딧불·모닥불 실루엣을 넣어 깊이를 만들었습니다.</span>
+      <h2>1. 배너 · 확정안</h2>
+      <span class="note">미니멀 포스터형 + 은하수 호숫가 일러스트. 별궤적안은 보류합니다.</span>
     </div>
     <div class="rail">
-
       <article class="opt">
-        <div class="opt-tag"><b>일러 1</b><span>은하수 호숫가</span></div>
+        <div class="opt-tag"><b>확정</b><span>은하수 호숫가</span></div>
         <div class="phone"><div class="phone-in">
           <div class="bnr">
             <svg class="scene" viewBox="0 0 500 420" aria-hidden="true"><use href="#scene-galaxy" width="500" height="420"/></svg>
@@ -434,43 +404,19 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
           </div>
         </div></div>
         <ul class="why">
-          <li>하늘에 은하수와 별똥별, 물가에 달빛 반영을 넣어 위아래로 깊이가 생깁니다.</li>
-          <li>모닥불에 둘러앉은 친구 셋의 실루엣이 들어가 「함께한 마지막 밤」이 그림으로 읽힙니다.</li>
-          <li>반딧불과 불티가 화면 곳곳에 흩어져 있어 정지 화면인데도 공기가 도는 느낌이 납니다.</li>
+          <li>은하수와 별똥별, 호수에 비친 달빛으로 위아래 깊이를 만들었습니다.</li>
+          <li>모닥불에 둘러앉은 친구 셋의 실루엣이 「함께한 마지막 밤」을 그림으로 설명합니다.</li>
+          <li>반딧불과 불티가 흩어져 있어 정지 화면인데도 공기가 도는 느낌이 납니다.</li>
+          <li>제목·버튼 영역은 아래 3분의 1에만 어둡게 깔아 일러스트를 가리지 않습니다.</li>
         </ul>
       </article>
-
-      <article class="opt">
-        <div class="opt-tag"><b>일러 2</b><span>별궤적 캠프파이어</span></div>
-        <div class="phone"><div class="phone-in">
-          <div class="bnr">
-            <svg class="scene" viewBox="0 0 500 420" aria-hidden="true"><use href="#scene-trail" width="500" height="420"/></svg>
-            <div class="scrim"></div>
-            <div class="in">
-              <img class="bnrLogo" src="{LOGO}" alt="아이돌 수련회">
-              <span class="rule">IDOL SCHOOL CAMP · 1ST</span>
-              <p class="t1">수련회의 마지막 밤</p>
-              <p class="t2"><b>아이돌 수련회 1기</b>퇴소식</p>
-              <p class="lead">26개의 순간을 떠올리며 친구들과 함께 퇴소식을 완성해 보세요.</p>
-              <button class="cta" type="button">퇴소식 시작하기 →</button>
-              <div class="meta"><span>SCENES 26</span><span>ABOUT 3 MIN</span></div>
-            </div>
-          </div>
-        </div></div>
-        <ul class="why">
-          <li>밤새 돌아간 별의 궤적을 원호로 그려, 하늘이 한 장의 장노출 사진처럼 보입니다.</li>
-          <li>모닥불을 화면 한가운데로 크게 키워 따뜻한 빛이 아래 절반을 덮습니다.</li>
-          <li>텐트 두 동이 좌우로 나뉘어 캠프장 전체가 한 장면에 담깁니다.</li>
-        </ul>
-      </article>
-
     </div>
   </section>
 
   <section class="sec">
     <div class="sec-head">
       <h2>2. 수료증 · 두 가지 상태</h2>
-      <span class="note">26개를 다 맞히면 특별한 물건이 되고, 못 맞히면 담백한 상장이 됩니다. 단체사진은 만점일 때만 들어갑니다.</span>
+      <span class="note">26개를 다 맞히면 특별한 물건이 되고, 못 맞히면 담백한 상장이 됩니다. 단체사진은 만점일 때만 들어가고, 스탬프에는 출연자 이름이 찍힙니다.</span>
     </div>
     <div class="rail">
 
@@ -488,8 +434,8 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
             </div>
             <div class="plate"><small>수료 등급</small><strong>추억을 다 기억하는 사람</strong></div>
             <div class="stampPlate">
-              <span class="cap">26 SCENES · ALL STAMPED</span>
-              <div class="stampgrid">{stampgrid(26)}</div>
+              <span class="cap">26 MEMBERS · ALL STAMPED</span>
+              <div class="stampgrid">{stampgrid()}</div>
             </div>
             <div class="gridLabel"><span>함께 퇴소한 친구</span><b>26 / 26</b></div>
             <div class="foot">
@@ -503,13 +449,14 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
               <div><span class="lab">MEMORY ALBUM</span><h4>추억의 사진첩</h4></div>
               <span class="cnt">26 / 26</span>
             </div>
-            <div class="polgrid">{polaroids(9)}</div>
+            <div class="polgrid">{polaroids(range(9))}</div>
+            <p class="albumMore">그 외 17명 · 아래로 계속</p>
           </div>
         </div></div></div>
         <ul class="why">
-          <li>금박 프레임에 빛살 무늬를 깔고 PERFECT 배지·메달·왁스 실링까지 올려 만점에서만 나오는 물건으로 만들었습니다.</li>
+          <li>퍼지는 빛살 무늬는 걷어내고, 금박 프레임과 PERFECT 배지·메달·왁스 실링만으로 만점 전용 물건이라는 게 드러나게 했습니다.</li>
           <li>단체사진은 이 버전에만 들어가고, 메달이 사진 아래에 겹쳐 앉아 트로피처럼 보입니다.</li>
-          <li>스탬프 26칸이 전부 찍혀 있어 저장·공유했을 때 완주가 한눈에 보입니다.</li>
+          <li>출연자 26명 이름 위에 도장이 전부 찍혀 있어, 저장·공유했을 때 완주가 한눈에 보입니다.</li>
         </ul>
       </article>
 
@@ -521,7 +468,7 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
             <span class="eyeb">CERTIFICATE OF COMPLETION</span>
             <h3><small>아이돌 수련회 1기</small>수료증</h3>
             <div class="plate"><small>수료 등급</small><strong>추억을 거의 다 아는 사람</strong></div>
-            <div class="stampgrid">{stampgrid(19)}</div>
+            <div class="stampgrid">{stampgrid(missed=MISSED)}</div>
             <div class="gridLabel"><span>함께 퇴소한 친구</span><b>19 / 26</b></div>
             <div class="foot">
               <span>발급일 2026.08.12 · No.0142<br>주최 · 아이돌 수련회 사무국</span>
@@ -534,12 +481,13 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
               <div><span class="lab">MEMORY ALBUM</span><h4>추억의 사진첩</h4></div>
               <span class="cnt">19 / 26</span>
             </div>
-            <div class="polgrid">{polaroids(7, empty=2)}</div>
+            <div class="polgrid">{polaroids([i for i in range(11) if i not in MISSED][:9])}</div>
+            <p class="albumMore">맞힌 19명만 사진첩에 들어갑니다</p>
           </div>
         </div></div></div>
         <ul class="why">
           <li>사진 없이 로고를 가운데 상단에 놓아, 일반적인 상장 형태로 담백하게 정리했습니다.</li>
-          <li>맞힌 칸에만 도장이 찍히고 남은 칸은 빈 자리로 남아 다시 도전할 이유가 보입니다.</li>
+          <li>맞힌 출연자에게만 도장이 찍히고, 놓친 사람은 점선 칸에 이름이 남아 다시 도전할 이유가 보입니다.</li>
           <li>등급명·발급번호·직인은 만점 버전과 같은 자리에 있어 두 장이 한 시리즈로 보입니다.</li>
         </ul>
       </article>
@@ -548,11 +496,11 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
 
     <div class="callout">
       <div class="demo">
-        {stampcell(1,True)}{stampcell(2,True)}<i>21</i>
+        {stampcell(0,True)}{stampcell(11,True)}{stampcell(4,False)}
       </div>
       <div>
-        <h3>스탬프는 「참 잘했어요」 도장으로</h3>
-        <p>맞힌 장면에는 별과 「참 잘했어요」가 들어간 빨간 도장이 비스듬히 찍히고, 못 맞힌 칸은 점선 빈 칸에 번호만 남습니다. 26칸이 채워지는 과정이 그대로 기록이 됩니다.</p>
+        <h3>스탬프 한 칸 = 출연자 한 명</h3>
+        <p>26개 질문이 곧 출연자 26명이라, 맞힌 사람의 이름 위에 「참 잘했어요」 도장이 비스듬히 찍힙니다. 못 맞힌 사람은 점선 칸에 이름과 장면 번호만 남아, 누구를 놓쳤는지 바로 보입니다.</p>
       </div>
     </div>
   </section>
@@ -560,9 +508,9 @@ body{{margin:0;background:var(--night-0);color:var(--cream);font-family:var(--ko
   <div class="closing">
     <h2>다음 단계</h2>
     <ol>
-      <li>배너 일러스트 1·2 중 하나를 골라 주세요. 세부(달 위치, 텐트 수, 반딧불 양)는 고른 뒤에 조정합니다.</li>
+      <li>배너는 은하수안으로 적용합니다. 달 위치·텐트 수·반딧불 양 같은 세부는 말씀 주시면 조정합니다.</li>
       <li>수료증은 두 상태를 한 세트로 적용합니다. 등급명 문구는 지금 쓰는 것을 그대로 쓰거나 새로 주셔도 됩니다.</li>
-      <li>사진첩의 폴라로이드는 실제 친구 사진으로 채워지고, 못 맞힌 자리는 빈 칸으로 남습니다.</li>
+      <li>스탬프와 사진첩의 이름·순서는 실제 퇴소식 데이터(출연자 26명)를 그대로 씁니다.</li>
       <li>이미지 저장·X·인스타 공유용 렌더링도 두 상태 각각에 맞춰 새로 그립니다.</li>
     </ol>
   </div>
