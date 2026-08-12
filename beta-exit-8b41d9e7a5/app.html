@@ -449,8 +449,6 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
   background:linear-gradient(180deg,transparent,rgba(6,24,16,.86) 62%)}
 .pcName b{display:block;font-size:11px;font-weight:900;letter-spacing:-.03em;color:#FFF7E4;word-break:keep-all}
 .pcName em{display:block;margin-top:1px;font-style:normal;font-size:7px;font-weight:700;letter-spacing:.08em;color:rgba(255,244,220,.72);text-transform:uppercase}
-.pcNo{display:block;position:absolute;top:6px;right:6px;padding:2px 6px;border-radius:999px;background:rgba(6,24,16,.6);
-  font-size:7.5px;font-weight:800;letter-spacing:.06em;color:#F3D48A}
 /* holographic sheen, kept subtle so the photo stays readable */
 .pcShine{display:block;position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:.5;
   background:linear-gradient(115deg,transparent 24%,rgba(255,255,255,.42) 38%,rgba(150,255,214,.30) 46%,
@@ -460,14 +458,19 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
 /* back — the camp logo */
 .pcBack{transform:rotateY(180deg);border:2.5px solid #E4CB86;
   background:radial-gradient(circle at 50% 22%,#1E5540,#123725 58%,#0C2619 100%)}
-.pcBack:before{content:"";position:absolute;inset:0;opacity:.5;
-  background:repeating-linear-gradient(135deg,rgba(233,187,67,.16) 0 1px,transparent 1px 9px)}
+.pcBack:before{content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 50% 34%,rgba(246,220,144,.20),transparent 62%),
+    radial-gradient(circle at 22% 14%,rgba(255,243,196,.46) 0 .8px,transparent 1.3px),
+    radial-gradient(circle at 68% 30%,rgba(255,243,196,.34) 0 .7px,transparent 1.2px),
+    radial-gradient(circle at 44% 74%,rgba(255,243,196,.26) 0 .6px,transparent 1.1px);
+  background-size:auto,37px 43px,52px 47px,44px 38px}
 .pcBack:after{content:"";position:absolute;inset:6px;border:1px solid rgba(233,187,67,.42);border-radius:6px}
-.pcBackIn{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+.pcBackIn{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
   width:100%;height:100%;padding:12px 8px;text-align:center}
-.pcBackIn img{width:82%;height:auto;filter:drop-shadow(0 3px 6px rgba(0,0,0,.45))}
-.pcBackIn .cap{font-size:6.5px;font-weight:800;letter-spacing:.18em;color:#E9BB43}
-.pcBackIn .sub{font-size:7px;font-weight:800;letter-spacing:.04em;color:rgba(255,244,220,.72)}
+.pcBackIn img{width:84%;height:auto;margin-bottom:2px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.45))}
+.pcBackIn .cap{white-space:nowrap;font-size:5.6px;font-weight:800;letter-spacing:.1em;color:#E9BB43}
+.pcBackIn .sub{white-space:nowrap;font-size:5.2px;font-weight:800;letter-spacing:.1em;color:rgba(255,244,220,.64)}
 @media(prefers-reduced-motion:reduce){
   .pcIn{transition:none}
   .pcShine{transition:none}
@@ -1324,9 +1327,7 @@ function renderResultView(){
   const grid=$('#albumGrid');
   grid.innerHTML='';
   $('#albumEmpty').style.display=matched.length?'none':'block';
-  const sceneOf=new Map((questions||[]).map(q=>[q.member_id,q.photo_no]));
   matched.forEach(p=>{
-    const no=sceneOf.get(p.id),tag=no?`No.${String(no).padStart(2,'0')}`:'';
     const card=document.createElement('button');
     card.type='button';
     card.className='pcard';
@@ -1336,14 +1337,13 @@ function renderResultView(){
       '<span class="pcIn">'+
         '<span class="pcFace pcFront">'+
           `<img alt="${esc(memberPrimary(p))}">`+
-          (tag?`<span class="pcNo">${esc(tag)}</span>`:'')+
           '<span class="pcShine"></span>'+
           `<span class="pcName"><b>${esc(memberPrimary(p))}</b><em>${esc(memberSecondary(p))}</em></span>`+
         '</span>'+
         '<span class="pcFace pcBack"><span class="pcBackIn">'+
-          '<span class="cap">IDOL SCHOOL CAMP</span>'+
           '<img src="../assets/camp-logo.png" alt="">'+
-          `<span class="sub">1ST · ${esc(tag||'EXIT')}</span>`+
+          '<span class="cap">IDOL SCHOOL CAMP</span>'+
+          '<span class="sub">1ST CLASS GRADUATE</span>'+
         '</span></span>'+
       '</span>';
     const im=card.querySelector('.pcFront img');
