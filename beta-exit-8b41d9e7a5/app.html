@@ -433,7 +433,7 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
 /* memory album under the certificate */
 .panel .grid{grid-template-columns:repeat(auto-fill,minmax(92px,1fr))}
 
-/* ================= private beta v11 — digital photocards ================= */
+/* ================= private beta v11 — graduate cards ================= */
 .albumHint{margin:8px 2px 0;font-size:11.5px;font-weight:600;color:var(--ink-faint)}
 .pcGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(102px,1fr));gap:12px;margin-top:14px}
 .pcard{all:unset;display:block;width:100%;position:relative;aspect-ratio:55/86;cursor:pointer;perspective:900px;-webkit-tap-highlight-color:transparent}
@@ -476,7 +476,7 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
   .pcShine{transition:none}
 }
 
-/* ================= private beta v12 — photocard binder ================= */
+/* ================= private beta v12 — card binder ================= */
 .albumBar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
 .albumCount{font-size:13px;font-weight:900;color:var(--navy);font-variant-numeric:tabular-nums}
 .albumCount em{font-style:normal;font-size:11.5px;font-weight:700;color:var(--ink-faint)}
@@ -1719,7 +1719,7 @@ async function drawCertificate(count,matched){
   });
 }
 
-/* ============ photocards (canvas export) ============ */
+/* ============ graduate cards (canvas export) ============ */
 const PC_W=55,PC_H=86;
 function albumNote(msg,warn){
   let el=document.getElementById('albumNote');
@@ -1919,7 +1919,7 @@ paintBest();
 })();
 })();
 </script>
-<script src="./terminology-v5.js?v=20260813-direct-v15"></script>
-<script src="./perfect-hq.js?v=20260813-direct-v15"></script>
+<script src="./terminology-v5.js?v=20260813-cards-v16"></script>
+<script src="./perfect-hq.js?v=20260813-cards-v16"></script>
 </body>
 </html>
