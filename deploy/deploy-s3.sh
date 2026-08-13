@@ -18,8 +18,9 @@ say(){ printf '\n\033[1m%s\033[0m\n' "$*"; }
 
 say "1/4  퇴소식 · 수료키트 페이지"
 aws s3 cp exit/index.html          "$S3/exit/index.html"          --content-type "$HTML" --cache-control "$NOCACHE"
-aws s3 cp exit/terminology-v5.js   "$S3/exit/terminology-v5.js"   --content-type "$JS"   --cache-control "$NOCACHE"
-aws s3 cp exit/perfect-hq.js       "$S3/exit/perfect-hq.js"       --content-type "$JS"   --cache-control "$NOCACHE"
+for f in exit/*.js; do
+  aws s3 cp "$f" "$S3/exit/$(basename "$f")" --content-type "$JS" --cache-control "$NOCACHE"
+done
 
 say "2/4  캠프 본 페이지 · 설정"
 aws s3 cp index.html "$S3/index.html" --content-type "$HTML" --cache-control "$NOCACHE"
