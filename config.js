@@ -17,6 +17,7 @@ window.MUNIVERSE_CONFIG = {
     enabled: true,
     releaseAt: "2026-08-14T18:00:00+09:00",
     path: "/exit/",
+    kitPath: "/exit/?tab=kit",
     // false로 바꾸면 이미지 리사이즈를 끄고 원본을 그대로 내보냅니다 (배포 불필요)
     optimizeImages: true
   },
@@ -228,38 +229,49 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-/* 퇴소식: DB 공개시각 기준 자동 잠금 해제 + 공개 페이지 연결 */
+/* 퇴소식·수료 키트: DB 공개시각 기준 자동 잠금 해제 + 공개 페이지 연결 */
 window.addEventListener("DOMContentLoaded", function () {
   var cfg = window.MUNIVERSE_CONFIG || {};
   var exitCfg = cfg.exitCeremony || {};
   if (!exitCfg.enabled) return;
-  var tab = document.querySelector('.tab[data-tab="farewell"]');
-  if (!tab) return;
-  var fallbackRelease = Date.parse(exitCfg.releaseAt || "2026-08-14T18:00:00+09:00");
-  var target = exitCfg.path || "/exit/";
-  var serverOffset = 0;
-  var opened = false;
 
-  function unlock() {
-    if (opened) return;
-    opened = true;
-    tab.classList.remove("locked");
-    tab.removeAttribute("aria-disabled");
-    tab.innerHTML = '<span data-i18n="tabFarewell">퇴소식</span>';
+  var GATES = [
+    { tab: "farewell", i18n: "tabFarewell", ko: "퇴소식",   target: exitCfg.path || "/exit/",
+      hash: "#farewell", query: "farewell" },
+    { tab: "kit",      i18n: "tabKit",      ko: "수료 키트", target: exitCfg.kitPath || ((exitCfg.path || "/exit/") + "?tab=kit"),
+      hash: "#kit",      query: "kit" }
+  ].map(function (g) {
+    g.el = document.querySelector('.tab[data-tab="' + g.tab + '"]');
+    g.opened = false;
+    return g;
+  }).filter(function (g) { return !!g.el; });
+  if (!GATES.length) return;
+
+  var fallbackRelease = Date.parse(exitCfg.releaseAt || "2026-08-14T18:00:00+09:00");
+  var serverOffset = 0;
+
+  function unlock(g) {
+    if (g.opened) return;
+    g.opened = true;
+    g.el.classList.remove("locked");
+    g.el.removeAttribute("aria-disabled");
+    g.el.innerHTML = '<span data-i18n="' + g.i18n + '">' + g.ko + '</span>';
     if (typeof applyI18n === "function") { try { applyI18n(); } catch (_) {} }
-    tab.addEventListener("click", function (e) {
+    g.el.addEventListener("click", function (e) {
       e.preventDefault();
       e.stopImmediatePropagation();
-      location.href = target;
+      location.href = g.target;
     }, true);
     var q = new URLSearchParams(location.search).get("tab");
-    if (q === "farewell" || location.hash === "#farewell") location.replace(target);
+    if (q === g.query || location.hash === g.hash) location.replace(g.target);
   }
 
   function evaluate(releaseAt) {
     var releaseMs = Date.parse(releaseAt || "") || fallbackRelease;
-    if (Date.now() + serverOffset >= releaseMs) unlock();
+    if (Date.now() + serverOffset >= releaseMs) GATES.forEach(unlock);
   }
+
+  function allOpen() { return GATES.every(function (g) { return g.opened; }); }
 
   async function sync() {
     try {
@@ -281,7 +293,7 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 
   sync();
-  setInterval(function () { if (!document.hidden && !opened) sync(); }, 60000);
+  setInterval(function () { if (!document.hidden && !allOpen()) sync(); }, 60000);
 });
 
 /* 짤기자랑 결선투표 CTA: 실제 투표 상세 페이지로 강제 연결.

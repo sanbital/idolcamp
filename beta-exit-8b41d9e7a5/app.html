@@ -2490,6 +2490,11 @@ $('#shareIg').onclick=()=>shareCert('ig');
 $('#kitBtn').onclick=()=>{window.open((settings&&settings.kit_url)||KIT_URL,'_blank','noopener');};
 $('#kitEntry').onclick=()=>showPage('kit');
 $('#tabKit').onclick=()=>showPage('kit');
+/* 캠프 본 페이지의 '수료 키트' 메뉴에서 바로 들어올 수 있게 한다 */
+(function(){
+  const q=new URLSearchParams(location.search).get('tab');
+  if(q==='kit'||location.hash==='#kit')showPage('kit');
+})();
 $('#tabHome').onclick=()=>showPage('home');
 [$('#kitBack2')].forEach(b=>{if(b)b.onclick=()=>showPage('home');});
 document.querySelectorAll('.vod').forEach(b=>b.onclick=goVod);
