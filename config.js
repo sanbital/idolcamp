@@ -20,6 +20,8 @@ window.MUNIVERSE_CONFIG = {
     kitPath: "/exit/?tab=kit",
     // 오픈(=release_at) 이후 대표주소 접속을 퇴소식으로 보냅니다. false면 기존처럼 입소로 남습니다
     landOnRelease: true,
+    // 오픈 이후 캠프 본 페이지도 퇴소식과 같은 아이보리 배경으로 통일합니다
+    ivoryOnRelease: true,
     // false로 바꾸면 이미지 리사이즈를 끄고 원본을 그대로 내보냅니다 (배포 불필요)
     optimizeImages: true
   },
@@ -282,10 +284,31 @@ window.addEventListener("DOMContentLoaded", function () {
     location.replace(exitCfg.path || "/exit/");
   }
 
+  /* 오픈 시각부터는 캠프 전체가 퇴소식과 같은 아이보리 톤으로 간다 */
+  function paintIvory() {
+    var root = document.documentElement;
+    if (root.classList.contains("camp-ivory")) return;
+    root.classList.add("camp-ivory");
+    var st = document.createElement("style");
+    st.id = "camp-ivory-style";
+    st.textContent = [
+      'html.camp-ivory body{background:',
+      '  radial-gradient(120% 60% at 50% 0%,#FFFDF6 0%,#F5F1E2 46%,#EDE8D6 100%) fixed !important;}',
+      'html.camp-ivory .tabs,html.camp-ivory .langs{background:rgba(255,255,255,.72)!important;',
+      '  border:1px solid rgba(20,48,61,.09)!important;box-shadow:0 2px 10px rgba(20,48,61,.05)!important}',
+      'html.camp-ivory .tab{color:#2A4B3C!important}',
+      'html.camp-ivory .tab.active{background:#2E8A5A!important;color:#fff!important;',
+      '  box-shadow:0 2px 0 rgba(20,70,45,.35)!important}',
+      'html.camp-ivory .tab.locked{color:#8C9A90!important}'
+    ].join("\n");
+    document.head.appendChild(st);
+  }
+
   function evaluate(releaseAt) {
     var releaseMs = Date.parse(releaseAt || "") || fallbackRelease;
     if (Date.now() + serverOffset < releaseMs) return;
     GATES.forEach(unlock);
+    if (exitCfg.ivoryOnRelease !== false) paintIvory();
     if (exitCfg.landOnRelease !== false) autoLand();
   }
 
