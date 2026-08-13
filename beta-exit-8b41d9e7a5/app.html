@@ -608,6 +608,52 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
 @media(min-width:760px){
   .guideHead h2,.boardHead h2,.rewards h2,.panel h2{font-size:18px;padding:11px 26px}
 }
+
+/* ================= private beta v14 — tone & manner pass ================= */
+:root{
+  --r-card:22px;      /* outer cards */
+  --r-tile:15px;      /* tiles inside a card */
+  --r-btn:15px;
+  --edge:rgba(15,59,58,.13);
+  --lift:0 12px 28px rgba(15,59,58,.13);
+  --lift-strong:0 16px 34px rgba(15,59,58,.18);
+  --gap-sec:16px;
+}
+/* one elevation language for every card */
+.board,.rewards,.panel,.vodCard,.againCard,.kitCard,.qcard,.guide .step{
+  border-radius:var(--r-card);box-shadow:var(--lift)}
+.board,.rewards,.panel,.vodCard,.qcard{background:var(--card);border:1px solid var(--edge)}
+.board,.rewards,.panel,.vodCard,.againCard,.kitCard{margin-top:var(--gap-sec)}
+.guide{margin-top:24px}
+.reward,.step{border-radius:var(--r-tile)}
+.step{border:1px solid var(--edge);box-shadow:0 6px 16px rgba(15,59,58,.10);padding:16px 15px}
+.reward{border:1px solid var(--edge);background:#FFFBF0}
+
+/* the camp night owns the accent cards; no stray purple */
+.againCard{background:linear-gradient(152deg,#1D5A41,#0E3327 62%,#0A2A20);
+  border:1px solid rgba(233,187,67,.28);color:var(--cream)}
+.againCard .againBtn{background:#FFFBEE;color:#12402F;border:1px solid rgba(233,187,67,.5);box-shadow:0 3px 0 rgba(8,32,24,.45)}
+.againCard p{color:rgba(255,248,231,.82)}
+.kitCard{background:linear-gradient(152deg,#2B4E6B,#16324A);border:1px solid rgba(160,205,235,.26)}
+.againArt{border-color:rgba(233,187,67,.35)}
+.againCard .cardChips span{background:rgba(255,255,255,.12);border-color:rgba(233,187,67,.32);color:#F5E7C0}
+
+/* buttons share one shape and one press behaviour */
+.vod,.againBtn,.kitBtn,.primary,.albumSave{border-radius:var(--r-btn);letter-spacing:-.02em}
+.vod,.againBtn,.kitBtn{min-height:54px;font-size:15px}
+.shareBtn{border-radius:var(--r-tile);border:1px solid var(--edge);background:#FFFBF0}
+
+/* type scale */
+.eyebrow{font-size:11px;letter-spacing:.2em}
+.step h3{font-size:15.5px}
+.step p,.vodCard p,.againCard p,.kitCard p{font-size:12.5px;line-height:1.65}
+.againCard strong,.kitCard strong,.vodCard strong{font-size:16.5px}
+.previewNote,.albumHint{font-size:12px;color:rgba(18,58,46,.6)}
+.bestLabel{font-size:12.5px;font-weight:700}
+
+/* quieter step numbering, in the camp palette */
+.stepNo{background:var(--gold);border:0;color:#3A2A06;box-shadow:0 2px 0 rgba(150,104,12,.5)}
+.stepIcon{border:1px solid var(--edge);border-radius:var(--r-tile)}
 </style>
 </head>
 <body>
