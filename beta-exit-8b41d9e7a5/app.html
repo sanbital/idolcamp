@@ -912,6 +912,65 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
   .posterList{gap:8px}
   .posterFrame figcaption{margin-top:7px;font-size:10px}
 }
+
+/* ================= private beta v28 — the ceremony, brightened ================= */
+:root{
+  --ivory:#F7F3E7;
+  --leaf:#2E8A5A;
+  --leaf-deep:#1F6B44;
+}
+body{background:
+  radial-gradient(120% 60% at 50% 0%,#FFFDF6 0%,#F5F1E2 46%,#EDE8D6 100%) fixed}
+.tabs{background:rgba(255,255,255,.72);border:1px solid rgba(20,48,61,.09);padding:5px;gap:2px;
+  box-shadow:0 2px 10px rgba(20,48,61,.05)}
+.tab{gap:7px;color:#2A4B3C;font-weight:700;font-size:13.5px;border-radius:13px}
+.tab .tabIco{width:19px;height:19px;flex:none;color:var(--leaf-deep)}
+.tab.active{background:var(--leaf);color:#fff;box-shadow:0 2px 0 rgba(20,70,45,.35)}
+.tab.active .tabIco{color:#fff}
+.tab.active .tabIco [fill="#DFF0DC"]{fill:rgba(255,255,255,.28)}
+.langs{background:rgba(255,255,255,.72);border:1px solid rgba(20,48,61,.09)}
+
+/* quiz */
+.qhead{margin-bottom:14px}
+.qcount{font-size:14px;font-weight:700;color:rgba(20,48,61,.55)}
+.qcount b{font-size:26px;font-weight:900;color:var(--forest);letter-spacing:-.03em}
+.track{background:rgba(20,48,61,.10)}
+.track>i{background:linear-gradient(90deg,var(--leaf),#7BC47F)}
+.bestChip{background:#fff;border:1px solid rgba(20,48,61,.10);color:#2A4B3C;font-weight:700}
+.qcard{background:#fff;border:1px solid rgba(20,48,61,.09);box-shadow:0 10px 26px rgba(20,48,61,.08)}
+.hint{display:flex;align-items:baseline;gap:7px;color:rgba(20,48,61,.55);font-weight:600}
+.qMark{font-family:var(--serif);font-size:17px;font-weight:800;color:var(--leaf)}
+.question{color:#123243}
+.ans{gap:8px;font-size:17px;font-weight:800;letter-spacing:0;border-radius:14px;box-shadow:none}
+.ans .ansIco{width:22px;height:22px;flex:none}
+.ans.yes{background:var(--leaf);color:#fff}
+.ans.yes:active{background:var(--leaf-deep)}
+.ans.no{background:#FDF1F0;color:#C9544A;border:1px solid rgba(201,84,74,.32)}
+.ans.no:active{background:#F9E3E1}
+.tip{color:rgba(20,48,61,.45)}
+
+/* cards on the brightened ground: white paper, hairline edge */
+.board,.rewards,.panel,.guide .step,.qcard{background:#fff;border:1px solid rgba(20,48,61,.09);
+  box-shadow:0 8px 22px rgba(20,48,61,.07)}
+.reward{background:#FBF8EF;border:1px solid rgba(20,48,61,.09)}
+.stepIcon{border:1px solid rgba(20,48,61,.09)}
+.previewNote,.albumHint,.bestLabel{color:rgba(20,48,61,.6)}
+
+/* the rewatch card and the kit entry come up into the light */
+.againCard{background:#fff;border:1px solid rgba(20,48,61,.09);color:#123243;box-shadow:0 8px 22px rgba(20,48,61,.07)}
+.againCard p{color:rgba(20,48,61,.66)}
+.againCard .cardChips span{background:#F4F1E4;border-color:rgba(20,48,61,.12);color:#2A4B3C}
+.againCard .cardArt{color:rgba(20,48,61,.12)}
+.againCard .againBtn{background:var(--leaf);color:#fff;border:0;box-shadow:0 3px 0 rgba(20,70,45,.35)}
+.againArt{border-color:rgba(20,48,61,.12)}
+.kitEntry{background:#fff;border:1px solid rgba(20,48,61,.09);color:#123243;box-shadow:0 8px 22px rgba(20,48,61,.07)}
+.kitEntry .eyebrow{color:#9A7731}
+.kitEntryDesc{color:rgba(20,48,61,.66)}
+.kitEntryPrice i{color:var(--forest)}
+.kitEntryPrice em{color:rgba(20,48,61,.55)}
+.kitEntryArt{background:rgba(20,48,61,.06)}
+.kitEntryArt img{border:1px solid rgba(20,48,61,.10)}
+.kitEntryGo{background:var(--leaf);color:#fff;box-shadow:0 3px 0 rgba(20,70,45,.35)}
 </style>
 </head>
 <body>
@@ -1046,10 +1105,10 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
   </div>
 
   <nav class="tabs" id="tabbar" aria-label="sections">
-    <a class="tab" href="../" data-i18n="tabEnroll">입소</a>
-    <a class="tab" href="../?tab=talent" data-i18n="tabTalent">장기자랑</a>
-    <button class="tab active" type="button" id="tabHome" aria-current="page" data-i18n="tabFarewell">퇴소식</button>
-    <button class="tab" type="button" id="tabKit"><span class="lock">🛍️</span><span data-i18n="tabKit">수료 키트</span></button>
+    <a class="tab" href="../"><svg class="tabIco" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 3.5 19h17L12 4Z" fill="#DFF0DC" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 9.5 8 19h8l-4-9.5Z" fill="currentColor" opacity=".55"/></svg><span data-i18n="tabEnroll">입소</span></a>
+    <a class="tab" href="../?tab=talent"><svg class="tabIco" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="10.5" rx="3" fill="#DFF0DC" stroke="currentColor" stroke-width="1.7"/><path d="M6 11.5a6 6 0 0 0 12 0M12 17.5V21m-3 0h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span data-i18n="tabTalent">장기자랑</span></a>
+    <button class="tab active" type="button" id="tabHome" aria-current="page"><svg class="tabIco" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c2.2 4 4.6 5.2 4.6 8.6A4.6 4.6 0 0 1 12 16.7a4.6 4.6 0 0 1-4.6-4.6c0-3.4 2.4-4.6 4.6-8.6Z" fill="#F3B23F" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M5 20.5l14-3M5 17.5l14 3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span data-i18n="tabFarewell">퇴소식</span></button>
+    <button class="tab" type="button" id="tabKit"><svg class="tabIco" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="9.5" width="17" height="11" rx="2.2" fill="#DFF0DC" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 13.5h17M12 9.5v11" stroke="currentColor" stroke-width="1.7"/><path d="M12 9.5C9.6 5.6 5 7 7 9.5m5 0c2.4-3.9 7-2.5 5 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span data-i18n="tabKit">수료 키트</span></button>
   </nav>
 
   <!-- ================= HOME ================= -->
@@ -1255,11 +1314,11 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
           <div class="missing" id="missingImg" data-i18n="imgFail">문제 사진을 불러오지 못했습니다.</div>
         </div>
         <div class="qside">
-          <p class="hint" data-i18n="hintQ">이 순간을 기억하시나요?</p>
+          <p class="hint"><span class="qMark" aria-hidden="true">Q.</span><span data-i18n="hintQ">이 순간을 기억하시나요?</span></p>
           <p class="question" id="questionText" aria-live="polite"></p>
           <div class="answers" id="answers" style="display:none">
-            <button class="ans yes" id="yesBtn"><span class="glyph" aria-hidden="true"></span>YES</button>
-            <button class="ans no" id="noBtn"><span class="glyph x" aria-hidden="true"></span>NO</button>
+            <button class="ans yes" id="yesBtn"><svg class="ansIco" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7.6 12.4l3 3 5.8-6.4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>YES</button>
+            <button class="ans no" id="noBtn"><svg class="ansIco" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.6 8.6l6.8 6.8M15.4 8.6l-6.8 6.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>NO</button>
           </div>
         </div>
       </div>
