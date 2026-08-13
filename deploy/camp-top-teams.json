@@ -1,0 +1,26 @@
+{
+ "idntt": {
+  "name": "idntt",
+  "color": "#111111",
+  "bg": "#F1F1F1",
+  "border": "#111111"
+ },
+ "flareu": {
+  "name": "FLARE U",
+  "color": "#8FD4CB",
+  "bg": "#E4F8F5",
+  "border": "#8FD4CB"
+ },
+ "closeyoureyes": {
+  "name": "CLOSE YOUR EYES",
+  "color": "#FFFFFF",
+  "bg": "#FFFFFF",
+  "border": "#111111"
+ },
+ "ahof": {
+  "name": "AHOF",
+  "color": "#E7E8F0",
+  "bg": "#F3F4FA",
+  "border": "#C9CBD8"
+ }
+}

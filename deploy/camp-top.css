@@ -1,0 +1,670 @@
+
+
+  /* =========================================================
+     시안 반영: 유튜브 정주행 배너 + 수련회 점수판 (v2)
+     이전 .playlist-banner / .score-* 규칙과 클래스가 완전히 분리되어
+     있으므로 이 블록만 보면 됩니다.
+     ========================================================= */
+  .ytbar{
+    --ytbar-radius:30px;
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr) auto;
+    align-items:center;
+    gap:clamp(12px,2.4vw,28px);
+    margin:10px 0 14px;
+    padding:clamp(12px,1.8vw,20px) clamp(14px,2.2vw,26px);
+    border-radius:var(--ytbar-radius);
+    background:linear-gradient(180deg,#FDF9EE 0%,#F6F0DF 100%);
+    border:1px solid rgba(15,59,58,.10);
+    box-shadow:0 12px 26px rgba(15,59,58,.20), inset 0 1px 0 rgba(255,255,255,.8);
+    text-decoration:none;
+    color:#16211C;
+    transition:transform .16s ease, box-shadow .16s ease;
+  }
+  .ytbar:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(15,59,58,.26), inset 0 1px 0 rgba(255,255,255,.85)}
+  .ytbar:active{transform:translateY(0)}
+  .ytbar-logo{
+    width:clamp(74px,13vw,152px);
+    height:auto;
+    display:block;
+    object-fit:contain;
+    flex:0 0 auto;
+  }
+  .ytbar-copy{display:block;min-width:0}
+  .ytbar-title{
+    display:block;
+    font-size:clamp(17px,3.2vw,36px);
+    font-weight:900;
+    line-height:1.12;
+    letter-spacing:-.035em;
+    color:#16211C;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+    text-wrap:balance;
+  }
+  .ytbar-sub{
+    display:block;
+    margin-top:clamp(3px,.6vw,8px);
+    font-size:clamp(11px,1.65vw,19px);
+    font-weight:700;
+    line-height:1.3;
+    letter-spacing:-.02em;
+    color:#3A4A42;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+    text-wrap:balance;
+  }
+  .ytbar-play{
+    flex:0 0 auto;
+    display:grid;
+    place-items:center;
+    width:clamp(46px,7.4vw,84px);
+    height:clamp(36px,5.8vw,66px);
+    border-radius:clamp(12px,2vw,24px);
+    background:linear-gradient(180deg,#FF4B47 0%,#EE2C25 100%);
+    box-shadow:0 8px 16px rgba(226,42,36,.34);
+  }
+  .ytbar-play svg{width:46%;height:auto;display:block;transform:translateX(4%)}
+  @media (max-width:640px){
+    .ytbar{--ytbar-radius:20px;gap:10px;padding:11px 12px}
+.ytbar-play svg{width:44%}
+.ytbar-logo{width:62px}
+.ytbar-title{font-size:15.5px}
+.ytbar-sub{font-size:10.2px;margin-top:2px}
+.ytbar-play{width:40px;height:32px;border-radius:11px}
+}
+
+  /* ---------- 확장판 대공개 배너 (유튜브 배너와 세트) ---------- */
+  .exbar{
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr) auto;
+    align-items:center;
+    gap:clamp(12px,2.4vw,28px);
+    margin:0 0 14px;
+    padding:clamp(11px,1.7vw,19px) clamp(14px,2.2vw,26px);
+    border-radius:30px;
+    /* 확장판 판매 안내는 중요 정보 → 밝은 패널들 사이에서 확실히 도드라지도록
+       브랜드 딥그린 배경 + 밝은 텍스트로 반전시킨다. */
+    background:linear-gradient(180deg,#1C5C46 0%,#0F3B3A 100%);
+    border:2px solid rgba(110,231,168,.34);
+    box-shadow:0 14px 32px rgba(15,59,58,.38), inset 0 1px 0 rgba(255,255,255,.14);
+    color:var(--paper);
+  }
+  .exbar-logo{
+    width:clamp(74px,13vw,152px);
+    height:auto;
+    display:block;
+    object-fit:contain;
+  }
+  .exbar-copy{display:block;min-width:0}
+  .exbar-lead{
+    display:block;
+    font-size:clamp(10.5px,1.58vw,18px);
+    font-weight:800;
+    line-height:1.3;
+    letter-spacing:-.03em;
+    color:rgba(251,246,233,.92);   /* 딥그린 배경용 */
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+    text-wrap:balance;
+  }
+  .exbar-title{
+    display:block;
+    margin-top:clamp(2px,.5vw,7px);
+    font-size:clamp(15.5px,2.72vw,31px);
+    font-weight:900;
+    line-height:1.14;
+    letter-spacing:-.045em;
+    color:#FFFFFF;                 /* 딥그린 배경용 */
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+    text-wrap:balance;
+  }
+  /* "*8/14*" → 노랑 + 손글씨 밑줄 / "~확장판 대공개~" → 밝은 민트
+     (딥그린 배경에서 기존 짙은 초록 #2E8B3D 은 대비가 나오지 않는다) */
+  .exbar-title .hl{font-style:normal;color:var(--yellow)}
+  .exbar-title .hl2{font-style:normal;color:var(--mint-2)}
+  .exbar-title .hl2{white-space:nowrap}
+  .exbar-title .hl{
+    position:relative;
+    display:inline-block;
+    padding-bottom:.1em;
+  }
+  .exbar-title .hl:after{
+    content:"";
+    position:absolute;
+    left:-3%;
+    right:-3%;
+    bottom:-.04em;
+    height:.22em;
+    background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 12' preserveAspectRatio='none'><path d='M3 8.4 Q 26 2.2, 52 6 T 97 3.6' stroke='%23F2B705' stroke-width='4.2' fill='none' stroke-linecap='round'/></svg>") no-repeat center/100% 100%;
+  }
+  .exbar-gift{
+    flex:0 0 auto;
+    display:block;
+    width:clamp(52px,8.6vw,100px);
+  }
+  .exbar-gift svg{width:100%;height:auto;display:block}
+  @media (max-width:700px){
+    .exbar{gap:10px;padding:11px 12px;border-radius:20px;margin-bottom:12px}
+.exbar-logo{width:clamp(56px,15.5vw,88px)}
+.exbar-lead{font-size:clamp(9.4px,2.5vw,12.5px)}
+.exbar-title{font-size:clamp(14px,4.1vw,21px);margin-top:2px}
+.exbar-gift{width:clamp(42px,11.5vw,60px)}
+.exbar-logo{width:62px}
+.exbar-lead{font-size:9px}
+.exbar-title{font-size:13.5px}
+.exbar-gift{width:40px}
+}
+
+  /* ---------- 짤기자랑 결선투표 배너 (8/11 10:00 KST 오픈) ----------
+     유튜브(크림) · 확장판(딥그린) 다음에 놓이는 세 번째 배너라
+     골드 계열로 잡아 셋이 서로 구분되게 한다. 오픈 전에는
+     hidden 속성으로 완전히 숨긴다. */
+  .votebar{
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr) auto;
+    grid-template-areas:"logo copy go" "logo rewards go";
+    align-items:center;
+    column-gap:clamp(12px,2.4vw,28px);
+    row-gap:clamp(5px,.8vw,11px);
+    margin:0 0 14px;
+    padding:clamp(11px,1.7vw,19px) clamp(14px,2.2vw,26px);
+    border-radius:30px;
+    background:
+      radial-gradient(62% 140% at 88% 50%, rgba(255,255,255,.40) 0%, rgba(255,255,255,0) 62%),
+      linear-gradient(180deg,#FFD34F 0%,#F2A81C 100%);
+    border:2px solid #123A2E;
+    box-shadow:0 14px 32px rgba(146,94,6,.32), inset 0 1px 0 rgba(255,255,255,.55);
+    color:#123A2E;
+    text-decoration:none;
+    transition:transform .16s ease, box-shadow .16s ease;
+  }
+  .votebar[hidden]{display:none!important}
+  .votebar:hover{transform:translateY(-2px);box-shadow:0 18px 38px rgba(146,94,6,.38), inset 0 1px 0 rgba(255,255,255,.6)}
+  .votebar:active{transform:translateY(0)}
+  .votebar:focus-visible{outline:3px solid #0F3B3A;outline-offset:3px}
+  .votebar-logo{
+    grid-area:logo;
+    align-self:center;
+    width:clamp(74px,13vw,152px);
+    height:auto;
+    display:block;
+    object-fit:contain;
+  }
+  .votebar-copy{grid-area:copy;align-self:end;display:block;min-width:0}
+  .votebar-lead{
+    display:flex;
+    align-items:center;
+    gap:.45em;
+    font-size:clamp(10.5px,1.58vw,18px);
+    font-weight:900;
+    line-height:1.3;
+    letter-spacing:-.03em;
+    color:#1B4B36;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+  .votebar-lead > span{min-width:0}
+  .votebar-live{
+    flex:0 0 auto;
+    width:.62em;
+    height:.62em;
+    border-radius:50%;
+    background:#C62828;
+    box-shadow:0 0 0 0 rgba(198,40,40,.55);
+    animation:votebarPulse 1.9s ease-out infinite;
+  }
+  @keyframes votebarPulse{
+    0%{box-shadow:0 0 0 0 rgba(198,40,40,.55)}
+.votebar,.votebar-go,.sb-vote-go,.sb-cta.is-live{transition:none}
+.votebar:hover,.sb-vote-go:hover,.sb-cta.is-live:hover{transform:none}
+}
+  .votebar-title{
+    display:block;
+    margin-top:clamp(2px,.5vw,7px);
+    font-size:clamp(15.5px,2.72vw,31px);
+    font-weight:900;
+    line-height:1.14;
+    letter-spacing:-.045em;
+    color:#0F3B2C;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+    text-wrap:balance;
+  }
+  /* "*최애팀*" 강조 → 골드 위에서 확실히 튀는 딥레드 + 손글씨 밑줄 */
+  .votebar-title .hl{
+    font-style:normal;
+    color:#A02A16;
+    position:relative;
+    display:inline-block;
+    padding-bottom:.1em;
+  }
+  .votebar-title .hl:after{
+    content:"";
+    position:absolute;
+    left:-3%;
+    right:-3%;
+    bottom:-.04em;
+    height:.2em;
+    background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 12' preserveAspectRatio='none'><path d='M3 8.4 Q 26 2.2, 52 6 T 97 3.6' stroke='%23A02A16' stroke-width='4.2' fill='none' stroke-linecap='round'/></svg>") no-repeat center/100% 100%;
+  }
+  /* ---------- 리워드 칩 (배너 · 점수판 공용) ----------
+     "투표하면 내 팀 점수가 얼마나 오르는지"가 배너의 핵심 유인이라
+     제목 바로 아래에 숫자를 크게 박아 둔다. */
+  .vote-rewards{
+    display:flex;
+    flex-wrap:wrap;
+    gap:clamp(5px,.8vw,10px);
+  }
+  .votebar .vote-rewards{grid-area:rewards;align-self:start}
+  .vote-reward{
+    display:inline-flex;
+    align-items:center;
+    gap:clamp(4px,.6vw,9px);
+    padding:clamp(5px,.7vw,10px) clamp(9px,1.25vw,17px);
+    border-radius:999px;
+    background:#FFFDF4;
+    border:2px solid #123A2E;
+    box-shadow:0 3px 0 rgba(18,58,46,.20);
+    font-size:clamp(9.6px,1.34vw,16px);
+    font-weight:900;
+    line-height:1.15;
+    letter-spacing:-.035em;
+    color:#1B4B36;
+    white-space:nowrap;
+  }
+  .vote-reward-ico{
+    flex:0 0 auto;
+    display:block;
+    width:1.25em;
+    height:1.25em;
+    color:#1F6537;
+  }
+  .vote-reward .hl{
+    font-style:normal;
+    font-size:1.16em;
+    color:#A02A16;
+  }
+  .votebar-go{
+    grid-area:go;
+    align-self:center;
+    flex:0 0 auto;
+    display:inline-flex;
+    align-items:center;
+    gap:clamp(4px,.6vw,9px);
+    padding:clamp(8px,1.15vw,15px) clamp(12px,1.7vw,24px);
+    border-radius:999px;
+    background:linear-gradient(180deg,#1F6537 0%,#123A2E 100%);
+    border:2px solid #0C2B21;
+    box-shadow:0 5px 0 rgba(12,43,33,.26);
+    color:#FFE47A;
+    font-size:clamp(11px,1.5vw,18px);
+    font-weight:900;
+    letter-spacing:-.03em;
+    white-space:nowrap;
+    transition:box-shadow .16s ease;
+  }
+  .votebar-go svg{width:1em;height:1em;display:block;flex:0 0 auto}
+  .votebar:hover .votebar-go{box-shadow:0 7px 0 rgba(12,43,33,.3)}
+  @media (max-width:700px){
+    /* 모바일에서는 리워드 칩을 아래 한 줄로 빼서 폭을 다 쓰게 한다. */
+    .votebar{
+      grid-template-areas:"logo copy go" "rewards rewards rewards";
+      column-gap:10px;
+      row-gap:9px;
+      padding:11px 12px;
+      border-radius:20px;
+      margin-bottom:12px;
+    }
+.votebar-logo{width:clamp(56px,15.5vw,88px)}
+.votebar-lead{font-size:clamp(9.4px,2.5vw,12.5px)}
+.votebar-title{font-size:clamp(14px,4.1vw,21px);margin-top:2px}
+.votebar-go{padding:8px 12px;font-size:clamp(10.5px,2.8vw,13px);gap:5px;box-shadow:0 4px 0 rgba(12,43,33,.26)}
+.votebar .vote-rewards{justify-content:center}
+/* 390px 안팎에서 칩 두 개가 한 줄에 들어가도록 여백을 조인다. */
+    .vote-rewards{gap:4px}
+.vote-reward{font-size:clamp(9.4px,2.6vw,13px);padding:6px 8px;gap:5px;box-shadow:0 2px 0 rgba(18,58,46,.20)}
+.votebar-logo{width:62px}
+.votebar-lead{font-size:9px}
+.votebar-title{font-size:13.5px}
+.votebar-go{padding:7px 10px;font-size:10px}
+.vote-reward{font-size:9.2px;padding:5px 8px;gap:4px}
+.vote-rewards{gap:5px}
+}
+
+  /* ---------- scoreboard panel ---------- */
+  .sb{
+    position:relative;
+    margin:0 0 18px;
+    padding:clamp(14px,2.1vw,26px) clamp(13px,2vw,26px) clamp(14px,2vw,24px);
+    border-radius:clamp(20px,2.6vw,32px);
+    background:linear-gradient(180deg,#FCF8EC 0%,#F5F0DF 100%);
+    border:1px solid rgba(15,59,58,.10);
+    box-shadow:0 16px 34px rgba(15,59,58,.20), inset 0 1px 0 rgba(255,255,255,.75);
+  }
+  .sb-top{
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr);
+    gap:clamp(10px,1.7vw,22px);
+    align-items:start;
+  }
+  .sb-logo{
+    width:clamp(64px,12.5vw,148px);
+    height:auto;
+    display:block;
+    object-fit:contain;
+    margin-top:2px;
+  }
+  .sb-topmain{min-width:0}
+  .sb-titlerow{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin:clamp(2px,.6vw,8px) 0 clamp(8px,1.2vw,14px);
+  }
+  .sb-title{
+    margin:0;
+    font-size:clamp(19px,3.6vw,40px);
+    font-weight:900;
+    line-height:1.05;
+    letter-spacing:-.045em;
+    color:#123B2C;
+    white-space:nowrap;
+  }
+  .sb-reload{
+    flex:0 0 auto;
+    display:inline-flex;
+    align-items:center;
+    gap:clamp(3px,.5vw,7px);
+    padding:clamp(4px,.65vw,9px) clamp(8px,1.1vw,16px);
+    border-radius:999px;
+    background:#E3F0D3;
+    color:#2E5C40;
+    font-size:clamp(10px,1.35vw,16px);
+    font-weight:900;
+    letter-spacing:-.02em;
+    white-space:nowrap;
+  }
+  .sb-reload-ico{width:1.05em;height:1.05em;display:block;flex:0 0 auto}
+
+  .sb-notice{
+    display:grid;
+    gap:clamp(6px,.95vw,12px);
+    padding:clamp(10px,1.4vw,18px) clamp(11px,1.5vw,20px);
+    border-radius:clamp(12px,1.5vw,20px);
+    background:#FFFDF5;
+    border:1.5px solid #E9E2CC;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+  }
+  .sb-nrow{
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr);
+    gap:clamp(8px,1.1vw,16px);
+    align-items:start;
+  }
+  .sb-nico{
+    flex:0 0 auto;
+    display:block;
+    width:clamp(15px,1.9vw,25px);
+    color:#2C7A4C;
+    margin-top:.12em;
+  }
+  .sb-nrow:nth-child(3) .sb-nico{color:#1D5A34}
+  .sb-nico svg{width:100%;height:auto;display:block}
+  .sb-nrow p{
+    margin:0;
+    font-size:clamp(10.5px,1.5vw,17.5px);
+    font-weight:800;
+    line-height:1.42;
+    letter-spacing:-.03em;
+    color:#254A3B;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+
+  /* ---------- score cards ---------- */
+  .sb-list{
+    display:grid;
+    gap:clamp(6px,.85vw,12px);
+    margin-top:clamp(10px,1.5vw,20px);
+  }
+  .sb-empty{
+    padding:clamp(14px,2vw,24px);
+    border-radius:16px;
+    background:#FFFDF5;
+    border:1.5px solid #E9E2CC;
+    text-align:center;
+    font-weight:800;
+    font-size:clamp(11.5px,1.5vw,16px);
+    color:#4E6B5B;
+  }
+  .sb-card{
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr) auto;
+    align-items:center;
+    gap:clamp(9px,1.4vw,20px);
+    padding:clamp(7px,1.05vw,14px) clamp(10px,1.5vw,20px);
+    border-radius:clamp(13px,1.7vw,22px);
+    background:#FEFCF4;
+    border:1.5px solid #EDE6D2;
+    box-shadow:0 2px 0 rgba(15,59,58,.05);
+  }
+  .sb-card.is-first{
+    background:#FFFDF6;
+    border:3px solid #F2C63A;
+    box-shadow:0 4px 0 rgba(210,158,26,.20);
+  }
+  .sb-rank{
+    flex:0 0 auto;
+    display:grid;
+    place-items:center;
+    min-width:clamp(38px,5.6vw,74px);
+    padding:clamp(4px,.6vw,9px) clamp(5px,.7vw,10px);
+    border-radius:clamp(9px,1.2vw,16px);
+    background:#F5CE3C;
+    border:2px solid #123A2E;
+    color:#123A2E;
+    font-size:clamp(11px,1.55vw,20px);
+    font-weight:900;
+    line-height:1;
+    letter-spacing:-.03em;
+    white-space:nowrap;
+  }
+  .sb-info{min-width:0}
+  .sb-name{
+    font-size:clamp(14px,2.55vw,32px);
+    font-weight:900;
+    line-height:1.08;
+    letter-spacing:-.04em;
+    color:#122E23;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .sb-sub{
+    margin-top:clamp(1px,.3vw,5px);
+    font-size:clamp(9.2px,1.28vw,15px);
+    font-weight:800;
+    line-height:1.25;
+    letter-spacing:-.03em;
+    color:#5F7B67;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .sb-score{
+    flex:0 0 auto;
+    text-align:right;
+    font-size:clamp(15px,2.7vw,34px);
+    font-weight:900;
+    line-height:1;
+    letter-spacing:-.04em;
+    color:#14512C;
+    white-space:nowrap;
+  }
+  .sb-updated{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:clamp(3px,.5vw,7px);
+    margin-top:clamp(6px,.9vw,12px);
+    font-size:clamp(9px,1.15vw,14px);
+    font-weight:800;
+    letter-spacing:-.02em;
+    color:#4C6A57;
+    text-align:right;
+  }
+  .sb-updated:empty{display:none}
+  .sb-updated-ico{width:1.2em;height:1.2em;flex:0 0 auto;color:#2C7A4C}
+
+  /* ---------- CTA ---------- */
+  .sb-cta{
+    position:relative;
+    overflow:hidden;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    align-items:center;
+    gap:clamp(8px,1.4vw,20px);
+    margin-top:clamp(9px,1.3vw,18px);
+    padding:clamp(11px,1.7vw,22px) clamp(10px,1.5vw,20px);
+    border-radius:clamp(13px,1.7vw,22px);
+    background:
+      radial-gradient(58% 130% at 82% 50%, rgba(150,225,150,.42) 0%, rgba(24,92,50,0) 62%),
+      linear-gradient(180deg,#1F6537 0%,#164A28 100%);
+    border:2px solid #0E3A21;
+    box-shadow:0 6px 0 rgba(15,59,58,.16);
+  }
+  /* 결선투표가 열리면 CTA 자체가 링크가 된다(is-live).
+     CTA 내부 마크업은 config.js 가 한국어에서 통째로 교체하므로,
+     안내 버튼은 CTA 바깥 형제 요소(.sb-vote-go)로 둔다. */
+  .sb-cta.is-live{cursor:pointer}
+  .sb-cta.is-live{transition:transform .16s ease, box-shadow .16s ease}
+  .sb-cta.is-live:hover{transform:translateY(-2px);box-shadow:0 8px 0 rgba(15,59,58,.18)}
+  .sb-cta.is-live:active{transform:translateY(0);box-shadow:0 4px 0 rgba(15,59,58,.16)}
+  .sb-cta.is-live:focus-visible{outline:3px solid #FFD84D;outline-offset:3px}
+  /* 리워드 칩과 바로가기 문구를 노란 버튼 하나로 합친다. */
+  .sb-vote-go{
+    display:grid;
+    justify-items:center;
+    gap:clamp(7px,1vw,13px);
+    margin-top:clamp(8px,1.1vw,14px);
+    padding:clamp(11px,1.5vw,19px) clamp(12px,1.8vw,24px);
+    border-radius:clamp(15px,1.9vw,26px);
+    background:linear-gradient(180deg,#FFD34F 0%,#F2A81C 100%);
+    border:2px solid #123A2E;
+    box-shadow:0 5px 0 rgba(15,59,58,.22);
+    color:#123A2E;
+    text-decoration:none;
+    transition:transform .16s ease, box-shadow .16s ease;
+  }
+  .sb-vote-go[hidden]{display:none!important}
+  .sb-vote-go .vote-rewards{justify-content:center}
+  .sb-vote-go-cta{
+    display:inline-flex;
+    align-items:center;
+    gap:clamp(5px,.7vw,10px);
+    font-size:clamp(12px,1.75vw,21px);
+    font-weight:900;
+    letter-spacing:-.035em;
+    line-height:1.2;
+    text-align:center;
+    word-break:keep-all;
+  }
+  .sb-vote-go-cta svg{width:1em;height:1em;display:block;flex:0 0 auto}
+  .sb-vote-go:hover{transform:translateY(-2px);box-shadow:0 7px 0 rgba(15,59,58,.24)}
+  .sb-vote-go:active{transform:translateY(0);box-shadow:0 3px 0 rgba(15,59,58,.22)}
+  .sb-vote-go:focus-visible{outline:3px solid #0F3B3A;outline-offset:3px}
+  .sb-cta-copy{
+    position:relative;
+    z-index:2;
+    display:grid;
+    gap:clamp(3px,.55vw,8px);
+    justify-items:center;
+    text-align:center;
+  }
+  .sb-cta-title{
+    font-size:clamp(14px,2.7vw,34px);
+    font-weight:900;
+    line-height:1.12;
+    letter-spacing:-.045em;
+    color:#FFD84D;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+    text-wrap:balance;
+  }
+  .sb-cta-body{
+    font-size:clamp(11px,2vw,25px);
+    font-weight:900;
+    line-height:1.28;
+    letter-spacing:-.04em;
+    color:#FFFFFF;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+  .sb-cta-body .hl{font-style:normal;color:#FFD84D}
+  .sb-cta-foot{
+    display:inline-flex;
+    align-items:center;
+    gap:clamp(4px,.6vw,9px);
+    margin-top:clamp(2px,.35vw,5px);
+    font-size:clamp(8.8px,1.32vw,16px);
+    font-weight:800;
+    line-height:1.3;
+    letter-spacing:-.03em;
+    color:#CDE8AB;
+    word-break:keep-all;
+    flex-wrap:nowrap;
+  }
+  .sb-cta-foot span{text-wrap:balance}
+  .sb-cta-foot i{font-style:normal;color:#FFE07A;flex:0 0 auto}
+
+  /* 왕메달 */
+  .sb-medal{
+    position:relative;
+    z-index:2;
+    flex:0 0 auto;
+    width:clamp(60px,10.6vw,136px);
+    aspect-ratio:1/1;
+    display:grid;
+    place-items:center;
+  }
+  .sb-medal-rib{
+    position:absolute;
+    top:-14%;
+    width:26%;
+    height:52%;
+    border-radius:3px;
+  }
+  .sb-medal-rib.r1{left:14%;background:linear-gradient(180deg,#E14A3C,#B62A22);transform:rotate(20deg)}
+  .sb-medal-rib.r2{right:14%;background:linear-gradient(180deg,#3B63C4,#22409A);transform:rotate(-20deg)}
+  .sb-medal-disc{
+    position:relative;
+    width:86%;
+    height:86%;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    align-content:center;
+    gap:2%;
+    background:radial-gradient(circle at 34% 28%, #FFF3B8 0%, #F9D558 42%, #E2A81E 78%, #C6870F 100%);
+    box-shadow:
+      0 0 0 3px #E7B32C,
+      0 0 0 6px #C48A12,
+      0 6px 14px rgba(0,0,0,.3),
+      inset 0 2px 6px rgba(255,255,255,.6);
+  }
+  .sb-medal-crown{
+    font-size:clamp(9px,1.5vw,19px);
+    line-height:1;
+    color:#A96A0E;
+  }
+  .sb-medal-text{
+    font-size:clamp(9px,1.62vw,21px);
+    font-weight:900;
+    line-height:1;
+    letter-spacing:-.05em;
+    color:#7A3B0A;
+    white-space:nowrap;
+  }
