@@ -9,6 +9,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+@font-face{font-family:'Paperlogy';font-weight:700;font-style:normal;font-display:swap;
+  src:url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2') format('woff2');}
+@font-face{font-family:'Paperlogy';font-weight:800;font-style:normal;font-display:swap;
+  src:url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2');}
+</style>
 <script src="../config.js"></script>
 <style>
 /* The exit ceremony is the third tab of the main idolcamp site, so the shell
@@ -786,7 +793,17 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
   .kitCard .kitBtn{justify-self:start;width:auto;min-width:300px;margin-top:18px}
 }
 
-/* ================= private beta v25 — the kit gets its own page ================= */
+/* ================= private beta v26 — the kit reads as a content landing ================= */
+:root{
+  --font-display:"Paperlogy","Pretendard Variable",Pretendard,-apple-system,sans-serif;
+  --font-body:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;
+  --kit-ink:#12303F;
+  --kit-ivory:#FBF7EC;
+  --kit-line:rgba(20,48,61,.10);
+}
+#kit{font-family:var(--font-body);letter-spacing:-.02em;word-break:keep-all}
+
+/* entry card on the ceremony page */
 .kitEntry{all:unset;text-align:left;display:grid;grid-template-columns:104px minmax(0,1fr);gap:13px;align-items:center;
   box-sizing:border-box;width:100%;margin-top:var(--gap-sec);padding:14px;cursor:pointer;
   border-radius:var(--r-card);background:linear-gradient(152deg,#2B4E6B,#16324A);
@@ -804,83 +821,76 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
 .kitEntryGo{grid-column:1/-1;display:block;margin-top:4px;padding:12px;border-radius:var(--r-btn);text-align:center;
   background:linear-gradient(180deg,#FFE9A8,#E5B93C);color:#3A2A06;font-size:14px;font-weight:900;
   box-shadow:0 3px 0 rgba(120,84,10,.8)}
-
-.backLink{all:unset;display:inline-flex;align-items:center;gap:6px;margin:2px 0 12px;padding:9px 14px;border-radius:999px;
-  background:rgba(15,59,58,.10);color:var(--forest);font-size:12.5px;font-weight:800;cursor:pointer}
+.backLink{all:unset;display:inline-flex;align-items:center;gap:6px;padding:9px 15px;border-radius:999px;
+  background:rgba(20,48,61,.08);color:var(--kit-ink);font-family:var(--font-body);font-size:12.5px;font-weight:700;
+  letter-spacing:-.02em;cursor:pointer}
 .backLink:active{transform:translateY(1px)}
-.backLink--foot{margin:14px auto 0;display:flex;width:fit-content}
+.backLink--foot{margin:20px auto 0;display:flex;width:fit-content}
 
-.kitHero{position:relative;padding:20px 18px 18px;border-radius:var(--r-card);background:var(--card);
-  border:1px solid var(--edge);box-shadow:var(--lift);overflow:hidden}
-.kitPill{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;background:var(--navy);color:#EAFFF4}
-.kitPill svg{width:16px;height:16px}
-.kitPill b{font-size:12.5px;font-weight:800;letter-spacing:-.02em}
-.kitHeadline{margin:14px 0 0;font-size:22px;line-height:1.35;font-weight:900;letter-spacing:-.035em;color:var(--forest)}
-.kitHeadline span{display:block}
-.kitHeadline em{display:block;margin-top:2px;font-style:normal;font-family:var(--serif);font-size:25px;color:#2E8A5A}
-.kitLead{margin:13px 0 0;font-size:13px;line-height:1.7;color:rgba(18,58,46,.72)}
+/* ── the stage: deep camp night, the film at its centre ───────────────── */
+.kitStage{position:relative;overflow:hidden;padding:26px 20px 24px;border-radius:20px;
+  background:linear-gradient(158deg,#0E2138 0%,#102C36 52%,#123A2C 100%);color:#FFF8EA}
+.kitStage:before{content:"";position:absolute;right:-90px;top:-70px;width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,rgba(242,194,48,.14),rgba(242,194,48,0) 68%)}
+.kitStageIn{position:relative;display:grid;gap:22px}
+.kitPill{display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border-radius:999px;
+  background:rgba(255,248,234,.1);border:1px solid rgba(255,217,106,.34);color:#FFE9A8}
+.kitPill svg{width:15px;height:15px}
+.kitPill b{font-family:var(--font-body);font-size:12.5px;font-weight:700;letter-spacing:-.02em}
+.kitHeadline{margin:20px 0 0;font-family:var(--font-display);font-weight:800;letter-spacing:-.035em;line-height:1.2;
+  font-size:clamp(32px,7.6vw,48px);color:#FFF8EA}
+.kitHeadline span{display:block;font-size:.72em;font-weight:700;color:rgba(255,248,234,.9)}
+.kitHeadline em{display:block;margin-top:8px;font-style:normal;color:var(--gold-l)}
+.kitLead{margin:22px 0 0;font-family:var(--font-body);font-weight:500;line-height:1.75;letter-spacing:-.02em;
+  font-size:clamp(15px,4vw,17px);color:rgba(255,248,234,.78)}
 .kitLead span{display:block}
-.kitLead b{display:block;margin-top:6px;font-weight:900;color:var(--forest)}
-.kitHeroArt{margin:16px 0 0}
-.kitHeroArt img{display:block;width:100%;height:auto;border-radius:14px;box-shadow:0 12px 26px rgba(15,59,58,.24)}
+.kitLead span+span{margin-top:14px}
+.kitFilm{margin:0}
+.kitFilm img{display:block;width:100%;height:auto;border-radius:16px;border:1px solid rgba(255,248,234,.16)}
+.kitNow{position:relative;margin:26px 0 0;text-align:center;font-family:var(--font-display);font-weight:700;
+  font-size:clamp(22px,5.6vw,28px);letter-spacing:-.03em;color:#FFF8EA}
+#kit .kitBtn{position:relative;display:block;width:100%;max-width:420px;margin:16px auto 0}
 
-.kitSpecBar{margin-top:14px;padding:14px;border-radius:var(--r-card);background:#FFFBF0;
-  border:1px solid var(--edge);box-shadow:var(--lift)}
-.kitSpec3{display:grid;grid-template-columns:repeat(3,1fr)}
-.kitSpecCell{display:grid;justify-items:center;gap:3px;padding:4px 6px;text-align:center;color:var(--forest)}
-.kitSpecCell+.kitSpecCell{border-left:1px solid rgba(15,59,58,.14)}
-.kitSpecCell svg{width:22px;height:22px;color:#2E8A5A}
-.kitSpecCell b{font-size:12.5px;font-weight:900}
-.kitSpecCell i{font-style:normal;font-size:11px;font-weight:600;color:rgba(18,58,46,.66);word-break:keep-all}
-.kitSpecGift{margin-top:12px;padding:12px;border-radius:14px;background:#FFF4D6;border:1px solid rgba(216,170,60,.4);text-align:center}
-.kitSpecGift b{display:block;font-size:12.5px;font-weight:900;color:#7A5A10}
-.kitSpecGift span{display:block;margin-top:5px;font-size:10.5px;font-weight:700;color:rgba(122,90,16,.72)}
-.kitSpecGift i{font-style:normal;font-size:12.5px;font-weight:900;color:#7A5A10}
+/* ── special gift ─────────────────────────────────────────────────────── */
+.giftHead{margin:38px 0 0;text-align:center}
+.giftTitle{margin:0;font-family:var(--font-display);font-weight:700;letter-spacing:.02em;
+  font-size:clamp(28px,6.4vw,36px);color:var(--kit-ink)}
+.giftSub{margin:9px 0 0;font-family:var(--font-body);font-weight:600;font-size:15px;letter-spacing:-.02em;
+  color:rgba(18,48,63,.62)}
 
-.kitGiftTitle{display:flex;align-items:center;gap:10px;margin:26px 0 0;color:var(--forest);
-  font-size:16px;font-weight:900;letter-spacing:.14em;justify-content:center}
-.kitGiftTitle:before,.kitGiftTitle:after{content:"";flex:1;height:1px;background:rgba(15,59,58,.2);max-width:70px}
+.giftRow{margin-top:22px;padding:20px;border:1px solid var(--kit-line);border-radius:16px;background:var(--kit-ivory);box-shadow:none}
+.giftRowHead{display:flex;align-items:baseline;flex-wrap:wrap;gap:5px 12px;margin-bottom:18px}
+.giftRowHead b{font-family:var(--font-display);font-weight:700;font-size:19px;letter-spacing:-.03em;color:var(--kit-ink)}
+.giftRowHead span{font-family:var(--font-body);font-size:13px;font-weight:500;color:rgba(18,48,63,.55)}
+.posterList{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:end}
+.posterFrame{margin:0;width:100%;aspect-ratio:594/841;display:flex;align-items:center;justify-content:center}
+.posterFrame img{width:100%;height:100%;object-fit:contain}
+.giftRow--ring{padding-bottom:22px}
+.ringWrap{display:flex;align-items:center;justify-content:center;padding:6px 0}
+.ringWrap img{width:auto;max-width:min(56%,230px);height:auto;max-height:260px}
 
-.kitGiftBlock{margin-top:14px;padding:16px;border-radius:var(--r-card);background:var(--card);
-  border:1px solid var(--edge);box-shadow:var(--lift)}
-.kitGiftBlock .kitGiftHead{display:flex;align-items:center;gap:8px;margin:0 0 7px}
-.kitGiftBlock .kitNo{width:22px;height:22px;border-radius:50%;background:#2E8A5A;border:0;color:#fff;font-size:11px}
-.kitGiftBlock .kitGiftHead b{font-size:15px;font-weight:900;color:var(--forest)}
-.kitGiftInfo p{margin:0;font-size:12.5px;line-height:1.6;color:rgba(18,58,46,.7);word-break:keep-all}
-.kitGiftInfo em{display:block;margin-top:7px;font-style:normal;font-size:11.5px;font-weight:700;color:rgba(18,58,46,.5)}
-.kitGiftPics{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}
-.kitGiftPics img{display:block;width:100%;height:auto;border-radius:8px;background:#fff;
-  border:1px solid rgba(15,59,58,.14);box-shadow:0 3px 10px rgba(15,59,58,.14)}
-.kitGiftPics--ring{grid-template-columns:minmax(0,180px);justify-content:center}
-.kitGiftPics--ring img{border:0;background:transparent;box-shadow:none}
-
-.kitNotes{margin:16px 0 0;padding:0 0 0 2px;list-style:none;display:grid;gap:6px}
-.kitNotes li{position:relative;padding-left:12px;font-size:11.5px;line-height:1.6;color:rgba(18,58,46,.6);word-break:keep-all}
-.kitNotes li:before{content:"·";position:absolute;left:2px;top:-1px;font-weight:900}
-#kit .kitBtn{width:100%;margin-top:18px}
+.kitNotes{margin:22px 0 0;padding:0;list-style:none;display:grid;gap:7px}
+.kitNotes li{position:relative;padding-left:12px;font-family:var(--font-body);font-size:12.5px;line-height:1.65;
+  letter-spacing:-.02em;color:rgba(18,48,63,.58)}
+.kitNotes li:before{content:"·";position:absolute;left:2px;top:-1px;font-weight:800}
 
 @media(min-width:760px){
   .kitEntry{grid-template-columns:190px minmax(0,1fr) auto;padding:16px 18px}
   .kitEntryGo{grid-column:auto;margin-top:0;min-width:220px;align-self:center}
-  .kitHero{padding:30px 30px 26px}
-  .kitHero .kitHeroArt{position:relative;margin-top:20px}
-  .kitHeadline{font-size:30px}
-  .kitHeadline em{font-size:34px}
-  .kitLead{font-size:14.5px}
-  .kitSpecCell b{font-size:13.5px}
-  .kitSpecCell i{font-size:12px}
-  .kitSpecBar{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px;align-items:center;padding:18px}
-  .kitSpecGift{margin-top:0}
-  .kitGiftBlock{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:22px;align-items:center;padding:22px}
-  .kitGiftPics{margin-top:0}
-  #kit .kitBtn{max-width:420px;margin:20px auto 0;display:block}
+  .kitStage{padding:40px 40px 34px;border-radius:24px}
+  .kitHeadline{font-size:clamp(30px,3.4vw,42px)}
+  .kitHeadline span{font-size:.68em}
+  .kitStageIn{grid-template-columns:38fr 62fr;gap:34px;align-items:center}
+  .kitFilm img{border-radius:18px}
+  .giftRow{padding:28px 30px}
+  .posterList{gap:28px}
+  .giftRowHead{margin-bottom:22px}
+  .kitNotes li{font-size:13px}
 }
-@media(min-width:960px){
-  .kitHero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:26px;align-items:center}
-  .kitHero .kitPill,.kitHero .kitHeadline,.kitHero .kitLead{grid-column:1}
-  .kitHeroArt{grid-column:2;grid-row:1/4;margin-top:0}
+@media(max-width:420px){
+  .posterList{gap:9px}
+  .giftRow{padding:16px 14px}
 }
-
 /* the kit tab is live now */
 .tab .lock{margin-right:5px}
 #tabKit{cursor:pointer;opacity:1}
@@ -1155,59 +1165,42 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
 
   <!-- ================= COMPLETION KIT ================= -->
   <section id="kit" class="page">
-    <div class="kitHero">
-      <span class="kitPill"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="9" width="18" height="12" rx="2.4" fill="#FFD96A"/><path d="M3 13h18M12 9v12" stroke="#0C2018" stroke-width="1.8"/><path d="M12 9c-2.6-3.6-7-2-5 .6 1.4 1.3 3.2.6 5-.6zm0 0c2.6-3.6 7-2 5 .6-1.4 1.3-3.2.6-5-.6z" fill="#E8792B"/></svg><b data-i18n="kitPill">아이돌 수련회 확장판</b></span>
-      <h2 class="kitHeadline"><span data-i18n="kitHeadline1">본편에는 다 담지 못했던</span><em data-i18n="kitHeadline2">그날의 이야기!</em></h2>
-      <p class="kitLead"><span data-i18n="kitLead1">확장판에서만 만나는 버스 안에서의 에피소드</span><span data-i18n="kitLead2">그리고 캠프파이어에서 생긴 뜻밖의 설렘(?)</span><b data-i18n="kitLead3">지금 바로 만나보세요!</b></p>
-      <figure class="kitHeroArt"><img src="../assets/kit/opt/vod-thumb.webp" alt="" width="698" height="387" loading="lazy"></figure>
+    <div class="kitStage">
+      <div class="kitStageIn">
+        <div class="kitIntro">
+          <span class="kitPill"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="9" width="18" height="12" rx="2.4" fill="#FFD96A"/><path d="M3 13h18M12 9v12" stroke="#0C2018" stroke-width="1.8"/><path d="M12 9c-2.6-3.6-7-2-5 .6 1.4 1.3 3.2.6 5-.6zm0 0c2.6-3.6 7-2 5 .6-1.4 1.3-3.2.6-5-.6z" fill="#E8792B"/></svg><b data-i18n="kitPill">아이돌 수련회 확장판</b></span>
+          <h2 class="kitHeadline"><span data-i18n="kitHeadline1">본편에는 다 담지 못했던</span><em data-i18n="kitHeadline2">그날의 이야기!</em></h2>
+          <p class="kitLead"><span data-i18n="kitLead1">확장판에서만 만나는|버스 안에서의 에피소드</span><span data-i18n="kitLead2">그리고 캠프파이어에서 생긴|뜻밖의 설레임(?)</span></p>
+        </div>
+        <figure class="kitFilm"><img src="../assets/kit/opt/vod-thumb.webp" alt="" width="698" height="387" loading="lazy"></figure>
+      </div>
+      <p class="kitNow" data-i18n="kitNow">지금 바로 만나보세요!</p>
+      <button class="kitBtn" id="kitBtn" data-i18n="kitBtn">수료키트 바로 보러가기 →</button>
     </div>
 
-    <div class="kitSpecBar">
-      <div class="kitSpec3">
-        <div class="kitSpecCell">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5.4l3.4 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          <b data-i18n="specRuntime">분량</b><i data-i18n="specRuntimeVal">120분 내외</i>
-        </div>
-        <div class="kitSpecCell">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="12.5" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 21h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          <b data-i18n="specQuality">화질</b><i data-i18n="specQualityVal">FHD 1080p</i>
-        </div>
-        <div class="kitSpecCell">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="9" width="18" height="11" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 13.5h18M12 9v11" stroke="currentColor" stroke-width="1.8"/></svg>
-          <b data-i18n="specSet">구성</b><i data-i18n="specSetVal">본편 + 미공개 확장판</i>
-        </div>
-      </div>
-      <div class="kitSpecGift">
-        <b data-i18n="giftBadge">9/13까지 VOD 구매자만 무료 증정</b>
-        <span data-i18n="giftPeriodLabel">증정 기간</span>
-        <i data-i18n="giftPeriodVal">~ 2026.09.13 23:59 (KST)</i>
-      </div>
+    <div class="giftHead">
+      <h3 class="giftTitle">SPECIAL GIFT</h3>
+      <p class="giftSub" data-i18n="giftSub">9/13까지 VOD 구매자만 무료 증정</p>
     </div>
 
-    <h2 class="kitGiftTitle"><span>SPECIAL GIFT</span></h2>
-
-    <div class="kitGiftBlock">
-      <div class="kitGiftInfo">
-        <div class="kitGiftHead"><span class="kitNo">1</span><b data-i18n="gift1Title">포스터 SET 3종</b></div>
-        <p data-i18n="gift1Desc">아이돌 수련회 추억을 간직할 수 있는 포스터 세트</p>
-        <em>594 × 841 mm (A1)</em>
-      </div>
-      <div class="kitGiftPics">
-        <img src="../assets/kit/opt/poster-1.webp" alt="" width="344" height="483" loading="lazy">
-        <img src="../assets/kit/opt/poster-2.webp" alt="" width="344" height="483" loading="lazy">
-        <img src="../assets/kit/opt/poster-3.webp" alt="" width="520" height="605" loading="lazy">
+    <div class="giftRow">
+      <header class="giftRowHead">
+        <b data-i18n="gift1Title">포스터 SET 3종</b>
+        <span>594 × 841 mm (A1)</span>
+      </header>
+      <div class="posterList">
+        <figure class="posterFrame"><img src="../assets/kit/opt/poster-1.webp" alt="" width="344" height="483" loading="lazy"></figure>
+        <figure class="posterFrame"><img src="../assets/kit/opt/poster-2.webp" alt="" width="344" height="483" loading="lazy"></figure>
+        <figure class="posterFrame"><img src="../assets/kit/opt/poster-3.webp" alt="" width="520" height="730" loading="lazy"></figure>
       </div>
     </div>
 
-    <div class="kitGiftBlock">
-      <div class="kitGiftInfo">
-        <div class="kitGiftHead"><span class="kitNo">2</span><b data-i18n="gift2Title">디지털 키링 1종</b></div>
-        <p data-i18n="gift2Desc">아이돌 수련회 로고가 새겨진 디지털 키링</p>
-        <em data-i18n="gift2Spec">PNG (투명 배경)</em>
-      </div>
-      <div class="kitGiftPics kitGiftPics--ring">
-        <img src="../assets/kit/opt/keyring.webp" alt="" width="420" height="411" loading="lazy">
-      </div>
+    <div class="giftRow giftRow--ring">
+      <header class="giftRowHead">
+        <b data-i18n="gift2Title">디지털 키링 1종</b>
+        <span data-i18n="gift2Spec">PNG (투명 배경)</span>
+      </header>
+      <div class="ringWrap"><img src="../assets/kit/opt/keyring.webp" alt="" width="296" height="482" loading="lazy"></div>
     </div>
 
     <ul class="kitNotes">
@@ -1215,7 +1208,6 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
       <li data-i18n="kitNote2">증정 기간 이후에는 구매 및 다운로드가 불가합니다.</li>
     </ul>
 
-    <button class="kitBtn" id="kitBtn" data-i18n="kitBtn">수료키트 바로 보러가기 →</button>
     <button type="button" class="backLink backLink--foot" id="kitBack2"><span aria-hidden="true">←</span> <span data-i18n="kitBack">퇴소식으로 돌아가기</span></button>
   </section>
 
@@ -1398,7 +1390,7 @@ const LANGS=[
 ];
 const I18N={
  'ko':{
-  progressLabel:'MY PROGRESS',progressTitle:'나의 진행 현황',bestLabel:'사귄 친구',bestChipLabel:'내 친구',rewardLabel:'REWARDS',rewardTitle:'보상 안내',rewardCert:'아이돌 수련회 1기 수료증',rewardCertDesc:'26개를 모두 마치면 나만의 수료증이 발급됩니다.',rewardAlbum:'추억의 사진첩',rewardAlbumDesc:'맞힌 친구들의 사진이 사진첩에 모입니다.',againTitle:'실패해도 괜찮아요!',againDesc:'아이돌 수련회를 다시 보고 몇 번이든 도전할 수 있어요.',againBtn:'아이돌 수련회 보고 오기 →',kitTitle:'〈아이돌 수련회〉 확장판',kitBack:'퇴소식으로 돌아가기',kitPill:'아이돌 수련회 확장판',kitHeadline1:'본편에는 다 담지 못했던',kitHeadline2:'그날의 이야기!',kitLead1:'확장판에서만 만나는 버스 안에서의 에피소드',kitLead2:'그리고 캠프파이어에서 생긴 뜻밖의 설렘(?)',kitLead3:'지금 바로 만나보세요!',specRuntime:'분량',specRuntimeVal:'120분 내외',specQuality:'화질',specQualityVal:'FHD 1080p',specSet:'구성',specSetVal:'본편 + 미공개 확장판',giftBadge:'9/13까지 VOD 구매자만 무료 증정',giftPeriodLabel:'증정 기간',giftPeriodVal:'~ 2026.09.13 23:59 (KST)',gift1Title:'포스터 SET 3종',gift1Desc:'아이돌 수련회 추억을 간직할 수 있는 포스터 세트',gift2Title:'디지털 키링 1종',gift2Desc:'아이돌 수련회 로고가 새겨진 디지털 키링',gift2Spec:'PNG (투명 배경)',kitNote1:'SPECIAL GIFT는 9/13까지 VOD 구매자에게만 무료로 증정됩니다.',kitNote2:'증정 기간 이후에는 구매 및 다운로드가 불가합니다.',kitEntryLabel:'SPECIAL GIFT',kitEntryDesc:'포스터 SET 3종과 디지털 키링을 무료로 드려요.',kitEntryBtn:'수료키트 보러가기 →',kitDesc:'방송에는 다 담지 못했던 그날의 이야기.',kitPrice:'₩15,000',kitPriceNote:'VOD 가격',kitMainLabel:'본편 시청권',kitGiftLabel:'SPECIAL GIFT · 기간 한정 무료',kitSheetTag:'~2026.9.13 23:59 KST',kitGift1:'포스터 SET 3종',kitGift2:'디지털 키링 1종',kitFine:'별도 판매하지 않는 무료 증정품이며, 증정은 2026년 9월 13일 23:59(KST)까지입니다.',kitBtn:'수료키트 바로 보러가기 →',
+  progressLabel:'MY PROGRESS',progressTitle:'나의 진행 현황',bestLabel:'사귄 친구',bestChipLabel:'내 친구',rewardLabel:'REWARDS',rewardTitle:'보상 안내',rewardCert:'아이돌 수련회 1기 수료증',rewardCertDesc:'26개를 모두 마치면 나만의 수료증이 발급됩니다.',rewardAlbum:'추억의 사진첩',rewardAlbumDesc:'맞힌 친구들의 사진이 사진첩에 모입니다.',againTitle:'실패해도 괜찮아요!',againDesc:'아이돌 수련회를 다시 보고 몇 번이든 도전할 수 있어요.',againBtn:'아이돌 수련회 보고 오기 →',kitTitle:'〈아이돌 수련회〉 확장판',kitBack:'퇴소식으로 돌아가기',kitPill:'아이돌 수련회 확장판',kitHeadline1:'본편에는 다 담지 못했던',kitHeadline2:'그날의 이야기!',kitLead1:'확장판에서만 만나는|버스 안에서의 에피소드',kitLead2:'그리고 캠프파이어에서 생긴|뜻밖의 설레임(?)',kitNow:'지금 바로 만나보세요!',giftSub:'9/13까지 VOD 구매자만 무료 증정',specRuntime:'분량',specRuntimeVal:'120분 내외',specQuality:'화질',specQualityVal:'FHD 1080p',specSet:'구성',specSetVal:'본편 + 미공개 확장판',giftBadge:'9/13까지 VOD 구매자만 무료 증정',giftPeriodLabel:'증정 기간',giftPeriodVal:'~ 2026.09.13 23:59 (KST)',gift1Title:'포스터 SET 3종',gift1Desc:'아이돌 수련회 추억을 간직할 수 있는 포스터 세트',gift2Title:'디지털 키링 1종',gift2Desc:'아이돌 수련회 로고가 새겨진 디지털 키링',gift2Spec:'PNG (투명 배경)',kitNote1:'SPECIAL GIFT는 9/13까지 VOD 구매자에게만 무료로 증정됩니다.',kitNote2:'증정 기간 이후에는 구매 및 다운로드가 불가합니다.',kitEntryLabel:'SPECIAL GIFT',kitEntryDesc:'포스터 SET 3종과 디지털 키링을 무료로 드려요.',kitEntryBtn:'수료키트 보러가기 →',kitDesc:'방송에는 다 담지 못했던 그날의 이야기.',kitPrice:'₩15,000',kitPriceNote:'VOD 가격',kitMainLabel:'본편 시청권',kitGiftLabel:'SPECIAL GIFT · 기간 한정 무료',kitSheetTag:'~2026.9.13 23:59 KST',kitGift1:'포스터 SET 3종',kitGift2:'디지털 키링 1종',kitFine:'별도 판매하지 않는 무료 증정품이며, 증정은 2026년 9월 13일 23:59(KST)까지입니다.',kitBtn:'수료키트 바로 보러가기 →',
   tabEnroll:'입소',tabTalent:'장기자랑',tabFarewell:'퇴소식',tabKit:'수료 키트',soon:'준비중',
   heroTitle:'아이돌 수련회 1기|퇴소식',
   heroKicker:'수련회의 마지막 밤',heroGisu:'아이돌 수련회 1기',heroKind:'퇴소식',
@@ -1437,7 +1429,7 @@ const I18N={
   retryBtn:'처음부터 다시 도전하기'
  },
  'en':{
-  progressLabel:'MY PROGRESS',progressTitle:'Your progress',bestLabel:'Friends made',bestChipLabel:'My best',rewardLabel:'REWARDS',rewardTitle:'What you get',rewardCert:'Idol School Camp 1st certificate',rewardCertDesc:'Finish all 26 and your own certificate is issued.',rewardAlbum:'Memory album',rewardAlbumDesc:'Every friend you get right joins your album.',againTitle:'It is fine to miss a few!',againDesc:'Rewatch Idol School Camp and try again as many times as you like.',againBtn:'Rewatch Idol School Camp →',kitTitle:'Idol School Camp — Extended Edition',kitBack:'Back to the exit ceremony',kitPill:'Idol School Camp Extended Edition',kitHeadline1:'What the broadcast',kitHeadline2:'could not show!',kitLead1:'The bus ride episodes only the Extended Edition has,',kitLead2:'and the unexpected flutter around the campfire.',kitLead3:'Go and watch it now!',specRuntime:'Runtime',specRuntimeVal:'About 120 min',specQuality:'Quality',specQualityVal:'FHD 1080p',specSet:'Contents',specSetVal:'Main episode + unseen footage',giftBadge:'Free for VOD buyers until 13 Sep',giftPeriodLabel:'Gift period',giftPeriodVal:'~ 2026.09.13 23:59 (KST)',gift1Title:'3 poster sets',gift1Desc:'Poster sets to keep your Idol School Camp memories in',gift2Title:'1 digital keyring',gift2Desc:'A digital keyring carrying the Idol School Camp logo',gift2Spec:'PNG (transparent)',kitNote1:'The special gift goes only to VOD buyers, until 13 September.',kitNote2:'After the gift period, purchase and download are closed.',kitEntryLabel:'SPECIAL GIFT',kitEntryDesc:'Three poster sets and a digital keyring, free.',kitEntryBtn:'See the kit →',kitDesc:'The day as the broadcast could not tell it.',kitPrice:'$11',kitPriceNote:'VOD price',kitMainLabel:'Main episode pass',kitGiftLabel:'SPECIAL GIFT · free, limited time',kitSheetTag:'until 13 Sep 2026, 23:59 KST',kitGift1:'3 poster sets',kitGift2:'1 digital keyring',kitFine:'These are free gifts, not sold separately, and are given until 13 September 2026, 23:59 KST.',kitBtn:'Go straight to the kit →',
+  progressLabel:'MY PROGRESS',progressTitle:'Your progress',bestLabel:'Friends made',bestChipLabel:'My best',rewardLabel:'REWARDS',rewardTitle:'What you get',rewardCert:'Idol School Camp 1st certificate',rewardCertDesc:'Finish all 26 and your own certificate is issued.',rewardAlbum:'Memory album',rewardAlbumDesc:'Every friend you get right joins your album.',againTitle:'It is fine to miss a few!',againDesc:'Rewatch Idol School Camp and try again as many times as you like.',againBtn:'Rewatch Idol School Camp →',kitTitle:'Idol School Camp — Extended Edition',kitBack:'Back to the exit ceremony',kitPill:'Idol School Camp Extended Edition',kitHeadline1:'What the broadcast',kitHeadline2:'could not show!',kitLead1:'Bus-ride episodes you will|only find in the Extended Edition,',kitLead2:'and the unexpected flutter|that started at the campfire.',kitNow:'Go and watch it now!',giftSub:'Free for VOD buyers until 13 September',specRuntime:'Runtime',specRuntimeVal:'About 120 min',specQuality:'Quality',specQualityVal:'FHD 1080p',specSet:'Contents',specSetVal:'Main episode + unseen footage',giftBadge:'Free for VOD buyers until 13 Sep',giftPeriodLabel:'Gift period',giftPeriodVal:'~ 2026.09.13 23:59 (KST)',gift1Title:'3 poster sets',gift1Desc:'Poster sets to keep your Idol School Camp memories in',gift2Title:'1 digital keyring',gift2Desc:'A digital keyring carrying the Idol School Camp logo',gift2Spec:'PNG (transparent)',kitNote1:'The special gift goes only to VOD buyers, until 13 September.',kitNote2:'After the gift period, purchase and download are closed.',kitEntryLabel:'SPECIAL GIFT',kitEntryDesc:'Three poster sets and a digital keyring, free.',kitEntryBtn:'See the kit →',kitDesc:'The day as the broadcast could not tell it.',kitPrice:'$11',kitPriceNote:'VOD price',kitMainLabel:'Main episode pass',kitGiftLabel:'SPECIAL GIFT · free, limited time',kitSheetTag:'until 13 Sep 2026, 23:59 KST',kitGift1:'3 poster sets',kitGift2:'1 digital keyring',kitFine:'These are free gifts, not sold separately, and are given until 13 September 2026, 23:59 KST.',kitBtn:'Go straight to the kit →',
   tabEnroll:'Enrollment',tabTalent:'Talent Show',tabFarewell:'Exit Ceremony',tabKit:'Completion Kit',soon:'Preparing',
   heroTitle:'Idol School Camp 1st|Exit Ceremony',
   heroKicker:'The last night of camp',heroGisu:'IDOL SCHOOL CAMP 1ST',heroKind:'Exit Ceremony',
@@ -1477,7 +1469,7 @@ const I18N={
   retryBtn:'Try again from the start'
  },
  'ja':{
-  progressLabel:'MY PROGRESS',progressTitle:'これまでの記録',bestLabel:'仲良くなった友だち',bestChipLabel:'自己ベスト',rewardLabel:'REWARDS',rewardTitle:'もらえるもの',rewardCert:'アイドル修練会 1期 修了証',rewardCertDesc:'26問すべて終えると自分だけの修了証が発行されます。',rewardAlbum:'思い出アルバム',rewardAlbumDesc:'正解した仲間の写真がアルバムに集まります。',againTitle:'間違えても大丈夫！',againDesc:'『アイドル修練会』をもう一度見て、何度でも挑戦できます。',againBtn:'『アイドル修練会』をもう一度見る →',kitTitle:'『アイドル修練会』拡張版',kitBack:'退所式に戻る',kitPill:'アイドル修練会 拡張版',kitHeadline1:'本編では描ききれなかった',kitHeadline2:'あの日の物語！',kitLead1:'拡張版だけのバスの中でのエピソード、',kitLead2:'そしてキャンプファイアで生まれた思いがけないときめき（?）',kitLead3:'今すぐご覧ください！',specRuntime:'尺',specRuntimeVal:'120分前後',specQuality:'画質',specQualityVal:'FHD 1080p',specSet:'構成',specSetVal:'本編 + 未公開の拡張版',giftBadge:'9/13までVOD購入者に無料プレゼント',giftPeriodLabel:'進呈期間',giftPeriodVal:'~ 2026.09.13 23:59 (KST)',gift1Title:'ポスターSET 3種',gift1Desc:'アイドル修練会の思い出を残せるポスターセット',gift2Title:'デジタルキーリング1点',gift2Desc:'アイドル修練会のロゴが入ったデジタルキーリング',gift2Spec:'PNG（背景透過）',kitNote1:'SPECIAL GIFTは9/13までVOD購入者にのみ無料で進呈されます。',kitNote2:'進呈期間の終了後は購入・ダウンロードができません。',kitEntryLabel:'SPECIAL GIFT',kitEntryDesc:'ポスターSET 3種とデジタルキーリングを無料で。',kitEntryBtn:'修了キットを見る →',kitDesc:'放送では描ききれなかった、あの日の物語。',kitPrice:'$11',kitPriceNote:'VOD価格',kitMainLabel:'本編視聴券',kitGiftLabel:'SPECIAL GIFT · 期間限定で無料',kitSheetTag:'2026.9.13 23:59 KSTまで',kitGift1:'ポスターSET 3種',kitGift2:'デジタルキーリング1点',kitFine:'単体販売はしない無料プレゼントで、2026年9月13日 23:59(KST)まで進呈します。',kitBtn:'修了キットを見に行く →',
+  progressLabel:'MY PROGRESS',progressTitle:'これまでの記録',bestLabel:'仲良くなった友だち',bestChipLabel:'自己ベスト',rewardLabel:'REWARDS',rewardTitle:'もらえるもの',rewardCert:'アイドル修練会 1期 修了証',rewardCertDesc:'26問すべて終えると自分だけの修了証が発行されます。',rewardAlbum:'思い出アルバム',rewardAlbumDesc:'正解した仲間の写真がアルバムに集まります。',againTitle:'間違えても大丈夫！',againDesc:'『アイドル修練会』をもう一度見て、何度でも挑戦できます。',againBtn:'『アイドル修練会』をもう一度見る →',kitTitle:'『アイドル修練会』拡張版',kitBack:'退所式に戻る',kitPill:'アイドル修練会 拡張版',kitHeadline1:'本編では描ききれなかった',kitHeadline2:'あの日の物語！',kitLead1:'拡張版でしか見られない|バスの中でのエピソード、',kitLead2:'そしてキャンプファイアで生まれた|思いがけないときめき（?）',kitNow:'今すぐご覧ください！',giftSub:'9/13までVOD購入者のみ無料プレゼント',specRuntime:'尺',specRuntimeVal:'120分前後',specQuality:'画質',specQualityVal:'FHD 1080p',specSet:'構成',specSetVal:'本編 + 未公開の拡張版',giftBadge:'9/13までVOD購入者に無料プレゼント',giftPeriodLabel:'進呈期間',giftPeriodVal:'~ 2026.09.13 23:59 (KST)',gift1Title:'ポスターSET 3種',gift1Desc:'アイドル修練会の思い出を残せるポスターセット',gift2Title:'デジタルキーリング1点',gift2Desc:'アイドル修練会のロゴが入ったデジタルキーリング',gift2Spec:'PNG（背景透過）',kitNote1:'SPECIAL GIFTは9/13までVOD購入者にのみ無料で進呈されます。',kitNote2:'進呈期間の終了後は購入・ダウンロードができません。',kitEntryLabel:'SPECIAL GIFT',kitEntryDesc:'ポスターSET 3種とデジタルキーリングを無料で。',kitEntryBtn:'修了キットを見る →',kitDesc:'放送では描ききれなかった、あの日の物語。',kitPrice:'$11',kitPriceNote:'VOD価格',kitMainLabel:'本編視聴券',kitGiftLabel:'SPECIAL GIFT · 期間限定で無料',kitSheetTag:'2026.9.13 23:59 KSTまで',kitGift1:'ポスターSET 3種',kitGift2:'デジタルキーリング1点',kitFine:'単体販売はしない無料プレゼントで、2026年9月13日 23:59(KST)まで進呈します。',kitBtn:'修了キットを見に行く →',
   tabEnroll:'入所',tabTalent:'隠し芸',tabFarewell:'退所式',tabKit:'修了キット',soon:'準備中',
   heroTitle:'アイドル修練会 1期|退所式',
   heroKicker:'修練会、最後の夜',heroGisu:'アイドル修練会 1期',heroKind:'退所式',
@@ -1516,7 +1508,7 @@ const I18N={
   retryBtn:'最初からやり直す'
  },
  'zh-CN':{
-  progressLabel:'MY PROGRESS',progressTitle:'我的进度',bestLabel:'交到的朋友',bestChipLabel:'我的最佳',rewardLabel:'REWARDS',rewardTitle:'奖励说明',rewardCert:'《偶像修炼会》1 期结业证书',rewardCertDesc:'完成全部 26 题即可获得专属结业证书。',rewardAlbum:'回忆相册',rewardAlbumDesc:'答对的朋友会收进你的相册。',againTitle:'答错也没关系！',againDesc:'重看《偶像修炼会》，想挑战几次都可以。',againBtn:'重看《偶像修炼会》 →',kitTitle:'《偶像修炼会》扩展版',kitBack:'返回退所式',kitPill:'偶像修炼会 扩展版',kitHeadline1:'正片没能收录的',kitHeadline2:'那一天的故事！',kitLead1:'只有扩展版才有的大巴车内花絮，',kitLead2:'还有篝火旁意外的心动瞬间（?）',kitLead3:'现在就来看看吧！',specRuntime:'时长',specRuntimeVal:'约 120 分钟',specQuality:'画质',specQualityVal:'FHD 1080p',specSet:'构成',specSetVal:'正片 + 未公开扩展版',giftBadge:'9/13 前仅限 VOD 购买者免费赠送',giftPeriodLabel:'赠送期间',giftPeriodVal:'~ 2026.09.13 23:59 (KST)',gift1Title:'海报 SET 3 种',gift1Desc:'可以留住偶像修炼会回忆的海报套装',gift2Title:'数字钥匙扣 1 个',gift2Desc:'刻有偶像修炼会 logo 的数字钥匙扣',gift2Spec:'PNG（透明背景）',kitNote1:'SPECIAL GIFT 于 9/13 前仅赠送给 VOD 购买者。',kitNote2:'赠送期结束后将无法购买及下载。',kitEntryLabel:'SPECIAL GIFT',kitEntryDesc:'免费赠送海报 SET 3 种和数字钥匙扣。',kitEntryBtn:'查看结业礼包 →',kitDesc:'节目未能收录的那一天的故事。',kitPrice:'$11',kitPriceNote:'VOD 价格',kitMainLabel:'正片观看券',kitGiftLabel:'SPECIAL GIFT · 限时免费赠送',kitSheetTag:'至 2026.9.13 23:59 KST',kitGift1:'海报 SET 3 种',kitGift2:'数字钥匙扣 1 个',kitFine:'为不单独销售的免费赠品，赠送至 2026 年 9 月 13 日 23:59(KST)。',kitBtn:'立即查看结业礼包 →',
+  progressLabel:'MY PROGRESS',progressTitle:'我的进度',bestLabel:'交到的朋友',bestChipLabel:'我的最佳',rewardLabel:'REWARDS',rewardTitle:'奖励说明',rewardCert:'《偶像修炼会》1 期结业证书',rewardCertDesc:'完成全部 26 题即可获得专属结业证书。',rewardAlbum:'回忆相册',rewardAlbumDesc:'答对的朋友会收进你的相册。',againTitle:'答错也没关系！',againDesc:'重看《偶像修炼会》，想挑战几次都可以。',againBtn:'重看《偶像修炼会》 →',kitTitle:'《偶像修炼会》扩展版',kitBack:'返回退所式',kitPill:'偶像修炼会 扩展版',kitHeadline1:'正片没能收录的',kitHeadline2:'那一天的故事！',kitLead1:'只有扩展版才有的|大巴车内花絮，',kitLead2:'还有篝火旁|意外的心动瞬间（?）',kitNow:'现在就来看看吧！',giftSub:'9/13 前仅限 VOD 购买者免费赠送',specRuntime:'时长',specRuntimeVal:'约 120 分钟',specQuality:'画质',specQualityVal:'FHD 1080p',specSet:'构成',specSetVal:'正片 + 未公开扩展版',giftBadge:'9/13 前仅限 VOD 购买者免费赠送',giftPeriodLabel:'赠送期间',giftPeriodVal:'~ 2026.09.13 23:59 (KST)',gift1Title:'海报 SET 3 种',gift1Desc:'可以留住偶像修炼会回忆的海报套装',gift2Title:'数字钥匙扣 1 个',gift2Desc:'刻有偶像修炼会 logo 的数字钥匙扣',gift2Spec:'PNG（透明背景）',kitNote1:'SPECIAL GIFT 于 9/13 前仅赠送给 VOD 购买者。',kitNote2:'赠送期结束后将无法购买及下载。',kitEntryLabel:'SPECIAL GIFT',kitEntryDesc:'免费赠送海报 SET 3 种和数字钥匙扣。',kitEntryBtn:'查看结业礼包 →',kitDesc:'节目未能收录的那一天的故事。',kitPrice:'$11',kitPriceNote:'VOD 价格',kitMainLabel:'正片观看券',kitGiftLabel:'SPECIAL GIFT · 限时免费赠送',kitSheetTag:'至 2026.9.13 23:59 KST',kitGift1:'海报 SET 3 种',kitGift2:'数字钥匙扣 1 个',kitFine:'为不单独销售的免费赠品，赠送至 2026 年 9 月 13 日 23:59(KST)。',kitBtn:'立即查看结业礼包 →',
   tabEnroll:'入所',tabTalent:'才艺表演',tabFarewell:'退所式',tabKit:'结业礼包',soon:'准备中',
   heroTitle:'偶像修炼会 1期|退所式',
   heroKicker:'修炼会的最后一夜',heroGisu:'偶像修炼会 1期',heroKind:'退所式',
@@ -1555,7 +1547,7 @@ const I18N={
   retryBtn:'从头再挑战'
  },
  'zh-TW':{
-  progressLabel:'MY PROGRESS',progressTitle:'我的進度',bestLabel:'交到的好友',bestChipLabel:'我的最佳',rewardLabel:'REWARDS',rewardTitle:'獎勵說明',rewardCert:'《偶像修煉會》1 期結業證書',rewardCertDesc:'完成全部 26 題即可獲得專屬結業證書。',rewardAlbum:'回憶相冊',rewardAlbumDesc:'答對的好友會收進你的相冊。',againTitle:'答錯也沒關係！',againDesc:'重看《偶像修煉會》，想挑戰幾次都可以。',againBtn:'重看《偶像修煉會》 →',kitTitle:'《偶像修煉會》擴充版',kitBack:'返回退所式',kitPill:'偶像修煉會 擴充版',kitHeadline1:'正片沒能收錄的',kitHeadline2:'那一天的故事！',kitLead1:'只有擴充版才有的遊覽車內花絮，',kitLead2:'還有營火旁意外的心動瞬間（?）',kitLead3:'現在就來看看吧！',specRuntime:'片長',specRuntimeVal:'約 120 分鐘',specQuality:'畫質',specQualityVal:'FHD 1080p',specSet:'構成',specSetVal:'正片 + 未公開擴充版',giftBadge:'9/13 前僅限 VOD 購買者免費贈送',giftPeriodLabel:'贈送期間',giftPeriodVal:'~ 2026.09.13 23:59 (KST)',gift1Title:'海報 SET 3 種',gift1Desc:'可以留住偶像修煉會回憶的海報套裝',gift2Title:'數位鑰匙圈 1 個',gift2Desc:'刻有偶像修煉會 logo 的數位鑰匙圈',gift2Spec:'PNG（透明背景）',kitNote1:'SPECIAL GIFT 於 9/13 前僅贈送給 VOD 購買者。',kitNote2:'贈送期結束後將無法購買及下載。',kitEntryLabel:'SPECIAL GIFT',kitEntryDesc:'免費贈送海報 SET 3 種和數位鑰匙圈。',kitEntryBtn:'查看結業禮包 →',kitDesc:'節目未能收錄的那一天的故事。',kitPrice:'$11',kitPriceNote:'VOD 價格',kitMainLabel:'正片觀看券',kitGiftLabel:'SPECIAL GIFT · 限時免費贈送',kitSheetTag:'至 2026.9.13 23:59 KST',kitGift1:'海報 SET 3 種',kitGift2:'數位鑰匙圈 1 個',kitFine:'為不單獨販售的免費贈品，贈送至 2026 年 9 月 13 日 23:59(KST)。',kitBtn:'立即查看結業禮包 →',
+  progressLabel:'MY PROGRESS',progressTitle:'我的進度',bestLabel:'交到的好友',bestChipLabel:'我的最佳',rewardLabel:'REWARDS',rewardTitle:'獎勵說明',rewardCert:'《偶像修煉會》1 期結業證書',rewardCertDesc:'完成全部 26 題即可獲得專屬結業證書。',rewardAlbum:'回憶相冊',rewardAlbumDesc:'答對的好友會收進你的相冊。',againTitle:'答錯也沒關係！',againDesc:'重看《偶像修煉會》，想挑戰幾次都可以。',againBtn:'重看《偶像修煉會》 →',kitTitle:'《偶像修煉會》擴充版',kitBack:'返回退所式',kitPill:'偶像修煉會 擴充版',kitHeadline1:'正片沒能收錄的',kitHeadline2:'那一天的故事！',kitLead1:'只有擴充版才有的|遊覽車內花絮，',kitLead2:'還有營火旁|意外的心動瞬間（?）',kitNow:'現在就來看看吧！',giftSub:'9/13 前僅限 VOD 購買者免費贈送',specRuntime:'片長',specRuntimeVal:'約 120 分鐘',specQuality:'畫質',specQualityVal:'FHD 1080p',specSet:'構成',specSetVal:'正片 + 未公開擴充版',giftBadge:'9/13 前僅限 VOD 購買者免費贈送',giftPeriodLabel:'贈送期間',giftPeriodVal:'~ 2026.09.13 23:59 (KST)',gift1Title:'海報 SET 3 種',gift1Desc:'可以留住偶像修煉會回憶的海報套裝',gift2Title:'數位鑰匙圈 1 個',gift2Desc:'刻有偶像修煉會 logo 的數位鑰匙圈',gift2Spec:'PNG（透明背景）',kitNote1:'SPECIAL GIFT 於 9/13 前僅贈送給 VOD 購買者。',kitNote2:'贈送期結束後將無法購買及下載。',kitEntryLabel:'SPECIAL GIFT',kitEntryDesc:'免費贈送海報 SET 3 種和數位鑰匙圈。',kitEntryBtn:'查看結業禮包 →',kitDesc:'節目未能收錄的那一天的故事。',kitPrice:'$11',kitPriceNote:'VOD 價格',kitMainLabel:'正片觀看券',kitGiftLabel:'SPECIAL GIFT · 限時免費贈送',kitSheetTag:'至 2026.9.13 23:59 KST',kitGift1:'海報 SET 3 種',kitGift2:'數位鑰匙圈 1 個',kitFine:'為不單獨販售的免費贈品，贈送至 2026 年 9 月 13 日 23:59(KST)。',kitBtn:'立即查看結業禮包 →',
   tabEnroll:'入所',tabTalent:'才藝表演',tabFarewell:'退所式',tabKit:'結業禮包',soon:'準備中',
   heroTitle:'偶像修煉會 1期|退所式',
   heroKicker:'修煉會的最後一夜',heroGisu:'偶像修煉會 1期',heroKind:'退所式',
