@@ -167,7 +167,7 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
 .pic:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,rgba(255,255,255,.04),rgba(255,255,255,.11),rgba(255,255,255,.04));background-size:220% 100%;animation:sheen 1.4s linear infinite;opacity:1;transition:opacity .2s ease}
 .pic.loaded:before,.pic.failed:before{opacity:0;animation:none}
 @keyframes sheen{from{background-position:120% 0}to{background-position:-120% 0}}
-.pic img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .22s ease}
+.pic img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;transform:scale(1.1);opacity:0;transition:opacity .22s ease}
 .pic.loaded img{opacity:1}
 .pic .missing{position:relative;z-index:1;display:none;padding:20px;text-align:center;font-size:12px;font-weight:600;color:#9FAFA5}
 .pic.failed .missing{display:block}
@@ -436,7 +436,7 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
 /* ================= private beta v11 — digital photocards ================= */
 .albumHint{margin:8px 2px 0;font-size:11.5px;font-weight:600;color:var(--ink-faint)}
 .pcGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(102px,1fr));gap:12px;margin-top:14px}
-.pcard{all:unset;display:block;position:relative;aspect-ratio:55/86;cursor:pointer;perspective:900px;-webkit-tap-highlight-color:transparent}
+.pcard{all:unset;display:block;width:100%;position:relative;aspect-ratio:55/86;cursor:pointer;perspective:900px;-webkit-tap-highlight-color:transparent}
 .pcard:focus-visible{outline:3px solid var(--navy);outline-offset:3px;border-radius:12px}
 .pcIn{display:block;position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.22,.7,.28,1);transform-style:preserve-3d}
 .pcard[aria-pressed="true"] .pcIn{transform:rotateY(180deg)}
@@ -475,6 +475,60 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
   .pcIn{transition:none}
   .pcShine{transition:none}
 }
+
+/* ================= private beta v12 — photocard binder ================= */
+.albumBar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.albumCount{font-size:13px;font-weight:900;color:var(--navy);font-variant-numeric:tabular-nums}
+.albumCount em{font-style:normal;font-size:11.5px;font-weight:700;color:var(--ink-faint)}
+.albumSave{display:inline-flex;align-items:center;gap:7px;min-height:42px;padding:10px 15px;border:0;border-radius:13px;
+  background:linear-gradient(180deg,var(--gold-l),var(--gold));color:#3A2A06;font-family:inherit;font-size:12.5px;font-weight:900;
+  cursor:pointer;box-shadow:0 3px 0 rgba(150,104,12,.85)}
+.albumSave:active{transform:translateY(2px);box-shadow:none}
+.albumSave svg{width:16px;height:16px;flex:none}
+.binder{position:relative;margin-top:12px;padding:22px 10px 12px;border-radius:16px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,0) 40%),
+    repeating-linear-gradient(0deg,rgba(120,90,40,.05) 0 1px,transparent 1px 5px),
+    #F3E7CC;
+  border:1px solid rgba(120,90,40,.22);
+  box-shadow:inset 0 2px 6px rgba(90,66,26,.16),inset 0 -1px 0 rgba(255,255,255,.5)}
+.binderRings{position:absolute;top:8px;left:14px;right:14px;height:9px;
+  background:radial-gradient(circle at 6px 4px,#9AA79C 0 3.4px,transparent 3.8px);
+  background-size:30px 9px;opacity:.65}
+.pcGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px;margin-top:0}
+.pcSlot{position:relative;padding:5px;border-radius:14px;background:rgba(255,253,246,.62);
+  box-shadow:inset 0 1px 3px rgba(90,66,26,.22),0 1px 0 rgba(255,255,255,.6)}
+.pcSlot.locked{display:grid;place-items:center;aspect-ratio:auto;border:1px dashed rgba(120,90,40,.4);background:rgba(255,253,246,.32)}
+.pcSlot.locked .lockIn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:100%;aspect-ratio:55/86;
+  border-radius:11px;background:rgba(120,90,40,.06)}
+.pcSlot.locked img{width:62%;opacity:.28;filter:grayscale(1)}
+.pcSlot.locked b{font-size:9.5px;font-weight:800;color:rgba(90,66,26,.55);word-break:keep-all;text-align:center;padding:0 4px}
+.pcDl{position:absolute;right:9px;top:9px;z-index:3;display:grid;place-items:center;width:26px;height:26px;padding:0;
+  border:0;border-radius:50%;background:rgba(8,23,44,.62);color:#FFF3C4;cursor:pointer;backdrop-filter:blur(3px)}
+.pcDl svg{width:14px;height:14px}
+.pcDl:active{transform:translateY(1px)}
+.albumNote{margin:11px 2px 0;font-size:11.5px;font-weight:600;color:var(--ink-faint);text-align:center}
+.albumNote.warn{color:#B4453A}
+
+/* ---- section cards: fuller, with the action button carrying the weight ---- */
+.againCard,.kitCard,.vodCard{position:relative;overflow:hidden}
+.againCard:after,.vodCard:after{content:"";position:absolute;right:-30px;top:-30px;width:150px;height:150px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.16),transparent 68%);pointer-events:none}
+.cardIcon{display:grid;place-items:center;width:46px;height:46px;margin-bottom:11px;border-radius:14px;
+  background:rgba(255,255,255,.16);border:1.5px solid rgba(255,255,255,.35)}
+.cardIcon svg{width:26px;height:26px;display:block}
+.vodCard .cardIcon{background:#FFF7E2;border-color:rgba(15,59,58,.16)}
+.cardChips{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.cardChips span{padding:5px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:-.01em;
+  background:rgba(255,255,255,.18);color:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.28)}
+.vodCard .cardChips span{background:#FFF3D8;color:#7A5B12;border-color:rgba(160,120,20,.28)}
+.vod,.againBtn,.kitBtn{width:100%;min-height:56px;border-radius:15px;font-size:15.5px;font-weight:900;letter-spacing:-.02em;cursor:pointer}
+.vodCard .vod{border:0;background:linear-gradient(180deg,var(--gold-l),var(--gold));color:#3A2A06;
+  box-shadow:0 3px 0 rgba(150,104,12,.85),0 10px 22px rgba(15,59,58,.18)}
+.vodCard .vod:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(150,104,12,.85)}
+.againCard .againBtn{border:0;background:#FFFDF6;color:#3A2C7A;box-shadow:0 3px 0 rgba(35,24,90,.5)}
+.againCard .againBtn:active{transform:translateY(2px);box-shadow:none}
+.kitCard .kitBtn{border:0;background:linear-gradient(180deg,#FFE9A8,#E5B93C);color:#3A2A06;box-shadow:0 3px 0 rgba(120,84,10,.8)}
 </style>
 </head>
 <body>
@@ -703,25 +757,31 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
 
     <div class="againCard">
       <div>
+        <span class="cardIcon"><svg viewBox="0 0 40 40" aria-hidden="true"><g stroke="#0C2018" stroke-width="2.4" stroke-linejoin="round"><rect x="4" y="8" width="32" height="24" rx="5" fill="#F2C230"/><path d="M17 15.5 L26 20 L17 24.5 Z" fill="#123A2E" stroke="none"/></g></svg></span>
         <strong data-i18n="againTitle">실패해도 괜찮아요!</strong>
         <p data-i18n="againDesc">아이돌 수련회를 다시 보고 몇 번이든 도전할 수 있어요.</p>
+        <div class="cardChips"><span data-i18n="chipRetry">재도전 무제한</span><span data-i18n="chipScenes">26개 장면</span></div>
       </div>
       <button class="againBtn vod" data-i18n="againBtn">아이돌 수련회 보고 오기 →</button>
     </div>
 
     <div class="kitCard" id="kitCard" style="display:none">
       <div>
+        <span class="cardIcon"><svg viewBox="0 0 40 40" aria-hidden="true"><g stroke="#0C2018" stroke-width="2.4" stroke-linejoin="round"><rect x="6" y="13" width="28" height="21" rx="4" fill="#FFD96A"/><path d="M6 20h28" /><path d="M20 13v21"/><path d="M20 13c-4-6-11-3-8 1 2 2 5 1 8-1zm0 0c4-6 11-3 8 1-2 2-5 1-8-1z" fill="#E8792B"/></g></svg></span>
         <strong data-i18n="kitTitle">수련회 수료키트 구경가기</strong>
         <p data-i18n="kitDesc">우리들의 추억이 담긴 특별한 굿즈</p>
+        <div class="cardChips"><span data-i18n="chipGoods">한정 굿즈</span><span data-i18n="chipFirst">1기 기념</span></div>
       </div>
       <button class="kitBtn" id="kitBtn" data-i18n="kitBtn">수료키트 보러 가기 →</button>
     </div>
 
     <div class="vodCard">
       <div>
+        <span class="cardIcon"><svg viewBox="0 0 40 40" aria-hidden="true"><g stroke="#0C2018" stroke-width="2.4" stroke-linejoin="round"><rect x="5" y="10" width="30" height="22" rx="5" fill="#DDEDF4"/><circle cx="20" cy="21" r="6.5" fill="#2E8A5A"/><rect x="13" y="6" width="10" height="5" rx="2" fill="#F2C230"/></g></svg></span>
         <span class="eyebrow" data-i18n="nextLabel">NEXT STORY</span>
         <strong data-i18n="vodTitle">〈아이돌 수련회〉 확장판</strong>
         <p data-i18n="vodDescHome">미공개 비하인드까지, 수련회의 추억을 더 길게 만나보세요.</p>
+        <div class="cardChips"><span data-i18n="chipBehind">미공개 비하인드</span><span data-i18n="chipMuniverse">MUNIVERSE</span></div>
       </div>
       <button class="vod" data-i18n="vodBtn">확장판 보러 가기 →</button>
     </div>
@@ -733,7 +793,6 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
       <div class="qhrow qhrow3">
         <span class="qcount"><b id="qIndexNum">1</b> / 26</span>
         <span class="bestChip" id="bestChip" style="display:none"><span data-i18n="bestChipLabel">내 친구</span> <b id="bestChipVal">0</b>/26</span>
-        <span class="randChip" data-i18n="randChip">무작위 순서</span>
       </div>
       <div class="track" id="track" role="progressbar" aria-valuemin="0" aria-valuemax="26" aria-valuenow="0" aria-label="progress"><i id="trackFill"></i></div>
     </div>
@@ -745,7 +804,6 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
         <div class="pic" id="picBox">
           <img id="qImg" alt="scene">
           <div class="missing" id="missingImg" data-i18n="imgFail">문제 사진을 불러오지 못했습니다.</div>
-          <span class="filmTag" id="qTag">No.01</span>
         </div>
         <div class="qside">
           <p class="hint" data-i18n="hintQ">이 순간을 기억하시나요?</p>
@@ -826,12 +884,23 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
       <span class="eyebrow" data-i18n="albumLabel">MY CAMP MEMORIES</span>
       <h2 data-i18n="albumTitle">추억의 사진첩</h2>
       <p class="albumHint" id="albumHint" data-i18n="albumHint">카드를 누르면 뒷면이 보여요.</p>
-      <div class="pcGrid" id="albumGrid"></div>
+      <div class="albumBar">
+        <span class="albumCount"><b id="albumHave">0</b><em> / 26</em></span>
+        <button class="albumSave" id="albumSave" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v10.5m0 0 4.2-4.2M12 14l-4.2-4.2M4.5 19h15"/></svg>
+          <span data-i18n="albumSaveAll">포토카드 전체 저장</span>
+        </button>
+      </div>
+      <div class="binder">
+        <span class="binderRings" aria-hidden="true"></span>
+        <div class="pcGrid" id="albumGrid"></div>
+      </div>
       <div class="empty" id="albumEmpty" style="display:none" data-i18n="albumEmpty">이번엔 사진첩이 비어 있어요.</div>
     </section>
 
     <div class="vodCard">
       <div>
+        <span class="cardIcon"><svg viewBox="0 0 40 40" aria-hidden="true"><g stroke="#0C2018" stroke-width="2.4" stroke-linejoin="round"><rect x="5" y="10" width="30" height="22" rx="5" fill="#DDEDF4"/><circle cx="20" cy="21" r="6.5" fill="#2E8A5A"/><rect x="13" y="6" width="10" height="5" rx="2" fill="#F2C230"/></g></svg></span>
         <span class="eyebrow" data-i18n="nextLabel">NEXT STORY</span>
         <strong data-i18n="vodTitle">〈아이돌 수련회〉 확장판</strong>
         <p data-i18n="vodDescResult">이 추억을 더 길게 보고 싶다면, 미공개 비하인드까지 확장판에서.</p>
@@ -896,7 +965,7 @@ const I18N={
   countLabel:'함께 퇴소한 친구',campFriends:'CAMP FRIENDS',
   descN:'{n}명의 수련회 친구와 추억을 나누며 명예롭게 퇴소에 성공했습니다.',
   desc0:'이번에는 함께 퇴소한 친구를 만나지 못했어요. 다시 도전하면 새로운 순서로 추억을 확인할 수 있습니다.',
-  albumLabel:'MY CAMP MEMORIES',albumTitle:'추억의 사진첩',albumHint:'카드를 누르면 뒷면이 보여요.',albumEmpty:'이번엔 사진첩이 비어 있어요.',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'추억의 사진첩',albumHint:'카드를 누르면 뒷면이 보여요.',albumSaveAll:'포토카드 전체 저장',chipRetry:'재도전 무제한',chipScenes:'26개 장면',chipGoods:'한정 굿즈',chipFirst:'1기 기념',chipBehind:'미공개 비하인드',chipMuniverse:'MUNIVERSE',albumSlots:'포토카드 26칸',cardSaveAsk:'{name} 포토카드를 저장할까요?',cardSaveAllAsk:'모은 포토카드 {n}장을 한 장의 이미지로 저장할까요?',cardSaved:'포토카드를 저장했습니다.',cardSaveFail:'포토카드를 저장하지 못했습니다.',cardSaveOne:'이 카드 저장',albumEmpty:'이번엔 사진첩이 비어 있어요.',
   shareLabel:'SHARE MY CERTIFICATE',shareTitle:'퇴소증 자랑하기',
   shareX:'X에 올리기',shareIg:'인스타그램',shareSave:'이미지 저장',
   shareHint:'퇴소증을 이미지로 저장하거나 내 계정에 바로 올릴 수 있어요.',
@@ -936,7 +1005,7 @@ const I18N={
   descN:'You shared memories with {n} camp friends and graduated with honours.',
   descN1:'You shared memories with 1 camp friend and graduated with honours.',
   desc0:'You did not meet a camp friend this time. Try again for a fresh order of memories.',
-  albumLabel:'MY CAMP MEMORIES',albumTitle:'Memory Album',albumHint:'Tap a card to flip it over.',albumEmpty:'Your album is empty this time.',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'Memory Album',albumHint:'Tap a card to flip it over.',albumSaveAll:'Save every photocard',chipRetry:'Unlimited retries',chipScenes:'26 scenes',chipGoods:'Limited goods',chipFirst:'1st class',chipBehind:'Unseen behind',chipMuniverse:'MUNIVERSE',albumSlots:'26 photocard slots',cardSaveAsk:'Save {name}\u2019s photocard?',cardSaveAllAsk:'Save your {n} photocards as one image?',cardSaved:'Photocard saved.',cardSaveFail:'The photocard could not be saved.',cardSaveOne:'Save this card',albumEmpty:'Your album is empty this time.',
   shareLabel:'SHARE MY CERTIFICATE',shareTitle:'Share your certificate',
   shareX:'Post on X',shareIg:'Instagram',shareSave:'Save image',
   shareHint:'Save the certificate as an image, or post it straight to your own account.',
@@ -975,7 +1044,7 @@ const I18N={
   countLabel:'一緒に退所した仲間',campFriends:'CAMP FRIENDS',
   descN:'{n}人の修練会の仲間と思い出を分かち合い、名誉ある退所に成功しました。',
   desc0:'今回は一緒に退所する仲間に出会えませんでした。もう一度挑戦すると新しい順番で思い出を確認できます。',
-  albumLabel:'MY CAMP MEMORIES',albumTitle:'思い出アルバム',albumHint:'カードをタップすると裏面が見られます。',albumEmpty:'今回はアルバムが空っぽです。',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'思い出アルバム',albumHint:'カードをタップすると裏面が見られます。',albumSaveAll:'フォトカードをまとめて保存',chipRetry:'再挑戦は無制限',chipScenes:'26シーン',chipGoods:'限定グッズ',chipFirst:'1期記念',chipBehind:'未公開ビハインド',chipMuniverse:'MUNIVERSE',albumSlots:'フォトカード26枠',cardSaveAsk:'{name}のフォトカードを保存しますか？',cardSaveAllAsk:'集めたフォトカード{n}枚を1枚の画像として保存しますか？',cardSaved:'フォトカードを保存しました。',cardSaveFail:'フォトカードを保存できませんでした。',cardSaveOne:'このカードを保存',albumEmpty:'今回はアルバムが空っぽです。',
   shareLabel:'SHARE MY CERTIFICATE',shareTitle:'退所証をシェアする',
   shareX:'Xに投稿',shareIg:'Instagram',shareSave:'画像を保存',
   shareHint:'退所証を画像で保存したり、自分のアカウントにそのまま投稿できます。',
@@ -1014,7 +1083,7 @@ const I18N={
   countLabel:'一起完成退所的朋友',campFriends:'CAMP FRIENDS',
   descN:'你与 {n} 位修炼会朋友分享回忆，光荣完成了退所。',
   desc0:'这次没有遇到一起退所的朋友。再挑战一次，就能以新的顺序确认回忆。',
-  albumLabel:'MY CAMP MEMORIES',albumTitle:'回忆相册',albumHint:'点一下卡片就能翻到背面。',albumEmpty:'这次相册是空的。',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'回忆相册',albumHint:'点一下卡片就能翻到背面。',albumSaveAll:'保存全部小卡',chipRetry:'无限次挑战',chipScenes:'26 个场景',chipGoods:'限定周边',chipFirst:'1期纪念',chipBehind:'未公开花絮',chipMuniverse:'MUNIVERSE',albumSlots:'26 个小卡位',cardSaveAsk:'要保存{name}的小卡吗？',cardSaveAllAsk:'要把收集到的 {n} 张小卡保存为一张图片吗？',cardSaved:'小卡已保存。',cardSaveFail:'无法保存小卡。',cardSaveOne:'保存这张卡',albumEmpty:'这次相册是空的。',
   shareLabel:'SHARE MY CERTIFICATE',shareTitle:'分享退所结果',
   shareX:'发布到 X',shareIg:'Instagram',shareSave:'保存图片',
   shareHint:'可以把退所证保存为图片，或直接发布到自己的账号。',
@@ -1053,7 +1122,7 @@ const I18N={
   countLabel:'一起完成退所的好友',campFriends:'CAMP FRIENDS',
   descN:'你與 {n} 位修煉會朋友分享回憶，光榮完成了退所。',
   desc0:'這次沒有遇到一起退所的朋友。再挑戰一次，就能以新的順序確認回憶。',
-  albumLabel:'MY CAMP MEMORIES',albumTitle:'回憶相冊',albumHint:'點一下卡片就能翻到背面。',albumEmpty:'這次相冊是空的。',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'回憶相冊',albumHint:'點一下卡片就能翻到背面。',albumSaveAll:'儲存全部小卡',chipRetry:'無限次挑戰',chipScenes:'26 個場景',chipGoods:'限定周邊',chipFirst:'1期紀念',chipBehind:'未公開花絮',chipMuniverse:'MUNIVERSE',albumSlots:'26 個小卡位',cardSaveAsk:'要儲存{name}的小卡嗎？',cardSaveAllAsk:'要把收集到的 {n} 張小卡儲存為一張圖片嗎？',cardSaved:'小卡已儲存。',cardSaveFail:'無法儲存小卡。',cardSaveOne:'儲存這張卡',albumEmpty:'這次相冊是空的。',
   shareLabel:'SHARE MY CERTIFICATE',shareTitle:'分享退所結果',
   shareX:'發布到 X',shareIg:'Instagram',shareSave:'儲存圖片',
   shareHint:'可以把退所證儲存為圖片，或直接發布到自己的帳號。',
@@ -1099,7 +1168,10 @@ function publicUrl(bucket,path){return `${SB_URL}/storage/v1/object/public/${buc
 /* Storage egress is the whole cost of this event, so images are requested at
    the size they are displayed. If the project has no image transformations the
    first render URL fails once, and the session falls back to plain objects. */
-const IMG_SIZES={question:[800,68],member:[240,72],group:[800,75]};
+const DPR=Math.min(2.5,Math.max(1,window.devicePixelRatio||1));
+const px=(base,cap)=>Math.round(base*Math.min(DPR,cap||2));
+/* the transform endpoint is asked for the size the screen actually paints */
+const IMG_SIZES={question:[px(960,2),84],member:[px(340,2.5),86],group:[px(960,2),88],card:[1000,90]};
 /* config.js can turn resizing off instantly without a deploy */
 const IMG_OPT=!(CFG.exitCeremony&&CFG.exitCeremony.optimizeImages===false);
 let renderOk=IMG_OPT&&(()=>{try{return sessionStorage.getItem('idolcamp.render')!=='0';}catch(e){return true;}})();
@@ -1210,7 +1282,6 @@ function renderQuestion(){
   $('#answers').style.display='grid';
   $('#qTip').style.display='flex';
   $('#qIndexNum').textContent=String(idx+1);
-  $('#qTag').textContent=t().memoryNo+String(idx+1).padStart(2,'0');
   setProgress(idx);
   $('#questionText').textContent=questionText(q);
 
@@ -1327,7 +1398,21 @@ function renderResultView(){
   const grid=$('#albumGrid');
   grid.innerHTML='';
   $('#albumEmpty').style.display=matched.length?'none':'block';
-  matched.forEach(p=>{
+  $('#albumHave').textContent=matched.length;
+  const got=new Map(matched.map(p=>[p.id,p]));
+  const roster=(questions||[]).slice().sort((a,b)=>a.photo_no-b.photo_no);
+  const rows=roster.length?roster.map(q=>({id:q.member_id,p:got.get(q.member_id)||memberPhotos.get(q.member_id)}))
+                          :matched.map(p=>({id:p.id,p}));
+  rows.forEach(row=>{
+    const p=row.p,have=!!(p&&got.has(row.id));
+    const slot=document.createElement('div');
+    slot.className='pcSlot'+(have?'':' locked');
+    if(!have){
+      slot.innerHTML='<span class="lockIn"><img src="../assets/camp-logo.png" alt="">'+
+        `<b>${esc(p?memberPrimary(p):'?')}</b></span>`;
+      grid.appendChild(slot);
+      return;
+    }
     const card=document.createElement('button');
     card.type='button';
     card.className='pcard';
@@ -1351,7 +1436,16 @@ function renderResultView(){
     card.addEventListener('click',()=>{
       card.setAttribute('aria-pressed',card.getAttribute('aria-pressed')==='true'?'false':'true');
     });
-    grid.appendChild(card);
+    const dl=document.createElement('button');
+    dl.type='button';
+    dl.className='pcDl';
+    dl.title=t().cardSaveOne;
+    dl.setAttribute('aria-label',`${memberPrimary(p)} ${t().cardSaveOne}`);
+    dl.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v10m0 0 4-4m-4 4-4-4M5 19h14"/></svg>';
+    dl.addEventListener('click',ev=>{ev.stopPropagation();saveOneCard(p);});
+    slot.appendChild(card);
+    slot.appendChild(dl);
+    grid.appendChild(slot);
   });
 
   /* the group photo belongs to the 26 / 26 honours certificate only */
@@ -1625,6 +1719,118 @@ async function drawCertificate(count,matched){
   });
 }
 
+/* ============ photocards (canvas export) ============ */
+const PC_W=55,PC_H=86;
+function albumNote(msg,warn){
+  let el=document.getElementById('albumNote');
+  if(!el){
+    const panel=document.getElementById('albumGrid');
+    if(!panel||!panel.parentElement||!panel.parentElement.parentElement)return;
+    el=document.createElement('p');el.id='albumNote';el.className='albumNote';el.setAttribute('role','status');
+    panel.parentElement.parentElement.appendChild(el);
+  }
+  el.textContent=msg||'';
+  el.classList.toggle('warn',!!warn);
+}
+function drawCover(ctx,img,x,y,w,h){
+  const r=Math.max(w/img.naturalWidth,h/img.naturalHeight);
+  const dw=img.naturalWidth*r,dh=img.naturalHeight*r;
+  ctx.drawImage(img,x+(w-dw)/2,y+(h-dh)*0.36,dw,dh);
+}
+async function memberImage(p){
+  return await loadImg(renderUrl(MEMBER_BUCKET,p.photo_path,'card'),true)
+      || await loadImg(publicUrl(MEMBER_BUCKET,p.photo_path),true);
+}
+async function paintCard(ctx,p,x,y,w,img,logo){
+  const h=Math.round(w*PC_H/PC_W),pad=w*0.032,r=w*0.075;
+  ctx.save();
+  ctx.shadowColor='rgba(15,59,58,.28)';ctx.shadowBlur=w*0.06;ctx.shadowOffsetY=w*0.02;
+  ctx.fillStyle='#FFFDF6';rrect(ctx,x,y,w,h,r);ctx.fill();
+  ctx.restore();
+  ctx.save();
+  rrect(ctx,x+pad,y+pad,w-pad*2,h-pad*2,r*0.72);ctx.clip();
+  ctx.fillStyle='#25543F';ctx.fillRect(x+pad,y+pad,w-pad*2,h-pad*2);
+  if(img)drawCover(ctx,img,x+pad,y+pad,w-pad*2,h-pad*2);
+  const g=ctx.createLinearGradient(0,y+h*0.62,0,y+h-pad);
+  g.addColorStop(0,'rgba(6,24,16,0)');g.addColorStop(1,'rgba(6,24,16,.88)');
+  ctx.fillStyle=g;ctx.fillRect(x+pad,y+h*0.6,w-pad*2,h*0.4-pad);
+  const SANS='"Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",-apple-system,sans-serif';
+  ctx.textAlign='left';ctx.textBaseline='alphabetic';
+  ctx.fillStyle='#FFF7E4';
+  fitText(ctx,memberPrimary(p),w-pad*4,w*0.105,900,SANS);
+  ctx.fillText(memberPrimary(p),x+pad*2,y+h-pad*4.1);
+  const sec=memberSecondary(p);
+  if(sec){
+    ctx.fillStyle='rgba(255,244,220,.76)';
+    fitText(ctx,sec.toUpperCase(),w-pad*4,w*0.052,800,SANS);
+    ctx.fillText(sec.toUpperCase(),x+pad*2,y+h-pad*2.1);
+  }
+  ctx.restore();
+  if(logo){
+    ctx.save();ctx.globalAlpha=.82;
+    const lw=w*0.21,lh=lw*logo.naturalHeight/logo.naturalWidth;
+    ctx.drawImage(logo,x+w-pad*1.4-lw,y+pad*1.6,lw,lh);
+    ctx.restore();
+  }
+}
+async function saveOneCard(p){
+  if(!window.confirm(fmt(t().cardSaveAsk,{name:memberPrimary(p)})))return;
+  albumNote('');
+  try{
+    const w=760,h=Math.round(w*PC_H/PC_W);
+    const cv=document.createElement('canvas');cv.width=w;cv.height=h;
+    const ctx=cv.getContext('2d');
+    const [img,logo]=await Promise.all([memberImage(p),loadImg('../assets/camp-logo.png',false)]);
+    await paintCard(ctx,p,0,0,w,img,logo);
+    cv.toBlob(b=>{
+      if(!b){albumNote(t().cardSaveFail,true);return;}
+      downloadBlob(b,`idolcamp-photocard-${String(p.id||'card')}.png`);
+      albumNote(t().cardSaved);
+    },'image/png');
+  }catch(e){console.error(e);albumNote(t().cardSaveFail,true);}
+}
+async function saveAllCards(){
+  const list=lastMatched||[];
+  if(!list.length)return;
+  if(!window.confirm(fmt(t().cardSaveAllAsk,{n:list.length})))return;
+  albumNote('');
+  try{
+    const cols=Math.min(4,list.length),cw=460,gap=34,pad=52;
+    const rows=Math.ceil(list.length/cols);
+    const ch=Math.round(cw*PC_H/PC_W);
+    const W=pad*2+cols*cw+(cols-1)*gap,head=132;
+    const H=pad*2+head+rows*ch+(rows-1)*gap;
+    const cv=document.createElement('canvas');cv.width=W;cv.height=H;
+    const ctx=cv.getContext('2d');
+    const SANS='"Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",-apple-system,sans-serif';
+    ctx.fillStyle='#F3E7CC';ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(120,90,40,.05)';
+    for(let y=0;y<H;y+=6)ctx.fillRect(0,y,W,1);
+    ctx.strokeStyle='rgba(120,90,40,.32)';ctx.lineWidth=3;
+    rrect(ctx,20,20,W-40,H-40,26);ctx.stroke();
+    const logo=await loadImg('../assets/camp-logo.png',false);
+    if(logo){
+      const lw=250,lh=lw*logo.naturalHeight/logo.naturalWidth;
+      ctx.drawImage(logo,pad,pad,lw,lh);
+    }
+    ctx.textAlign='right';ctx.fillStyle='#6E4918';ctx.font='900 34px '+SANS;
+    ctx.fillText(t().albumTitle,W-pad,pad+46);
+    ctx.fillStyle='#8E7A45';ctx.font='800 20px '+SANS;
+    ctx.fillText(`${t().certGisu} · ${list.length} / ${TOTAL}`,W-pad,pad+82);
+    const imgs=await Promise.all(list.map(memberImage));
+    for(let i=0;i<list.length;i++){
+      const col=i%cols,row=Math.floor(i/cols);
+      const x=pad+col*(cw+gap),y=pad+head+row*(ch+gap);
+      await paintCard(ctx,list[i],x,y,cw,imgs[i],logo);
+    }
+    cv.toBlob(b=>{
+      if(!b){albumNote(t().cardSaveFail,true);return;}
+      downloadBlob(b,`idolcamp-photocards-${list.length}of${TOTAL}.png`);
+      albumNote(t().cardSaved);
+    },'image/png');
+  }catch(e){console.error(e);albumNote(t().cardSaveFail,true);}
+}
+
 /* pre-render so the share sheet can open inside the click gesture */
 function prepareCertImage(){
   note(t().shareHint);
@@ -1637,10 +1843,10 @@ function note(msg,warn){
   el.textContent=msg;
   el.classList.toggle('warn',!!warn);
 }
-function downloadBlob(blob){
+function downloadBlob(blob,name){
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
-  a.href=url;a.download=certFileName();
+  a.href=url;a.download=name||certFileName();
   document.body.appendChild(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(url),2000);
 }
@@ -1693,6 +1899,7 @@ $('#yesBtn').onclick=()=>choose(true);
 $('#noBtn').onclick=()=>choose(false);
 $('#retryBtn').onclick=startQuiz;
 $('#saveImg').onclick=()=>saveCert();
+$('#albumSave').onclick=()=>saveAllCards();
 $('#shareX').onclick=()=>shareCert('x');
 $('#shareIg').onclick=()=>shareCert('ig');
 $('#kitBtn').onclick=()=>{if(settings&&settings.kit_url)location.href=settings.kit_url;};
