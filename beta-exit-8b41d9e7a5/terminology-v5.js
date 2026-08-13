@@ -14,6 +14,7 @@ function swap(s){
 }
 function patchText(root){
   if(!root)return;
+  if(root.nodeType===3){const v=swap(root.nodeValue);if(v!==root.nodeValue)root.nodeValue=v;return;}
   const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
   const list=[];while(w.nextNode())list.push(w.currentNode);
   list.forEach(n=>{const v=swap(n.nodeValue);if(v!==n.nodeValue)n.nodeValue=v;});
