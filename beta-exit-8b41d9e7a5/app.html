@@ -908,10 +908,7 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
   .posterList{gap:26px}
   .posterFrame figcaption{margin-top:12px;font-size:12.5px}
 }
-@media(max-width:420px){
-  .posterList{gap:8px}
-  .posterFrame figcaption{margin-top:7px;font-size:10px}
-}
+
 
 /* ================= private beta v28 — the ceremony, brightened ================= */
 :root{
@@ -985,6 +982,13 @@ body{background:
   .steps{gap:14px}
   .guide .step{height:100%}
   .kitNote{font-size:13px}
+}
+
+/* ================= private beta v30 — posters stack on phones ================= */
+@media(max-width:640px){
+  .posterList{grid-template-columns:1fr;gap:22px;max-width:330px;margin:0 auto}
+  .posterFrame figcaption{margin-top:10px;font-size:12px}
+  .giftRow{padding:18px 16px}
 }
 </style>
 </head>
