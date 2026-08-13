@@ -16,8 +16,9 @@ window.MUNIVERSE_CONFIG = {
   exitCeremony: {
     enabled: true,
     releaseAt: "2026-08-14T18:00:00+09:00",
-    path: "/exit/",
-    kitPath: "/exit/?tab=kit",
+    // 디렉터리 인덱스를 처리하지 않는 정적 호스팅에서도 열리도록 파일 경로로 지정합니다
+    path: "/exit/index.html",
+    kitPath: "/exit/index.html?tab=kit",
     // 오픈(=release_at) 이후 대표주소 접속을 퇴소식으로 보냅니다. false면 기존처럼 입소로 남습니다
     landOnRelease: true,
     // 오픈 이후 캠프 본 페이지도 퇴소식과 같은 아이보리 배경으로 통일합니다
