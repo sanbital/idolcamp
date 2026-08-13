@@ -341,7 +341,17 @@ window.addEventListener("DOMContentLoaded", function () {
     document.head.appendChild(st);
   }
 
+  /* ?open=preview 로 열리는 상태를 미리 볼 수 있다(대표주소 자동 이동은 건너뛴다) */
+  function isPreview() {
+    return new URLSearchParams(location.search).get("open") === "preview";
+  }
+
   function evaluate(releaseAt) {
+    if (isPreview()) {
+      GATES.forEach(unlock);
+      if (exitCfg.ivoryOnRelease !== false) paintIvory();
+      return;
+    }
     var releaseMs = Date.parse(releaseAt || "") || fallbackRelease;
     if (Date.now() + serverOffset < releaseMs) return;
     GATES.forEach(unlock);
