@@ -654,6 +654,27 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
 /* quieter step numbering, in the camp palette */
 .stepNo{background:var(--gold);border:0;color:#3A2A06;box-shadow:0 2px 0 rgba(150,104,12,.5)}
 .stepIcon{border:1px solid var(--edge);border-radius:var(--r-tile)}
+
+/* ================= private beta v15 — CJK never breaks out of its card ================= */
+/* keep-all is a Korean nicety; on Japanese/Chinese a whole sentence counts as one word,
+   and break-word does not lower the min-content width, so the flex item overflowed. */
+.question,.hint,.step h3,.step p,.vodCard strong,.vodCard p,.againCard strong,.againCard p,
+.kitCard strong,.kitCard p,.reward b,.reward p,.bestLabel,.previewNote,.albumHint,
+.cardChips span,.chip,.certLine,.certName,.tab,.ans{overflow-wrap:anywhere}
+.qside,.qbody>*,.vodCard>*,.againCard>*,.kitCard>*,.step>*,.reward>*{min-width:0}
+:lang(ja) .question,:lang(zh) .question,:lang(zh-Hant) .question,
+:lang(ja) .step h3,:lang(zh) .step h3,:lang(zh-Hant) .step h3{word-break:normal;line-break:strict}
+.cardChips span,.chip{white-space:normal}
+/* the hint kept the old purple accent */
+.hint{color:#5D7A66}
+
+/* ================= private beta v16 — long titles fit the plate ================= */
+.certPlate{max-width:min(300px,100%);padding-left:12px;padding-right:12px}
+.certPlate strong{white-space:normal;word-break:normal;overflow-wrap:anywhere;font-size:clamp(15px,4.6vw,19px)}
+:lang(ja) .certPlate strong,:lang(zh) .certPlate strong,:lang(zh-Hant) .certPlate strong{line-height:1.4}
+.certFoot,.stampGrid{max-width:100%}
+.pcName b,.pcName em{white-space:normal;overflow-wrap:anywhere}
+.pcName em{display:block}
 </style>
 </head>
 <body>
@@ -977,7 +998,7 @@ h1,h2,h3{margin:0;color:var(--navy);font-weight:900;letter-spacing:-.03em;word-b
         <span class="eyebrow" data-i18n="nextLabel">NEXT STORY</span>
         <strong data-i18n="vodTitle">〈아이돌 수련회〉 확장판</strong>
         <p data-i18n="vodDescHome">미공개 비하인드까지, 수련회의 추억을 더 길게 만나보세요.</p>
-        <div class="cardChips"><span data-i18n="chipBehind">미공개 비하인드</span><span data-i18n="chipMuniverse">MUNIVERSE</span></div>
+        <div class="cardChips"><span data-i18n="chipBehind">미공개 비하인드</span><span data-i18n="chipMuniverse">Muniverse</span></div>
       </div>
       <button class="vod" data-i18n="vodBtn">확장판 보러 가기 →</button>
     </div>
@@ -1186,7 +1207,7 @@ const I18N={
   countLabel:'함께 퇴소한 친구',campFriends:'CAMP FRIENDS',
   descN:'{n}명의 수련회 친구와 추억을 나누며 명예롭게 퇴소에 성공했습니다.',
   desc0:'이번에는 함께 퇴소한 친구를 만나지 못했어요. 다시 도전하면 새로운 순서로 추억을 확인할 수 있습니다.',
-  albumLabel:'MY CAMP MEMORIES',albumTitle:'추억의 사진첩',albumHint:'카드를 누르면 뒷면이 보여요.',albumSaveAll:'수료생 카드 전체 저장',chipRetry:'재도전 무제한',chipScenes:'26개 장면',chipGoods:'한정 굿즈',chipFirst:'1기 기념',chipBehind:'미공개 비하인드',chipMuniverse:'MUNIVERSE',albumSlots:'수료생 카드 26칸',cardSaveAsk:'{name} 수료생 카드를 저장할까요?',cardSaveAllAsk:'모은 수료생 카드 {n}장을 한 장의 이미지로 저장할까요?',cardSaved:'수료생 카드를 저장했습니다.',cardSaveFail:'수료생 카드를 저장하지 못했습니다.',cardSaveOne:'이 카드 저장',albumEmpty:'이번엔 사진첩이 비어 있어요.',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'추억의 사진첩',albumHint:'카드를 누르면 뒷면이 보여요.',albumSaveAll:'수료생 카드 전체 저장',chipRetry:'재도전 무제한',chipScenes:'26개 장면',chipGoods:'한정 굿즈',chipFirst:'1기 기념',chipBehind:'미공개 비하인드',chipMuniverse:'Muniverse',albumSlots:'수료생 카드 26칸',cardSaveAsk:'{name} 수료생 카드를 저장할까요?',cardSaveAllAsk:'모은 수료생 카드 {n}장을 한 장의 이미지로 저장할까요?',cardSaved:'수료생 카드를 저장했습니다.',cardSaveFail:'수료생 카드를 저장하지 못했습니다.',cardSaveOne:'이 카드 저장',albumEmpty:'이번엔 사진첩이 비어 있어요.',
   shareLabel:'SHARE MY CERTIFICATE',shareTitle:'수료증 자랑하기',
   shareX:'X에 올리기',shareIg:'인스타그램',shareSave:'이미지 저장',
   shareHint:'수료증을 이미지로 저장하거나 내 계정에 바로 올릴 수 있어요.',
@@ -1200,7 +1221,7 @@ const I18N={
   retryBtn:'처음부터 다시 도전하기'
  },
  'en':{
-  progressLabel:'MY PROGRESS',progressTitle:'Your progress',bestLabel:'Friends made',bestChipLabel:'My best',rewardLabel:'REWARDS',rewardTitle:'What you get',rewardCert:'Exit certificate',rewardCertDesc:'Finish all 26 and your own certificate is issued.',rewardAlbum:'Memory album',rewardAlbumDesc:'Every friend you get right joins your album.',againTitle:'It is fine to miss a few!',againDesc:'Rewatch Idol School Camp and try again as many times as you like.',againBtn:'Go watch Idol School Camp →',kitTitle:'Browse the camp completion kit',kitDesc:'Special goods holding our memories',kitBtn:'See the kit →',
+  progressLabel:'MY PROGRESS',progressTitle:'Your progress',bestLabel:'Friends made',bestChipLabel:'My best',rewardLabel:'REWARDS',rewardTitle:'What you get',rewardCert:'Idol School Camp 1st certificate',rewardCertDesc:'Finish all 26 and your own certificate is issued.',rewardAlbum:'Memory album',rewardAlbumDesc:'Every friend you get right joins your album.',againTitle:'It is fine to miss a few!',againDesc:'Rewatch Idol School Camp and try again as many times as you like.',againBtn:'Rewatch Idol School Camp →',kitTitle:'Browse the camp completion kit',kitDesc:'Special goods holding our memories',kitBtn:'See the kit →',
   tabEnroll:'Enrollment',tabTalent:'Talent Show',tabFarewell:'Exit Ceremony',tabKit:'Completion Kit',soon:'Preparing',
   heroTitle:'Idol School Camp 1st|Exit Ceremony',
   heroKicker:'The last night of camp',heroGisu:'IDOL SCHOOL CAMP 1ST',heroKind:'Exit Ceremony',
@@ -1209,12 +1230,12 @@ const I18N={
   medalCap:'ALL CLEAR',ribbonPerfect:'You graduated with all 26 friends!',
   heroLead:'On the last night of camp, by the campfire,|recall 26 memories and|graduate with your friends in honour.',
   startBtn:'Start Exit Ceremony →',heroNote:'26 scenes from the camp',
-  howLabel:'HOW TO JOIN',howTitle:'How it works',howSub:'About 3 minutes',heroEyebrow:'THE LAST NIGHT OF CAMP',heroDesc:'Camp is over, but the memories are not.|Recall 26 moments and complete|the exit ceremony with your friends.',resultEyebrow:'EXIT COMPLETE',certIssued:'Issued',certSeal:'CAMP<br>PASSED',previewNote:'Complete your memories with 26 friends and receive your own online exit certificate.',step1Head:'A camp scene',step1Body:'Look back on 26 scenes, one at a time.',step2Head:'YES or NO',step2Body:'Answer the question about the scene.',step3Head:'Your certificate',step3Body:'Friends you get right join your album.',
+  howLabel:'HOW TO JOIN',howTitle:'How it works',howSub:'About 3 minutes',heroEyebrow:'THE LAST NIGHT OF CAMP',heroDesc:'Camp is over, but the memories are not.|Recall 26 moments and complete|the exit ceremony with your friends.',resultEyebrow:'EXIT COMPLETE',certIssued:'Issued',certSeal:'CAMP<br>PASSED',previewNote:'Complete your memories with all 26 friends and receive a certificate of your own.',step1Head:'A camp scene',step1Body:'Look back on 26 scenes, one at a time.',step2Head:'YES or NO',step2Body:'Answer the question about the scene.',step3Head:'Your certificate',step3Body:'Friends you get right join your album.',
     howNote:'The order is shuffled on every attempt.',
   nextLabel:'NEXT STORY',vodTitle:'Idol School Camp — Extended Edition',
   vodDescHome:'Unseen behind-the-scenes, and more of the camp you loved.',
   vodDescResult:'Want more of these memories? The extended edition has the unseen cuts.',
-  vodBtn:'Go watch Idol School Camp →',vodPending:'The extended edition link is not ready yet.',
+  vodBtn:'Watch the Extended Edition →',vodPending:'The extended edition link is not ready yet.',
   randChip:'Random order',loadingQ:'Loading the scenes…',imgFail:'This photo could not be loaded.',
   memoryNo:'Memory No.',hintQ:'Do you remember this moment?',
   tipQ:'Your pick moves straight to the next scene',
@@ -1226,7 +1247,7 @@ const I18N={
   descN:'You shared memories with {n} camp friends and graduated with honours.',
   descN1:'You shared memories with 1 camp friend and graduated with honours.',
   desc0:'You did not meet a camp friend this time. Try again for a fresh order of memories.',
-  albumLabel:'MY CAMP MEMORIES',albumTitle:'Memory Album',albumHint:'Tap a card to flip it over.',albumSaveAll:'Save every graduate card',chipRetry:'Unlimited retries',chipScenes:'26 scenes',chipGoods:'Limited goods',chipFirst:'1st class',chipBehind:'Unseen behind',chipMuniverse:'MUNIVERSE',albumSlots:'26 graduate card slots',cardSaveAsk:'Save {name}\u2019s graduate card?',cardSaveAllAsk:'Save your {n} graduate cards as one image?',cardSaved:'Graduate card saved.',cardSaveFail:'The graduate card could not be saved.',cardSaveOne:'Save this card',albumEmpty:'Your album is empty this time.',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'Memory Album',albumHint:'Tap a card to flip it over.',albumSaveAll:'Save every graduate card',chipRetry:'Unlimited retries',chipScenes:'26 scenes',chipGoods:'Limited goods',chipFirst:'1st class',chipBehind:'Unseen behind',chipMuniverse:'Muniverse',albumSlots:'26 graduate card slots',cardSaveAsk:'Save {name}\u2019s graduate card?',cardSaveAllAsk:'Save your {n} graduate cards as one image?',cardSaved:'Graduate card saved.',cardSaveFail:'The graduate card could not be saved.',cardSaveOne:'Save this card',albumEmpty:'Your album is empty this time.',
   shareLabel:'SHARE MY CERTIFICATE',shareTitle:'Share your certificate',
   shareX:'Post on X',shareIg:'Instagram',shareSave:'Save image',
   shareHint:'Save the certificate as an image, or post it straight to your own account.',
@@ -1240,7 +1261,7 @@ const I18N={
   retryBtn:'Try again from the start'
  },
  'ja':{
-  progressLabel:'MY PROGRESS',progressTitle:'これまでの記録',bestLabel:'仲良くなった友だち',bestChipLabel:'自己ベスト',rewardLabel:'REWARDS',rewardTitle:'もらえるもの',rewardCert:'オンライン退所証',rewardCertDesc:'26問すべて終えると自分だけの退所証が発行されます。',rewardAlbum:'思い出アルバム',rewardAlbumDesc:'正解した仲間の写真がアルバムに集まります。',againTitle:'間違えても大丈夫！',againDesc:'『アイドル修練会』をもう一度見て、何度でも挑戦できます。',againBtn:'『アイドル・キャンプ』を見る →',kitTitle:'修了キットを見に行く',kitDesc:'思い出が詰まった特別なグッズ',kitBtn:'修了キットを見る →',
+  progressLabel:'MY PROGRESS',progressTitle:'これまでの記録',bestLabel:'仲良くなった友だち',bestChipLabel:'自己ベスト',rewardLabel:'REWARDS',rewardTitle:'もらえるもの',rewardCert:'アイドル修練会 1期 修了証',rewardCertDesc:'26問すべて終えると自分だけの修了証が発行されます。',rewardAlbum:'思い出アルバム',rewardAlbumDesc:'正解した仲間の写真がアルバムに集まります。',againTitle:'間違えても大丈夫！',againDesc:'『アイドル修練会』をもう一度見て、何度でも挑戦できます。',againBtn:'『アイドル修練会』をもう一度見る →',kitTitle:'修了キットを見に行く',kitDesc:'思い出が詰まった特別なグッズ',kitBtn:'修了キットを見る →',
   tabEnroll:'入所',tabTalent:'隠し芸',tabFarewell:'退所式',tabKit:'修了キット',soon:'準備中',
   heroTitle:'アイドル修練会 1期|退所式',
   heroKicker:'修練会、最後の夜',heroGisu:'アイドル修練会 1期',heroKind:'退所式',
@@ -1249,29 +1270,29 @@ const I18N={
   medalCap:'ALL CLEAR',ribbonPerfect:'26人全員と修了しました！',
   heroLead:'修練会の最後の夜、キャンプファイアの前で|26の思い出を振り返り|仲間と名誉ある退所をしましょう。',
   startBtn:'退所式を始める →',heroNote:'修練会のシーン26個',
-  howLabel:'HOW TO JOIN',howTitle:'退所式の流れ',howSub:'約3分で終わります',heroEyebrow:'アイドル修練会、最後の夜',heroDesc:'修練会が終わっても、思い出は続きます。|26の瞬間を思い出しながら、仲間と一緒に|最後の退所式を完成させましょう。',resultEyebrow:'EXIT COMPLETE',certIssued:'発行日',certSeal:'修練会<br>修了',previewNote:'26人の仲間との思い出を完成させて、自分だけのオンライン退所証を受け取りましょう。',step1Head:'思い出のシーン',step1Body:'26のシーンをひとつずつ確認します。',step2Head:'YES or NO',step2Body:'シーンに関する質問に答えます。',step3Head:'退所証の完成',step3Body:'正解した仲間がアルバムに追加されます。',
+  howLabel:'HOW TO JOIN',howTitle:'退所式の流れ',howSub:'約3分で終わります',heroEyebrow:'アイドル修練会、最後の夜',heroDesc:'修練会が終わっても、思い出は続きます。|26の瞬間を思い出しながら、仲間と一緒に|最後の退所式を完成させましょう。',resultEyebrow:'EXIT COMPLETE',certIssued:'発行日',certSeal:'修練会<br>修了',previewNote:'26人の仲間との思い出を完成させて、自分だけの修了証を受け取りましょう。',step1Head:'思い出のシーン',step1Body:'26のシーンをひとつずつ確認します。',step2Head:'YES or NO',step2Body:'シーンに関する質問に答えます。',step3Head:'修了証の完成',step3Body:'正解した仲間がアルバムに追加されます。',
     howNote:'出題順は挑戦するたびにシャッフルされます。',
   nextLabel:'NEXT STORY',vodTitle:'『アイドル修練会』拡張版',
   vodDescHome:'未公開のビハインドまで、修練会の思い出をもっと長く。',
   vodDescResult:'この思い出をもっと長く見たいなら、拡張版で未公開シーンまで。',
-  vodBtn:'『アイドル・キャンプ』を見る →',vodPending:'拡張版のリンクは準備中です。',
+  vodBtn:'拡張版を見る →',vodPending:'拡張版のリンクは準備中です。',
   randChip:'ランダム出題',loadingQ:'問題を読み込んでいます。',imgFail:'写真を読み込めませんでした。',
   memoryNo:'思い出 No.',hintQ:'この瞬間を覚えていますか？',
   tipQ:'選ぶとすぐ次のシーンへ進みます',
   grading:'思い出を整理しています',gradeFail:'集計に失敗しました。もう一度お試しください。',
   loadFail:'退所式のデータを読み込めませんでした。',preparing:'準備中…',
-  ribbon:'名誉ある退所に成功しました！',certName:'オンライン退所証',
+  ribbon:'名誉ある退所に成功しました！',certName:'アイドル修練会 1期 修了証',
   lead:'あなたは',titleTpl:'{t}研修生',tail:'です。',fallback0:'まだ名札を握りしめている',fallbackN:'{n}人の友だちを集めた',
   countLabel:'一緒に退所した仲間',campFriends:'CAMP FRIENDS',
   descN:'{n}人の修練会の仲間と思い出を分かち合い、名誉ある退所に成功しました。',
   desc0:'今回は一緒に退所する仲間に出会えませんでした。もう一度挑戦すると新しい順番で思い出を確認できます。',
-  albumLabel:'MY CAMP MEMORIES',albumTitle:'思い出アルバム',albumHint:'カードをタップすると裏面が見られます。',albumSaveAll:'修了生カードをまとめて保存',chipRetry:'再挑戦は無制限',chipScenes:'26シーン',chipGoods:'限定グッズ',chipFirst:'1期記念',chipBehind:'未公開ビハインド',chipMuniverse:'MUNIVERSE',albumSlots:'修了生カード26枠',cardSaveAsk:'{name}の修了生カードを保存しますか？',cardSaveAllAsk:'集めた修了生カード{n}枚を1枚の画像として保存しますか？',cardSaved:'修了生カードを保存しました。',cardSaveFail:'修了生カードを保存できませんでした。',cardSaveOne:'このカードを保存',albumEmpty:'今回はアルバムが空っぽです。',
-  shareLabel:'SHARE MY CERTIFICATE',shareTitle:'退所証をシェアする',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'思い出アルバム',albumHint:'カードをタップすると裏面が見られます。',albumSaveAll:'修了生カードをまとめて保存',chipRetry:'再挑戦は無制限',chipScenes:'26シーン',chipGoods:'限定グッズ',chipFirst:'1期記念',chipBehind:'未公開ビハインド',chipMuniverse:'Muniverse',albumSlots:'修了生カード26枠',cardSaveAsk:'{name}の修了生カードを保存しますか？',cardSaveAllAsk:'集めた修了生カード{n}枚を1枚の画像として保存しますか？',cardSaved:'修了生カードを保存しました。',cardSaveFail:'修了生カードを保存できませんでした。',cardSaveOne:'このカードを保存',albumEmpty:'今回はアルバムが空っぽです。',
+  shareLabel:'SHARE MY CERTIFICATE',shareTitle:'修了証を自慢する',
   shareX:'Xに投稿',shareIg:'Instagram',shareSave:'画像を保存',
-  shareHint:'退所証を画像で保存したり、自分のアカウントにそのまま投稿できます。',
-  shareSaved:'退所証の画像を保存しました。',
-  shareSavedX:'退所証の画像を保存しました。Xの投稿画面で添付してください。',
-  shareSavedIg:'退所証の画像を保存しました。Instagramアプリからアップロードしてください。',
+  shareHint:'修了証を画像で保存したり、自分のアカウントにそのまま投稿できます。',
+  shareSaved:'修了証の画像を保存しました。',
+  shareSavedX:'修了証の画像を保存しました。Xの投稿画面で添付してください。',
+  shareSavedIg:'修了証の画像を保存しました。Instagramアプリからアップロードしてください。',
   shareSheetIg:'Instagramを選ぶと自分のアカウントにそのまま投稿できます。',
   shareSheetOk:'共有が完了すると自分のアカウントに投稿されます。',
   shareFail:'画像を作成できませんでした。画面をキャプチャしてください。',
@@ -1279,7 +1300,7 @@ const I18N={
   retryBtn:'最初からやり直す'
  },
  'zh-CN':{
-  progressLabel:'MY PROGRESS',progressTitle:'我的进度',bestLabel:'交到的朋友',bestChipLabel:'我的最佳',rewardLabel:'REWARDS',rewardTitle:'奖励说明',rewardCert:'线上退所证书',rewardCertDesc:'完成全部 26 题即可获得专属退所证书。',rewardAlbum:'回忆相册',rewardAlbumDesc:'答对的朋友会收进你的相册。',againTitle:'答错也没关系！',againDesc:'重看《偶像修炼会》，想挑战几次都可以。',againBtn:'去看《偶像修炼会》 →',kitTitle:'去看结业礼包',kitDesc:'装满我们回忆的特别周边',kitBtn:'查看结业礼包 →',
+  progressLabel:'MY PROGRESS',progressTitle:'我的进度',bestLabel:'交到的朋友',bestChipLabel:'我的最佳',rewardLabel:'REWARDS',rewardTitle:'奖励说明',rewardCert:'《偶像修炼会》1 期结业证书',rewardCertDesc:'完成全部 26 题即可获得专属结业证书。',rewardAlbum:'回忆相册',rewardAlbumDesc:'答对的朋友会收进你的相册。',againTitle:'答错也没关系！',againDesc:'重看《偶像修炼会》，想挑战几次都可以。',againBtn:'重看《偶像修炼会》 →',kitTitle:'去看结业礼包',kitDesc:'装满我们回忆的特别周边',kitBtn:'查看结业礼包 →',
   tabEnroll:'入所',tabTalent:'才艺表演',tabFarewell:'退所式',tabKit:'结业礼包',soon:'准备中',
   heroTitle:'偶像修炼会 1期|退所式',
   heroKicker:'修炼会的最后一夜',heroGisu:'偶像修炼会 1期',heroKind:'退所式',
@@ -1288,29 +1309,29 @@ const I18N={
   medalCap:'ALL CLEAR',ribbonPerfect:'与26位朋友一起完成结业！',
   heroLead:'修炼会的最后一夜，在营火前|回想 26 个回忆|和朋友们光荣退所吧。',
   startBtn:'开始退所式 →',heroNote:'修炼会的 26 个场景',
-  howLabel:'HOW TO JOIN',howTitle:'退所式流程',howSub:'大约 3 分钟',heroEyebrow:'偶像修炼会的最后一夜',heroDesc:'修炼会结束了，但回忆还在继续。|回想 26 个瞬间，和朋友们一起|完成最后的退所式吧。',resultEyebrow:'EXIT COMPLETE',certIssued:'发放日',certSeal:'修炼会<br>结业',previewNote:'与 26 位朋友一起完成回忆，领取属于你的线上退所证书。',step1Head:'回忆的场景',step1Body:'逐一确认 26 个场景。',step2Head:'YES or NO',step2Body:'回答与场景相关的问题。',step3Head:'完成退所证',step3Body:'答对的朋友会加入相册。',
+  howLabel:'HOW TO JOIN',howTitle:'退所式流程',howSub:'大约 3 分钟',heroEyebrow:'偶像修炼会的最后一夜',heroDesc:'修炼会结束了，但回忆还在继续。|回想 26 个瞬间，和朋友们一起|完成最后的退所式吧。',resultEyebrow:'EXIT COMPLETE',certIssued:'发放日',certSeal:'修炼会<br>结业',previewNote:'与 26 位朋友一起完成回忆，领取属于你的结业证书。',step1Head:'回忆的场景',step1Body:'逐一确认 26 个场景。',step2Head:'YES or NO',step2Body:'回答与场景相关的问题。',step3Head:'完成结业证书',step3Body:'答对的朋友会加入相册。',
     howNote:'题目顺序每次挑战都会打乱。',
   nextLabel:'NEXT STORY',vodTitle:'《偶像修炼会》扩展版',
   vodDescHome:'连未公开花絮都有，把修炼会的回忆看得更久。',
   vodDescResult:'想把这些回忆看得更久？扩展版有未公开片段。',
-  vodBtn:'去看《偶像修炼会》 →',vodPending:'扩展版链接正在准备中。',
+  vodBtn:'去看扩展版 →',vodPending:'扩展版链接正在准备中。',
   randChip:'随机出题',loadingQ:'正在载入题目。',imgFail:'无法载入照片。',
   memoryNo:'回忆 No.',hintQ:'你记得这个瞬间吗？',
   tipQ:'选择后立即进入下一个场景',
   grading:'正在整理回忆',gradeFail:'统计失败，请再试一次。',
   loadFail:'无法载入退所式数据。',preparing:'准备中…',
-  ribbon:'恭喜成功完成退所！',certName:'线上退所证书',
+  ribbon:'恭喜成功完成退所！',certName:'《偶像修炼会》1 期结业证书',
   lead:'你是',titleTpl:'{t}修炼生',tail:'',fallback0:'还没脱离社恐的',fallbackN:'收集了 {n} 位朋友的',
   countLabel:'一起完成退所的朋友',campFriends:'CAMP FRIENDS',
   descN:'你与 {n} 位修炼会朋友分享回忆，光荣完成了退所。',
   desc0:'这次没有遇到一起退所的朋友。再挑战一次，就能以新的顺序确认回忆。',
-  albumLabel:'MY CAMP MEMORIES',albumTitle:'回忆相册',albumHint:'点一下卡片就能翻到背面。',albumSaveAll:'保存全部结业生卡片',chipRetry:'无限次挑战',chipScenes:'26 个场景',chipGoods:'限定周边',chipFirst:'1期纪念',chipBehind:'未公开花絮',chipMuniverse:'MUNIVERSE',albumSlots:'26 个结业生卡片位',cardSaveAsk:'要保存{name}的结业生卡片吗？',cardSaveAllAsk:'要把收集到的 {n} 张结业生卡片保存为一张图片吗？',cardSaved:'结业生卡片已保存。',cardSaveFail:'无法保存结业生卡片。',cardSaveOne:'保存这张卡',albumEmpty:'这次相册是空的。',
-  shareLabel:'SHARE MY CERTIFICATE',shareTitle:'分享退所结果',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'回忆相册',albumHint:'点一下卡片就能翻到背面。',albumSaveAll:'保存全部结业生卡片',chipRetry:'无限次挑战',chipScenes:'26 个场景',chipGoods:'限定周边',chipFirst:'1期纪念',chipBehind:'未公开花絮',chipMuniverse:'Muniverse',albumSlots:'26 个结业生卡片位',cardSaveAsk:'要保存{name}的结业生卡片吗？',cardSaveAllAsk:'要把收集到的 {n} 张结业生卡片保存为一张图片吗？',cardSaved:'结业生卡片已保存。',cardSaveFail:'无法保存结业生卡片。',cardSaveOne:'保存这张卡',albumEmpty:'这次相册是空的。',
+  shareLabel:'SHARE MY CERTIFICATE',shareTitle:'炫耀我的结业证书',
   shareX:'发布到 X',shareIg:'Instagram',shareSave:'保存图片',
-  shareHint:'可以把退所证保存为图片，或直接发布到自己的账号。',
-  shareSaved:'已保存退所证图片。',
-  shareSavedX:'已保存退所证图片。请在 X 的发布窗口中附上图片。',
-  shareSavedIg:'已保存退所证图片。请从 Instagram 应用上传。',
+  shareHint:'可以把结业证书保存为图片，或直接发布到自己的账号。',
+  shareSaved:'已保存结业证书图片。',
+  shareSavedX:'已保存结业证书图片。请在 X 的发布窗口中附上图片。',
+  shareSavedIg:'已保存结业证书图片。请从 Instagram 应用上传。',
   shareSheetIg:'选择 Instagram 就能直接发布到自己的账号。',
   shareSheetOk:'分享完成后会发布到你自己的账号。',
   shareFail:'无法生成图片，请截屏保存。',
@@ -1318,7 +1339,7 @@ const I18N={
   retryBtn:'从头再挑战'
  },
  'zh-TW':{
-  progressLabel:'MY PROGRESS',progressTitle:'我的進度',bestLabel:'交到的好友',bestChipLabel:'我的最佳',rewardLabel:'REWARDS',rewardTitle:'獎勵說明',rewardCert:'線上退所證書',rewardCertDesc:'完成全部 26 題即可獲得專屬退所證書。',rewardAlbum:'回憶相冊',rewardAlbumDesc:'答對的好友會收進你的相冊。',againTitle:'答錯也沒關係！',againDesc:'重看《偶像修煉會》，想挑戰幾次都可以。',againBtn:'前往觀看《偶像修煉會》 →',kitTitle:'去看結業禮包',kitDesc:'裝滿我們回憶的特別周邊',kitBtn:'查看結業禮包 →',
+  progressLabel:'MY PROGRESS',progressTitle:'我的進度',bestLabel:'交到的好友',bestChipLabel:'我的最佳',rewardLabel:'REWARDS',rewardTitle:'獎勵說明',rewardCert:'《偶像修煉會》1 期結業證書',rewardCertDesc:'完成全部 26 題即可獲得專屬結業證書。',rewardAlbum:'回憶相冊',rewardAlbumDesc:'答對的好友會收進你的相冊。',againTitle:'答錯也沒關係！',againDesc:'重看《偶像修煉會》，想挑戰幾次都可以。',againBtn:'重看《偶像修煉會》 →',kitTitle:'去看結業禮包',kitDesc:'裝滿我們回憶的特別周邊',kitBtn:'查看結業禮包 →',
   tabEnroll:'入所',tabTalent:'才藝表演',tabFarewell:'退所式',tabKit:'結業禮包',soon:'準備中',
   heroTitle:'偶像修煉會 1期|退所式',
   heroKicker:'修煉會的最後一夜',heroGisu:'偶像修煉會 1期',heroKind:'退所式',
@@ -1327,29 +1348,29 @@ const I18N={
   medalCap:'ALL CLEAR',ribbonPerfect:'與26位好友一起完成結業！',
   heroLead:'修煉會的最後一夜，在營火前|回想 26 個回憶|和朋友們光榮退所吧。',
   startBtn:'開始退所式 →',heroNote:'修煉會的 26 個場景',
-  howLabel:'HOW TO JOIN',howTitle:'退所式流程',howSub:'大約 3 分鐘',heroEyebrow:'偶像修煉會的最後一夜',heroDesc:'修煉會結束了，但回憶還在繼續。|回想 26 個瞬間，和朋友們一起|完成最後的退所式吧。',resultEyebrow:'EXIT COMPLETE',certIssued:'發放日',certSeal:'修煉會<br>結業',previewNote:'與 26 位朋友一起完成回憶，領取屬於你的線上退所證書。',step1Head:'回憶的場景',step1Body:'逐一確認 26 個場景。',step2Head:'YES or NO',step2Body:'回答與場景相關的問題。',step3Head:'完成退所證',step3Body:'答對的朋友會加入相冊。',
+  howLabel:'HOW TO JOIN',howTitle:'退所式流程',howSub:'大約 3 分鐘',heroEyebrow:'偶像修煉會的最後一夜',heroDesc:'修煉會結束了，但回憶還在繼續。|回想 26 個瞬間，和朋友們一起|完成最後的退所式吧。',resultEyebrow:'EXIT COMPLETE',certIssued:'發放日',certSeal:'修煉會<br>結業',previewNote:'與 26 位朋友一起完成回憶，領取屬於你的結業證書。',step1Head:'回憶的場景',step1Body:'逐一確認 26 個場景。',step2Head:'YES or NO',step2Body:'回答與場景相關的問題。',step3Head:'完成結業證書',step3Body:'答對的朋友會加入相冊。',
     howNote:'題目順序每次挑戰都會打亂。',
   nextLabel:'NEXT STORY',vodTitle:'《偶像修煉會》擴充版',
   vodDescHome:'連未公開花絮都有，把修煉會的回憶看得更久。',
   vodDescResult:'想把這些回憶看得更久？擴充版有未公開片段。',
-  vodBtn:'前往觀看《偶像修煉會》 →',vodPending:'擴充版連結準備中。',
+  vodBtn:'前往觀看擴充版 →',vodPending:'擴充版連結準備中。',
   randChip:'隨機出題',loadingQ:'正在載入題目。',imgFail:'無法載入照片。',
   memoryNo:'回憶 No.',hintQ:'你記得這個瞬間嗎？',
   tipQ:'選擇後立即進入下一個場景',
   grading:'正在整理回憶',gradeFail:'統計失敗，請再試一次。',
   loadFail:'無法載入退所式資料。',preparing:'準備中…',
-  ribbon:'恭喜成功完成退所！',certName:'線上退所證書',
+  ribbon:'恭喜成功完成退所！',certName:'《偶像修煉會》1 期結業證書',
   lead:'你是',titleTpl:'{t}修煉生',tail:'',fallback0:'還沒擺脫社恐的',fallbackN:'收集了 {n} 位朋友的',
   countLabel:'一起完成退所的好友',campFriends:'CAMP FRIENDS',
   descN:'你與 {n} 位修煉會朋友分享回憶，光榮完成了退所。',
   desc0:'這次沒有遇到一起退所的朋友。再挑戰一次，就能以新的順序確認回憶。',
-  albumLabel:'MY CAMP MEMORIES',albumTitle:'回憶相冊',albumHint:'點一下卡片就能翻到背面。',albumSaveAll:'儲存全部結業生卡片',chipRetry:'無限次挑戰',chipScenes:'26 個場景',chipGoods:'限定周邊',chipFirst:'1期紀念',chipBehind:'未公開花絮',chipMuniverse:'MUNIVERSE',albumSlots:'26 個結業生卡片位',cardSaveAsk:'要儲存{name}的結業生卡片嗎？',cardSaveAllAsk:'要把收集到的 {n} 張結業生卡片儲存為一張圖片嗎？',cardSaved:'結業生卡片已儲存。',cardSaveFail:'無法儲存結業生卡片。',cardSaveOne:'儲存這張卡',albumEmpty:'這次相冊是空的。',
-  shareLabel:'SHARE MY CERTIFICATE',shareTitle:'分享退所結果',
+  albumLabel:'MY CAMP MEMORIES',albumTitle:'回憶相冊',albumHint:'點一下卡片就能翻到背面。',albumSaveAll:'儲存全部結業生卡片',chipRetry:'無限次挑戰',chipScenes:'26 個場景',chipGoods:'限定周邊',chipFirst:'1期紀念',chipBehind:'未公開花絮',chipMuniverse:'Muniverse',albumSlots:'26 個結業生卡片位',cardSaveAsk:'要儲存{name}的結業生卡片嗎？',cardSaveAllAsk:'要把收集到的 {n} 張結業生卡片儲存為一張圖片嗎？',cardSaved:'結業生卡片已儲存。',cardSaveFail:'無法儲存結業生卡片。',cardSaveOne:'儲存這張卡',albumEmpty:'這次相冊是空的。',
+  shareLabel:'SHARE MY CERTIFICATE',shareTitle:'炫耀我的結業證書',
   shareX:'發布到 X',shareIg:'Instagram',shareSave:'儲存圖片',
-  shareHint:'可以把退所證儲存為圖片，或直接發布到自己的帳號。',
-  shareSaved:'已儲存退所證圖片。',
-  shareSavedX:'已儲存退所證圖片。請在 X 的發文視窗附上圖片。',
-  shareSavedIg:'已儲存退所證圖片。請從 Instagram App 上傳。',
+  shareHint:'可以把結業證書儲存為圖片，或直接發布到自己的帳號。',
+  shareSaved:'已儲存結業證書圖片。',
+  shareSavedX:'已儲存結業證書圖片。請在 X 的發文視窗附上圖片。',
+  shareSavedIg:'已儲存結業證書圖片。請從 Instagram App 上傳。',
   shareSheetIg:'選擇 Instagram 就能直接發布到自己的帳號。',
   shareSheetOk:'分享完成後會發布到你自己的帳號。',
   shareFail:'無法產生圖片，請截圖保存。',

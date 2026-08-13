@@ -39,18 +39,18 @@
   </section>
 
   <section class="card">
-    <div class="toolbar"><div style="flex:1"><h2 style="margin:0">1. 뮤니버스 계정–X 계정 검수</h2><div class="muted">승인 시 뮤니버스 가입·X 계정 일치·공식 X 팔로우 확인으로 기록됩니다. 해당 작품의 기존 신고는 초기화되고 이후 신고 버튼이 비활성화됩니다.</div></div><label>상태<select id="identityStatus"><option value="pending">검수 대기</option><option value="verified">승인</option><option value="rejected">반려</option><option value="">전체</option></select></label><button class="ghost" id="copyIdentityBtn">검수 목록 복사</button></div>
-    <div class="table-wrap"><table><thead><tr><th><input type="checkbox" id="identAll" title="전체 선택"></th><th>ID</th><th>뮤니버스 계정</th><th>X 계정</th><th>출처</th><th>작품 수</th><th>팔로우 주장</th><th>상태</th><th>등록</th><th>처리</th></tr></thead><tbody id="identityBody"></tbody></table></div>
+    <div class="toolbar"><div style="flex:1"><h2 style="margin:0">1. Muniverse 계정–X 계정 검수</h2><div class="muted">승인 시 Muniverse 가입·X 계정 일치·공식 X 팔로우 확인으로 기록됩니다. 해당 작품의 기존 신고는 초기화되고 이후 신고 버튼이 비활성화됩니다.</div></div><label>상태<select id="identityStatus"><option value="pending">검수 대기</option><option value="verified">승인</option><option value="rejected">반려</option><option value="">전체</option></select></label><button class="ghost" id="copyIdentityBtn">검수 목록 복사</button></div>
+    <div class="table-wrap"><table><thead><tr><th><input type="checkbox" id="identAll" title="전체 선택"></th><th>ID</th><th>Muniverse 계정</th><th>X 계정</th><th>출처</th><th>작품 수</th><th>팔로우 주장</th><th>상태</th><th>등록</th><th>처리</th></tr></thead><tbody id="identityBody"></tbody></table></div>
     <div class="actions" style="margin-top:10px"><button id="pickVerifyBtn">선택 항목 일괄 승인</button><button class="danger" id="pickRejectBtn">선택 항목 일괄 반려</button><span class="muted" style="align-self:center">표에서 확인이 끝난 행을 체크한 뒤 처리하세요.</span></div>
     <h3>이메일 붙여넣기 승인</h3>
-    <div class="muted">뮤니버스 관리자에서 확인을 마친 <b>뮤니버스 이메일만</b> 한 줄에 하나씩 붙여넣으세요. X 계정은 검수 대기 목록과 자동 대조되며, <b>이메일,@X계정</b> 형식으로 붙여넣으면 불일치까지 검사합니다. 대조 결과는 승인 전에 미리 보여줍니다.</div>
+    <div class="muted">Muniverse 관리자에서 확인을 마친 <b>Muniverse 이메일만</b> 한 줄에 하나씩 붙여넣으세요. X 계정은 검수 대기 목록과 자동 대조되며, <b>이메일,@X계정</b> 형식으로 붙여넣으면 불일치까지 검사합니다. 대조 결과는 승인 전에 미리 보여줍니다.</div>
     <textarea id="bulkIdentity" placeholder="user1@example.com&#10;user2@example.com,@x_account"></textarea>
     <div class="actions"><button id="bulkVerifyBtn">붙여넣은 목록 대조 후 승인</button></div>
   </section>
 
   <section class="card">
     <div class="toolbar"><div style="flex:1"><h2 style="margin:0">2. 작품 관리</h2></div><label>작품 상태<select id="entryStatus"><option value="">전체</option><option value="approved" selected>승인</option><option value="hidden">숨김</option><option value="rejected">반려</option><option value="unavailable">삭제·비공개</option><option value="removed">운영 삭제</option></select></label><button class="ghost" id="loadEntriesBtn">조회</button><button class="ghost" id="exportCsvBtn">CSV 다운로드</button></div>
-    <div class="table-wrap"><table><thead><tr><th>ID</th><th>팀</th><th>제목</th><th>뮤니버스</th><th>X 계정</th><th>계정 검수</th><th>좋아요</th><th>작품 상태</th><th>작품</th><th>처리</th></tr></thead><tbody id="entryBody"></tbody></table></div>
+    <div class="table-wrap"><table><thead><tr><th>ID</th><th>팀</th><th>제목</th><th>Muniverse</th><th>X 계정</th><th>계정 검수</th><th>좋아요</th><th>작품 상태</th><th>작품</th><th>처리</th></tr></thead><tbody id="entryBody"></tbody></table></div>
   </section>
 
   <section class="card">
@@ -85,7 +85,7 @@ async function loadSnapshots(){const rows=await rpc("scoreboard_admin_snapshot_l
 async function loadMemeSummary(){const d=await rpc("meme_admin_summary",{p_admin_key:adminKey()}),items=[["계정 검수 대기",d.identity_pending],["승인 작품",d.approved],["반려",d.rejected],["숨김",d.hidden],["비공개",d.unavailable],["결선",d.finalists]];$("#memeSummary").innerHTML=items.map(i=>`<div class="stat"><span>${i[0]}</span><b>${Number(i[1]||0).toLocaleString()}</b></div>`).join("")}
 let identityRows=[];
 async function loadIdentities(){identityRows=await rpc("meme_admin_identity_list",{p_admin_key:adminKey(),p_status:$("#identityStatus").value||null,p_limit:500})||[];$("#identityBody").innerHTML=identityRows.map(r=>`<tr><td>${r.status==="pending"?`<input type="checkbox" class="identPick" value="${r.id}">`:""}</td><td>${r.id}</td><td><b>${esc(r.muniverse_account)}</b></td><td><a href="https://x.com/${esc(String(r.x_username).replace(/^@/,""))}" target="_blank" rel="noopener">@${esc(String(r.x_username).replace(/^@/,""))}</a></td><td>${esc(r.source)}</td><td>${r.entry_count}</td><td>${r.follows_claimed?"예":"아니오"}</td><td><span class="pill ${esc(r.status)}">${esc(r.status)}</span></td><td>${new Date(r.created_at).toLocaleString("ko-KR")}</td><td><div class="table-actions">${r.status==="pending"?`<button data-ident="verify" data-id="${r.id}">승인</button><button class="danger" data-ident="reject" data-id="${r.id}">반려</button>`:""}</div></td></tr>`).join("")||`<tr><td colspan="10" class="muted">대상이 없습니다.</td></tr>`;document.querySelectorAll("[data-ident]").forEach(b=>b.onclick=()=>setIdentity(Number(b.dataset.id),b.dataset.ident));const ia=$("#identAll");if(ia){ia.checked=false;ia.onclick=()=>document.querySelectorAll(".identPick").forEach(c=>c.checked=ia.checked)}}
-async function setIdentity(id,action){let note="";if(action==="verify"){if(!confirm("뮤니버스 계정 존재와 공식 X 팔로우를 모두 확인했습니까?"))return}else{note=prompt("반려 사유")||"";if(!note)return}await rpc("meme_admin_identity_set",{p_admin_key:adminKey(),p_binding_id:id,p_action:action,p_follow_verified:action==="verify",p_note:note,p_admin_name:"admin"});toast(action==="verify"?"계정 승인 완료":"계정 반려 완료");await refreshTalent()}
+async function setIdentity(id,action){let note="";if(action==="verify"){if(!confirm("Muniverse 계정 존재와 공식 X 팔로우를 모두 확인했습니까?"))return}else{note=prompt("반려 사유")||"";if(!note)return}await rpc("meme_admin_identity_set",{p_admin_key:adminKey(),p_binding_id:id,p_action:action,p_follow_verified:action==="verify",p_note:note,p_admin_name:"admin"});toast(action==="verify"?"계정 승인 완료":"계정 반려 완료");await refreshTalent()}
 async function loadEntries(){const rows=await rpc("meme_admin_list",{p_admin_key:adminKey(),p_status:$("#entryStatus").value||null,p_limit:500});$("#entryBody").innerHTML=(rows||[]).map(r=>`<tr class="${r.is_finalist?"finalist":""}"><td>${r.id}${r.finalist_rank?`<br>결선 ${r.finalist_rank}위`:""}</td><td><span class="pill">${TEAMS[r.team_id]||r.team_id}</span></td><td><b>${esc(r.title)}</b></td><td>${esc(r.muniverse_account||"-")}</td><td><a href="${esc(r.x_profile_url)}" target="_blank" rel="noopener">@${esc(r.x_username)}</a></td><td><span class="pill ${esc(r.identity_status)}">${esc(r.identity_status)}</span></td><td>${Number(r.like_count||0).toLocaleString()}</td><td><span class="pill ${esc(r.status)}">${esc(r.status)}</span></td><td><a href="${esc(r.post_url)}" target="_blank" rel="noopener">X에서 보기</a></td><td><div class="table-actions">${r.status!=="approved"?`<button data-entry="approve" data-id="${r.id}">열기</button>`:""}<button class="ghost" data-entry="reject" data-id="${r.id}">반려</button><button class="danger" data-entry="remove" data-id="${r.id}">삭제</button></div></td></tr>`).join("")||`<tr><td colspan="10" class="muted">작품이 없습니다.</td></tr>`;document.querySelectorAll("[data-entry]").forEach(b=>b.onclick=()=>moderateEntry(Number(b.dataset.id),b.dataset.entry));await loadFinalists(rows||[])}
 async function moderateEntry(id,action){const note=action==="approve"?"":prompt(action==="reject"?"반려 사유":"삭제 사유")||"";if(action!=="approve"&&!note)return;if(!confirm(`${id}번 작품을 처리할까요?`))return;await rpc("meme_admin_moderate",{p_admin_key:adminKey(),p_entry_id:id,p_action:action,p_note:note,p_admin_name:"admin"});toast("작품 처리 완료");refreshTalent()}
 async function loadReports(){const rows=await rpc("meme_admin_reports",{p_admin_key:adminKey(),p_limit:500});$("#reportBody").innerHTML=(rows||[]).map(r=>`<tr class="${r.status==="hidden"?"finalist":""}"><td>${r.id}</td><td>${TEAMS[r.team_id]||r.team_id}</td><td><b>${esc(r.title)}</b></td><td>@${esc(r.x_username)}</td><td>${Number(r.like_count||0).toLocaleString()}</td><td><b>${r.report_count}</b></td><td><span class="pill ${esc(r.status)}">${esc(r.status)}</span></td><td><a href="${esc(r.post_url)}" target="_blank" rel="noopener">X에서 보기</a></td><td><div class="table-actions"><button data-report="restore" data-id="${r.id}">복구</button><button class="danger" data-report="remove" data-id="${r.id}">삭제</button></div></td></tr>`).join("")||`<tr><td colspan="9" class="muted">신고 작품이 없습니다.</td></tr>`;document.querySelectorAll("[data-report]").forEach(b=>b.onclick=()=>reportAction(Number(b.dataset.id),b.dataset.report))}
@@ -113,7 +113,7 @@ $("#bulkVerifyBtn").onclick=async()=>{try{
     pairs.push({muniverse_account:row.muniverse_account,x_username:String(row.x_username).replace(/^@/,"")});
   }
   if(!pairs.length)return alert("승인 가능한 항목이 없습니다.\n\n"+skipped.slice(0,10).join("\n"));
-  let msg=`대조 완료: ${pairs.length}건 승인 대상.\n뮤니버스 가입과 공식 X 팔로우를 모두 확인했습니까?`;
+  let msg=`대조 완료: ${pairs.length}건 승인 대상.\nMuniverse 가입과 공식 X 팔로우를 모두 확인했습니까?`;
   if(skipped.length)msg+=`\n\n제외 ${skipped.length}건:\n`+skipped.slice(0,10).join("\n")+(skipped.length>10?"\n…":"");
   if(!confirm(msg))return;
   const d=await rpc("meme_admin_bulk_verify_identities",{p_admin_key:adminKey(),p_pairs:pairs,p_admin_name:"admin"});
@@ -122,7 +122,7 @@ $("#bulkVerifyBtn").onclick=async()=>{try{
 function pickedIdentityRows(){const ids=[...document.querySelectorAll(".identPick:checked")].map(c=>Number(c.value));return identityRows.filter(r=>ids.includes(r.id))}
 $("#pickVerifyBtn").onclick=async()=>{try{
   const rows=pickedIdentityRows();if(!rows.length)return alert("체크된 항목이 없습니다.");
-  if(!confirm(`선택한 ${rows.length}개 조합의 뮤니버스 가입과 공식 X 팔로우를 모두 확인했습니까?`))return;
+  if(!confirm(`선택한 ${rows.length}개 조합의 Muniverse 가입과 공식 X 팔로우를 모두 확인했습니까?`))return;
   const pairs=rows.map(r=>({muniverse_account:r.muniverse_account,x_username:String(r.x_username).replace(/^@/,"")}));
   const d=await rpc("meme_admin_bulk_verify_identities",{p_admin_key:adminKey(),p_pairs:pairs,p_admin_name:"admin"});
   toast(`${d.verified||0}개 승인 완료`);refreshTalent();
@@ -138,7 +138,7 @@ $("#exportCsvBtn").onclick=async()=>{try{
   if(!rows||!rows.length)return alert("내려받을 작품이 없습니다.");
   const kst=v=>v?new Date(v).toLocaleString("sv-SE",{timeZone:"Asia/Seoul"}):"";
   const q=v=>{const x=String(v??"");return /[",\n\r]/.test(x)?'"'+x.replace(/"/g,'""')+'"':x};
-  const head=["ID","팀","작품 제목","뮤니버스 계정","X 계정","X 프로필 주소","게시물 주소","게시물 업로드(KST)","등록 시간(KST)","계정 검수","작품 상태","좋아요","리포스트","신고 수","결선 진출","결선 순위"];
+  const head=["ID","팀","작품 제목","Muniverse 계정","X 계정","X 프로필 주소","게시물 주소","게시물 업로드(KST)","등록 시간(KST)","계정 검수","작품 상태","좋아요","리포스트","신고 수","결선 진출","결선 순위"];
   const lines=[head.join(",")].concat(rows.map(r=>[
     r.id, TEAMS[r.team_id]||r.team_id||"", r.title,
     r.muniverse_account, "@"+String(r.x_username||"").replace(/^@/,""),
