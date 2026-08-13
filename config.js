@@ -18,6 +18,8 @@ window.MUNIVERSE_CONFIG = {
     releaseAt: "2026-08-14T18:00:00+09:00",
     path: "/exit/",
     kitPath: "/exit/?tab=kit",
+    // 오픈(=release_at) 이후 대표주소 접속을 퇴소식으로 보냅니다. false면 기존처럼 입소로 남습니다
+    landOnRelease: true,
     // false로 바꾸면 이미지 리사이즈를 끄고 원본을 그대로 내보냅니다 (배포 불필요)
     optimizeImages: true
   },
@@ -266,9 +268,25 @@ window.addEventListener("DOMContentLoaded", function () {
     if (q === g.query || location.hash === g.hash) location.replace(g.target);
   }
 
+  /* 오픈 이후 대표주소로 들어오면 퇴소식으로 바로 보낸다.
+     ?tab= 이나 해시로 다른 메뉴를 지정했거나(퇴소식 페이지의 '입소' 링크 포함),
+     이미 이번 세션에서 한 번 보냈다면 그대로 둔다. */
+  var LAND_KEY = "idolcamp_exit_autoland_v1";
+  function autoLand() {
+    var qs = new URLSearchParams(location.search);
+    if (qs.get("tab") || qs.get("stay") === "1" || location.hash) return;
+    try {
+      if (sessionStorage.getItem(LAND_KEY)) return;
+      sessionStorage.setItem(LAND_KEY, "1");
+    } catch (_) {}
+    location.replace(exitCfg.path || "/exit/");
+  }
+
   function evaluate(releaseAt) {
     var releaseMs = Date.parse(releaseAt || "") || fallbackRelease;
-    if (Date.now() + serverOffset >= releaseMs) GATES.forEach(unlock);
+    if (Date.now() + serverOffset < releaseMs) return;
+    GATES.forEach(unlock);
+    if (exitCfg.landOnRelease !== false) autoLand();
   }
 
   function allOpen() { return GATES.every(function (g) { return g.opened; }); }
