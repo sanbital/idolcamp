@@ -284,6 +284,42 @@ window.addEventListener("DOMContentLoaded", function () {
     location.replace(exitCfg.path || "/exit/");
   }
 
+  /* 탭 아이콘: 퇴소식 페이지와 같은 텐트·마이크·모닥불·선물.
+     장기자랑 탭은 잠금 상태에 따라 innerHTML이 다시 그려지므로,
+     내용이 아니라 ::before 배경으로 붙여 다시 그려도 살아남게 한다. */
+  var TAB_ICON_ART = {
+    enroll: '<path d="M12 4 3.5 19h17L12 4Z" fill="TINT" stroke="INK" stroke-width="1.7" stroke-linejoin="round"/>'
+          + '<path d="M12 9.5 8 19h8l-4-9.5Z" fill="INK" opacity=".5"/>',
+    talent: '<rect x="9" y="3" width="6" height="10.5" rx="3" fill="TINT" stroke="INK" stroke-width="1.7"/>'
+          + '<path d="M6 11.5a6 6 0 0 0 12 0M12 17.5V21m-3 0h6" fill="none" stroke="INK" stroke-width="1.7" stroke-linecap="round"/>',
+    farewell: '<path d="M12 3.5c2.2 4 4.6 5.2 4.6 8.6A4.6 4.6 0 0 1 12 16.7a4.6 4.6 0 0 1-4.6-4.6c0-3.4 2.4-4.6 4.6-8.6Z" fill="FLAME" stroke="INK" stroke-width="1.5" stroke-linejoin="round"/>'
+            + '<path d="M5 20.5l14-3M5 17.5l14 3" stroke="INK" stroke-width="1.7" stroke-linecap="round"/>',
+    kit: '<rect x="3.5" y="9.5" width="17" height="11" rx="2.2" fill="TINT" stroke="INK" stroke-width="1.7"/>'
+       + '<path d="M3.5 13.5h17M12 9.5v11" stroke="INK" stroke-width="1.7"/>'
+       + '<path d="M12 9.5C9.6 5.6 5 7 7 9.5m5 0c2.4-3.9 7-2.5 5 0" fill="none" stroke="INK" stroke-width="1.7" stroke-linecap="round"/>'
+  };
+  function tabIcon(name, ink, tint, flame) {
+    var body = TAB_ICON_ART[name].split("INK").join(ink).split("TINT").join(tint).split("FLAME").join(flame);
+    return 'url("data:image/svg+xml,' + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">' + body + '</svg>'
+    ) + '")';
+  }
+  function tabIconCss() {
+    var out = [
+      'html.camp-ivory .tab[data-tab]::before{content:"";width:19px;height:19px;flex:none;',
+      '  background-position:center;background-size:contain;background-repeat:no-repeat}',
+      'html.camp-ivory .tab .lock{display:none}',
+      'html.camp-ivory .tab.locked::before{opacity:.4}'
+    ];
+    Object.keys(TAB_ICON_ART).forEach(function (name) {
+      out.push('html.camp-ivory .tab[data-tab="' + name + '"]::before{background-image:' +
+        tabIcon(name, "#1F6B44", "#DFF0DC", "#F3B23F") + '}');
+      out.push('html.camp-ivory .tab.active[data-tab="' + name + '"]::before{background-image:' +
+        tabIcon(name, "#FFFFFF", "rgba(255,255,255,.28)", "#FFD96A") + '}');
+    });
+    return out.join("\n");
+  }
+
   /* 오픈 시각부터는 캠프 전체가 퇴소식과 같은 아이보리 톤으로 간다 */
   function paintIvory() {
     var root = document.documentElement;
@@ -299,7 +335,8 @@ window.addEventListener("DOMContentLoaded", function () {
       'html.camp-ivory .tab{color:#2A4B3C!important}',
       'html.camp-ivory .tab.active{background:#2E8A5A!important;color:#fff!important;',
       '  box-shadow:0 2px 0 rgba(20,70,45,.35)!important}',
-      'html.camp-ivory .tab.locked{color:#8C9A90!important}'
+      'html.camp-ivory .tab.locked{color:#8C9A90!important}',
+      tabIconCss()
     ].join("\n");
     document.head.appendChild(st);
   }
