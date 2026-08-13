@@ -1932,7 +1932,8 @@ function renderResultView(){
         '</span></span>'+
       '</span>';
     const im=card.querySelector('.pcFront img');
-    im.style.objectPosition='50% '+(focusY(p)*100).toFixed(1)+'%';
+    const foc=focusOf(p);
+    im.style.objectPosition=(foc.x*100).toFixed(1)+'% '+(foc.y*100).toFixed(1)+'%';
     loadInto(im,MEMBER_BUCKET,p.photo_path,'member',()=>{im.style.visibility='hidden';});
     card.addEventListener('click',()=>{
       card.setAttribute('aria-pressed',card.getAttribute('aria-pressed')==='true'?'false':'true');
@@ -2234,22 +2235,35 @@ function albumNote(msg,warn){
   el.classList.toggle('warn',!!warn);
 }
 /* 얼굴은 사진 위쪽에 오기 때문에, 세로로 잘릴 때 위쪽을 남긴다.
-   개별 사진이 더 위/아래로 치우쳐 있으면 PHOTO_FOCUS에 0~1 값으로 지정하거나,
-   camp_member_photos.focus_y 컬럼에 값을 넣으면 그 값이 우선한다. */
-const PHOTO_FOCUS_DEFAULT=0.26;
-const PHOTO_FOCUS={};
-function focusY(p){
+   인물이 한쪽으로 치우친 사진은 PHOTO_FOCUS에 {x,y}(0~1)로 잡아준다.
+   숫자만 적으면 세로 값으로 본다. DB의 camp_member_photos.focus_x / focus_y 값이
+   있으면 그쪽이 우선한다. */
+const PHOTO_FOCUS_DEFAULT={x:0.5,y:0.26};
+const PHOTO_FOCUS={
+  ahof_jl:{x:0.80,y:0.24},          /* 제이엘 — 인물이 오른쪽에 있어 얼굴이 잘렸다 */
+  idntt_park_nuri:{x:0.80,y:0.24}   /* 박누리 — 같은 이유 */
+};
+function clampFocus(v,d){const n=Number(v);return isFinite(n)?Math.min(1,Math.max(0,n)):d;}
+function focusOf(p){
   if(!p)return PHOTO_FOCUS_DEFAULT;
-  const keys=[p.id,p.member_en,p.member_ko];
-  for(const k of keys){if(k!=null&&PHOTO_FOCUS[k]!=null)return clampFocus(PHOTO_FOCUS[k]);}
-  if(p.focus_y!=null&&p.focus_y!=='')return clampFocus(Number(p.focus_y));
-  return PHOTO_FOCUS_DEFAULT;
+  for(const k of [p.id,p.member_en,p.member_ko]){
+    if(k!=null&&PHOTO_FOCUS[k]!=null){
+      const f=PHOTO_FOCUS[k];
+      return typeof f==='object'
+        ? {x:clampFocus(f.x,PHOTO_FOCUS_DEFAULT.x),y:clampFocus(f.y,PHOTO_FOCUS_DEFAULT.y)}
+        : {x:PHOTO_FOCUS_DEFAULT.x,y:clampFocus(f,PHOTO_FOCUS_DEFAULT.y)};
+    }
+  }
+  return {
+    x:p.focus_x!=null&&p.focus_x!==''?clampFocus(p.focus_x,PHOTO_FOCUS_DEFAULT.x):PHOTO_FOCUS_DEFAULT.x,
+    y:p.focus_y!=null&&p.focus_y!==''?clampFocus(p.focus_y,PHOTO_FOCUS_DEFAULT.y):PHOTO_FOCUS_DEFAULT.y
+  };
 }
-function clampFocus(v){return isFinite(v)?Math.min(1,Math.max(0,v)):PHOTO_FOCUS_DEFAULT;}
-function drawCover(ctx,img,x,y,w,h,fy){
+function drawCover(ctx,img,x,y,w,h,f){
+  const foc=f||PHOTO_FOCUS_DEFAULT;
   const r=Math.max(w/img.naturalWidth,h/img.naturalHeight);
   const dw=img.naturalWidth*r,dh=img.naturalHeight*r;
-  ctx.drawImage(img,x+(w-dw)/2,y+(h-dh)*clampFocus(fy==null?PHOTO_FOCUS_DEFAULT:fy),dw,dh);
+  ctx.drawImage(img,x+(w-dw)*clampFocus(foc.x,0.5),y+(h-dh)*clampFocus(foc.y,0.26),dw,dh);
 }
 async function memberImage(p){
   return await loadImg(renderUrl(MEMBER_BUCKET,p.photo_path,'card'),true)
@@ -2264,7 +2278,7 @@ async function paintCard(ctx,p,x,y,w,img,logo){
   ctx.save();
   rrect(ctx,x+pad,y+pad,w-pad*2,h-pad*2,r*0.72);ctx.clip();
   ctx.fillStyle='#25543F';ctx.fillRect(x+pad,y+pad,w-pad*2,h-pad*2);
-  if(img)drawCover(ctx,img,x+pad,y+pad,w-pad*2,h-pad*2,focusY(p));
+  if(img)drawCover(ctx,img,x+pad,y+pad,w-pad*2,h-pad*2,focusOf(p));
   const SANS='"Pretendard","Noto Sans KR","Noto Sans SC","Noto Sans TC","Noto Sans JP",-apple-system,sans-serif';
   const SERIF='ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif';
   ctx.restore();
