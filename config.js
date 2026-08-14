@@ -13,9 +13,9 @@ window.MUNIVERSE_CONFIG = {
   idolcampApiUrl: "https://kkaoerbblpuszptiibvo.supabase.co/functions/v1/idolcamp-api",
   turnstileSiteKey: "0x4AAAAAAD0Ey7nrVqGnKma-",
   scoreDeadline: "2026-08-07T23:59:59+09:00",
-  // 점수판 최종 마감: 이 시각부터 '최종 점수 집계 중' 화면으로 전환합니다 (= 2026-08-17 18:00 KST)
+  // 점수판 최종 마감: 이 시각부터 '최종 점수 집계 중' 화면으로 전환합니다 (= 2026-08-17 17:00 KST)
   scoreFinal: {
-    finalizeAt: "2026-08-17T09:00:00Z",
+    finalizeAt: "2026-08-17T08:00:00Z",
     // 운영 증빙 이미지를 여는 관리자 키: /?scoreproof=<이 값>. 유출되면 값을 바꾸세요
     proofKey: "sf-7f4a2c-2026",
     // 최종 결과를 공개할 때 true 로 바꾸면 집계 중 화면이 사라집니다

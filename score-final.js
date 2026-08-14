@@ -7,7 +7,7 @@
   "use strict";
   var CFG = window.MUNIVERSE_CONFIG || {};
   var SC = CFG.scoreFinal || {};
-  var FINAL_AT = Date.parse(SC.finalizeAt || "2026-08-17T09:00:00Z");   /* = 8/17 18:00 KST */
+  var FINAL_AT = Date.parse(SC.finalizeAt || "2026-08-17T08:00:00Z");   /* = 8/17 17:00 KST */
   var REVEALED = SC.resultsRevealed === true;   /* 결과 공개 단계로 넘어갈 때 true */
   var PROOF_KEY = SC.proofKey || "sf-7f4a2c-2026";
   var isAdmin = new URLSearchParams(location.search).get("scoreproof") === PROOF_KEY;
@@ -15,17 +15,23 @@
   var CACHE_KEY = "idolcamp_scoreboard_cache_v2";
   var serverOffset = 0, applied = false, watching = false;
 
+  /* 설정된 마감 시각을 KST 로 표기 (M/D HH:mm) */
+  function kstLabel() {
+    var d = new Date(FINAL_AT + 9 * 3600 * 1000);
+    var p = function (n) { return (n < 10 ? "0" : "") + n; };
+    return (d.getUTCMonth() + 1) + "/" + d.getUTCDate() + " " + p(d.getUTCHours()) + ":" + p(d.getUTCMinutes());
+  }
   var STR = {
     ko: { head: "최종 점수 집계 중", sub: "정확한 결과 확인을 위해 점수를 검수하고 있어요",
-          when: "투표 종료 · 8/17 18:00 KST", s1: "투표 종료", s2: "점수 검수", s3: "결과 공개" },
+          when: "투표 종료 · {t} KST", s1: "투표 종료", s2: "점수 검수", s3: "결과 공개" },
     en: { head: "Final tally in progress", sub: "We are reviewing the scores so the result is exact",
-          when: "Voting closed · Aug 17, 18:00 KST", s1: "Voting closed", s2: "Score review", s3: "Result" },
+          when: "Voting closed · {t} KST", s1: "Voting closed", s2: "Score review", s3: "Result" },
     ja: { head: "最終集計中", sub: "正確な結果のためにスコアを検収しています",
-          when: "投票終了 · 8/17 18:00 KST", s1: "投票終了", s2: "スコア検収", s3: "結果発表" },
+          when: "投票終了 · {t} KST", s1: "投票終了", s2: "スコア検収", s3: "結果発表" },
     "zh-CN": { head: "最终计分中", sub: "为确认准确结果，正在核对分数",
-          when: "投票结束 · 8/17 18:00 KST", s1: "投票结束", s2: "分数核对", s3: "结果公开" },
+          when: "投票结束 · {t} KST", s1: "投票结束", s2: "分数核对", s3: "结果公开" },
     "zh-TW": { head: "最終計分中", sub: "為確認準確結果，正在核對分數",
-          when: "投票結束 · 8/17 18:00 KST", s1: "投票結束", s2: "分數核對", s3: "結果公開" }
+          when: "投票結束 · {t} KST", s1: "投票結束", s2: "分數核對", s3: "結果公開" }
   };
   function S() {
     var l = document.documentElement.lang || "ko";
@@ -108,7 +114,7 @@
       "</div>" +
       '<h3 class="sf-head">' + s.head + "</h3>" +
       '<p class="sf-sub">' + s.sub + "</p>" +
-      '<span class="sf-when">' + s.when + "</span>" +
+      '<span class="sf-when">' + s.when.replace("{t}", kstLabel()) + "</span>" +
       '<div class="sf-steps">' +
         '<div class="sf-step done"><span class="sf-dot">' + CHECK + '</span><span class="sf-label">' + s.s1 + "</span></div>" +
         '<div class="sf-step now"><span class="sf-dot"></span><span class="sf-label">' + s.s2 + "</span></div>" +
@@ -240,7 +246,7 @@
     c.fillStyle = "#123243"; c.font = "900 40px Pretendard, sans-serif";
     c.fillText("수련회 점수판 · 최종 스냅샷", PAD, 62);
     c.fillStyle = "rgba(20,48,61,.6)"; c.font = "600 22px Pretendard, sans-serif";
-    c.fillText("투표 종료 2026-08-17 18:00 KST · 고정 시각 " + snap.at, PAD, 152);
+    c.fillText("투표 종료 " + kstFull() + " KST · 고정 시각 " + snap.at, PAD, 152);
     rows.forEach(function (r, i) {
       var y = 200 + i * ROW;
       c.fillStyle = i === 0 ? "#FFFBEC" : "#FBF8EF";
@@ -263,11 +269,17 @@
       if (!b) return;
       var a = document.createElement("a");
       a.href = URL.createObjectURL(b);
-      a.download = "idolcamp-scoreboard-final-20260817-1800KST.png";
+      a.download = "idolcamp-scoreboard-final-" + kstStamp() + "KST.png";
       document.body.appendChild(a); a.click(); a.remove();
       setTimeout(function () { URL.revokeObjectURL(a.href); }, 3000);
     }, "image/png");
     function n(v) { return Number(v || 0).toLocaleString("ko-KR"); }
+    function kstFull() {
+      var d = new Date(FINAL_AT + 9 * 3600 * 1000), p = function (x) { return (x < 10 ? "0" : "") + x; };
+      return d.getUTCFullYear() + "-" + p(d.getUTCMonth() + 1) + "-" + p(d.getUTCDate()) +
+             " " + p(d.getUTCHours()) + ":" + p(d.getUTCMinutes());
+    }
+    function kstStamp() { return kstFull().replace(/[-: ]/g, "").slice(0, 13); }
     function rr(ctx, x, y, w, h, r) {
       ctx.beginPath();
       ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
