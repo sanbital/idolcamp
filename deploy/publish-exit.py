@@ -10,7 +10,7 @@ import pathlib, re, shutil, sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "beta-exit-8b41d9e7a5" / "app.html"
 DST = ROOT / "exit" / "index.html"
-SIDECARS = ["terminology-v5.js", "perfect-hq.js", "camp-top.js"]
+SIDECARS = ["terminology-v5.js", "perfect-hq.js", "camp-top.js", "score-final.js"]
 
 s = SRC.read_text(encoding="utf-8")
 

@@ -69,6 +69,7 @@
   }
 
   function load() {
+    if (window.__scoreFinal) return;   /* 마감 후에는 점수를 다시 불러오지 않는다 */
     var url = CACHE_URL + (CACHE_URL.indexOf("?") >= 0 ? "&" : "?") + "v=" + Math.floor(Date.now() / REFRESH_MS);
     fetch(url, { cache: "default" })
       .then(function (r) { if (!r.ok) throw new Error("scoreboard " + r.status); return r.json(); })
