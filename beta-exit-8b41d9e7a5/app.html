@@ -1570,8 +1570,8 @@ const I18N={
   shareX:'Post on X',shareIg:'Instagram',shareSave:'Save image',
   shareHint:'Save the image first, then post it on X or Instagram.',
   shareSaved:'Certificate image saved.',
-  shareSavedX:'Certificate image saved. Attach it in the X composer.',
-  shareSavedIg:'Certificate image saved. Upload it from the Instagram app.',
+  shareSavedX:'Opened the X composer. Attach the certificate image you saved.',
+  shareSavedIg:'Opened Instagram. Upload the certificate image you saved.',
   shareSheetIg:'Pick Instagram to post it straight to your account.',
   shareSheetOk:'Once shared, it posts to your own account.',
   shareFail:'Could not build the image. Please take a screenshot.',
@@ -2499,13 +2499,39 @@ function shareLink(target){
   }
   return 'https://www.instagram.com/';
 }
-/* X·인스타그램 버튼: 서비스로 바로 이동 + 이미지는 저장해 둔다 */
+/* 앱이 깔려 있으면 앱으로, 없으면 웹으로 */
+function appLink(target){
+  if(target==='x')return 'twitter://post?message='+encodeURIComponent(shareText());
+  return 'instagram://library';        /* 인스타그램 게시 화면(사진 선택) */
+}
+function isMobile(){
+  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent||'');
+}
+function navTo(url){ location.href=url; }
+/* X·인스타그램 버튼: 앱으로 바로 연결만 한다.
+   여기서 이미지까지 내려받으면 iOS 가 다운로드 시트를 띄워, 정작 앱으로
+   넘어가지 못하고 '저장하기'만 보인다. 저장은 '이미지 저장' 버튼이 맡는다. */
 function shareCert(target){
-  const win=window.open('','_blank');           /* 누른 즉시 열어야 팝업 차단을 피한다 */
-  if(win){ try{ win.opener=null; }catch(e){} win.location.href=shareLink(target); }
-  else location.href=shareLink(target);
+  const web=shareLink(target);
+  if(isMobile()){
+    /* 앱 스킴을 먼저 시도하고, 열리지 않으면 웹으로 넘긴다 */
+    const started=Date.now();
+    let moved=false;
+    const onHide=()=>{moved=true;};
+    document.addEventListener('visibilitychange',onHide,{once:true});
+    window.addEventListener('pagehide',onHide,{once:true});
+    navTo(appLink(target));
+    setTimeout(()=>{
+      document.removeEventListener('visibilitychange',onHide);
+      if(moved||document.hidden||Date.now()-started>2600)return;   /* 앱으로 전환됨 */
+      navTo(web);
+    },1200);
+  }else{
+    const win=window.open('','_blank');
+    if(win){ try{ win.opener=null; }catch(e){} win.location.href=web; }
+    else navTo(web);
+  }
   note(target==='x'?t().shareSavedX:t().shareSavedIg);
-  getCertBlob().then(blob=>{ if(blob) downloadBlob(blob); }).catch(()=>{});
 }
 
 function goVod(){

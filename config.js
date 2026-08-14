@@ -25,8 +25,8 @@ window.MUNIVERSE_CONFIG = {
     enabled: true,
     releaseAt: "2026-08-14T18:00:00+09:00",
     // 사이트 루트 기준 상대경로. 도메인 루트 배포와 하위경로 배포(GitHub Pages) 모두에서 동작합니다
-    path: "exit/index.html",
-    kitPath: "exit/index.html?tab=kit",
+    path: "exit/index.html?v=20260814b",
+    kitPath: "exit/index.html?v=20260814b&tab=kit",
     // 확장판 배너와 수료키트 CTA가 함께 여는 주소
     storeUrl: "https://www.muniverse.io/store",
     // 오픈(=release_at) 이후 대표주소 접속을 퇴소식으로 보냅니다. false면 기존처럼 입소로 남습니다
