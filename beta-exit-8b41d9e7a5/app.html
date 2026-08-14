@@ -1482,7 +1482,7 @@ const BETA_KEY='V8f2Qm7L4xP9cN6w';
 if(new URLSearchParams(location.search).get('key')!==BETA_KEY){document.getElementById('denied').style.display='flex';return;}
 document.getElementById('app').style.display='block';
 
-const KIT_URL='https://www.muniverse.io/titles/bb4d517b-7770-4695-957c-0e44056217fb?defaultTab=details';
+const KIT_URL=((window.MUNIVERSE_CONFIG||{}).exitCeremony||{}).storeUrl||'https://www.muniverse.io/store';
 const CFG=window.MUNIVERSE_CONFIG||{},
       SB_URL=CFG.supabaseUrl||'',
       SB_KEY=CFG.supabaseAnonKey||'',

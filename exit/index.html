@@ -1478,7 +1478,7 @@ body{background:
 
 document.getElementById('app').style.display='block';
 
-const KIT_URL='https://www.muniverse.io/titles/bb4d517b-7770-4695-957c-0e44056217fb?defaultTab=details';
+const KIT_URL=((window.MUNIVERSE_CONFIG||{}).exitCeremony||{}).storeUrl||'https://www.muniverse.io/store';
 const CFG=window.MUNIVERSE_CONFIG||{},
       SB_URL=CFG.supabaseUrl||'',
       SB_KEY=CFG.supabaseAnonKey||'',
