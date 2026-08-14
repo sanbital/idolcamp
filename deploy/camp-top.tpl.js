@@ -87,10 +87,26 @@
       });
   }
 
+  /* 다시 그리는 동안 배너 이미지가 새로 받아지면서 이 칸이 잠깐 납작해지면,
+     아래에 있던 내용이 통째로 위로 딸려 올라간다.
+     원래 높이를 붙잡아 두었다가 새 배너가 자리를 잡은 뒤에 놓아준다. */
   function render(box) {
     var snap = SNAP[code()] || SNAP.ko;
+    var held = box.offsetHeight;
+    if (held) box.style.minHeight = held + "px";
     box.innerHTML = snap.banners + snap.board;
     paint();
+    if (!held) return;
+    var release = function () { box.style.minHeight = ""; };
+    var imgs = box.querySelectorAll("img"), left = imgs.length;
+    if (!left) { requestAnimationFrame(release); return; }
+    var done = function () { if (--left <= 0) requestAnimationFrame(release); };
+    Array.prototype.forEach.call(imgs, function (im) {
+      if (im.complete) return done();
+      im.addEventListener("load", done, { once: true });
+      im.addEventListener("error", done, { once: true });
+    });
+    setTimeout(release, 3000);
   }
 
   function mount() {

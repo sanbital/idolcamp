@@ -1767,7 +1767,19 @@ function loadInto(el,bucket,path,kind,onFail){
   };
   el.src=wanted;
 }
-function showPage(id){
+/* 화면을 바꿀 때 문서 맨 위까지 올라가면, 위에 놓인 배너와 점수판을
+   지나 방금 누른 자리를 다시 찾아 내려와야 한다.
+   탭 바가 화면 맨 위에 오도록만 맞춰 바뀐 내용이 바로 눈에 들어오게 하고,
+   한 번 봤던 화면으로 돌아올 때는 보고 있던 자리를 그대로 되살린다. */
+const scrollMemo=new Map();
+function tabsTop(){
+  const tabs=document.querySelector('.tabs');
+  if(!tabs)return 0;
+  return Math.max(0,Math.round(window.scrollY+tabs.getBoundingClientRect().top));
+}
+function showPage(id,keepScroll){
+  const prev=document.querySelector('.page.on');
+  if(prev&&prev.id!==id)scrollMemo.set(prev.id,window.scrollY);
   document.querySelectorAll('.page').forEach(e=>e.classList.toggle('on',e.id===id));
   const onKit=id==='kit';
   [['tabHome',!onKit],['tabKit',onKit]].forEach(([tid,active])=>{
@@ -1775,7 +1787,12 @@ function showPage(id){
     el.classList.toggle('active',active);
     if(active)el.setAttribute('aria-current','page'); else el.removeAttribute('aria-current');
   });
-  window.scrollTo(0,0);
+  if(keepScroll)return;
+  alignTo(id);
+}
+function alignTo(id){
+  const top=tabsTop(),seen=scrollMemo.get(id);
+  window.scrollTo(0,seen!=null&&seen>top?seen:top);
 }
 function shuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){let j;if(window.crypto&&crypto.getRandomValues){const r=new Uint32Array(1);crypto.getRandomValues(r);j=r[0]%(i+1);}else j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
 
@@ -1853,9 +1870,40 @@ function setStatus(html,visible){
 
 function startQuiz(){
   order=shuffle(questions);idx=0;answers=[];
+  /* 새 도전이므로 지난 판에서 보고 있던 자리는 버린다 */
+  scrollMemo.delete('question');scrollMemo.delete('result');
   showPage('question');
   renderQuestion();
+  /* 문항 자리를 잡느라 카드가 커진 뒤에 다시 맞춘다 */
+  alignTo('question');
 }
+/* 문항마다 글이 길고 짧아 카드 높이가 달라지면, 답을 고를 때마다
+   YES/NO 버튼이 손가락 아래에서 움직이고 스크롤도 조금씩 밀린다.
+   이번 판에서 가장 긴 문항에 맞춰 자리를 미리 잡아 두면
+   26문항 내내 버튼이 같은 자리에 머문다. */
+let qReserve={key:'',px:0};
+function reserveQuestionHeight(){
+  const el=$('#questionText');
+  if(!order.length||!el.offsetParent)return;
+  const w=Math.round(el.getBoundingClientRect().width);
+  if(!w)return;
+  const key=lang+'|'+w;
+  if(qReserve.key===key){el.style.minHeight=qReserve.px?qReserve.px+'px':'';return;}
+  el.style.minHeight='';
+  const probe=el.cloneNode(false);
+  probe.removeAttribute('id');probe.removeAttribute('aria-live');
+  probe.style.cssText='position:absolute;left:-9999px;top:0;visibility:hidden;pointer-events:none;min-height:0;width:'+w+'px';
+  el.parentNode.appendChild(probe);
+  let max=0;
+  for(const q of order){probe.textContent=questionText(q);if(probe.offsetHeight>max)max=probe.offsetHeight;}
+  probe.remove();
+  qReserve={key:key,px:max};
+  if(max)el.style.minHeight=max+'px';
+}
+addEventListener('resize',()=>{
+  qReserve={key:'',px:0};
+  if($('#question').classList.contains('on')&&order.length)reserveQuestionHeight();
+});
 function renderQuestion(){
   const q=order[idx];if(!q)return;
   setStatus('',false);
@@ -1864,6 +1912,7 @@ function renderQuestion(){
   $('#qTip').style.display='flex';
   $('#qIndexNum').textContent=String(idx+1);
   setProgress(idx);
+  reserveQuestionHeight();
   $('#questionText').textContent=questionText(q);
 
   const box=$('#picBox'),img=$('#qImg');
@@ -2554,7 +2603,8 @@ $('#tabKit').onclick=()=>showPage('kit');
 /* 캠프 본 페이지의 '수료 키트' 메뉴에서 바로 들어올 수 있게 한다 */
 (function(){
   const q=new URLSearchParams(location.search).get('tab');
-  if(q==='kit'||location.hash==='#kit')showPage('kit');
+  /* 첫 화면이므로 스크롤은 브라우저가 정한 자리를 그대로 둔다 */
+  if(q==='kit'||location.hash==='#kit')showPage('kit',true);
 })();
 $('#tabHome').onclick=()=>showPage('home');
 [$('#kitBack2')].forEach(b=>{if(b)b.onclick=()=>showPage('home');});

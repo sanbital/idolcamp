@@ -6446,7 +6446,11 @@ function activateMainTab(name){
   document.querySelectorAll("[data-tab-panel]").forEach(p=>p.classList.toggle("active",p.dataset.tabPanel===name));
   document.body.classList.toggle("talent-tab-active",name==="talent");
   if(name==="talent"){if(!talentInited)initTalent();history.replaceState(null,"","#talent");}else history.replaceState(null,"",location.pathname+location.search);
-  window.scrollTo({top:0,behavior:"smooth"});
+  /* 문서 맨 위까지 올라가면 배너와 점수판을 지나 다시 내려와야 한다.
+     탭 바가 화면 맨 위에 오도록만 맞춰, 방금 고른 메뉴가 바로 보이게 한다. */
+  const bar=document.querySelector(".tabs");
+  const top=bar?Math.max(0,Math.round(window.scrollY+bar.getBoundingClientRect().top)):0;
+  window.scrollTo({top,behavior:"smooth"});
 }
 function initTalent(){
   talentInited=true; applyTalentI18n();
