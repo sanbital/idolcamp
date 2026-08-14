@@ -58,6 +58,27 @@ window.MUNIVERSE_CONFIG = {
   }
 };
 
+/* 오픈 이후에는 아이보리가 이 사이트의 바탕이다.
+   config.js 는 <head> 에서 동기 로드되므로, 여기서 미리 칠해두면
+   초록 배경이 한 번 그려졌다가 바뀌는 깜빡임이 생기지 않는다.
+   실제 잠금 해제는 아래에서 서버 시각으로 다시 확인한다. */
+(function () {
+  try {
+    var cfg = window.MUNIVERSE_CONFIG || {};
+    var exitCfg = cfg.exitCeremony || {};
+    if (!exitCfg.enabled || exitCfg.ivoryOnRelease === false) return;
+    var preview = new URLSearchParams(location.search).get("open") === "preview";
+    var releaseMs = Date.parse(exitCfg.releaseAt || "") || Date.parse("2026-08-14T18:00:00+09:00");
+    if (!preview && Date.now() < releaseMs) return;
+    document.documentElement.classList.add("camp-ivory");
+    var st = document.createElement("style");
+    st.id = "camp-ivory-boot";
+    st.textContent = "html.camp-ivory body{background:" +
+      "radial-gradient(120% 60% at 50% 0%,#FFFDF6 0%,#F5F1E2 46%,#EDE8D6 100%) fixed !important}";
+    (document.head || document.documentElement).appendChild(st);
+  } catch (_) {}
+})();
+
 window.addEventListener("DOMContentLoaded", function () {
   try {
     if (typeof I18N !== "undefined") {
@@ -334,7 +355,7 @@ window.addEventListener("DOMContentLoaded", function () {
   /* 오픈 시각부터는 캠프 전체가 퇴소식과 같은 아이보리 톤으로 간다 */
   function paintIvory() {
     var root = document.documentElement;
-    if (root.classList.contains("camp-ivory")) return;
+    if (document.getElementById("camp-ivory-style")) return;
     root.classList.add("camp-ivory");
     var st = document.createElement("style");
     st.id = "camp-ivory-style";
@@ -390,6 +411,13 @@ window.addEventListener("DOMContentLoaded", function () {
       evaluate(exitCfg.releaseAt);
     }
   }
+
+  /* styling does not need the server round trip; unlocking still does */
+  (function () {
+    var preview = new URLSearchParams(location.search).get("open") === "preview";
+    var releaseMs = Date.parse(exitCfg.releaseAt || "") || fallbackRelease;
+    if ((preview || Date.now() >= releaseMs) && exitCfg.ivoryOnRelease !== false) paintIvory();
+  })();
 
   sync();
   setInterval(function () { if (!document.hidden && !allOpen()) sync(); }, 60000);
