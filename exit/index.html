@@ -1526,8 +1526,8 @@ const I18N={
   shareX:'X에 올리기',shareIg:'인스타그램',shareSave:'이미지 저장',
   shareHint:'수료증을 이미지로 저장하거나 내 계정에 바로 올릴 수 있어요.',
   shareSaved:'수료증 이미지를 저장했어요.',
-  shareSavedX:'수료증 이미지를 저장했어요. X 작성 창에서 이미지를 첨부해 주세요.',
-  shareSavedIg:'수료증 이미지를 저장했어요. 인스타그램 앱에서 업로드해 주세요.',
+  shareSavedX:'X 작성 창을 열었어요. 저장된 수료증 이미지를 첨부해 주세요.',
+  shareSavedIg:'인스타그램을 열었어요. 저장된 수료증 이미지를 올려 주세요.',
   shareSheetIg:'인스타그램을 선택하면 내 계정에 바로 올릴 수 있어요.',
   shareSheetOk:'공유가 완료되면 내 계정에 올라갑니다.',
   shareFail:'이미지를 만들지 못했습니다. 화면을 캡처해 주세요.',
@@ -1605,8 +1605,8 @@ const I18N={
   shareX:'Xに投稿',shareIg:'Instagram',shareSave:'画像を保存',
   shareHint:'修了証を画像で保存したり、自分のアカウントにそのまま投稿できます。',
   shareSaved:'修了証の画像を保存しました。',
-  shareSavedX:'修了証の画像を保存しました。Xの投稿画面で添付してください。',
-  shareSavedIg:'修了証の画像を保存しました。Instagramアプリからアップロードしてください。',
+  shareSavedX:'Xの投稿画面を開きました。保存した修了証の画像を添付してください。',
+  shareSavedIg:'Instagramを開きました。保存した修了証の画像をアップロードしてください。',
   shareSheetIg:'Instagramを選ぶと自分のアカウントにそのまま投稿できます。',
   shareSheetOk:'共有が完了すると自分のアカウントに投稿されます。',
   shareFail:'画像を作成できませんでした。画面をキャプチャしてください。',
@@ -1644,8 +1644,8 @@ const I18N={
   shareX:'发布到 X',shareIg:'Instagram',shareSave:'保存图片',
   shareHint:'可以把结业证书保存为图片，或直接发布到自己的账号。',
   shareSaved:'已保存结业证书图片。',
-  shareSavedX:'已保存结业证书图片。请在 X 的发布窗口中附上图片。',
-  shareSavedIg:'已保存结业证书图片。请从 Instagram 应用上传。',
+  shareSavedX:'已打开 X 发布窗口。请附上已保存的结业证书图片。',
+  shareSavedIg:'已打开 Instagram。请上传已保存的结业证书图片。',
   shareSheetIg:'选择 Instagram 就能直接发布到自己的账号。',
   shareSheetOk:'分享完成后会发布到你自己的账号。',
   shareFail:'无法生成图片，请截屏保存。',
@@ -1683,8 +1683,8 @@ const I18N={
   shareX:'發布到 X',shareIg:'Instagram',shareSave:'儲存圖片',
   shareHint:'可以把結業證書儲存為圖片，或直接發布到自己的帳號。',
   shareSaved:'已儲存結業證書圖片。',
-  shareSavedX:'已儲存結業證書圖片。請在 X 的發文視窗附上圖片。',
-  shareSavedIg:'已儲存結業證書圖片。請從 Instagram App 上傳。',
+  shareSavedX:'已開啟 X 發文視窗。請附上已儲存的結業證書圖片。',
+  shareSavedIg:'已開啟 Instagram。請上傳已儲存的結業證書圖片。',
   shareSheetIg:'選擇 Instagram 就能直接發布到自己的帳號。',
   shareSheetOk:'分享完成後會發布到你自己的帳號。',
   shareFail:'無法產生圖片，請截圖保存。',
@@ -2430,6 +2430,7 @@ async function saveAllCards(){
 function prepareCertImage(){
   note(t().shareHint);
   certBlobPromise=drawCertificate(lastCount,lastMatched).catch(e=>{console.error(e);return null;});
+  certBlobPromise.then(makeCertFile);   /* 버튼을 누른 순간 기다리지 않도록 미리 준비 */
 }
 function certFileName(){return `idolcamp-exit-certificate-${lastCount}of${TOTAL}.png`;}
 function shareText(){return fmt(t().shareBody,{title:fullTitle(lastCount),n:lastCount}).replace(/\|/g,'\n');}
@@ -2455,28 +2456,51 @@ async function saveCert(){
   downloadBlob(blob);
   note(t().shareSaved);
 }
-/* Instagram and X have no web API to post on a user's behalf; the native
-   share sheet is what actually hands the image to their own account. */
-async function shareCert(target){
-  const blob=await getCertBlob();
-  if(!blob){note(t().shareFail,true);return;}
-  const file=new File([blob],certFileName(),{type:'image/png'});
+/* X·인스타그램은 웹에서 대신 게시해 주는 API가 없다. 이미지를 사용자에게 넘겨주고
+   해당 서비스를 열어주는 것이 실제로 동작하는 유일한 경로다.
+
+   iOS Safari 는 navigator.share() 와 window.open() 을 "사용자 조작과 같은 실행 흐름"
+   에서만 허용한다. 이전 구현은 이미지를 await 로 기다린 뒤에 호출해서 공유 시트도,
+   새 창도 열리지 않았다. 그래서 파일은 결과 화면이 뜰 때 미리 만들어 두고,
+   버튼을 누른 순간에는 기다리지 않고 바로 호출한다. */
+let certFile=null;
+function makeCertFile(blob){
+  try{ certFile = blob ? new File([blob],certFileName(),{type:'image/png'}) : null; }
+  catch(e){ certFile=null; }
+  return certFile;
+}
+function canNativeShare(){
+  return !!(certFile && navigator.canShare && navigator.canShare({files:[certFile]}) && navigator.share);
+}
+function shareLink(target){
   const link=CFG.shareUrl||'';
-  if(navigator.canShare&&navigator.canShare({files:[file]})){
-    try{
-      await navigator.share({files:[file],text:target==='x'&&link?`${shareText()}\n${link}`:shareText()});
-      note(target==='ig'?t().shareSheetIg:t().shareSheetOk);
-      return;
-    }catch(e){
-      if(e&&e.name==='AbortError')return;
-      console.error(e);
-    }
-  }
-  downloadBlob(blob);
   if(target==='x'){
-    window.open('https://x.com/intent/post?text='+encodeURIComponent(shareText())+(link?'&url='+encodeURIComponent(link):''),'_blank','noopener');
-    note(t().shareSavedX);
-  }else note(t().shareSavedIg);
+    return 'https://x.com/intent/post?text='+encodeURIComponent(shareText())+(link?'&url='+encodeURIComponent(link):'');
+  }
+  return 'https://www.instagram.com/';
+}
+function shareCert(target){
+  /* 1) 공유 시트를 쓸 수 있으면 기다리지 않고 즉시 연다 */
+  if(canNativeShare()){
+    const link=CFG.shareUrl||'';
+    navigator.share({files:[certFile],
+      text:target==='x'&&link?`${shareText()}\n${link}`:shareText()})
+      .then(()=>note(target==='ig'?t().shareSheetIg:t().shareSheetOk))
+      .catch(e=>{ if(e&&e.name==='AbortError')return; console.error(e); openFallback(target,null); });
+    return;
+  }
+  /* 2) 아니면 이 자리에서 창을 먼저 열어 팝업 차단을 피한다 */
+  const win=window.open('','_blank');
+  if(win){ try{ win.opener=null; }catch(e){} }
+  openFallback(target,win);
+}
+function openFallback(target,win){
+  const url=shareLink(target);
+  if(win&&!win.closed){ win.location.href=url; }
+  else { window.open(url,'_blank','noopener'); }
+  note(target==='x'?t().shareSavedX:t().shareSavedIg);
+  /* 이미지는 뒤이어 저장해 사용자가 첨부할 수 있게 한다 */
+  getCertBlob().then(blob=>{ if(blob) downloadBlob(blob); }).catch(()=>{});
 }
 
 function goVod(){
