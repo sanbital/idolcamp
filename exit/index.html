@@ -2368,9 +2368,19 @@ function albumNote(msg,warn){
    있으면 그쪽이 우선한다. */
 const PHOTO_FOCUS_DEFAULT={x:0.5,y:0.26};
 const PHOTO_FOCUS={
-  ahof_jl:{x:0.80,y:0.24},                 /* 제이엘 — 인물이 오른쪽에 있어 얼굴이 잘렸다 */
-  idntt_park_nuri:{x:0.80,y:0.24},         /* 박누리 — 같은 이유 */
-  closeyoureyes_minwook:{x:0.80,y:0.24}    /* 전민욱 — 같은 이유, 정면이 다 보이게 오른쪽으로 */
+  /* 인물이 오른쪽에 있어, 앵글을 오른쪽으로 옮겨야 얼굴이 다 담긴다 */
+  ahof_jl:{x:0.80,y:0.24},                 /* 제이엘 */
+  idntt_park_nuri:{x:0.80,y:0.24},         /* 박누리 */
+  closeyoureyes_minwook:{x:0.80,y:0.24},   /* 전민욱 */
+  ahof_shuaibo:{x:0.80},                   /* 장슈아이보 */
+  closeyoureyes_kyoungbae:{x:0.80},        /* 서경배 */
+  /* 인물이 왼쪽에 있는 경우 — 앵글을 왼쪽으로 옮긴다 */
+  ahof_juwon:{x:0.20},                     /* 박주원 */
+  idntt_nam_jiwoon:{x:0.20},               /* 남지운 */
+  closeyoureyes_sungmin:{x:0.20},          /* 김성민 */
+  flareu_chuei_liyu:{x:0.20},              /* 최립우 */
+  ahof_chih_en:{x:0.20},                   /* 즈언 */
+  ahof_daisuke:{x:0.20}                    /* 다이스케 */
 };
 function clampFocus(v,d){const n=Number(v);return isFinite(n)?Math.min(1,Math.max(0,n)):d;}
 function focusOf(p){
