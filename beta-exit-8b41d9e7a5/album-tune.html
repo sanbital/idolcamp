@@ -37,9 +37,16 @@ button{font-family:inherit}
 .shot{position:relative;width:100%;aspect-ratio:55/86;border-radius:11px;overflow:hidden;
   background:#1B4634;border:2.5px solid #FFFDF6;box-shadow:0 6px 16px rgba(15,59,58,.22)}
 .shot img{display:block;width:100%;height:100%;object-fit:cover;background:#25543F}
-body.showAll .shot img{object-fit:contain;background:#0E2A1E}
 .guide{position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(255,80,80,.75);display:none}
 body.guides .guide{display:block}
+/* 원본 한 장 전체 위에, 카드가 실제로 보여줄 구간을 표시한다 */
+.full{position:relative;width:100%;margin-top:8px;border-radius:9px;overflow:hidden;background:#0E2A1E;display:none}
+body.showAll .full{display:block}
+.full img{display:block;width:100%;height:auto}
+.full .win{position:absolute;top:0;bottom:0;border:2px solid var(--gold);
+  box-shadow:0 0 0 9999px rgba(8,23,44,.62);border-radius:3px}
+.full .dim{position:absolute;left:0;bottom:0;padding:2px 5px;border-top-right-radius:6px;white-space:nowrap;
+  background:rgba(8,23,44,.8);color:#FFF8E7;font-size:9px;font-weight:800;letter-spacing:0}
 .who{margin:8px 2px 0;font-size:12.5px;font-weight:800;letter-spacing:-.03em;color:var(--forest);word-break:keep-all}
 .who em{display:block;font-style:normal;font-size:10.5px;font-weight:600;color:rgba(20,48,61,.55);letter-spacing:.02em}
 .val{display:flex;justify-content:space-between;align-items:center;margin:7px 2px 2px;font-size:11.5px;
@@ -60,7 +67,7 @@ input[type=range]{width:100%;margin:1px 0 0;accent-color:var(--leaf);height:26px
 <body>
 <div class="wrap">
   <h1>사진첩 앵글 점검</h1>
-  <p class="lede">앱의 포토카드와 <b>같은 비율·같은 자르기</b>로 26명을 한 번에 보여줍니다. 얼굴이 잘리거나 치우친 사람만 슬라이더로 맞춘 뒤, 아래 <b>값 복사</b>를 눌러 그대로 보내주세요.</p>
+  <p class="lede">앱의 포토카드와 <b>같은 비율·같은 자르기</b>로 26명을 한 번에 보여줍니다. <b>사진 전체 보기</b>를 켜면 원본 위에 카드가 실제로 보여줄 구간이 노란 틀로 표시됩니다. 얼굴이 틀 안에 오도록 슬라이더를 맞춘 뒤, 아래 <b>값 복사</b>를 눌러 그대로 보내주세요.</p>
 
   <div class="bar">
     <button class="btn" type="button" id="toggleAll">사진 전체 보기</button>
@@ -107,16 +114,7 @@ function renderUrl(path){
 const DEFAULT={x:0.5,y:0.26};
 const LIVE={
   ahof_jl:{x:0.80,y:0.24},
-  idntt_park_nuri:{x:0.80,y:0.24},
-  closeyoureyes_sungmin:{x:0.80},
-  flareu_chuei_liyu:{x:1.00},
-  ahof_daisuke:{x:0.80},
-  idntt_nam_jiwoon:{x:0.80},
-  ahof_juwon:{x:0.80},
-  closeyoureyes_minwook:{x:0.20,y:0.24},
-  ahof_shuaibo:{x:0.20},
-  closeyoureyes_kyoungbae:{x:0.20},
-  ahof_chih_en:{x:0.20}
+  idntt_park_nuri:{x:0.80,y:0.24}
 };
 function liveOf(id){
   const f=LIVE[id];
@@ -151,13 +149,15 @@ function makeCard(m){
   item.className='item';
   item.dataset.id=m.id;
   item.innerHTML=
-    '<div class="shot"><img alt=""><span class="guide"></span></div>'+
+    '<div class="shot"><img class="crop" alt=""><span class="guide"></span></div>'+
+    '<div class="full"><img class="whole" alt=""><span class="win"></span><span class="dim"></span></div>'+
     '<p class="who"></p>'+
     '<div class="val"><span class="num"></span><button class="reset" type="button">기본값</button></div>'+
     '<p class="rowlab">좌우 (X)</p><input type="range" class="rx" min="0" max="1" step="0.01">'+
     '<p class="rowlab">위아래 (Y)</p><input type="range" class="ry" min="0" max="1" step="0.01">';
 
-  const img=item.querySelector('img'),who=item.querySelector('.who'),
+  const img=item.querySelector('.crop'),whole=item.querySelector('.whole'),
+        win=item.querySelector('.win'),dim=item.querySelector('.dim'),who=item.querySelector('.who'),
         num=item.querySelector('.num'),rx=item.querySelector('.rx'),ry=item.querySelector('.ry');
 
   who.innerHTML='';
@@ -169,12 +169,28 @@ function makeCard(m){
   img.alt=m.member_ko||m.member_en||'';
   /* 변환본이 막혀 있으면 원본으로 한 번 더 시도한다 */
   img.onerror=()=>{ if(img.src!==publicUrl(m.photo_path)){img.onerror=null;img.src=publicUrl(m.photo_path);} };
+  img.onload=()=>{measure();apply();};
   img.src=renderUrl(m.photo_path);
+  whole.src=img.src;
+
+  /* 카드가 보여주는 폭은 원본 가로의 일부일 뿐이다.
+     그 비율을 재 두어야 원본 위에 창을 정확히 그릴 수 있다. */
+  const CARD=55/86;
+  let seen=1;
+  function measure(){
+    const w=img.naturalWidth,h=img.naturalHeight;
+    if(!w||!h)return;
+    const ratio=w/h;
+    seen=ratio>CARD?CARD/ratio:1;            /* 가로로 보이는 비율 (0~1) */
+    dim.textContent=w+'×'+h+' · 가로 '+Math.round(seen*100)+'%만 보임';
+  }
 
   function apply(){
     const s=state.get(m.id);
     img.style.objectPosition=(s.x*100).toFixed(1)+'% '+(s.y*100).toFixed(1)+'%';
     num.textContent='X '+fmt(s.x)+' · Y '+fmt(s.y);
+    win.style.width=(seen*100).toFixed(2)+'%';
+    win.style.left=(s.x*(1-seen)*100).toFixed(2)+'%';
     item.classList.toggle('dirty',isDirty(m.id));
     paintOut();
   }
@@ -214,7 +230,7 @@ async function boot(){
 $('#toggleAll').addEventListener('click',e=>{
   const on=document.body.classList.toggle('showAll');
   e.currentTarget.classList.toggle('on',on);
-  e.currentTarget.textContent=on?'카드처럼 보기':'사진 전체 보기';
+  e.currentTarget.textContent=on?'원본 감추기':'사진 전체 보기';
 });
 $('#toggleGuide').addEventListener('click',e=>{
   e.currentTarget.classList.toggle('on',document.body.classList.toggle('guides'));
