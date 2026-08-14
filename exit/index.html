@@ -1846,7 +1846,7 @@ async function loadData(){
   if(!SB_URL||!SB_KEY)throw new Error('Supabase 설정이 없습니다.');
   const [qs,photos,ts,st]=await Promise.all([
     api('/rest/v1/camp_exit_quiz_public?select=photo_no,member_id,image_path,question_ko,question_en,question_ja,question_zh_cn,question_zh_tw,active&active=eq.true&order=photo_no.asc'),
-    api('/rest/v1/camp_member_photos?select=id,member_ko,member_en,photo_path,active&active=eq.true&is_group=eq.false'),
+    api('/rest/v1/camp_member_photos?select=id,member_ko,member_en,photo_path,focus_x,focus_y,active&active=eq.true&is_group=eq.false'),
     api('/rest/v1/camp_exit_titles?select=friend_count,title_ko,title_en,title_ja,title_zh_cn,title_zh_tw&order=friend_count.asc'),
     settings?Promise.resolve(null):api('/rest/v1/camp_exit_settings?select=id,release_at,group_photo_path,kit_url,vod_url&id=eq.1&limit=1')
   ]);
@@ -2362,21 +2362,46 @@ function albumNote(msg,warn){
   el.textContent=msg||'';
   el.classList.toggle('warn',!!warn);
 }
-/* 얼굴은 사진 위쪽에 오기 때문에, 세로로 잘릴 때 위쪽을 남긴다.
-   인물이 한쪽으로 치우친 사진은 PHOTO_FOCUS에 {x,y}(0~1)로 잡아준다.
-   숫자만 적으면 세로 값으로 본다. DB의 camp_member_photos.focus_x / focus_y 값이
-   있으면 그쪽이 우선한다. */
+/* 카드별 얼굴 중심은 camp_member_photos.focus_x / focus_y(0~1)에서 읽는다.
+   PHOTO_FOCUS는 DB를 아직 읽지 못한 경우에도 같은 구도를 유지하는 폴백이다. */
 const PHOTO_FOCUS_DEFAULT={x:0.5,y:0.26};
 const PHOTO_FOCUS={
-  /* 카드는 원본 가로의 3분의 1 남짓만 보여주기 때문에, x를 조금만 밀어도
-     인물이 통째로 화면 밖으로 나간다. 눈으로 확인한 값만 남긴다.
-     확인 도구: beta-exit-8b41d9e7a5/album-tune.html */
-  ahof_jl:{x:0.80,y:0.24},                 /* 제이엘 */
-  idntt_park_nuri:{x:0.80,y:0.24}          /* 박누리 */
+  ahof_chih_en:{x:0.38},                   /* 즈언 */
+  ahof_daisuke:{x:0.43},                   /* 다이스케 */
+  ahof_han:{x:0.57},                       /* 박한 */
+  ahof_jeongwoo:{x:0.45},                  /* 서정우 */
+  ahof_jl:{x:0.70},                        /* 제이엘 */
+  ahof_juwon:{x:0.35},                     /* 박주원 */
+  ahof_shuaibo:{x:0.49},                   /* 장슈아이보 */
+  ahof_steven:{x:0.53},                    /* 스티븐 */
+  ahof_woongki:{x:0.39},                   /* 차웅기 */
+  closeyoureyes_jingxiang:{x:0.45},        /* 마징시앙 */
+  closeyoureyes_kenshin:{x:0.53},          /* 켄신 */
+  closeyoureyes_kyoungbae:{x:0.66},        /* 서경배 */
+  closeyoureyes_minwook:{x:0.58},          /* 전민욱 */
+  closeyoureyes_seungho:{x:0.55},          /* 송승호 */
+  closeyoureyes_sungmin:{x:0.51},          /* 김성민 */
+  closeyoureyes_yeojun:{x:0.43},           /* 장여준 */
+  flareu_chuei_liyu:{x:0.50},              /* 최립우 */
+  flareu_kang_woojin:{x:0.52},             /* 강우진 */
+  idntt_kim_dohun:{x:0.55},                /* 김도훈 */
+  idntt_kim_heeju:{x:0.50},                /* 김희주 */
+  idntt_kim_seongjun:{x:0.45},             /* 김성준 */
+  idntt_lee_cheongmyeong:{x:0.45},         /* 이청명 */
+  idntt_nam_jiwoon:{x:0.44},               /* 남지운 */
+  idntt_park_nuri:{x:0.74},                /* 박누리 */
+  mc_01:{x:0.56},                          /* 붐 */
+  mc_02:{x:0.55}                           /* 조나단 */
 };
 function clampFocus(v,d){const n=Number(v);return isFinite(n)?Math.min(1,Math.max(0,n)):d;}
 function focusOf(p){
   if(!p)return PHOTO_FOCUS_DEFAULT;
+  if((p.focus_x!=null&&p.focus_x!=='')||(p.focus_y!=null&&p.focus_y!=='')){
+    return {
+      x:p.focus_x!=null&&p.focus_x!==''?clampFocus(p.focus_x,PHOTO_FOCUS_DEFAULT.x):PHOTO_FOCUS_DEFAULT.x,
+      y:p.focus_y!=null&&p.focus_y!==''?clampFocus(p.focus_y,PHOTO_FOCUS_DEFAULT.y):PHOTO_FOCUS_DEFAULT.y
+    };
+  }
   for(const k of [p.id,p.member_en,p.member_ko]){
     if(k!=null&&PHOTO_FOCUS[k]!=null){
       const f=PHOTO_FOCUS[k];
@@ -2385,10 +2410,7 @@ function focusOf(p){
         : {x:PHOTO_FOCUS_DEFAULT.x,y:clampFocus(f,PHOTO_FOCUS_DEFAULT.y)};
     }
   }
-  return {
-    x:p.focus_x!=null&&p.focus_x!==''?clampFocus(p.focus_x,PHOTO_FOCUS_DEFAULT.x):PHOTO_FOCUS_DEFAULT.x,
-    y:p.focus_y!=null&&p.focus_y!==''?clampFocus(p.focus_y,PHOTO_FOCUS_DEFAULT.y):PHOTO_FOCUS_DEFAULT.y
-  };
+  return PHOTO_FOCUS_DEFAULT;
 }
 function drawCover(ctx,img,x,y,w,h,f){
   const foc=f||PHOTO_FOCUS_DEFAULT;
