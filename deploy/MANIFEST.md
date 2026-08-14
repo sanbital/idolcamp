@@ -10,8 +10,10 @@
 | `config.js` | `config.js` | 오픈 게이트 · 아이보리 전환 · 탭 아이콘 · 대표주소 이동 |
 | `assets/kit/opt/*.webp` | 14개 | 수료키트 이미지 |
 | `assets/camp-logo.png` | 1개 | 로고 |
+| `beta-exit-8b41d9e7a5/album-tune.html` | 〃 | 사진첩 앵글 점검 도구 (비공개 · 키 필요 · noindex) |
 
-`assets/kit/*.png`(원본 1~9)과 `beta-exit-8b41d9e7a5/`는 사이트에서 참조하지 않으므로 올리지 않아도 됩니다.
+`assets/kit/*.png`(원본 1~9)은 사이트에서 참조하지 않으므로 올리지 않아도 됩니다.
+`beta-exit-8b41d9e7a5/` 중에서는 `album-tune.html` 한 장만 올립니다. 나머지 베타 빌드는 올리지 않습니다.
 
 ## 오픈 동작
 - 해제 시각: `camp_exit_settings.release_at` = **2026-08-14 18:00 KST** (확인 완료)
