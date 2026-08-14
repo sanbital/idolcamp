@@ -446,3 +446,38 @@ window.addEventListener("DOMContentLoaded", function () {
     new MutationObserver(applyVoteLinks).observe(document.body, { childList: true, subtree: true });
   }
 })();
+
+/* 확장판 배너 → Muniverse 스토어 연결.
+   본 페이지와 퇴소식·수료키트 상단 배너 모두에 적용된다(문서 단위 위임). */
+(function () {
+  var STORE_URL = ((window.MUNIVERSE_CONFIG || {}).exitCeremony || {}).storeUrl || "https://www.muniverse.io/store";
+
+  function dress() {
+    var el = document.getElementById("extendedBanner");
+    if (!el || el.__storeReady) return;
+    el.__storeReady = true;
+    if (el.tagName === "A") { el.href = STORE_URL; el.target = "_blank"; el.rel = "noopener noreferrer"; return; }
+    el.setAttribute("role", "link");
+    el.setAttribute("tabindex", "0");
+    el.style.cursor = "pointer";
+    el.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+    });
+  }
+  function open() { window.open(STORE_URL, "_blank", "noopener"); }
+
+  document.addEventListener("click", function (e) {
+    var el = e.target && e.target.closest && e.target.closest("#extendedBanner");
+    if (!el) return;
+    if (el.tagName === "A" && el.href) return;   /* 링크면 그대로 둔다 */
+    e.preventDefault();
+    open();
+  }, true);
+
+  function boot() {
+    dress();
+    new MutationObserver(dress).observe(document.documentElement, { childList: true, subtree: true });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
+})();
