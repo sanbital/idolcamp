@@ -9,6 +9,8 @@
   var SC = CFG.scoreFinal || {};
   var FINAL_AT = Date.parse(SC.finalizeAt || "2026-08-17T09:00:00Z");   /* = 8/17 18:00 KST */
   var REVEALED = SC.resultsRevealed === true;   /* 결과 공개 단계로 넘어갈 때 true */
+  var PROOF_KEY = SC.proofKey || "sf-7f4a2c-2026";
+  var isAdmin = new URLSearchParams(location.search).get("scoreproof") === PROOF_KEY;
   var FLAG_KEY = "idolcamp_score_final_v1";
   var CACHE_KEY = "idolcamp_scoreboard_cache_v2";
   var serverOffset = 0, applied = false, watching = false;
@@ -117,14 +119,18 @@
   /* 마감 시점의 순위·점수를 한 번만 고정한다.
      캐시가 아직 비어 있으면 마지막으로 게시된 점수 파일을 한 번 받아 채운다.
      한 번 채워진 뒤에는 이후 데이터가 들어와도 덮어쓰지 않는다. */
+  /* 일반 사용자의 브라우저에는 마감 사실만 남기고 순위·점수는 저장하지 않는다.
+     스냅샷 데이터는 관리자(증빙 키 보유)에게만 보관·표시된다. */
   function store(rows, savedAt) {
-    var snap = { at: new Date(Date.now() + serverOffset).toISOString(), rows: rows || [], savedAt: savedAt || null };
+    var snap = { at: new Date(Date.now() + serverOffset).toISOString(),
+                 rows: isAdmin ? (rows || []) : [], savedAt: savedAt || null };
     try { localStorage.setItem(FLAG_KEY, JSON.stringify(snap)); } catch (e) {}
     return snap;
   }
   function freeze() {
     var saved = frozen();
     if (saved && saved.rows && saved.rows.length) return Promise.resolve(saved);
+    if (!isAdmin) { return Promise.resolve(saved || store([], null)); }
     var cache = null;
     try { cache = JSON.parse(localStorage.getItem(CACHE_KEY) || "null"); } catch (e) {}
     if (cache && cache.rows && cache.rows.length) return Promise.resolve(store(cache.rows, cache.savedAt));
@@ -215,8 +221,9 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();
 
-  /* 운영 증빙: ?scoreproof=1 로 열면 고정된 최종 점수판을 PNG 한 장으로 내려받는다 */
-  if (new URLSearchParams(location.search).get("scoreproof") === "1") {
+  /* 운영 증빙: 관리자 키가 있는 주소로 열었을 때만 최종 점수판을 PNG 한 장으로 내려받는다.
+     키가 없으면 아무 것도 하지 않는다(안내도 노출하지 않는다). */
+  if (isAdmin) {
     window.addEventListener("load", function () { setTimeout(drawProof, 600); });
   }
   function drawProof() {
