@@ -113,10 +113,26 @@ function renderUrl(path){
 /* 지금 배포되어 있는 값. app.html 의 PHOTO_FOCUS 와 같은 내용이다. */
 const DEFAULT={x:0.5,y:0.26};
 const LIVE={
-  ahof_jl:{x:0.80,y:0.24},
-  idntt_park_nuri:{x:0.80,y:0.24}
+  ahof_chih_en:{x:0.38}, ahof_daisuke:{x:0.43}, ahof_han:{x:0.57},
+  ahof_jeongwoo:{x:0.45}, ahof_jl:{x:0.70}, ahof_juwon:{x:0.35},
+  ahof_shuaibo:{x:0.49}, ahof_steven:{x:0.53}, ahof_woongki:{x:0.39},
+  closeyoureyes_jingxiang:{x:0.45}, closeyoureyes_kenshin:{x:0.53},
+  closeyoureyes_kyoungbae:{x:0.66}, closeyoureyes_minwook:{x:0.58},
+  closeyoureyes_seungho:{x:0.55}, closeyoureyes_sungmin:{x:0.51},
+  closeyoureyes_yeojun:{x:0.43}, flareu_chuei_liyu:{x:0.50},
+  flareu_kang_woojin:{x:0.52}, idntt_kim_dohun:{x:0.55},
+  idntt_kim_heeju:{x:0.50}, idntt_kim_seongjun:{x:0.45},
+  idntt_lee_cheongmyeong:{x:0.45}, idntt_nam_jiwoon:{x:0.44},
+  idntt_park_nuri:{x:0.74}, mc_01:{x:0.56}, mc_02:{x:0.55}
 };
 function liveOf(id){
+  const row=members.find(m=>m.id===id);
+  if(row&&((row.focus_x!=null&&row.focus_x!=='')||(row.focus_y!=null&&row.focus_y!==''))){
+    return {
+      x:row.focus_x!=null&&row.focus_x!==''?Number(row.focus_x):DEFAULT.x,
+      y:row.focus_y!=null&&row.focus_y!==''?Number(row.focus_y):DEFAULT.y
+    };
+  }
   const f=LIVE[id];
   return {x:f&&f.x!=null?f.x:DEFAULT.x, y:f&&f.y!=null?f.y:DEFAULT.y};
 }
@@ -209,7 +225,7 @@ function makeCard(m){
 async function boot(){
   if(!SB_URL||!SB_KEY){$('#note').textContent='설정을 읽지 못했습니다.';$('#note').classList.add('err');return;}
   try{
-    const r=await fetch(SB_URL+'/rest/v1/camp_member_photos?select=id,member_ko,member_en,photo_path,sort_order&active=eq.true&is_group=eq.false&order=sort_order.asc',
+    const r=await fetch(SB_URL+'/rest/v1/camp_member_photos?select=id,member_ko,member_en,photo_path,focus_x,focus_y,sort_order&active=eq.true&is_group=eq.false&order=sort_order.asc',
       {headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY}});
     if(!r.ok)throw new Error('members '+r.status);
     members=await r.json();
