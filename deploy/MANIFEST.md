@@ -8,6 +8,7 @@
 | `exit/camp-top.js` | 〃 | 상단 고정 영역(배너 3종 + 점수판) |
 | `index.html` | `index.html` | 캠프 본 페이지 |
 | `config.js` | `config.js` | 오픈 게이트 · 아이보리 전환 · 탭 아이콘 · 대표주소 이동 |
+| `score-final.js` | `score-final.js` | 본 페이지 점수판 마감 화면 (본 페이지가 직접 참조) |
 | `assets/kit/opt/*.webp` | 14개 | 수료키트 이미지 |
 | `assets/camp-logo.png` | 1개 | 로고 |
 | `beta-exit-8b41d9e7a5/album-tune.html` | 〃 | 사진첩 앵글 점검 도구 (비공개 · 키 필요 · noindex) |

@@ -25,6 +25,8 @@ done
 say "2/5  캠프 본 페이지 · 설정"
 aws s3 cp index.html "$S3/index.html" --content-type "$HTML" --cache-control "$NOCACHE"
 aws s3 cp config.js  "$S3/config.js"  --content-type "$JS"   --cache-control "$NOCACHE"
+# 본 페이지가 <script src="./score-final.js"> 로 직접 부른다. 빠지면 마감 화면이 본 페이지에서만 뜨지 않는다.
+aws s3 cp score-final.js "$S3/score-final.js" --content-type "$JS" --cache-control "$NOCACHE"
 
 say "3/5  사진첩 앵글 점검 도구 (비공개 · 키 필요)"
 aws s3 cp beta-exit-8b41d9e7a5/album-tune.html "$S3/beta-exit-8b41d9e7a5/album-tune.html" \
@@ -37,7 +39,7 @@ aws s3 cp assets/camp-logo.png "$S3/assets/camp-logo.png" --content-type "image/
 if [ -n "${DISTRIBUTION_ID:-}" ]; then
   say "5/5  CloudFront 무효화"
   aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" \
-    --paths '/index.html' '/config.js' '/exit/*' '/assets/kit/opt/*' \
+    --paths '/index.html' '/config.js' '/score-final.js' '/exit/*' '/assets/kit/opt/*' \
             '/beta-exit-8b41d9e7a5/album-tune.html' >/dev/null
   echo "무효화 요청 완료"
 else
