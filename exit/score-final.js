@@ -1,290 +1,215 @@
-/* 수련회 점수판 — 투표 마감 후 '최종 점수 집계 중' 화면.
-   · 적용 시각은 config.js 의 scoreFinal.finalizeAt 이 정한다
-   · 현재 설정: 2026-08-17T08:00:00Z = 2026-08-17 17:00 KST
-   · 판정은 서버 시각 기준. 사용자의 기기 시계·타임존에 영향받지 않는다.
-   · 마감 시점의 순위/점수를 스냅샷으로 고정하고, 이후 데이터는 반영하지 않는다.
-   · 본 페이지와 퇴소식·수료키트(상단 고정 점수판) 양쪽에서 함께 동작한다. */
+/* 아이돌 수련회 최종 점수판 — 2026-08-25 17:30 KST 자동 공개 */
 (function () {
   "use strict";
+
   var CFG = window.MUNIVERSE_CONFIG || {};
-  var SC = CFG.scoreFinal || {};
-  var FINAL_AT = Date.parse(SC.finalizeAt || "2026-08-17T08:00:00Z");   /* = 8/17 17:00 KST */
-  var REVEALED = SC.resultsRevealed === true;   /* 결과 공개 단계로 넘어갈 때 true */
-  var PROOF_KEY = SC.proofKey || "sf-7f4a2c-2026";
-  var isAdmin = new URLSearchParams(location.search).get("scoreproof") === PROOF_KEY;
-  var FLAG_KEY = "idolcamp_score_final_v1";
-  var CACHE_KEY = "idolcamp_scoreboard_cache_v2";
-  var serverOffset = 0, applied = false, watching = false;
+  var REVEAL_AT = Date.parse("2026-08-25T08:30:00Z"); /* 2026-08-25 17:30 KST */
+  var serverOffset = 0;
+  var currentMode = "";
+  var timer = null;
 
-  /* 설정된 마감 시각을 KST 로 표기 (M/D HH:mm) */
-  function kstLabel() {
-    var d = new Date(FINAL_AT + 9 * 3600 * 1000);
-    var p = function (n) { return (n < 10 ? "0" : "") + n; };
-    return (d.getUTCMonth() + 1) + "/" + d.getUTCDate() + " " + p(d.getUTCHours()) + ":" + p(d.getUTCMinutes());
-  }
-  var STR = {
-    ko: { head: "최종 점수 집계 중", sub: "정확한 결과 확인을 위해 점수를 검수하고 있어요",
-          when: "투표 종료 · {t} KST", s1: "투표 종료", s2: "점수 검수", s3: "결과 공개" },
-    en: { head: "Final tally in progress", sub: "We are reviewing the scores so the result is exact",
-          when: "Voting closed · {t} KST", s1: "Voting closed", s2: "Score review", s3: "Result" },
-    ja: { head: "最終集計中", sub: "正確な結果のためにスコアを検収しています",
-          when: "投票終了 · {t} KST", s1: "投票終了", s2: "スコア検収", s3: "結果発表" },
-    "zh-CN": { head: "最终计分中", sub: "为确认准确结果，正在核对分数",
-          when: "投票结束 · {t} KST", s1: "投票结束", s2: "分数核对", s3: "结果公开" },
-    "zh-TW": { head: "最終計分中", sub: "為確認準確結果，正在核對分數",
-          when: "投票結束 · {t} KST", s1: "投票結束", s2: "分數核對", s3: "結果公開" }
+  var ROWS = [
+    { rank: 1, team: "AHOF", pledge: 1036640, like: 6510182, share: 6650, meme: 476600, finalVote: 5407900, bonus: 10000000, total: 23437972 },
+    { rank: 2, team: "FLARE U", pledge: 1054000, like: 13357213, share: 7350, meme: 128100, finalVote: 1663200, bonus: 0, total: 16209863 },
+    { rank: 3, team: "idntt", pledge: 3730, like: 225, share: 1350, meme: 25800, finalVote: 19600, bonus: 0, total: 50705 },
+    { rank: 4, team: "CLOSE YOUR EYES", pledge: 7570, like: 1939, share: 3400, meme: 12900, finalVote: 21400, bonus: 0, total: 47209 }
+  ];
+
+  var I18N = {
+    ko: {
+      tally: "최종 점수 집계 중", tallySub: "정확한 결과 확인을 위해 점수를 검수하고 있어요", closed: "투표 종료 · 8/17 17:00 KST",
+      s1: "투표 종료", s2: "점수 검수", s3: "결과 공개",
+      title: "최종 점수판", winner: "최종 점수", rank: "순위", team: "TEAM",
+      pledge: "다짐 점수", pledgeSub: "10점/건", like: "좋아요 점수", likeSub: "1점/건", share: "공유 점수", shareSub: "50점/건",
+      meme: "짤기자랑 예선 점수", memeSub: "최종 인정 점수", finalVote: "짤기자랑 결선 투표 점수", finalVoteSub: "100점/표",
+      bonus: "우승팀 보너스", bonusSub: "1위팀 가산", total: "최종 점수"
+    },
+    en: {
+      tally: "Final tally in progress", tallySub: "We are reviewing the scores to ensure an accurate result", closed: "Voting closed · Aug 17, 5:00 PM KST",
+      s1: "Voting closed", s2: "Score review", s3: "Results",
+      title: "Final Scoreboard", winner: "Final Score", rank: "Rank", team: "TEAM",
+      pledge: "Pledge Score", pledgeSub: "10 pts/entry", like: "Like Score", likeSub: "1 pt/like", share: "Share Score", shareSub: "50 pts/share",
+      meme: "Meme Prelim Score", memeSub: "Final approved score", finalVote: "Meme Final Vote Score", finalVoteSub: "100 pts/vote",
+      bonus: "Winner Bonus", bonusSub: "Added to winning team", total: "Final Score"
+    },
+    ja: {
+      tally: "最終集計中", tallySub: "正確な結果確認のためスコアを検収しています", closed: "投票終了 · 8/17 17:00 KST",
+      s1: "投票終了", s2: "スコア検収", s3: "結果発表",
+      title: "最終スコアボード", winner: "最終スコア", rank: "順位", team: "TEAM",
+      pledge: "決意スコア", pledgeSub: "10点/件", like: "いいねスコア", likeSub: "1点/件", share: "シェアスコア", shareSub: "50点/件",
+      meme: "ミーム予選スコア", memeSub: "最終認定スコア", finalVote: "ミーム決選投票スコア", finalVoteSub: "100点/票",
+      bonus: "優勝チームボーナス", bonusSub: "1位チーム加算", total: "最終スコア"
+    },
+    "zh-TW": {
+      tally: "最終計分中", tallySub: "為確認準確結果，正在核對分數", closed: "投票結束 · 8/17 17:00 KST",
+      s1: "投票結束", s2: "分數核對", s3: "結果公開",
+      title: "最終積分榜", winner: "最終分數", rank: "排名", team: "TEAM",
+      pledge: "宣言分數", pledgeSub: "10分/次", like: "按讚分數", likeSub: "1分/次", share: "分享分數", shareSub: "50分/次",
+      meme: "迷因才藝秀預賽分數", memeSub: "最終認定分數", finalVote: "迷因才藝秀決賽投票分數", finalVoteSub: "100分/票",
+      bonus: "冠軍隊伍加分", bonusSub: "第1名隊伍加分", total: "最終分數"
+    },
+    "zh-CN": {
+      tally: "最终计分中", tallySub: "为确认准确结果，正在核对分数", closed: "投票结束 · 8/17 17:00 KST",
+      s1: "投票结束", s2: "分数核对", s3: "结果公开",
+      title: "最终积分榜", winner: "最终分数", rank: "排名", team: "TEAM",
+      pledge: "宣言分数", pledgeSub: "10分/次", like: "点赞分数", likeSub: "1分/次", share: "分享分数", shareSub: "50分/次",
+      meme: "表情包才艺秀预赛分数", memeSub: "最终认定分数", finalVote: "表情包才艺秀决赛投票分数", finalVoteSub: "100分/票",
+      bonus: "冠军队伍加分", bonusSub: "第1名队伍加分", total: "最终分数"
+    }
   };
-  function S() {
-    var l = document.documentElement.lang || "ko";
-    return STR[l] || STR[{ zh: "zh-CN", "zh-Hant": "zh-TW", "zh-Hans": "zh-CN" }[l]] || STR[l.split("-")[0]] || STR.ko;
+
+  function langKey() {
+    var l = (document.documentElement.lang || "ko").trim();
+    if (/^zh-(Hant|TW)/i.test(l)) return "zh-TW";
+    if (/^zh-(Hans|CN)/i.test(l)) return "zh-CN";
+    if (/^ja/i.test(l)) return "ja";
+    if (/^en/i.test(l)) return "en";
+    return "ko";
+  }
+  function T() { return I18N[langKey()] || I18N.ko; }
+  function n(v) { return Number(v || 0).toLocaleString(langKey() === "ko" ? "ko-KR" : "en-US"); }
+
+  function installStyle() {
+    if (document.getElementById("idolcamp-final-score-style")) return;
+    var st = document.createElement("style");
+    st.id = "idolcamp-final-score-style";
+    st.textContent = [
+      "#scoreboard.is-final .sb-reload,#scoreboard.is-final .sb-notice,#scoreboard.is-final #scoreList,#scoreboard.is-final #scoreUpdated,#scoreboard.is-final #scoreCta,#scoreboard.is-final .sb-vote-go{display:none!important}",
+      "#voteBanner.is-final-hidden,.votebar.is-final-hidden{display:none!important}",
+      ".sf{position:relative;overflow:hidden;margin:6px 0 2px;padding:34px 20px 30px;border-radius:22px;background:linear-gradient(180deg,#FCF8EC,#F7F1DF);border:1px solid rgba(20,48,61,.08);text-align:center}",
+      ".sf-badge{width:112px;height:112px;margin:0 auto 18px;border-radius:50%;display:grid;place-items:center;background:#FFF7DC;border:5px solid #4CA96F;box-shadow:inset 0 0 0 1px rgba(214,178,74,.28)}",
+      ".sf-tent{font-size:48px;line-height:1;color:#1F6B44}",
+      ".sf-head{margin:0;font-size:clamp(25px,6.4vw,34px);font-weight:900;letter-spacing:-.035em;color:#1B5E3F;word-break:keep-all}",
+      ".sf-sub{margin:10px auto 0;max-width:30em;font-size:clamp(12.5px,3.4vw,15px);font-weight:600;line-height:1.6;color:rgba(20,48,61,.62);word-break:keep-all}",
+      ".sf-when{display:inline-block;margin:16px 0 0;padding:9px 18px;border-radius:999px;background:#FDF0C4;border:1px solid rgba(214,178,74,.45);color:#6E5312;font-size:13px;font-weight:800}",
+      ".sf-steps{display:grid;grid-template-columns:repeat(3,1fr);align-items:start;gap:0;margin:26px auto 0;max-width:420px}",
+      ".sf-step{position:relative;display:grid;justify-items:center;gap:9px;font-size:12px;font-weight:800;color:rgba(20,48,61,.6)}",
+      ".sf-dot{position:relative;z-index:2;width:26px;height:26px;border-radius:50%;background:#F7F1DF;border:2px solid rgba(20,48,61,.16)}",
+      ".sf-step.done .sf-dot{background:#1F6B44;border-color:#1F6B44}.sf-step.done .sf-dot:after{content:'✓';color:white;font-size:15px;line-height:22px}",
+      ".sf-step.now .sf-dot{background:#fff;border-color:#1F6B44}.sf-step.now .sf-dot:after{content:'';position:absolute;inset:5px;border-radius:50%;background:#F2C230}",
+      ".sf-step:before{content:'';position:absolute;top:12px;left:-50%;width:100%;height:2px;background:rgba(20,48,61,.16)}.sf-step:first-child:before{display:none}.sf-step.done:before,.sf-step.now:before{background:#1F6B44}",
+      ".finalBoard{margin:6px 0 2px;padding:22px;border-radius:24px;background:#FBF6E9;border:1px solid rgba(20,48,61,.09);box-shadow:0 12px 28px rgba(20,48,61,.08)}",
+      ".finalBoardTitle{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 0 18px;font-size:clamp(27px,4.8vw,42px);font-weight:900;letter-spacing:-.04em;color:#123A2E}",
+      ".finalBoardTitle:before{content:'⛺';font-size:.8em}",
+      ".winnerCard{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:24px;padding:22px 28px;margin-bottom:18px;border:3px solid #E7AA16;border-radius:20px;background:linear-gradient(180deg,#FFFDF7,#FFF9E7);box-shadow:0 6px 0 rgba(210,151,8,.16)}",
+      ".winnerRank{font-size:clamp(34px,5vw,58px);font-weight:900;color:#E5A400;white-space:nowrap}.winnerTeam{font-size:clamp(48px,8vw,84px);font-weight:900;letter-spacing:-.045em;color:#0F4D37;text-align:left}.winnerScore{text-align:right}.winnerScore small{display:block;margin-bottom:3px;font-size:14px;font-weight:900;color:#164C38}.winnerScore strong{display:block;font-size:clamp(38px,6vw,66px);line-height:1;font-weight:900;color:#E5A400;white-space:nowrap}.winnerScore em{font-style:normal;font-size:.35em;color:#123A2E;margin-left:4px}",
+      ".finalTableWrap{overflow-x:auto;border-radius:18px;border:1px solid rgba(20,48,61,.1);background:#FFFDF8}",
+      ".finalTable{width:100%;min-width:1020px;border-collapse:separate;border-spacing:0;font-size:13px;color:#123A2E}",
+      ".finalTable th{padding:14px 10px;background:linear-gradient(180deg,#175D43,#0E4936);color:#fff;font-weight:900;text-align:center;border-right:1px solid rgba(255,255,255,.18);line-height:1.3}.finalTable th:last-child{color:#FFD34F;border-right:0}.finalTable th small{display:block;margin-top:3px;font-size:10px;font-weight:700;opacity:.92}",
+      ".finalTable td{padding:15px 10px;text-align:center;border-right:1px solid rgba(20,48,61,.08);border-bottom:1px solid rgba(20,48,61,.08);background:#FFFDF8;font-weight:600;white-space:nowrap}.finalTable tr:last-child td{border-bottom:0}.finalTable td:last-child{border-right:0;font-size:20px;font-weight:900;color:#0F4D37}",
+      ".finalTable .teamCell{font-size:17px;font-weight:900}.finalTable .rankCell{font-size:18px;font-weight:900}",
+      ".finalTable tr.champion td{background:#FFF9E9;font-size:15px;font-weight:800;border-top:2px solid #E7AA16;border-bottom:2px solid #E7AA16}.finalTable tr.champion td:first-child{border-left:2px solid #E7AA16;border-radius:12px 0 0 12px;color:#E5A400;font-size:25px}.finalTable tr.champion td:last-child{border-right:2px solid #E7AA16;border-radius:0 12px 12px 0;font-size:26px}.finalTable tr.champion .teamCell{font-size:26px;color:#0F4D37}",
+      "@media(max-width:720px){.finalBoard{padding:14px}.winnerCard{grid-template-columns:auto 1fr;gap:10px 14px;padding:18px}.winnerRank{grid-row:1/3}.winnerTeam{font-size:48px}.winnerScore{grid-column:2;text-align:left}.winnerScore strong{font-size:36px}.finalBoardTitle{font-size:28px}}"
+    ].join("\n");
+    document.head.appendChild(st);
   }
 
-  var CSS = [
-    "#scoreboard.is-final .sb-reload,",
-    "#scoreboard.is-final .sb-notice,",
-    "#scoreboard.is-final #scoreList,",
-    "#scoreboard.is-final #scoreUpdated,",
-    "#scoreboard.is-final #scoreCta,",
-    "#scoreboard.is-final .sb-vote-go{display:none!important}",
-    "#voteBanner.is-final-hidden,.votebar.is-final-hidden{display:none!important}",
-    ".sf{position:relative;overflow:hidden;margin:6px 0 2px;padding:34px 20px 30px;border-radius:22px;",
-    "  background:linear-gradient(180deg,#FCF8EC,#F7F1DF);border:1px solid rgba(20,48,61,.08);text-align:center}",
-    ".sf-art{position:absolute;inset:0;pointer-events:none}",
-    ".sf-art span{position:absolute;display:block;color:#2E8A5A;opacity:.11}",
-    ".sf-art svg{display:block;width:100%;height:auto}",
-    ".sf-art .a1{left:5%;bottom:7%;width:58px}.sf-art .a2{right:6%;bottom:9%;width:56px}",
-    ".sf-art .a3{left:11%;top:11%;width:26px;opacity:.09}.sf-art .a4{right:12%;top:9%;width:22px;opacity:.09}",
-    ".sf-art .a5{right:24%;top:24%;width:13px;opacity:.10}.sf-art .a6{left:22%;top:30%;width:12px;opacity:.10}",
-    ".sf-badge{position:relative;width:132px;height:132px;margin:0 auto;display:grid;place-items:center}",
-    ".sf-ring{position:absolute;inset:0}",
-    ".sf-disc{position:relative;display:grid;place-items:center;width:96px;height:96px;border-radius:50%;",
-    "  background:radial-gradient(circle at 50% 42%,#FFF7DC,#FBEFC6);box-shadow:inset 0 0 0 1px rgba(214,178,74,.28)}",
-    ".sf-disc svg{width:56px;height:56px;color:#1F6B44}",
-    ".sf-head{margin:20px 0 0;font-family:var(--font-display,inherit);font-size:clamp(25px,6.4vw,34px);font-weight:900;",
-    "  letter-spacing:-.035em;color:#1B5E3F;word-break:keep-all}",
-    ".sf-sub{margin:10px auto 0;max-width:26em;font-size:clamp(12.5px,3.4vw,15px);font-weight:600;line-height:1.6;color:rgba(20,48,61,.62);word-break:keep-all}",
-    ".sf-when{display:inline-block;margin:16px 0 0;padding:9px 18px;border-radius:999px;background:#FDF0C4;",
-    "  border:1px solid rgba(214,178,74,.45);color:#6E5312;font-size:clamp(12.5px,3.4vw,14px);font-weight:800;white-space:nowrap}",
-    ".sf-steps{display:grid;grid-template-columns:repeat(3,1fr);align-items:start;gap:0;margin:26px auto 0;max-width:420px}",
-    ".sf-step{position:relative;display:grid;justify-items:center;gap:9px}",
-    ".sf-dot{position:relative;z-index:1;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;",
-    "  background:#F7F1DF;border:2px solid rgba(20,48,61,.16)}",
-    ".sf-step.done .sf-dot{background:#1F6B44;border-color:#1F6B44;color:#fff}",
-    ".sf-step.now .sf-dot{background:#FFF;border-color:#1F6B44}",
-    ".sf-step.now .sf-dot:after{content:'';width:11px;height:11px;border-radius:50%;background:#F2C230}",
-    ".sf-dot svg{width:14px;height:14px}",
-    ".sf-step:before{content:'';position:absolute;top:12px;left:-50%;width:100%;height:2px;background:rgba(20,48,61,.16)}",
-    ".sf-step:first-child:before{display:none}",
-    ".sf-step.done:before,.sf-step.now:before{background:#1F6B44}",
-    ".sf-step.wait:before{background:none;border-top:2px dashed rgba(20,48,61,.22)}",
-    ".sf-label{font-size:clamp(11.5px,3.2vw,13px);font-weight:800;color:rgba(20,48,61,.62);white-space:nowrap}",
-    ".sf-step.done .sf-label,.sf-step.now .sf-label{color:#1B5E3F}",
-    "@media(min-width:760px){.sf{padding:44px 30px 38px}.sf-badge{width:150px;height:150px}",
-    "  .sf-disc{width:110px;height:110px}.sf-disc svg{width:64px;height:64px}.sf-steps{margin-top:30px;max-width:470px}}"
-  ].join("\n");
-
-  var TENT = '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-    '<path d="M32 12 L46 40 H18 Z"/><path d="M32 24 L38 40 H26 Z" stroke-width="2.2"/>' +
-    '<path d="M10 34 l3-6 3 6 z" stroke-width="2"/><path d="M54 34 l3-6 3 6 z" stroke-width="2"/>' +
-    '<path d="M13 28 v8M57 28 v8" stroke-width="2"/>' +
-    '<path d="M24 52 l16-6M40 52 l-16-6" stroke-width="2.4"/>' +
-    '<path d="M32 50 c-4-3-2.5-7-.5-9.5 .5 3 2.5 3.5 3 1 2.5 3 2 6-2.5 8.5z" fill="currentColor" stroke="none"/>' +
-    '<path d="M28 8 l1 2.6 2.6 1 -2.6 1 -1 2.6 -1 -2.6 -2.6 -1 2.6 -1z" fill="currentColor" stroke="none"/>' +
-    '<path d="M44 16 l.8 2 2 .8 -2 .8 -.8 2 -.8 -2 -2 -.8 2 -.8z" fill="currentColor" stroke="none"/></svg>';
-  var PINE = '<svg viewBox="0 0 40 60" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 L31 26 H9 Z"/><path d="M20 20 L34 44 H6 Z"/><path d="M20 44 v10"/></svg>';
-  var FIRE = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 8c5 8 9 10 9 17a9 9 0 1 1-18 0c0-7 4-9 9-17z"/><path d="M8 40l32-6M8 34l32 6"/></svg>';
-  var STAR = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.5 5.6 5.9.6-4.4 4 1.3 5.8L12 15.6 6.7 18.6 8 12.8 3.6 8.8l5.9-.6z"/></svg>';
-  var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7"/></svg>';
-
-  function panelInner() {
-    var s = S();
-    return '' +
-      '<div class="sf-art" aria-hidden="true">' +
-        '<span class="a1">' + PINE + "</span><span class=\"a2\">" + FIRE + "</span>" +
-        '<span class="a3">' + PINE + "</span><span class=\"a4\">" + PINE + "</span>" +
-        '<span class="a5">' + STAR + "</span><span class=\"a6\">" + STAR + "</span>" +
-      "</div>" +
-      '<div class="sf-badge">' +
-        '<svg class="sf-ring" viewBox="0 0 132 132" fill="none" aria-hidden="true">' +
-          '<circle cx="66" cy="66" r="58" stroke="rgba(31,107,68,.16)" stroke-width="5"/>' +
-          '<circle cx="66" cy="66" r="58" stroke="#4CA96F" stroke-width="5" stroke-linecap="round"' +
-          ' stroke-dasharray="240 124" transform="rotate(-90 66 66)"/>' +
-          '<circle cx="8" cy="66" r="6" fill="#F2C230"/><circle cx="124" cy="66" r="6" fill="#F2C230"/>' +
-        "</svg>" +
-        '<span class="sf-disc">' + TENT + "</span>" +
-      "</div>" +
-      '<h3 class="sf-head">' + s.head + "</h3>" +
-      '<p class="sf-sub">' + s.sub + "</p>" +
-      '<span class="sf-when">' + s.when.replace("{t}", kstLabel()) + "</span>" +
-      '<div class="sf-steps">' +
-        '<div class="sf-step done"><span class="sf-dot">' + CHECK + '</span><span class="sf-label">' + s.s1 + "</span></div>" +
-        '<div class="sf-step now"><span class="sf-dot"></span><span class="sf-label">' + s.s2 + "</span></div>" +
-        '<div class="sf-step wait"><span class="sf-dot"></span><span class="sf-label">' + s.s3 + "</span></div>" +
-      "</div>";
-  }
-
-  /* 마감 시점의 순위·점수를 한 번만 고정한다.
-     캐시가 아직 비어 있으면 마지막으로 게시된 점수 파일을 한 번 받아 채운다.
-     한 번 채워진 뒤에는 이후 데이터가 들어와도 덮어쓰지 않는다. */
-  /* 일반 사용자의 브라우저에는 마감 사실만 남기고 순위·점수는 저장하지 않는다.
-     스냅샷 데이터는 관리자(증빙 키 보유)에게만 보관·표시된다. */
-  function store(rows, savedAt) {
-    var snap = { at: new Date(Date.now() + serverOffset).toISOString(),
-                 rows: isAdmin ? (rows || []) : [], savedAt: savedAt || null };
-    try { localStorage.setItem(FLAG_KEY, JSON.stringify(snap)); } catch (e) {}
-    return snap;
-  }
-  function freeze() {
-    var saved = frozen();
-    if (saved && saved.rows && saved.rows.length) return Promise.resolve(saved);
-    if (!isAdmin) { return Promise.resolve(saved || store([], null)); }
-    var cache = null;
-    try { cache = JSON.parse(localStorage.getItem(CACHE_KEY) || "null"); } catch (e) {}
-    if (cache && cache.rows && cache.rows.length) return Promise.resolve(store(cache.rows, cache.savedAt));
-    var url = CFG.scoreboardCacheUrl;
-    if (!url) return Promise.resolve(saved || store([], null));
-    return fetch(url + (url.indexOf("?") >= 0 ? "&" : "?") + "v=final", { cache: "no-store" })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (p) {
-        var rows = Array.isArray(p) ? p : (p && p.rows) || [];
-        return rows.length ? store(rows, Date.now()) : (saved || store([], null));
-      })
-      .catch(function () { return saved || store([], null); });
-  }
-  function frozen() {
-    try { return JSON.parse(localStorage.getItem(FLAG_KEY) || "null"); } catch (e) { return null; }
-  }
-
-  function apply() {
+  function prepBoard() {
+    installStyle();
     var board = document.getElementById("scoreboard");
-    if (!board) return;
+    if (!board) return null;
     board.classList.add("is-final");
-    ["voteBanner"].forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) { el.classList.add("is-final-hidden"); el.setAttribute("hidden", "hidden"); }
-    });
+    var banner = document.getElementById("voteBanner");
+    if (banner) { banner.classList.add("is-final-hidden"); banner.hidden = true; }
+    return board;
+  }
+
+  function renderTally() {
+    if (currentMode === "tally") return;
+    var board = prepBoard();
+    if (!board) return;
+    var t = T();
     var old = document.getElementById("scoreFinal");
-    var lang = document.documentElement.lang || "ko";
-    if (old) {
-      if (old.dataset.lang !== lang) { old.dataset.lang = lang; old.innerHTML = panelInner(); }
-      return;
-    }
+    if (old) old.remove();
     var box = document.createElement("div");
-    box.className = "sf"; box.id = "scoreFinal"; box.dataset.lang = lang;
-    box.innerHTML = panelInner();
+    box.id = "scoreFinal";
+    box.className = "sf";
+    box.innerHTML = '<div class="sf-badge"><span class="sf-tent">⛺</span></div>' +
+      '<h3 class="sf-head">' + t.tally + '</h3>' +
+      '<p class="sf-sub">' + t.tallySub + '</p>' +
+      '<span class="sf-when">' + t.closed + '</span>' +
+      '<div class="sf-steps">' +
+        '<div class="sf-step done"><span class="sf-dot"></span><span>' + t.s1 + '</span></div>' +
+        '<div class="sf-step now"><span class="sf-dot"></span><span>' + t.s2 + '</span></div>' +
+        '<div class="sf-step"><span class="sf-dot"></span><span>' + t.s3 + '</span></div>' +
+      '</div>';
     var list = document.getElementById("scoreList");
-    if (list) list.parentNode.insertBefore(box, list); else board.appendChild(box);
+    if (list && list.parentNode) list.parentNode.insertBefore(box, list); else board.appendChild(box);
+    currentMode = "tally";
   }
 
-  function activate() {
-    if (REVEALED) return;
-    window.__scoreFinal = true;            /* 점수 재조회를 멈추게 하는 신호 */
-    freeze();
-    if (!document.getElementById("camp-score-final-style")) {
-      var st = document.createElement("style");
-      st.id = "camp-score-final-style"; st.textContent = CSS;
-      document.head.appendChild(st);
-    }
-    apply();
-    if (!watching) {
-      watching = true;
-      /* 점수판이 다시 그려지거나(10분 갱신·언어 전환) 늦게 삽입돼도 계속 유지 */
-      new MutationObserver(function () { apply(); }).observe(document.body, { childList: true, subtree: true });
-      new MutationObserver(function () { apply(); })
-        .observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
-    }
-    applied = true;
+  function header(label, sub) {
+    return '<th>' + label + (sub ? '<small>' + sub + '</small>' : '') + '</th>';
   }
 
-  function isFinal() {
-    if (REVEALED) return false;
-    if (frozen()) return true;                       /* 한 번 마감되면 되돌아가지 않는다 */
-    return Date.now() + serverOffset >= FINAL_AT;
+  function renderFinal() {
+    if (currentMode === "final") return;
+    var board = prepBoard();
+    if (!board) return;
+    var t = T();
+    var old = document.getElementById("scoreFinal");
+    if (old) old.remove();
+    var box = document.createElement("div");
+    box.id = "scoreFinal";
+    box.className = "finalBoard";
+
+    var rows = ROWS.map(function (r) {
+      return '<tr class="' + (r.rank === 1 ? 'champion' : '') + '">' +
+        '<td class="rankCell">' + (r.rank === 1 ? '♛ ' : '') + r.rank + '</td>' +
+        '<td class="teamCell">' + r.team + '</td>' +
+        '<td>' + n(r.pledge) + '</td><td>' + n(r.like) + '</td><td>' + n(r.share) + '</td>' +
+        '<td>' + n(r.meme) + '</td><td>' + n(r.finalVote) + '</td><td>' + n(r.bonus) + '</td><td>' + n(r.total) + '</td>' +
+      '</tr>';
+    }).join('');
+
+    box.innerHTML = '<h3 class="finalBoardTitle">' + t.title + '</h3>' +
+      '<div class="winnerCard"><div class="winnerRank">1위</div><div class="winnerTeam">AHOF</div><div class="winnerScore"><small>' + t.winner + '</small><strong>' + n(23437972) + '<em>점</em></strong></div></div>' +
+      '<div class="finalTableWrap"><table class="finalTable"><thead><tr>' +
+        header(t.rank, '') + header(t.team, '') + header(t.pledge, t.pledgeSub) + header(t.like, t.likeSub) + header(t.share, t.shareSub) +
+        header(t.meme, t.memeSub) + header(t.finalVote, t.finalVoteSub) + header(t.bonus, t.bonusSub) + header(t.total, '') +
+      '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+
+    var list = document.getElementById("scoreList");
+    if (list && list.parentNode) list.parentNode.insertBefore(box, list); else board.appendChild(box);
+    currentMode = "final";
   }
 
-  function check() { if (!applied && isFinal()) activate(); }
+  function nowMs() { return Date.now() + serverOffset; }
+  function renderByTime() {
+    if (nowMs() >= REVEAL_AT) renderFinal(); else renderTally();
+  }
+  function scheduleReveal() {
+    if (timer) clearTimeout(timer);
+    var delay = REVEAL_AT - nowMs();
+    if (delay <= 0) { renderFinal(); return; }
+    timer = setTimeout(function () { renderFinal(); }, Math.min(delay + 50, 2147483647));
+  }
 
-  /* 서버 시각 확보: meme_event_status 응답 → 없으면 REST 응답 헤더 */
   function syncClock() {
-    var st = window.__memeStatus;
-    if (st && st.now) {
-      var ms = Date.parse(st.now);
-      if (isFinite(ms)) { serverOffset = ms - Date.now(); check(); return Promise.resolve(); }
+    if (!CFG.supabaseUrl || !CFG.supabaseAnonKey) {
+      renderByTime(); scheduleReveal(); return Promise.resolve();
     }
-    if (!CFG.supabaseUrl || !CFG.supabaseAnonKey) { check(); return Promise.resolve(); }
     return fetch(CFG.supabaseUrl + "/rest/v1/camp_exit_settings?select=id&id=eq.1&limit=1", {
-      headers: { apikey: CFG.supabaseAnonKey, Authorization: "Bearer " + CFG.supabaseAnonKey }
+      headers: { apikey: CFG.supabaseAnonKey, Authorization: "Bearer " + CFG.supabaseAnonKey }, cache: "no-store"
     }).then(function (r) {
       var dh = r.headers.get("date");
-      if (dh) { var ms = Date.parse(dh); if (isFinite(ms)) serverOffset = ms - Date.now(); }
-    }).catch(function () {}).then(check);
+      if (dh) {
+        var ms = Date.parse(dh);
+        if (isFinite(ms)) serverOffset = ms - Date.now();
+      }
+    }).catch(function () {}).then(function () { renderByTime(); scheduleReveal(); });
   }
 
   function boot() {
-    check();                       /* 저장된 마감 상태면 네트워크 없이 즉시 적용 */
+    renderByTime();
     syncClock();
-    setInterval(function () { if (!applied && !document.hidden) syncClock(); }, 60000);
+    setInterval(function () { if (!document.hidden) syncClock(); }, 60000);
+    new MutationObserver(function () {
+      currentMode = "";
+      renderByTime();
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
   }
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
-  else boot();
 
-  /* 운영 증빙: 관리자 키가 있는 주소로 열었을 때만 최종 점수판을 PNG 한 장으로 내려받는다.
-     키가 없으면 아무 것도 하지 않는다(안내도 노출하지 않는다). */
-  if (isAdmin) {
-    window.addEventListener("load", function () { setTimeout(drawProof, 600); });
-  }
-  function drawProof() {
-    freeze().then(function (snap) { paintProof(snap || { at: new Date().toISOString(), rows: [] }); });
-  }
-  function paintProof(snap) {
-    var rows = (snap.rows || []).slice(0, 8);
-    var W = 1080, PAD = 56, ROW = 96, H = 300 + Math.max(1, rows.length) * ROW;
-    var cv = document.createElement("canvas");
-    cv.width = W * 2; cv.height = H * 2;
-    var c = cv.getContext("2d"); c.scale(2, 2);
-    c.fillStyle = "#F7F3E7"; c.fillRect(0, 0, W, H);
-    c.fillStyle = "#FFFDF6"; rr(c, PAD - 16, 96, W - (PAD - 16) * 2, H - 150, 22); c.fill();
-    c.fillStyle = "#123243"; c.font = "900 40px Pretendard, sans-serif";
-    c.fillText("수련회 점수판 · 최종 스냅샷", PAD, 62);
-    c.fillStyle = "rgba(20,48,61,.6)"; c.font = "600 22px Pretendard, sans-serif";
-    c.fillText("투표 종료 " + kstFull() + " KST · 고정 시각 " + snap.at, PAD, 152);
-    rows.forEach(function (r, i) {
-      var y = 200 + i * ROW;
-      c.fillStyle = i === 0 ? "#FFFBEC" : "#FBF8EF";
-      rr(c, PAD, y, W - PAD * 2, ROW - 14, 14); c.fill();
-      c.fillStyle = "#6E5312"; c.font = "900 24px Pretendard, sans-serif";
-      c.fillText((r.rank || i + 1) + "위", PAD + 22, y + 50);
-      c.fillStyle = "#123243"; c.font = "900 30px Pretendard, sans-serif";
-      c.fillText(String(r.team_name || r.team_id || ""), PAD + 110, y + 44);
-      c.fillStyle = "rgba(20,48,61,.55)"; c.font = "600 18px Pretendard, sans-serif";
-      c.fillText("다짐 " + n(r.pledge_score) + " · 좋아요 " + n(r.like_score) +
-                 " · 공유 " + n(r.share_score) + " · 짤 장기자랑 " + n(r.meme_score), PAD + 110, y + 70);
-      c.fillStyle = "#1F6B44"; c.font = "900 32px Pretendard, sans-serif"; c.textAlign = "right";
-      c.fillText(n(r.total_score) + "점", W - PAD - 22, y + 52); c.textAlign = "left";
-    });
-    if (!rows.length) {
-      c.fillStyle = "rgba(20,48,61,.5)"; c.font = "700 24px Pretendard, sans-serif";
-      c.fillText("고정된 점수 데이터가 없습니다.", PAD + 20, 240);
-    }
-    cv.toBlob(function (b) {
-      if (!b) return;
-      var a = document.createElement("a");
-      a.href = URL.createObjectURL(b);
-      a.download = "idolcamp-scoreboard-final-" + kstStamp() + "KST.png";
-      document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(function () { URL.revokeObjectURL(a.href); }, 3000);
-    }, "image/png");
-    function n(v) { return Number(v || 0).toLocaleString("ko-KR"); }
-    function kstFull() {
-      var d = new Date(FINAL_AT + 9 * 3600 * 1000), p = function (x) { return (x < 10 ? "0" : "") + x; };
-      return d.getUTCFullYear() + "-" + p(d.getUTCMonth() + 1) + "-" + p(d.getUTCDate()) +
-             " " + p(d.getUTCHours()) + ":" + p(d.getUTCMinutes());
-    }
-    function kstStamp() { return kstFull().replace(/[-: ]/g, "").slice(0, 13); }
-    function rr(ctx, x, y, w, h, r) {
-      ctx.beginPath();
-      ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
-      ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
-    }
-  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot, { once: true });
+  else boot();
 })();
